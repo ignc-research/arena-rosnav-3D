@@ -4,3 +4,5 @@ To install gazbo (incl. dependencies) download the `install_gazebo.sh` file.  Ru
 PATH/install_gazebo.sh 
 ```
 To verify a successful installation, run the command <code>gazebo</code> in the terminal. The Gazebo simulator should start.
+
+---
