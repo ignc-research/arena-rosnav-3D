@@ -392,7 +392,7 @@ def get_predefined_task(ns: str, mode="random", start_stage: int = 1, PATHS: dic
 
     # get the map
     
-    service_client_get_map = rospy.ServiceProxy('/static_map', GetMap)
+    service_client_get_map = rospy.ServiceProxy('/static_map', GetMap) 
     map_response = service_client_get_map()
 
     # use rospkg to get the path where the model config yaml file stored

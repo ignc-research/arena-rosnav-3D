@@ -27,3 +27,13 @@ catkin_make
 # to install SLAM ros_autonomous_slam
 cd ~/Desktop/ros_ws/src && git clone https://github.com/fazildgr8/ros_autonomous_slam.git
 cd .. && catkin_make
+
+# to install ped_sim (MUST be installed in a 'catkin_ws') (you need to be able to connect to GitHub using SSH) 
+cd ~/catkin_ws/src && git clone https://github.com/srl-freiburg/pedsim_ros.git -b melodic-dev
+cd pedsim_ros && git submodule update --init --recursive
+cd ../.. && catkin_make
+
+
+
+
+#TODO Adjust so that installed in ~/catkin_ws/src/arena-rosnav-3D

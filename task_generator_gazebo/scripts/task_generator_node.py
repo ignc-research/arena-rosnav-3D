@@ -1,25 +1,23 @@
 #! /usr/bin/env python
 
-from logging import setLogRecordFactory
+
 import rospy
 import time
-from std_srvs.srv import Empty, EmptyResponse
+from std_srvs.srv import EmptyResponse
 from nav_msgs.msg import Odometry
 from task_generator.tasks import get_predefined_task
 from std_msgs.msg import Int16
-# for clearing costmap
-from clear_costmap import clear_costmaps
+
 class TaskGenerator:
     def __init__(self):
         #
         self.sr = rospy.Publisher('/scenario_reset', Int16, queue_size=1)
         self.nr = 0
-        mode = rospy.get_param("~task_mode")
+        mode = rospy.get_param("~task_mode") #default="scenario"
         
-        
-        scenarios_json_path = rospy.get_param("~scenarios_json_path")
+        scenarios_json_path = rospy.get_param("~scenarios_json_path")  #TODO how are we going to handle scenarios?
        
-        paths = {"scenario": scenarios_json_path}
+        paths = {"scenario": scenarios_json_path} #default="$(find simulator_setup)/scenarios/empty_map.json
   
         self.task = get_predefined_task("",mode, PATHS=paths)
        
