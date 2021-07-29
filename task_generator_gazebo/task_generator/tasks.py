@@ -30,7 +30,7 @@ class ABSTask(ABC):
     """
 
     def __init__(self, obstacles_manager: ObstaclesManager, robot_manager: RobotManager):
-        self.obstacles_manager = obstacles_manager
+        #self.obstacles_manager = obstacles_manager
         self.robot_manager = robot_manager
         self._service_client_get_map = rospy.ServiceProxy('/static_map', GetMap)
         self._map_lock = Lock()
@@ -41,17 +41,7 @@ class ABSTask(ABC):
     def reset(self):
         """
         a funciton to reset the task. Make sure that _map_lock is used.
-        """
-
-    def _update_map(self, map_: OccupancyGrid):
-        with self._map_lock:
-            self.obstacles_manager.update_map(map_)
-            self.robot_manager.update_map(map_)
-
-
-class RandomTask(ABSTask):
-    """ Evertime the start position and end position of the robot is reset.
-    """
+        """scenario
 
     def __init__(self, obstacles_manager: ObstaclesManager, robot_manager: RobotManager):
         super().__init__(obstacles_manager, robot_manager)
@@ -65,14 +55,14 @@ class RandomTask(ABSTask):
             while fail_times < max_fail_times:
                 try:
                     start_pos, goal_pos = self.robot_manager.set_start_pos_goal_pos()
-                    self.obstacles_manager.reset_pos_obstacles_random(
-                        forbidden_zones=[
-                            (start_pos.x,
-                                start_pos.y,
-                                self.robot_manager.ROBOT_RADIUS),
-                            (goal_pos.x,
-                                goal_pos.y,
-                                self.robot_manager.ROBOT_RADIUS)])
+                    # self.obstacles_manager.reset_pos_obstacles_random(
+                    #     forbidden_zones=[
+                    #         (start_pos.x,
+                    #             start_pos.y,
+                    #             self.robot_manager.ROBOT_RADIUS),
+                    #         (goal_pos.x,
+                    #             goal_pos.y,
+                    #             self.robot_manager.ROBOT_RADIUS)])
                     break
                 except rospy.ServiceException as e:
                     rospy.logwarn(repr(e))
@@ -96,7 +86,7 @@ class ManualTask(ABSTask):
     def reset(self):
         while True:
             with self._map_lock:
-                self.obstacles_manager.reset_pos_obstacles_random()
+                #self.obstacles_manager.reset_pos_obstacles_random()
                 self.robot_manager.set_start_pos_random()
                 with self._manual_goal_con:
                     # the user has 60s to set the goal, otherwise all objects will be reset.
@@ -396,7 +386,7 @@ def get_predefined_task(ns: str, mode="random", start_stage: int = 1, PATHS: dic
     map_response = service_client_get_map()
 
     # use rospkg to get the path where the model config yaml file stored
-    models_folder_path = rospkg.RosPack().get_path('simulator_setup')
+    models_folder_path = rospkg.RosPack().get_path('simulator_setup') #$(find simulator_setup)/maps/$(arg map_file)/map.yaml"
     
     # robot's yaml file is needed to get its radius.
     robot_manager = RobotManager(ns, map_response.map, os.path.join(
@@ -420,7 +410,7 @@ def get_predefined_task(ns: str, mode="random", start_stage: int = 1, PATHS: dic
         print("random tasks requested")
     if mode == "manual":
         rospy.set_param("/task_mode", "manual")
-        obstacles_manager.register_random_obstacles(20, 0.4)
+        #obstacles_manager.register_random_obstacles(20, 0.4)
         task = ManualTask(obstacles_manager, robot_manager)
         print("manual tasks requested")
     if mode == "staged":
@@ -430,5 +420,5 @@ def get_predefined_task(ns: str, mode="random", start_stage: int = 1, PATHS: dic
     if mode == "scenario":
         rospy.set_param("/task_mode", "scenario")
         task = ScenerioTask(obstacles_manager, robot_manager,
-            PATHS['scenario'])
+            PATHS['scenario']) #default="$(find simulator_setup)/scenarios/empty_map.json
     return task

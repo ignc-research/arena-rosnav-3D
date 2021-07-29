@@ -13,9 +13,9 @@ class TaskGenerator:
         #
         self.sr = rospy.Publisher('/scenario_reset', Int16, queue_size=1)
         self.nr = 0
-        mode = rospy.get_param("~task_mode") #default="scenario"
+        mode = rospy.get_param("~task_mode") #default="manual"
         
-        scenarios_json_path = rospy.get_param("~scenarios_json_path")  #TODO how are we going to handle scenarios?
+        scenarios_json_path = rospy.get_param("~scenarios_json_path")  # ($(find simulator_setup)/scenarios/$(arg scenario_file))
        
         paths = {"scenario": scenarios_json_path} #default="$(find simulator_setup)/scenarios/empty_map.json
   

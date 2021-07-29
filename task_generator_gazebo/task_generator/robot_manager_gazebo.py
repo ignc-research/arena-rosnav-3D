@@ -6,8 +6,8 @@ import threading
 from typing import Union
 import rospy
 import tf
-from flatland_msgs.srv import MoveModel, MoveModelRequest, SpawnModelRequest, SpawnModel
-from flatland_msgs.srv import StepWorld
+#from flatland_msgs.srv import MoveModel, MoveModelRequest, SpawnModelRequest, SpawnModel
+#from flatland_msgs.srv import StepWorld
 from geometry_msgs.msg import Pose2D, PoseWithCovarianceStamped, PoseStamped
 
 from nav_msgs.msg import OccupancyGrid, Path
