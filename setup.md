@@ -1,4 +1,4 @@
-## Ros-melodic setup
+## Installation Ros-Melodic
 To install ros melodic on python 3 take the following steps:
 
 1. (If you had some previous ros-versions installed download, run the following commands to uninstall them:)
