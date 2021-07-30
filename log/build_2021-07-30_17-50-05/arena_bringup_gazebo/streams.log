@@ -1,0 +1,58 @@
+[0.062s] Invoking command in '/home/elias/catkin_ws/src/arena-rosnav-3D/build/arena_bringup_gazebo': PS1=(rosnav) %m%# /usr/bin/cmake /home/elias/catkin_ws/src/arena-rosnav-3D/arena_bringup_gazebo -DCATKIN_INSTALL_INTO_PREFIX_ROOT=0 -DCMAKE_INSTALL_PREFIX=/home/elias/catkin_ws/src/arena-rosnav-3D/install/arena_bringup_gazebo
+[0.268s] -- The C compiler identification is GNU 7.5.0
+[0.489s] -- The CXX compiler identification is GNU 7.5.0
+[0.510s] -- Check for working C compiler: /usr/bin/cc
+[0.726s] -- Check for working C compiler: /usr/bin/cc -- works
+[0.727s] -- Detecting C compiler ABI info
+[0.990s] -- Detecting C compiler ABI info - done
+[1.026s] -- Detecting C compile features
+[2.376s] -- Detecting C compile features - done
+[2.381s] -- Check for working CXX compiler: /usr/bin/c++
+[2.665s] -- Check for working CXX compiler: /usr/bin/c++ -- works
+[2.666s] -- Detecting CXX compiler ABI info
+[2.986s] -- Detecting CXX compiler ABI info - done
+[3.021s] -- Detecting CXX compile features
+[4.269s] -- Detecting CXX compile features - done
+[4.281s] -- Using CATKIN_DEVEL_PREFIX: /home/elias/catkin_ws/src/arena-rosnav-3D/build/arena_bringup_gazebo/devel
+[4.282s] -- Using CMAKE_PREFIX_PATH: /home/elias/catkin_ws/devel;/opt/ros/melodic
+[4.283s] -- This workspace overlays: /home/elias/catkin_ws/devel;/opt/ros/melodic
+[4.325s] -- Found PythonInterp: /usr/bin/python2 (found suitable version "2.7.17", minimum required is "2") 
+[4.325s] -- Using PYTHON_EXECUTABLE: /usr/bin/python2
+[4.325s] -- Using Debian Python package layout
+[4.326s] -- Using empy: /usr/bin/empy
+[4.870s] -- Using CATKIN_ENABLE_TESTING: ON
+[4.870s] -- Call enable_testing()
+[4.871s] -- Using CATKIN_TEST_RESULTS_DIR: /home/elias/catkin_ws/src/arena-rosnav-3D/build/arena_bringup_gazebo/test_results
+[4.929s] -- Found gtest sources under '/usr/src/googletest': gtests will be built
+[4.933s] -- Found gmock sources under '/usr/src/googletest': gmock will be built
+[4.998s] -- Found PythonInterp: /usr/bin/python2 (found version "2.7.17") 
+[5.004s] -- Looking for pthread.h
+[5.267s] -- Looking for pthread.h - found
+[5.268s] -- Looking for pthread_create
+[5.525s] -- Looking for pthread_create - not found
+[5.528s] -- Looking for pthread_create in pthreads
+[5.750s] -- Looking for pthread_create in pthreads - not found
+[5.751s] -- Looking for pthread_create in pthread
+[6.006s] -- Looking for pthread_create in pthread - found
+[6.007s] -- Found Threads: TRUE  
+[6.034s] -- Using Python nosetests: /usr/bin/nosetests-2.7
+[6.139s] -- catkin 0.7.29
+[6.140s] -- BUILD_SHARED_LIBS is on
+[7.038s] -- Configuring done
+[7.064s] -- Generating done
+[7.069s] -- Build files have been written to: /home/elias/catkin_ws/src/arena-rosnav-3D/build/arena_bringup_gazebo
+[7.089s] Invoked command in '/home/elias/catkin_ws/src/arena-rosnav-3D/build/arena_bringup_gazebo' returned '0': PS1=(rosnav) %m%# /usr/bin/cmake /home/elias/catkin_ws/src/arena-rosnav-3D/arena_bringup_gazebo -DCATKIN_INSTALL_INTO_PREFIX_ROOT=0 -DCMAKE_INSTALL_PREFIX=/home/elias/catkin_ws/src/arena-rosnav-3D/install/arena_bringup_gazebo
+[7.095s] Invoking command in '/home/elias/catkin_ws/src/arena-rosnav-3D/build/arena_bringup_gazebo': PS1=(rosnav) %m%# /usr/bin/cmake --build /home/elias/catkin_ws/src/arena-rosnav-3D/build/arena_bringup_gazebo -- -j4 -l4
+[7.285s] Invoked command in '/home/elias/catkin_ws/src/arena-rosnav-3D/build/arena_bringup_gazebo' returned '0': PS1=(rosnav) %m%# /usr/bin/cmake --build /home/elias/catkin_ws/src/arena-rosnav-3D/build/arena_bringup_gazebo -- -j4 -l4
+[7.401s] Invoking command in '/home/elias/catkin_ws/src/arena-rosnav-3D/build/arena_bringup_gazebo': PS1=(rosnav) %m%# /usr/bin/cmake --build /home/elias/catkin_ws/src/arena-rosnav-3D/build/arena_bringup_gazebo --target tests -- -j4 -l4
+[7.534s] [35m[1mScanning dependencies of target tests[0m
+[7.579s] Built target tests
+[7.613s] Invoked command in '/home/elias/catkin_ws/src/arena-rosnav-3D/build/arena_bringup_gazebo' returned '0': PS1=(rosnav) %m%# /usr/bin/cmake --build /home/elias/catkin_ws/src/arena-rosnav-3D/build/arena_bringup_gazebo --target tests -- -j4 -l4
+[7.715s] Invoking command in '/home/elias/catkin_ws/src/arena-rosnav-3D/build/arena_bringup_gazebo': PS1=(rosnav) %m%# /usr/bin/cmake --build /home/elias/catkin_ws/src/arena-rosnav-3D/build/arena_bringup_gazebo --target install -- -j4 -l4
+[7.908s] [36mInstall the project...[0m
+[7.942s] -- Install configuration: ""
+[7.942s] -- Installing: /home/elias/catkin_ws/src/arena-rosnav-3D/install/arena_bringup_gazebo/lib/pkgconfig/arena_bringup_gazebo.pc
+[7.943s] -- Installing: /home/elias/catkin_ws/src/arena-rosnav-3D/install/arena_bringup_gazebo/share/arena_bringup_gazebo/cmake/arena_bringup_gazeboConfig.cmake
+[7.943s] -- Installing: /home/elias/catkin_ws/src/arena-rosnav-3D/install/arena_bringup_gazebo/share/arena_bringup_gazebo/cmake/arena_bringup_gazeboConfig-version.cmake
+[7.943s] -- Installing: /home/elias/catkin_ws/src/arena-rosnav-3D/install/arena_bringup_gazebo/share/arena_bringup_gazebo/package.xml
+[7.959s] Invoked command in '/home/elias/catkin_ws/src/arena-rosnav-3D/build/arena_bringup_gazebo' returned '0': PS1=(rosnav) %m%# /usr/bin/cmake --build /home/elias/catkin_ws/src/arena-rosnav-3D/build/arena_bringup_gazebo --target install -- -j4 -l4

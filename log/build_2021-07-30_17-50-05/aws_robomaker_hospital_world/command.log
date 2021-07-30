@@ -1,0 +1,1 @@
+Invoking command in '/home/elias/catkin_ws/src/arena-rosnav-3D/build/aws_robomaker_hospital_world': PS1=(rosnav) %m%# /usr/bin/cmake /home/elias/catkin_ws/src/arena-rosnav-3D/src/aws-robomaker-hospital-world -DCATKIN_INSTALL_INTO_PREFIX_ROOT=0 -DCMAKE_INSTALL_PREFIX=/home/elias/catkin_ws/src/arena-rosnav-3D/install/aws_robomaker_hospital_world

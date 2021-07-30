@@ -1,0 +1,52 @@
+-- The C compiler identification is GNU 7.5.0
+-- The CXX compiler identification is GNU 7.5.0
+-- Check for working C compiler: /usr/bin/cc
+-- Check for working C compiler: /usr/bin/cc -- works
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Check for working CXX compiler: /usr/bin/c++
+-- Check for working CXX compiler: /usr/bin/c++ -- works
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Using CATKIN_DEVEL_PREFIX: /home/elias/catkin_ws/src/arena-rosnav-3D/build/task_generator_gazebo/devel
+-- Using CMAKE_PREFIX_PATH: /home/elias/catkin_ws/devel;/opt/ros/melodic
+-- This workspace overlays: /home/elias/catkin_ws/devel;/opt/ros/melodic
+-- Found PythonInterp: /usr/bin/python2 (found suitable version "2.7.17", minimum required is "2") 
+-- Using PYTHON_EXECUTABLE: /usr/bin/python2
+-- Using Debian Python package layout
+-- Using empy: /usr/bin/empy
+-- Using CATKIN_ENABLE_TESTING: ON
+-- Call enable_testing()
+-- Using CATKIN_TEST_RESULTS_DIR: /home/elias/catkin_ws/src/arena-rosnav-3D/build/task_generator_gazebo/test_results
+-- Found gtest sources under '/usr/src/googletest': gtests will be built
+-- Found gmock sources under '/usr/src/googletest': gmock will be built
+-- Found PythonInterp: /usr/bin/python2 (found version "2.7.17") 
+-- Looking for pthread.h
+-- Looking for pthread.h - found
+-- Looking for pthread_create
+-- Looking for pthread_create - not found
+-- Looking for pthread_create in pthreads
+-- Looking for pthread_create in pthreads - not found
+-- Looking for pthread_create in pthread
+-- Looking for pthread_create in pthread - found
+-- Found Threads: TRUE  
+-- Using Python nosetests: /usr/bin/nosetests-2.7
+-- catkin 0.7.29
+-- BUILD_SHARED_LIBS is on
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/elias/catkin_ws/src/arena-rosnav-3D/build/task_generator_gazebo
+[35m[1mScanning dependencies of target tests[0m
+Built target tests
+[36mInstall the project...[0m
+-- Install configuration: ""
++ cd /home/elias/catkin_ws/src/arena-rosnav-3D/task_generator_gazebo
++ mkdir -p /home/elias/catkin_ws/src/arena-rosnav-3D/install/task_generator_gazebo/lib/python2.7/dist-packages
++ /usr/bin/env PYTHONPATH=/home/elias/catkin_ws/src/arena-rosnav-3D/install/task_generator_gazebo/lib/python2.7/dist-packages:/home/elias/catkin_ws/src/arena-rosnav-3D/build/task_generator_gazebo/lib/python2.7/dist-packages:/home/elias/geometry2_ws/devel/lib/python3/dist-packages:/home/elias/catkin_ws/src/arena-rosnav:/home/elias/catkin_ws/devel/lib/python3/dist-packages:/opt/ros/melodic/lib/python2.7/dist-packages CATKIN_BINARY_DIR=/home/elias/catkin_ws/src/arena-rosnav-3D/build/task_generator_gazebo /usr/bin/python2 /home/elias/catkin_ws/src/arena-rosnav-3D/task_generator_gazebo/setup.py build --build-base /home/elias/catkin_ws/src/arena-rosnav-3D/build/task_generator_gazebo install --root=/ --install-layout=deb --prefix=/home/elias/catkin_ws/src/arena-rosnav-3D/install/task_generator_gazebo --install-scripts=/home/elias/catkin_ws/src/arena-rosnav-3D/install/task_generator_gazebo/bin
+running build
+running build_py
+Makefile:73: recipe for target 'install' failed

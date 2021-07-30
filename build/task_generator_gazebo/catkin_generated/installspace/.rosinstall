@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/elias/catkin_ws/src/arena-rosnav-3D/install/task_generator_gazebo/setup.sh

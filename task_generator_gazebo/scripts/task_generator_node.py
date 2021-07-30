@@ -11,15 +11,15 @@ from std_msgs.msg import Int16
 class TaskGenerator:
     def __init__(self):
         #
-        self.sr = rospy.Publisher('/scenario_reset', Int16, queue_size=1)
-        self.nr = 0
-        mode = rospy.get_param("~task_mode") #default="manual"
+        # self.sr = rospy.Publisher('/scenario_reset', Int16, queue_size=1)
+        # self.nr = 0
+        # mode = rospy.get_param("~task_mode") #default="manual"
         
-        scenarios_json_path = rospy.get_param("~scenarios_json_path")  # ($(find simulator_setup)/scenarios/$(arg scenario_file))
+        # scenarios_json_path = rospy.get_param("~scenarios_json_path")  # ($(find simulator_setup)/scenarios/$(arg scenario_file))
        
-        paths = {"scenario": scenarios_json_path} #default="$(find simulator_setup)/scenarios/empty_map.json
+        # paths = {"scenario": scenarios_json_path} #default="$(find simulator_setup)/scenarios/empty_map.json
   
-        self.task = get_predefined_task("",mode, PATHS=paths)
+        # self.task = get_predefined_task("",mode, PATHS=paths)
        
 
 
@@ -35,22 +35,22 @@ class TaskGenerator:
         robot_odom_topic_name = rospy.get_param(
             "robot_odom_topic_name", "odom")
         
-        auto_reset = auto_reset and mode == "scenario"
+        # auto_reset = auto_reset and mode == "scenario"
         self.curr_goal_pos_ = None
         
         
-        if auto_reset:
-            rospy.loginfo(
-                "Task Generator is set to auto_reset mode, Task will be automatically reset as the robot approaching the goal_pos")
-            self.reset_task()
-            self.robot_pos_sub_ = rospy.Subscriber(
-                robot_odom_topic_name, Odometry, self.check_robot_pos_callback)
+        # if auto_reset:
+        #     rospy.loginfo(
+        #         "Task Generator is set to auto_reset mode, Task will be automatically reset as the robot approaching the goal_pos")
+        #     self.reset_task()
+        #     self.robot_pos_sub_ = rospy.Subscriber(
+        #         robot_odom_topic_name, Odometry, self.check_robot_pos_callback)
 
-            rospy.Timer(rospy.Duration(0.5),self.goal_reached)
+        #     rospy.Timer(rospy.Duration(0.5),self.goal_reached)
             
-        else:
+        # else:
             # declare new service task_generator, request are handled in callback task generate
-            self.reset_task()
+        self.reset_task()
             # self.task_generator_srv_ = rospy.Service(
             #     'task_generator', Empty, self.reset_srv_callback)
                 
