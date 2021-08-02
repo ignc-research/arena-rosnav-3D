@@ -5,8 +5,6 @@ workon rosnav
 pip install --extra-index-url https://rospypi.github.io/simple/ rospy rosbag tf tf2_ros --ignore-installed
 pip install pyyaml catkin_pkg netifaces pathlib
 pip install stable-baselines3
-cd $HOME/geometry2_ws
-catkin_make -DPYTHON_EXECUTABLE=/usr/bin/python3
 cd $HOME
 mkdir -p catkin_ws/src && cd catkin_ws/src
 git clone https://github.com/ignc-research/arena-rosnav
