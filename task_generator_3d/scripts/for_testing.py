@@ -29,8 +29,8 @@ def main():
         '/home/jacek/turtlebot3_burger.urdf', 'r').read()
     robot_namespace = '/'
     initial_pose = Pose()
-    initial_pose.position.x = 0
-    initial_pose.position.y = 0
+    initial_pose.position.x = -1
+    initial_pose.position.y = -1
 
     # initial_pose.position.z = 1
     reference_frame = 'world'
