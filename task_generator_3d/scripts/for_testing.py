@@ -25,8 +25,7 @@ def main():
     _srv_spawn_model = rospy.ServiceProxy(
         '/gazebo/spawn_urdf_model', SpawnModel)
     model_name = 'turtlebot3_burger'
-    model_xml = open(
-        '/home/jacek/turtlebot3_burger.urdf', 'r').read()
+    model_xml = rospy.get_param('robot_description')
     robot_namespace = '/'
     initial_pose = Pose()
     initial_pose.position.x = -1
