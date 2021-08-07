@@ -82,7 +82,7 @@ class RandomTask(ABSTask):
 
 
 class ManualTask(ABSTask):
-    """randomly spawn obstacles and user can mannually set the goal postion of the robot
+    """randomly spawn obstacles and user can manually set the goal postion of the robot
     """
 
     def __init__(self,obstacles_manager: ObstaclesManager, robot_manager: RobotManager):
