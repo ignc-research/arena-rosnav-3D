@@ -9,7 +9,7 @@ import tf
 # from flatland_msgs.srv import MoveModel, MoveModelRequest, SpawnModelRequest, SpawnModel
 # from flatland_msgs.srv import StepWorld
 from geometry_msgs.msg import Pose2D, PoseWithCovarianceStamped, PoseStamped, Pose
-from gazebo_msgs.msg import SpawnModel, SetModelState
+from gazebo_msgs.srv import SpawnModel, SetModelState
 
 from nav_msgs.msg import OccupancyGrid, Path
 
@@ -228,30 +228,3 @@ class RobotManager:
 
     def __mean_square_dist_(self, x, y):
         return math.sqrt(math.pow(x, 2) + math.pow(y, 2))
-
-#     def main():
-#         rospy.wait_for_service("/gazebo/spawn_urdf_model")
-#         rospy.wait_for_service('/gazebo/set_model_state')
-
-#         # rospy.wait_for_service(f'{self.ns_prefix}move_model', timeout=timeout)
-#         # rospy.wait_for_service(f'{self.ns_prefix}spawn_model', timeout=timeout)
-#         # rospy.wait_for_service('step_world', timeout=20)
-#         _srv_move_model = rospy.ServiceProxy(
-#             '/gazebo/set_model_state', SetModelState)
-#         _srv_spawn_model = rospy.ServiceProxy(
-#             '/gazebo/spawn_urdf_model', SpawnModel)
-#         request = SpawnModelRequest()
-#         request.model_name = 'myrobot'
-#         request.model_xml = open(
-#             '/usr/share/gazebo-9/models/ground_plane/model.sdf', 'r').read()
-#         request.robot_namespace = self.ns
-#         request.initial_pose = Pose()
-#         request.reference_frame = 'world'
-#         _srv_spawn_model(request)
-
-
-# if __name__ == '__main__':
-#     try:
-#         main()
-#     except rospy.ROSInterruptException:
-#         pass

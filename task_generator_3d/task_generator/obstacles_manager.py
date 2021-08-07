@@ -9,14 +9,18 @@ import warnings
 # from flatland_msgs.srv import SpawnModel, SpawnModelRequest
 # from flatland_msgs.srv import MoveModel, MoveModelRequest
 # from flatland_msgs.srv import StepWorld
+from pedsim_msgs.msg import Ped
+from pedsim_srvs.srv import SpawnPeds
 from nav_msgs.msg import OccupancyGrid
 from geometry_msgs.msg import Pose2D
 import numpy as np
 from rospy.rostime import Time
 from std_msgs.msg import Empty
+from pedsim_msgs.msg import Ped
 import rospy
 import rospkg
 import shutil
+from pedsim_test import get_default_ped
 from .utils import generate_freespace_indices, get_random_pos_on_map
 
 
@@ -39,16 +43,20 @@ class ObstaclesManager:
         self._move_all_obstacles_start_pos_pubs = []
 
         # setup proxy to handle  services provided by flatland
-        rospy.wait_for_service(f'{self.ns_prefix}move_model', timeout=20)
-        rospy.wait_for_service(f'{self.ns_prefix}delete_model', timeout=20)
-        rospy.wait_for_service(f'{self.ns_prefix}spawn_model', timeout=20)
+        # rospy.wait_for_service(f'{self.ns_prefix}move_model', timeout=20)
+        # rospy.wait_for_service(f'{self.ns_prefix}delete_model', timeout=20)
+        # rospy.wait_for_service(f'{self.ns_prefix}spawn_model', timeout=20)
+
+        spawn_peds_service_name = "pedsim_simulator/spawn_peds"
+        rospy.wait_for_service(spawn_peds_service_name, 6.0)
+        self.spawn_peds_client = rospy.ServiceProxy(spawn_peds_service_name, SpawnPeds, persistent=True)
         # allow for persistent connections to services
-        self._srv_move_model = rospy.ServiceProxy(
-            f'{self.ns_prefix}move_model', MoveModel, persistent=True)
-        self._srv_delete_model = rospy.ServiceProxy(
-            f'{self.ns_prefix}delete_model', DeleteModel, persistent=True)
-        self._srv_spawn_model = rospy.ServiceProxy(
-            f'{self.ns_prefix}spawn_model', SpawnModel, persistent=True)
+        # self._srv_move_model = rospy.ServiceProxy(
+        #     f'{self.ns_prefix}move_model', MoveModel, persistent=True)
+        # self._srv_delete_model = rospy.ServiceProxy(
+        #     f'{self.ns_prefix}delete_model', DeleteModel, persistent=True)
+        # self._srv_spawn_model = rospy.ServiceProxy(
+        #     f'{self.ns_prefix}spawn_model', SpawnModel, persistent=True)
 
         self.update_map(map_)
         self.obstacle_name_list = []
@@ -98,7 +106,7 @@ class ObstaclesManager:
                 spawn_request.yaml_path = model_yaml_file_path
                 spawn_request.name = f'{name_prefix}_{instance_idx:02d}'
                 spawn_request.ns = rospy.get_namespace()
-                # x, y, theta = get_random_pos_on_map(self._free_space_indices, self.map,)
+                x, y, theta = get_random_pos_on_map(self._free_space_indices, self.map,)
                 # set the postion of the obstacle out of the map to hidden them
                 if len(start_pos) == 0:
                     x = self.map.info.origin.position.x - 3 * \
