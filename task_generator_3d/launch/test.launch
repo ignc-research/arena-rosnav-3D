@@ -23,7 +23,7 @@
 
   <arg name="simulation_factor" default="1"/>
   <arg name="update_rate" default="25.0"/>
-  <arg name="scene_file" default="$(find simulator_setup)/pedsim_scenarios/empty.xml"/>
+  <arg name="scene_file" default="$(find task_generator_3d)/pedsim_scenarios/empty.xml"/>
 
   <node name="pedsim_simulator" pkg="pedsim_simulator" type="pedsim_simulator" output="screen">
     <param name="simulation_factor" value="$(arg simulation_factor)" type="double"/>
