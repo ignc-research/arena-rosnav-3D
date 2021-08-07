@@ -1,5 +1,31 @@
 # arena-rosnav-3D
 
+
+## Setup (test)
+1. install the arena-rosnav environment:
+https://github.com/ignc-research/arena-rosnav
+2. Clone this repo into your catkin_ws/src folder: 
+```bash
+    cd ~/catkin_ws/src
+    git clone https://github.com/Jacenty00/arena-rosnav-3D.git
+```    
+3. Run rosws update:
+```bash
+   cd ~/catkin_ws/src/arena-rosnav-3D
+   rosws update --delete-changed-uris .
+```
+4. Build and source!:
+```bash
+   cd ~/catkin_ws
+   catkin_make -DPYTHON_EXECUTABLE=/usr/bin/python3
+   source devel/setup.zsh
+```
+5. Run simple demo:
+```bash
+   workon rosnav
+   roslaunch task_generator_3d test.launch
+```   
+
 ## Gazebo
 
 ### Helpful links
