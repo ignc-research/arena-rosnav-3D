@@ -5,14 +5,14 @@ import re
 import yaml
 import os
 import warnings
-# from flatland_msgs.srv import DeleteModel, DeleteModelRequest
-# from flatland_msgs.srv import SpawnModel, SpawnModelRequest
-# from flatland_msgs.srv import MoveModel, MoveModelRequest
-# from flatland_msgs.srv import StepWorld
+from flatland_msgs.srv import DeleteModel, DeleteModelRequest
+from flatland_msgs.srv import SpawnModel, SpawnModelRequest
+from flatland_msgs.srv import MoveModel, MoveModelRequest
+from flatland_msgs.srv import StepWorld
 from pedsim_msgs.msg import Ped
 from pedsim_srvs.srv import SpawnPeds
 from nav_msgs.msg import OccupancyGrid
-from geometry_msgs.msg import Pose2D
+from geometry_msgs.msg import Pose2D, Point
 import numpy as np
 from rospy.rostime import Time
 from std_msgs.msg import Empty
@@ -20,7 +20,7 @@ from pedsim_msgs.msg import Ped
 import rospy
 import rospkg
 import shutil
-from pedsim_test import get_default_ped
+from pedsim_test import get_default_ped, get_yaml_path_from_type
 from .utils import generate_freespace_indices, get_random_pos_on_map
 
 
@@ -41,11 +41,6 @@ class ObstaclesManager:
 
         # a list of publisher to move the obstacle to the start pos.
         self._move_all_obstacles_start_pos_pubs = []
-
-        # setup proxy to handle  services provided by flatland
-        # rospy.wait_for_service(f'{self.ns_prefix}move_model', timeout=20)
-        # rospy.wait_for_service(f'{self.ns_prefix}delete_model', timeout=20)
-        # rospy.wait_for_service(f'{self.ns_prefix}spawn_model', timeout=20)
 
         spawn_peds_service_name = "pedsim_simulator/spawn_peds"
         rospy.wait_for_service(spawn_peds_service_name, 6.0)
@@ -69,6 +64,28 @@ class ObstaclesManager:
         # a tuple stores the indices of the non-occupied spaces. format ((y,....),(x,...)
         self._free_space_indices = generate_freespace_indices(self.map)
 
+
+
+    def register_pedsim_agents(self, num_agents: int):
+        peds = []
+        for agent in range(num_agents):
+            # humans
+            ped = get_default_ped(
+                id=agent+1,
+                ped_type="adult",
+                yaml_path=get_yaml_path_from_type("adult"),
+                pos=Point(-1.0, -1.0, 0.1),
+                waypoints=[Point(1.2, -8.3, 0.1), Point(1.8, -3.1, 0.1),
+                        Point(0.2, 6.1, 0.1)]
+            )
+            ped.number_of_peds = np.random.randint(1,4)
+            ped.requesting_service_probability = 0.005
+            ped.requesting_follower_probability = 0
+            ped.requesting_guide_probability = 0
+            ped.group_talking_base_time = 20.0
+            peds.append(ped)
+
+        self.registered_peds = peds    
     def register_obstacles(self, num_obstacles: int, model_yaml_file_path: str, start_pos: list = []):
         """register the obstacles defined by a yaml file and request flatland to respawn the them.
 
@@ -252,6 +269,15 @@ class ObstaclesManager:
 
         self._srv_move_model(srv_request)
 
+    def spawn_peds_random(self, forbidden_zones: Union[list, None] = None):
+        for ped in self.registered_peds:
+            x, y, theta = get_random_pos_on_map(
+                self._free_space_indices, self.map, 0.25, forbidden_zones)
+            pos = Point(x, y)
+            ped.pos = pos
+        self.spawn_peds_client(self.registered_peds)      
+               
+
     def reset_pos_obstacles_random(self, active_obstacle_rate: float = 1, forbidden_zones: Union[list, None] = None):
         """randomly set the position of all the obstacles. In order to dynamically control the number of the obstacles within the
         map while keep the efficiency. we can set the parameter active_obstacle_rate so that the obstacles non-active will moved to the
@@ -279,7 +305,7 @@ class ObstaclesManager:
             move_model_request.name = obstacle_name
             # TODO 0.2 is the obstacle radius. it should be set automatically in future.
             move_model_request.pose.x, move_model_request.pose.y, move_model_request.pose.theta = get_random_pos_on_map(
-                self._free_space_indices, self.map, 0.2, forbidden_zones)
+                self._free_space_indices, self.map, 0.25, forbidden_zones)
 
             self._srv_move_model(move_model_request)
 

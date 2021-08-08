@@ -65,7 +65,7 @@ class RandomTask(ABSTask):
             while fail_times < max_fail_times:
                 try:
                     start_pos, goal_pos = self.robot_manager.set_start_pos_goal_pos()
-                    self.obstacles_manager.reset_pos_obstacles_random(
+                    self.obstacles_manager.spawn_peds_random(
                         forbidden_zones=[
                             (start_pos.x,
                                 start_pos.y,
@@ -415,7 +415,7 @@ def get_predefined_task(ns: str, mode="random", start_stage: int = 1, PATHS: dic
     task = None
     if mode == "random":
         rospy.set_param("/task_mode", "random")
-        obstacles_manager.register_random_obstacles(20, 0.4)
+        obstacles_manager.register_pedsim_agents(3) # Register 3 agent clusters (1-3 agents per cluster)
         task = RandomTask(obstacles_manager, robot_manager)
         print("random tasks requested")
     if mode == "manual":
