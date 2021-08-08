@@ -1,5 +1,5 @@
 <launch>
-  <arg name="model" value="burger"></arg>
+  <arg name="model" value="burger"></arg> 
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
     <arg name="world_name" value="$(find aws_robomaker_small_warehouse_world)/worlds/no_roof_small_warehouse.world" />
     <arg name="paused" value="false" />
