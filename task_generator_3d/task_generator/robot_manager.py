@@ -9,8 +9,8 @@ import tf
 # from flatland_msgs.srv import MoveModel, MoveModelRequest, SpawnModelRequest, SpawnModel
 # from flatland_msgs.srv import StepWorld
 from geometry_msgs.msg import Pose2D, PoseWithCovarianceStamped, PoseStamped, Pose
-from gazebo_msgs.srv import SpawnModel, SetModelState
-
+from gazebo_msgs.srv import SpawnModel, SpawnModelRequest, SetModelState, SetModelStateRequest
+from gazebo_msgs.msg import ModelState
 from nav_msgs.msg import OccupancyGrid, Path
 
 from .utils import generate_freespace_indices, get_random_pos_on_map
@@ -32,7 +32,7 @@ class RobotManager:
 
         """
         self.ns = ns
-        self.ns_prefix = "" if ns == "" else "/"+ns+"/"
+        self.ns_prefix = "/" if ns == "" else "/"+ns+"/"
 
         self.is_training_mode = rospy.get_param("/train_mode")
         self.step_size = rospy.get_param("step_size")
@@ -70,10 +70,10 @@ class RobotManager:
         self._static_obstacle_name_list = []
 
     def _spawn_robot(self):
-        request = SpawnModel()
+        request = SpawnModelRequest()
         request.model_name = self.ROBOT_NAME
         request.model_xml = self.ROBOT_DESCRIPTION
-        request.robot_namespace = self.ns
+        request.robot_namespace = self.ns_prefix + self.ns
         request.initial_pose = Pose()
         request.reference_frame = 'world'
         self._srv_spawn_model(request)
@@ -83,6 +83,8 @@ class RobotManager:
         """
         self.ROBOT_NAME = 'turtlebot'
         self.ROBOT_DESCRIPTION = rospy.get_param("robot_description")
+        self.ROBOT_RADIUS = 0.2
+        self.LASER_UPDATE_RATE = 1
         
 
     def update_map(self, new_map: OccupancyGrid):
@@ -98,14 +100,20 @@ class RobotManager:
         """
         # call service move_model
 
-        srv_request = SetModelState()
-        srv_request.name = self.ROBOT_NAME
-        srv_request.pose.position.x = pose.x
-        srv_request.pose.position.y = pose.y
-        srv_request.orientation = tf.transformations.quaternion_from_euler(
+        srv_request = SetModelStateRequest()
+        state = ModelState()
+        state.model_name = self.ROBOT_NAME
+        state.pose.position.x = pose.x
+        state.pose.position.y = pose.y
+        quaternion = tf.transformations.quaternion_from_euler(
             0, 0, pose.theta)
+        state.pose.orientation.x = quaternion[0]
+        state.pose.orientation.y = quaternion[1]
+        state.pose.orientation.z = quaternion[2]
+        state.pose.orientation.w = quaternion[3]
+        state.reference_frame = "world"    
         # call service
-        self._srv_move_model(srv_request)
+        self._srv_move_model(state)
         if self.is_training_mode:
             # a necessaray procedure to let the flatland publish the
             # laser,odom's Transformation, which are needed for creating

@@ -16,11 +16,12 @@ from geometry_msgs.msg import Pose2D, Point
 import numpy as np
 from rospy.rostime import Time
 from std_msgs.msg import Empty
+from std_srvs.srv import SetBool
 from pedsim_msgs.msg import Ped
 import rospy
 import rospkg
 import shutil
-from pedsim_test import get_default_ped, get_yaml_path_from_type
+from .pedsim_test import get_default_ped, get_yaml_path_from_type
 from .utils import generate_freespace_indices, get_random_pos_on_map
 
 
@@ -43,8 +44,11 @@ class ObstaclesManager:
         self._move_all_obstacles_start_pos_pubs = []
 
         spawn_peds_service_name = "pedsim_simulator/spawn_peds"
+        remove_all_peds_service_name = "pedsim_simulator/remove_all_peds"
+        rospy.wait_for_service(remove_all_peds_service_name, 6.0)
         rospy.wait_for_service(spawn_peds_service_name, 6.0)
         self.spawn_peds_client = rospy.ServiceProxy(spawn_peds_service_name, SpawnPeds, persistent=True)
+        self.remove_all_peds_client = rospy.ServiceProxy(remove_all_peds_service_name, SetBool, persistent=True)
         # allow for persistent connections to services
         # self._srv_move_model = rospy.ServiceProxy(
         #     f'{self.ns_prefix}move_model', MoveModel, persistent=True)
@@ -273,7 +277,9 @@ class ObstaclesManager:
         for ped in self.registered_peds:
             x, y, theta = get_random_pos_on_map(
                 self._free_space_indices, self.map, 0.25, forbidden_zones)
-            pos = Point(x, y)
+            pos = Point()
+            pos.x = x
+            pos.y = y
             ped.pos = pos
         self.spawn_peds_client(self.registered_peds)      
                

@@ -11,7 +11,7 @@ import numpy as np
 from nav_msgs.msg import OccupancyGrid
 from nav_msgs.srv import GetMap
 from geometry_msgs.msg import Pose2D
-from rospy.exceptions import ROSException
+import rospy
 
 from std_msgs.msg import Bool
 
@@ -59,6 +59,7 @@ class RandomTask(ABSTask):
     def reset(self):
         """[summary]
         """
+        self.obstacles_manager.remove_all_peds_client(True)
         with self._map_lock:
             max_fail_times = 3
             fail_times = 0
@@ -391,7 +392,9 @@ def get_predefined_task(ns: str, mode="random", start_stage: int = 1, PATHS: dic
     # either e.g. ns = 'sim1/' or ns = ''
 
     # get the map
-    
+
+    rospy.wait_for_service("/static_map", 6.0)
+
     service_client_get_map = rospy.ServiceProxy('/static_map', GetMap)
     map_response = service_client_get_map()
 

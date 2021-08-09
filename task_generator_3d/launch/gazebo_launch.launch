@@ -1,4 +1,7 @@
 <launch>
+  <arg name="show_viz" default="false"/>
+  <arg name="use_rviz" default="true"/>
+  <arg name="rviz_file" default="nav_LP"/>
   <arg name="model" value="burger"></arg> 
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
     <arg name="world_name" value="$(find aws_robomaker_small_warehouse_world)/worlds/no_roof_small_warehouse.world" />
@@ -11,5 +14,15 @@
 
   <param name="robot_description" command="$(find xacro)/xacro $(find turtlebot3_description)/urdf/turtlebot3_$(arg model).urdf.xacro" />
   <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"></node>
+
+<!-- 
+    ************** flatland viz  *************** 
+   <group if="$(arg show_viz)">
+    <node name="flatland_viz" pkg="flatland_viz" type="flatland_viz" output="screen" required="false" unless="$(arg use_rviz)"/>
+  </group>
+
+  <group if="$(arg use_rviz)">
+    <node name="flatland_rviz" pkg="rviz" type="rviz" output="screen" args="-d $(find arena_bringup)/rviz/$(arg rviz_file).rviz"/>
+  </group>  -->
 
 </launch>
