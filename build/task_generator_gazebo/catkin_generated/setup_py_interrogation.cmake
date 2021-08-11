@@ -1,7 +1,0 @@
-set(task_generator_gazebo_SETUP_PY_SETUP_MODULE "distutils.core")
-set(task_generator_gazebo_SETUP_PY_VERSION "0.0.0")
-set(task_generator_gazebo_SETUP_PY_SCRIPTS "")
-set(task_generator_gazebo_SETUP_PY_PACKAGES "task_generator_gazebo")
-set(task_generator_gazebo_SETUP_PY_PACKAGE_DIRS "task_generator_gazebo")
-set(task_generator_gazebo_SETUP_PY_MODULES "")
-set(task_generator_gazebo_SETUP_PY_MODULE_DIRS "")

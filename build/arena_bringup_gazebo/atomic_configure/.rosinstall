@@ -1,2 +1,0 @@
-- setup-file:
-    local-name: /home/elias/catkin_ws/src/arena-rosnav-3D/build/arena_bringup_gazebo/devel/setup.sh

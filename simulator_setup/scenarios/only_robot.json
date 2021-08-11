@@ -1,0 +1,20 @@
+{
+    "scenarios": [
+        {
+            "scene_name": "only_robot",
+            "repeats": 4,
+            "robot": {
+                "start_pos": [
+                    3,
+                    3,
+                    0
+                ],
+                "goal_pos": [
+                    9,
+                    0,
+                    0
+                ]
+            }
+        }
+    ]
+}

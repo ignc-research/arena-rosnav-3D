@@ -1,8 +1,0 @@
-prefix=/home/elias/catkin_ws/src/arena-rosnav-3D/install/arena_bringup_gazebo
-
-Name: arena_bringup_gazebo
-Description: Description of arena_bringup_gazebo
-Version: 0.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 

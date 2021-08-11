@@ -1,8 +1,0 @@
-prefix=/home/elias/catkin_ws/src/arena-rosnav-3D/build/task_generator_gazebo/devel
-
-Name: task_generator_gazebo
-Description: Description of task_generator_gazebo
-Version: 0.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 

@@ -1,4 +1,0 @@
-/home/elias/catkin_ws/src/arena-rosnav-3D/install/arena_bringup_gazebo/lib/pkgconfig/arena_bringup_gazebo.pc
-/home/elias/catkin_ws/src/arena-rosnav-3D/install/arena_bringup_gazebo/share/arena_bringup_gazebo/cmake/arena_bringup_gazeboConfig.cmake
-/home/elias/catkin_ws/src/arena-rosnav-3D/install/arena_bringup_gazebo/share/arena_bringup_gazebo/cmake/arena_bringup_gazeboConfig-version.cmake
-/home/elias/catkin_ws/src/arena-rosnav-3D/install/arena_bringup_gazebo/share/arena_bringup_gazebo/package.xml
