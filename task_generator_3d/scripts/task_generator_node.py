@@ -5,7 +5,7 @@ import rospy
 import time
 from std_srvs.srv import Empty, EmptyResponse
 from nav_msgs.msg import Odometry
-from task_generator.tasks import get_predefined_task
+from task_generator_3d.tasks import get_predefined_task
 from std_msgs.msg import Int16
 # for clearing costmap
 from clear_costmap import clear_costmaps
@@ -21,7 +21,7 @@ class TaskGenerator:
        
         paths = {"scenario": scenarios_json_path}
   
-        self.task = get_predefined_task("", mode, PATHS=paths)
+        self.task = get_predefined_task("", "random", PATHS=paths)
        
 
 
@@ -53,8 +53,8 @@ class TaskGenerator:
         else:
             # declare new service task_generator, request are handled in callback task generate
             self.reset_task()
-            # self.task_generator_srv_ = rospy.Service(
-            #     'task_generator', Empty, self.reset_srv_callback)
+            self.task_generator_srv_ = rospy.Service(
+                'task_generator', Empty, self.reset_srv_callback)
                 
         self.err_g = 100
         

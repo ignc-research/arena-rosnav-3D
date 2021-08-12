@@ -6,7 +6,7 @@
   
   <arg name="local_planner"   default="teb"/> 
   <arg name="rviz_file"       default="nav_LP"/>
-  <arg name="disable_scenario"    default="true"/>
+  <arg name="disable_scenario"    default="false"/>
   <arg name="scenario_file"   default="empty_map.json"/>
   <arg name="reset"   default="true"/>
   <arg name="enable_pedsim" default="true"/>
@@ -29,7 +29,7 @@
   <arg name="map_file"        default="aws"/>
   <!-- <arg name="map_folder_name" default="map_empty" /> -->
   <arg name="map_path" default="$(find task_generator_3d)/maps/$(arg map_file)/aws.yaml" />
-  <param name="world_path" value="$(find simulator_setup)/maps/$(arg map_file)/map.world.yaml" />
+  <!-- <param name="world_path" value="$(find simulator_setup)/maps/$(arg map_file)/map.world.yaml" /> -->
 
   <!-- the velocity of randomly genelized obstacles  -->
   <arg name="obs_vel" default="0.3" />
@@ -87,7 +87,7 @@
 
   <!-- start task_generator node -->
   <arg name="timeout"        default="3.0"/>
-  <include file="$(find arena_bringup)/launch/sublaunch_testing/task_generator.launch" unless="$(eval arg('disable_scenario') or arg('train_mode'))">
+  <include file="$(find task_generator_3d)/launch/task_generator.launch" unless="$(eval arg('disable_scenario') or arg('train_mode'))">
    <arg name="scenarios_json_path"  value="$(find simulator_setup)/scenarios/$(arg scenario_file)"/>
    <arg name="auto_reset"           value="$(arg reset)"/>
    <arg name="timeout"              value="$(arg timeout)"/>
@@ -97,15 +97,34 @@
   </include>
 
   
+<!-- move_base plan manager: which provide basic global planner and cost map -->
+<include file="$(find arena_bringup)/launch/sublaunch_testing/move_base/move_base_$(arg local_planner).launch">
+</include>
 
-  <!-- move_base plan manager: which provide basic global planner and cost map -->
-  <include file="$(find arena_bringup)/launch/sublaunch_testing/move_base/move_base_$(arg local_planner).launch">
-  </include>
+
+<include file="$(find arena_bringup)/launch/sublaunch_testing/plan_manager.launch">
+  <!-- only train_mode is false, otherwise subgoal is identical with global goal
+        which is not wanted for training the waypoint generator.
+  -->
+  <arg name="train_mode"        value="$(arg train_mode)"/>
+  <arg name="global_frame_id"   value="$(arg global_frame_id)"/>
+  <arg name="odom_frame_id"     value="$(arg odom_frame_id)"/>
+  <arg name="base_frame_id"     value="$(arg base_frame_id)"/>
+  <!-- make use also make the modification in the file start_arena_flatland_waypoint.launch -->
+  <!-- look_ahead_distance + outer ring circle < len_laser_beam -->
+  <arg name="look_ahead_distance"     default="2.3"/>   <!--meter, double -->
+  <arg name="tolerance_approach"      default="0.6"/>   <!--meter, double -->
+  <arg name="timeout_goal"            default="330."/>  <!--sec, double -->
+  <arg name="timeout_subgoal"         default="20"/>   <!--sec, double -->
+</include>
+<include file="$(find arena_bringup)/launch/sublaunch_testing/intermediate_planner.launch">
+
+</include> -->
 
 
-  <!-- start time space plan fsm-->
+  <!-- start time space plan fsm
   <include file="$(find arena_bringup)/launch/sublaunch_testing/timed_space_planner_fsm.launch">
-  </include>
+  </include> -->
 
   <!-- makes sure that drl actions will be published according to sim time in eval mode-->
   <group if="$(eval arg('train_mode') == false)">

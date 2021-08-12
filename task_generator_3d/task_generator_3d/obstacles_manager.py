@@ -127,7 +127,7 @@ class ObstaclesManager:
                 spawn_request.yaml_path = model_yaml_file_path
                 spawn_request.name = f'{name_prefix}_{instance_idx:02d}'
                 spawn_request.ns = rospy.get_namespace()
-                x, y, theta = get_random_pos_on_map(self._free_space_indices, self.map,)
+                x, y, theta = get_random_pos_on_map(self._free_space_indices, self.map, 0.2)
                 # set the postion of the obstacle out of the map to hidden them
                 if len(start_pos) == 0:
                     x = self.map.info.origin.position.x - 3 * \

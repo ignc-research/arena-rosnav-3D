@@ -54,7 +54,7 @@ class RobotManager:
         # self._initialpose_pub = rospy.Publisher(
         #     'initialpose', PoseWithCovarianceStamped, queue_size=1)
         self._goal_pub = rospy.Publisher(
-            f'{self.ns_prefix}goal', PoseStamped, queue_size=1, latch=True)
+            'move_base_simple/goal', PoseStamped, queue_size=1, latch=True)
 
         self.update_map(map_)
         self._spawn_robot()
@@ -219,11 +219,11 @@ class RobotManager:
         goal.header.frame_id = "map"
         goal.pose.position.x = x
         goal.pose.position.y = y
-        quaternion = tf.transformations.quaternion_from_euler(0, 0, 0)
-        goal.pose.orientation.w = quaternion[0]
-        goal.pose.orientation.x = quaternion[1]
-        goal.pose.orientation.y = quaternion[2]
-        goal.pose.orientation.z = quaternion[3]
+        quaternion = tf.transformations.quaternion_from_euler(0, 0, theta)
+        goal.pose.orientation.x = quaternion[0]
+        goal.pose.orientation.y = quaternion[1]
+        goal.pose.orientation.z = quaternion[2]
+        goal.pose.orientation.w = quaternion[3]
         self._goal_pub.publish(goal)
         # self._validate_path()
 
