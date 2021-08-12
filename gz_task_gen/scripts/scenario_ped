@@ -302,7 +302,7 @@ class PedsimManager():
 
 class ScenarioTask(ABSTask):
     def __init__(self, robot_manager, scenario_path='/home/elias/catkin_ws/src/arena-rosnav-3D/simulator_setup/scenarios/test_scenario.json'):
-        # type (ObstaclesManager, RobotManager, str)
+        # type: (ObstaclesManager, RobotManager, str) -> Any
         super(ScenarioTask, self).__init__(robot_manager)
 
         # load scenario from file

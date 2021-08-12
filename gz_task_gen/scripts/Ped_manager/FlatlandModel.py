@@ -11,7 +11,7 @@ class B2BodyType(Enum):
     KINEMATIC = 2
 
 
-class FlatlandFootprint():
+class FlatlandFootprint(object):
     def __init__(self):
         self.layers = []
         self.collision = True

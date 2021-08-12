@@ -1,6 +1,6 @@
 import numpy as np
 from enum import Enum
-from FlatlandModel import FlatlandModel
+#from FlatlandModel import FlatlandModel
 from HelperFunctions import *
 
 class PedsimStartupMode(Enum):
@@ -47,9 +47,9 @@ class PedsimAgent():
         self.pos = np.zeros(2)
         self.type = "adult"
         self.yaml_file = ""
-        self.flatlandModel = None  # FlatlandModel instance
-        if flatlandModelPath != "":
-            self.loadFlatlandModel(flatlandModelPath)
+        # self.flatlandModel = None  # FlatlandModel instance
+        # if flatlandModelPath != "":
+        #     self.loadFlatlandModel(flatlandModelPath)
         self.number_of_peds = 1
         self.vmax = 1.0
 
@@ -83,12 +83,12 @@ class PedsimAgent():
         self.waypoints = []  # list of 2D numpy arrays
         self.waypoint_mode = 0
 
-    def loadFlatlandModel(self, path):
-        # type: (str) -> Any
-        self.yaml_file = path
-        model = FlatlandModel()
-        model.load(path)
-        self.flatlandModel = model
+    # def loadFlatlandModel(self, path):
+    #     # type: (str) -> Any
+    #     self.yaml_file = path
+    #     model = FlatlandModel()
+    #     model.load(path)
+    #     self.flatlandModel = model
 
     def __eq__(self, other):
         if not isinstance(other, PedsimAgent):
@@ -96,8 +96,8 @@ class PedsimAgent():
 
         if self.name != other.name:
             return False
-        if self.flatlandModel != other.flatlandModel:
-            return False
+        # if self.flatlandModel != other.flatlandModel:
+        #     return False
 
         if self.id != other.id:
             return False

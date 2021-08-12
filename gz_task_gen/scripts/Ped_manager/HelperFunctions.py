@@ -89,7 +89,8 @@ def get_current_user_path(path_in):
     # new_path = Path.home().joinpath(*path.parts[3:])
 
     from os.path import expanduser
+
     path = path_in.split('/')
     new_path = expanduser("~") + '/' + '/'.join(path[3:])
-    print new_path
+    
     return str(new_path)
