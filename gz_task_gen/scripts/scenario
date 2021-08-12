@@ -17,6 +17,16 @@ from std_msgs.msg import Int16
 import numpy as np
 from tf.transformations import quaternion_from_euler
 
+from std_srvs.srv import Trigger
+from pedsim_srvs.srv import SpawnPeds
+from pedsim_srvs.srv import SpawnInteractiveObstacles
+from pedsim_srvs.srv import SpawnObstacle
+from pedsim_msgs.msg import Ped
+from pedsim_msgs.msg import InteractiveObstacle
+from pedsim_msgs.msg import LineObstacles
+from pedsim_msgs.msg import LineObstacle
+
+
 standart_orientation = quaternion_from_euler(0.0,0.0,0.0)
 def generate_freespace_indices(map_):
     """generate the indices(represented in a tuple) of the freesapce based on the map
