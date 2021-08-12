@@ -31,12 +31,14 @@ class ArenaScenario():
         return d
 
     @staticmethod
-    def fromDict(d : dict):
+    def fromDict(d):
+        # type: (dict) -> None
         scenario = ArenaScenario()
         scenario.loadFromDict(d)
         return scenario
 
-    def loadFromDict(self, d: dict):
+    def loadFromDict(self, d):
+        # type: (dict) -> None
         self.pedsimAgents = [PedsimAgent.fromDict(a) for a in d["pedsim_agents"]]
         self.staticObstacles = [FlatlandObject.fromDict(o) for o in d["static_obstacles"]]
         # self.interactiveObstacles = ...TODO
@@ -44,7 +46,8 @@ class ArenaScenario():
         self.robotGoal = np.array([d["robot_goal"][0], d["robot_goal"][1]])
         self.mapPath = get_current_user_path(d["map_path"])
 
-    def saveToFile(self, path_in: str = "") -> bool:
+    def saveToFile(self, path_in = ""):
+        # type: (str) -> bool
         '''
         Save Scenario in file.
         - path_in: path to save file
@@ -68,7 +71,8 @@ class ArenaScenario():
 
         return True
 
-    def loadFromFile(self, path_in: str):
+    def loadFromFile(self, path_in):
+        # type: (str) -> str
         if os.path.exists(path_in):
             _, file_extension = os.path.splitext(path_in)
             with open(path_in, "r") as f:
@@ -84,4 +88,4 @@ class ArenaScenario():
                 self.path = path_in
 
         else:
-            raise Exception(f"file '{path_in}' does not exist")
+            raise Exception("file ", path_in, " does not exist")

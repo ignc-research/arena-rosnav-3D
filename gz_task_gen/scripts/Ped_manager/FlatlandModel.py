@@ -26,7 +26,8 @@ class FlatlandFootprint():
                 and np.allclose(self.density, other.density))
 
     @staticmethod
-    def fromDict(d: dict):
+    def fromDict(d):
+        # type: (dict) -> Any
         fp = FlatlandFootprint()
         # fill inherited class fields
         if d["type"] == "polygon":
@@ -68,7 +69,8 @@ class CircleFlatlandFootprint(FlatlandFootprint):
                 and np.allclose(self.radius, other.radius))
 
     @staticmethod
-    def fromDict(d: dict):
+    def fromDict(d):
+        # type (dict) -> Any
         fp = CircleFlatlandFootprint()
         if "center" in d:
             fp.center = [float(val) for val in d["center"]]
@@ -85,7 +87,7 @@ class CircleFlatlandFootprint(FlatlandFootprint):
 
 class PolygonFlatlandFootprint(FlatlandFootprint):
     def __init__(self):
-        super().__init__()
+        super(PolygonFlatlandFootprint, self).__init__()
         self.points = []
 
     def __eq__(self, other):
@@ -99,7 +101,8 @@ class PolygonFlatlandFootprint(FlatlandFootprint):
                 and np.allclose(self.points, other.points))
 
     @staticmethod
-    def fromDict(d: dict):
+    def fromDict(d):
+        # type (dict) -> Any
         fp = PolygonFlatlandFootprint()
         if "points" in d:
             fp.points = [[float(point[0]), float(point[1])] for point in d["points"]]
@@ -133,7 +136,8 @@ class FlatlandBody():
                 and self.footprints == other.footprints)
         
     @staticmethod
-    def fromDict(d: dict):
+    def fromDict(d):
+        # type (dict) -> Any
         body = FlatlandBody()
         if "name" in d:
             body.name = d["name"]
@@ -164,9 +168,9 @@ class FlatlandBody():
         d["footprints"] = [footprint.toDict() for footprint in self.footprints]
         return d
 
-class FlatlandModel():
+class FlatlandModel(object):
     def __init__(self):
-        super().__init__()
+        super(FlatlandModel, self).__init__()
         self.bodies = {}  # key: body id (int), value: body (FlatlandBody)
         self.path = ""  # path to file associated with this model
         self.bodies_index = 0
@@ -201,7 +205,8 @@ class FlatlandModel():
         print("saved model to", self.path)
         return True
 
-    def load(self, path: str):
+    def load(self, path):
+        # type: (str) -> Any
         if os.path.exists(path):
             self.bodies = {}
             with open(path, "r") as file:
@@ -213,7 +218,8 @@ class FlatlandModel():
             self.path = path
 
 class FlatlandObject():
-    def __init__(self, name: str = "", model_path: str = ""):
+    def __init__(self, name = "", model_path = ""):
+        # type: (str, str)-> Any
         self.name = name
         self.flatlandModel = FlatlandModel()
         if os.path.exists(model_path):
@@ -222,12 +228,14 @@ class FlatlandObject():
         self.angle = 0.0
 
     @staticmethod
-    def fromDict(d : dict):
+    def fromDict(d):
+        # type (dict)-> Any
         o = FlatlandObject()
         o.loadFromDict(d)
         return o
 
-    def loadFromDict(self, d: dict):
+    def loadFromDict(self, d):
+        # type: (dict) -> float
         self.name = d["name"]
         self.flatlandModel.load(get_current_user_path(d["model_path"]))
         self.pos = np.array([float(val) for val in d["pos"]])

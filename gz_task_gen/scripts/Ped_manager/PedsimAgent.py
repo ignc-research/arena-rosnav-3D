@@ -38,7 +38,8 @@ class PedsimInteractiveObstacle():
 
 
 class PedsimAgent():
-    def __init__(self, name = "", flatlandModelPath = "") -> None:
+    def __init__(self, name = "", flatlandModelPath = ""):
+        # type: () -> None
         self.name = name
 
         # set default values (derived from pedsim_msgs/Ped.msg)
@@ -82,7 +83,8 @@ class PedsimAgent():
         self.waypoints = []  # list of 2D numpy arrays
         self.waypoint_mode = 0
 
-    def loadFlatlandModel(self, path: str):
+    def loadFlatlandModel(self, path):
+        # type: (str) -> Any
         self.yaml_file = path
         model = FlatlandModel()
         model.load(path)
@@ -207,7 +209,8 @@ class PedsimAgent():
         return d
 
     @staticmethod
-    def fromDict(d : dict):
+    def fromDict(d):
+        # type (dict)
         a = PedsimAgent(d["name"], d["yaml_file"])
 
         a.name = d["name"]
