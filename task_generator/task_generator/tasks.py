@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 
-
 import json, six, abc, actionlib
 import rospy, math, time, random
 from geometry_msgs.msg import Pose, PoseWithCovarianceStamped, Point, Quaternion
@@ -85,12 +84,13 @@ class ManualTask(ABSTask):
     """randomly spawn obstacles and user can mannually set the goal postion of the robot
     """
 
-    def __init__(self, ns: str, obstacles_manager: ObstaclesManager, robot_manager: RobotManager):
-        super().__init__(obstacles_manager, robot_manager)
+    def __init__(self, ns, robot_manager):
+        # type: (str, RobotManager) -> Any
+        super(ManualTask, self).__init__(robot_manager)
         self.ns = ns
         self.ns_prefix = "" if ns == '' else "/"+ns+"/"
         # subscribe
-        rospy.Subscriber(f'{self.ns}manual_goal', Pose2D, self._set_goal_callback)
+        rospy.Subscriber(self.ns, 'manual_goal', Pose2D, self._set_goal_callback)
         self._goal = Pose2D()
         self._new_goal_received = False
         self._manual_goal_con = Condition()
@@ -124,8 +124,9 @@ class ManualTask(ABSTask):
 
 
 class StagedRandomTask(RandomTask):
-    def __init__(self, ns: str, obstacles_manager: ObstaclesManager, robot_manager: RobotManager, start_stage: int = 1, PATHS=None):
-        super().__init__(obstacles_manager, robot_manager)
+    def __init__(self, ns, robot_manager, start_stage = 1, PATHS=None):
+        # type: (str, RobotManager, int, str) -> Any
+        super(StagedRandomTask, self).__init__(robot_manager)
         self.ns = ns
         self.ns_prefix = "" if ns == '' else "/"+ns+"/"
 
@@ -151,12 +152,13 @@ class StagedRandomTask(RandomTask):
         self._lock_json = FileLock(self.json_file + ".lock")
 
         # subs for triggers
-        self._sub_next = rospy.Subscriber(f"{self.ns_prefix}next_stage", Bool, self.next_stage)
-        self._sub_previous = rospy.Subscriber(f"{self.ns_prefix}previous_stage", Bool, self.previous_stage)
+        self._sub_next = rospy.Subscriber(self.ns_prefix, "next_stage", Bool, self.next_stage)
+        self._sub_previous = rospy.Subscriber(self.ns_prefix, "previous_stage", Bool, self.previous_stage)
 
         self._initiate_stage()
 
-    def next_stage(self, msg: Bool):
+    def next_stage(self, msg):
+        # type (Bool) -> Any
         if self._curr_stage < len(self._stages):
             self._curr_stage = self._curr_stage + 1
             self._initiate_stage()
@@ -169,10 +171,10 @@ class StagedRandomTask(RandomTask):
                 if self._curr_stage == len(self._stages):
                     rospy.set_param("/last_stage_reached", True)
         else:
-            print(
-                f"({self.ns}) INFO: Tried to trigger next stage but already reached last one")
+            print("(", self.ns, ") INFO: Tried to trigger next stage but already reached last one")
 
-    def previous_stage(self, msg: Bool):
+    def previous_stage(self, msg):
+        # type (Bool) -> Any
         if self._curr_stage > 1:
             rospy.set_param("/last_stage_reached", False)
 
@@ -184,8 +186,7 @@ class StagedRandomTask(RandomTask):
                 with self._lock_json:
                     self._update_curr_stage_json()
         else:
-            print(
-                f"({self.ns}) INFO: Tried to trigger previous stage but already reached first one")
+            print("(", self.ns, ") INFO: Tried to trigger previous stage but already reached first one")
 
     def _initiate_stage(self):
         self._remove_obstacles()
@@ -198,8 +199,7 @@ class StagedRandomTask(RandomTask):
         self.obstacles_manager.register_random_dynamic_obstacles(
             self._stages[self._curr_stage]['dynamic'])
 
-        print(
-            f"({self.ns}) Stage {self._curr_stage}: Spawning {static_obstacles} static and {dynamic_obstacles} dynamic obstacles!")
+        print("(", self.ns, ") Stage ", self._curr_stage, ": Spawning ", static_obstacles, " static and ", dynamic_obstacles, " dynamic obstacles!")
 
     def _read_stages_from_yaml(self):
         file_location = self._PATHS.get('curriculum')
@@ -219,7 +219,7 @@ class StagedRandomTask(RandomTask):
             hyperparams['curr_stage'] = self._curr_stage
         except Exception as e:
             raise Warning(
-                f" {e} \n Parameter 'curr_stage' not found in 'hyperparameters.json'!")
+                " ",e, " \n Parameter 'curr_stage' not found in 'hyperparameters.json'!")
         else:
             with open(self.json_file, "w", encoding='utf-8') as target:
                 json.dump(hyperparams, target,

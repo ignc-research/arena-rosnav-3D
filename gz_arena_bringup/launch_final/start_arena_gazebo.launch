@@ -7,9 +7,9 @@
   <arg name="local_planner"   default="dwa"/> <!--originally teb-->
   <arg name="rviz_file"       default="nav_LP"/>
   <arg name="disable_scenario"    default="true"/>
-  <arg name="scenario_file"   default="empty_map.json"/>
+  <arg name="scenario_file"   default="test_scenario.json"/>
   <arg name="reset"   default="true"/>
-  <arg name="enable_pedsim" default="false"/>
+  <arg name="enable_pedsim" default="true"/>
 
   <!-- To make the training more efficient make sure this step_size*laser_update_rate == 1  -->
   <arg name="world" default="turtlebot3_house"/>
@@ -90,20 +90,17 @@
   
 
   <!-- move_base plan manager: which provide basic global planner and cost map --> <!-- TODO: noch drei planer stehen aus. Bisher nur: tep, dwa, rlca-->
-  <include file="$(find arena_bringup)/launch/sublaunch_testing/move_base/move_base_$(arg local_planner).launch">
-  </include>
+  <include file="$(find arena_bringup)/launch/sublaunch_testing/move_base/move_base_$(arg local_planner).launch"/>
 
 <!-- ********************************* nicht klar, was er macht & wofür man den braucht************************************************************-->
   <!-- start time space plan fsm-->
-  <include file="$(find arena_bringup)/launch/sublaunch_testing/timed_space_planner_fsm.launch">
-  </include>
+  <include file="$(find arena_bringup)/launch/sublaunch_testing/timed_space_planner_fsm.launch"/>
 
   <!-- makes sure that drl actions will be published according to sim time in eval mode-->
   <group if="$(eval arg('train_mode') == false)">
     <node name="action_publisher" pkg="arena_local_planner_drl" type="action_publisher.py"/>
   </group>
 
-   <!-- ********************************* skiped so far**************************************************-->
   <!-- Pedsim -->
   <arg name="simulation_factor" default="1"/>
   <arg name="pedsim_update_rate" default="30.0"/>
