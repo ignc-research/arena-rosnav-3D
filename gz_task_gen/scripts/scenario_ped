@@ -22,11 +22,11 @@ from std_srvs.srv import Trigger
 from pedsim_srvs.srv import SpawnPeds
 from pedsim_srvs.srv import SpawnInteractiveObstacles
 from pedsim_srvs.srv import SpawnObstacle
-from pedsim_msgs.msg import Ped
+from pedsim_msgs.msg import Ped, AgentStates
 from pedsim_msgs.msg import InteractiveObstacle
 from pedsim_msgs.msg import LineObstacles
 from pedsim_msgs.msg import LineObstacle
-
+from rospkg import RosPack
 
 
 standart_orientation = quaternion_from_euler(0.0,0.0,0.0)
@@ -40,6 +40,39 @@ def generate_freespace_indices(map_):
     map_2d = np.reshape(map_.data, (height_in_cell, width_in_cell))
     indices_y_x = np.where(map_2d == 0)
     return indices_y_x
+
+def spawn_peds_in_gazebo():
+    global xml_file
+
+    def actor_poses_callback(actors):
+ 
+        for actor in actors.agent_states:
+            actor_id = str( actor.id )
+            memory.append(actor_id)
+            actor_pose = actor.pose
+            rospy.loginfo("Spawning model: actor_id = %s", actor_id)
+
+            model_pose = Pose(Point(x= actor_pose.position.x,
+                                y= actor_pose.position.y,
+                                z= actor_pose.position.z),
+                            Quaternion(actor_pose.orientation.x,
+                                        actor_pose.orientation.y,
+                                        actor_pose.orientation.z,
+                                        actor_pose.orientation.w) )
+            rospy.Subscriber('/gazebo/model_state', GetModelState)
+  
+                spawn_model(actor_id, xml_string, "", model_pose, "world")
+                memory.append(actor_id)
+        return
+
+    rospack1 = RosPack()
+    pkg_path = rospack1.get_path('pedsim_gazebo_plugin')
+    default_actor_model_file = pkg_path + "/models/actor_model.sdf"
+    actor_model_file = rospy.get_param('~actor_model_file', default_actor_model_file)
+    file_xml = open(actor_model_file)
+    xml_string = file_xml.read()
+    spawn_model = rospy.ServiceProxy("gazebo/spawn_sdf_model", SpawnModel)
+    rospy.Subscriber("/pedsim_simulator/simulated_agents", AgentStates, actor_poses_callback)
 
 
 # class ObstaclesManager:
@@ -315,6 +348,8 @@ class ScenarioTask(ABSTask):
             self.pedsim_manager = PedsimManager()
             peds = [agent.getPedMsg() for agent in self.scenario.pedsimAgents]
             self.pedsim_manager.spawnPeds(peds)
+
+        spawn_peds_in_gazebo()
 
         self.reset_count = 0
 
