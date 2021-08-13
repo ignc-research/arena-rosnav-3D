@@ -41,38 +41,38 @@ def generate_freespace_indices(map_):
     indices_y_x = np.where(map_2d == 0)
     return indices_y_x
 
-def spawn_peds_in_gazebo():
-    global xml_file
+# def spawn_peds_in_gazebo():
+#     global xml_file
 
-    def actor_poses_callback(actors):
+#     def actor_poses_callback(actors):
  
-        for actor in actors.agent_states:
-            actor_id = str( actor.id )
-            memory.append(actor_id)
-            actor_pose = actor.pose
-            rospy.loginfo("Spawning model: actor_id = %s", actor_id)
+#         for actor in actors.agent_states:
+#             actor_id = str( actor.id )
+#             memory.append(actor_id)
+#             actor_pose = actor.pose
+#             rospy.loginfo("Spawning model: actor_id = %s", actor_id)
 
-            model_pose = Pose(Point(x= actor_pose.position.x,
-                                y= actor_pose.position.y,
-                                z= actor_pose.position.z),
-                            Quaternion(actor_pose.orientation.x,
-                                        actor_pose.orientation.y,
-                                        actor_pose.orientation.z,
-                                        actor_pose.orientation.w) )
-            rospy.Subscriber('/gazebo/model_state', GetModelState)
+#             model_pose = Pose(Point(x= actor_pose.position.x,
+#                                 y= actor_pose.position.y,
+#                                 z= actor_pose.position.z),
+#                             Quaternion(actor_pose.orientation.x,
+#                                         actor_pose.orientation.y,
+#                                         actor_pose.orientation.z,
+#                                         actor_pose.orientation.w) )
+#             rospy.Subscriber('/gazebo/model_state', GetModelState)
   
-                spawn_model(actor_id, xml_string, "", model_pose, "world")
-                memory.append(actor_id)
-        return
+#                 spawn_model(actor_id, xml_string, "", model_pose, "world")
+#                 memory.append(actor_id)
+#         return
 
-    rospack1 = RosPack()
-    pkg_path = rospack1.get_path('pedsim_gazebo_plugin')
-    default_actor_model_file = pkg_path + "/models/actor_model.sdf"
-    actor_model_file = rospy.get_param('~actor_model_file', default_actor_model_file)
-    file_xml = open(actor_model_file)
-    xml_string = file_xml.read()
-    spawn_model = rospy.ServiceProxy("gazebo/spawn_sdf_model", SpawnModel)
-    rospy.Subscriber("/pedsim_simulator/simulated_agents", AgentStates, actor_poses_callback)
+#     rospack1 = RosPack()
+#     pkg_path = rospack1.get_path('pedsim_gazebo_plugin')
+#     default_actor_model_file = pkg_path + "/models/actor_model.sdf"
+#     actor_model_file = rospy.get_param('~actor_model_file', default_actor_model_file)
+#     file_xml = open(actor_model_file)
+#     xml_string = file_xml.read()
+#     spawn_model = rospy.ServiceProxy("gazebo/spawn_sdf_model", SpawnModel)
+#     rospy.Subscriber("/pedsim_simulator/simulated_agents", AgentStates, actor_poses_callback)
 
 
 # class ObstaclesManager:
@@ -349,7 +349,7 @@ class ScenarioTask(ABSTask):
             peds = [agent.getPedMsg() for agent in self.scenario.pedsimAgents]
             self.pedsim_manager.spawnPeds(peds)
 
-        spawn_peds_in_gazebo()
+        #spawn_peds_in_gazebo()
 
         self.reset_count = 0
 

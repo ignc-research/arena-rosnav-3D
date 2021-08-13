@@ -14,7 +14,8 @@
         <param name="task_mode" value="$(arg task_mode)"/>
         <param name="delta" value="$(arg delta)"/>
         <param name="timeout" value="$(arg timeout)"/>
-
-        
     </node>
+
+
+    <node pkg="pedsim_gazebo_plugin" type="spawn_pedsim_agents.py" name="spawn_pedsim_agents"  output="screen"/>
 </launch>

@@ -6,7 +6,7 @@
   
   <arg name="local_planner"   default="dwa"/> <!--originally teb-->
   <arg name="rviz_file"       default="nav_LP"/>
-  <arg name="disable_scenario"    default="true"/>
+  <arg name="disable_scenario"    default="false"/>
   <arg name="scenario_file"   default="test_scenario.json"/>
   <arg name="reset"   default="true"/>
   <arg name="enable_pedsim" default="true"/>
@@ -56,7 +56,7 @@
 
 
  <!-- use simulator-->
-  <include file="$(find gz_arena_bringup)/launch/sublaunch_testing/gazebo_simulator.launch">
+  <include file="$(find arena_bringup)/launch/sublaunch_testing/gazebo_simulator.launch">
     <arg name="world"  value="$(arg world)"/>
     <arg name="model"  value="$(arg model)"/>
     <arg name="show_viz"  value="$(arg show_viz)"/>
@@ -70,7 +70,7 @@
   </node>
   
   <!-- use fake localization-->
-  <include file="$(find gz_arena_bringup)/launch/sublaunch_testing/fake_localization.launch"> <!-- Der Sinn ist mir nich klar!!!!!!!!!!!!!!!!-->
+  <include file="$(find arena_bringup)/launch/sublaunch_testing/fake_localization.launch"> <!-- Der Sinn ist mir nich klar!!!!!!!!!!!!!!!!-->
     <arg name="global_frame_id"   value="$(arg global_frame_id)"/>
     <arg name="odom_frame_id"     value="$(arg odom_frame_id)"/>
   </include>

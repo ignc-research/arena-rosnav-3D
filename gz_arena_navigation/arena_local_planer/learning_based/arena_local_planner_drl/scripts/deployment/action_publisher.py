@@ -24,12 +24,12 @@ class ActionPublisher:
         rate = (1 / self._action_publish_rate) / self._real_second_in_sim
 
         ns_prefix = "" if "/single_env" in rospy.get_param_names() else "/eval_sim/"
-        self._pub_cmd_vel = rospy.Publisher(f"{ns_prefix}cmd_vel", Twist, queue_size=1)
+        self._pub_cmd_vel = rospy.Publisher("{}cmd_vel".format(ns_prefix), Twist, queue_size=1)
         self._pub_cycle_trigger = rospy.Publisher(
-            f"{ns_prefix}next_cycle", Bool, queue_size=1
+            "{}next_cycle".format(ns_prefix), Bool, queue_size=1
         )
         self._sub = rospy.Subscriber(
-            f"{ns_prefix}cmd_vel_pub",
+            "{}cmd_vel_pub".format(ns_prefix),
             Twist,
             self.callback_receive_cmd_vel,
             queue_size=1,
@@ -48,14 +48,14 @@ class ActionPublisher:
 
         while not rospy.is_shutdown():
             if self._sub.get_num_connections() < 1:
-                print(f"ActionPublisher: No publisher to {ns_prefix}cmd_vel_pub yet.. ")
+                print("ActionPublisher: No publisher to ", ns_prefix, "cmd_vel_pub yet.. ")
                 time.sleep(1)
                 continue
 
             self._pub_cmd_vel.publish(self._action)
             self._pub_cycle_trigger.publish(self._signal)
 
-            print(f"Published same action: {last_action==self._action}")
+            print("Published same action: ", last_action==self._action)
             last_action = self._action
 
             time.sleep(rate)
@@ -63,10 +63,12 @@ class ActionPublisher:
             # print(f"sim time between cmd_vel: {self._clock - last}")
             # last = self._clock
 
-    def callback_receive_cmd_vel(self, msg_cmd_vel: Twist):
+    def callback_receive_cmd_vel(self, msg_cmd_vel):
+        # type:(Twist) -> Any
         self._action = msg_cmd_vel
 
-    def callback_clock(self, msg_clock: Clock):
+    def callback_clock(self, msg_clock):
+        # type: (Clock) -> Any
         self._clock = msg_clock.clock.to_sec()
 
 
