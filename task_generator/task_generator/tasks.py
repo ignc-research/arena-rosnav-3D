@@ -37,6 +37,7 @@ class ABSTask(abc.ABCMeta('ABC', (object,), {'__slots__': ()})):
     """An abstract class, all tasks must implement reset function.
     """
 
+
     def __init__(self, robot_manager):
         # type: (ObstaclesManager, RobotManager) -> None
         #self.obstacles_manager = obstacles_manager
@@ -63,6 +64,7 @@ class RandomTask(ABSTask):
     """ Evertime the start position and end position of the robot is reset.
     """
 
+
     def __init__(self,  robot_manager):
         #type (Any, ObstaclesManager, RobotManager)
         super(RandomTask, self).__init__(robot_manager)
@@ -76,7 +78,7 @@ class RandomTask(ABSTask):
             while fail_times < max_fail_times:
                 try:
                     start_pos, goal_pos = self.robot_manager.set_start_pos_goal_pos()
-                    print(start_pos, goal_pos)
+                    # Todo set obstacles random
                     break
                 except rospy.ServiceException as e:
                     rospy.logwarn(repr(e))
@@ -89,13 +91,14 @@ class ManualTask(ABSTask):
     """randomly spawn obstacles and user can mannually set the goal postion of the robot
     """
 
+
     def __init__(self, ns, robot_manager):##################################################### ToDo, include obstacles
         # type: (str, RobotManager) -> Any
         super(ManualTask, self).__init__(robot_manager)
         self.ns = ns
         self.ns_prefix = "" if ns == '' else "/"+ns+"/"
         # subscribe
-        rospy.Subscriber(self.ns, 'manual_goal', Pose2D, self._set_goal_callback)
+        rospy.Subscriber('%smanual_goal' % self.ns, Pose2D, self._set_goal_callback)
         self._goal = Pose2D()
         self._new_goal_received = False
         self._manual_goal_con = Condition()
@@ -116,11 +119,10 @@ class ManualTask(ABSTask):
                         self._new_goal_received = False
                     try:
                         # in this step, the validation of the path will be checked
-                        self.robot_manager.publish_goal(
+                        self.robot_manager.publish_go_new_goal_receivedal(
                             Pose(Point(self._goal.x, self._goal.y, 0), Quaternion(quaternion_from_euler(0.0,self._goal.theta,0.0))))
                     except rospy.ServiceException as e:
                         rospy.logwarn(repr(e))
-
                 
     def _set_goal_callback(self, goal):
         # type: (Pose) -> None
@@ -130,7 +132,7 @@ class ManualTask(ABSTask):
         self._manual_goal_con.notify()
 
 
-# /home/elias/catkin_ws/src/arena-rosnav-3D/gz_arena_navigation/arena_local_planer/learning_based/arena_local_planner_drl/configs/training_curriculum_map1small.yaml
+# /home/elias/catkin_ws/src/arena-rosnav-3D/arena_navigation/arena_local_planer/learning_based/arena_local_planner_drl/configs/training_curriculum_map1small.yaml
 class StagedRandomTask(RandomTask):
     def __init__(self, ns, robot_manager, start_stage = 1, PATHS=None):
         # type: (str, RobotManager, int, str) -> Any

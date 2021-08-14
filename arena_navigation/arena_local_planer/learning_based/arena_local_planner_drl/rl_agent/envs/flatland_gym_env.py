@@ -66,7 +66,7 @@ class FlatlandEnv(gym.Env):
             time.sleep(ns_int * 2)
         except Exception:
             rospy.logwarn(
-                f"Can't not determinate the number of the environment, training script may crash!"
+                "Can't not determinate the number of the environment, training script may crash!"
             )
 
         # process specific namespace in ros system
@@ -74,9 +74,9 @@ class FlatlandEnv(gym.Env):
 
         if not debug:
             if train_mode:
-                rospy.init_node(f"train_env_{self.ns}", disable_signals=False)
+                rospy.init_node("train_env_%s" % self.ns, disable_signals=False)
             else:
-                rospy.init_node(f"eval_env_{self.ns}", disable_signals=False)
+                rospy.init_node("train_env_%s" % self.ns, disable_signals=False)
 
         self._extended_eval = extended_eval
         self._is_train_mode = rospy.get_param("/train_mode")
@@ -108,16 +108,16 @@ class FlatlandEnv(gym.Env):
         # action agent publisher
         if self._is_train_mode:
             self.agent_action_pub = rospy.Publisher(
-                f"{self.ns_prefix}cmd_vel", Twist, queue_size=1
+                "%scmd_vel" % self.ns_prefix, Twist, queue_size=1
             )
         else:
             self.agent_action_pub = rospy.Publisher(
-                f"{self.ns_prefix}cmd_vel_pub", Twist, queue_size=1
+                "%scmd_vel_pub" % self.ns_prefix, Twist, queue_size=1
             )
 
         # service clients
         if self._is_train_mode:
-            self._service_name_step = f"{self.ns_prefix}step_world"
+            self._service_name_step = "%sstep_world" % self.ns_prefix
             self._sim_step_client = rospy.ServiceProxy(
                 self._service_name_step, StepWorld
             )

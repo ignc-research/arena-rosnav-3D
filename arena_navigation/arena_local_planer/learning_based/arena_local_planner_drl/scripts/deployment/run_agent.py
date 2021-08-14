@@ -83,7 +83,7 @@ def make_env(
     """
 
     def _init():
-        ns = f"eval_sim" if with_ns else ""
+        ns = "eval_sim" if with_ns else ""
 
         env = FlatlandEnv(
             ns,
@@ -130,7 +130,7 @@ if __name__ == "__main__":
     start = time.time()
     while len(AGENTS) != 0:
         AGENT = AGENTS.pop(0)
-        print(f"START RUNNING AGENT:    {AGENT}")
+        print("START RUNNING AGENT:    ", AGENT)
         PATHS = get_paths(args, AGENT)
 
         assert os.path.isfile(os.path.join(PATHS["model"], "best_model.zip")), (
@@ -150,7 +150,7 @@ if __name__ == "__main__":
             if not os.path.isfile(PATHS["vecnorm"]):
                 # without it agent performance will be strongly altered
                 warnings.warn(
-                    f"Couldn't find VecNormalize pickle for {PATHS['model'].split('/')[-1]}, going to skip this model"
+                    "Couldn't find VecNormalize pickle for {}, going to skip this model".format(PATHS['model'].split('/')[-1])
                 )
                 continue
 
@@ -167,7 +167,7 @@ if __name__ == "__main__":
             pass
 
     time = round(time.time() - start)
-    print(f"Time passed:    {time}s")
+    print("Time passed:    ", time, "s")
     print("EVALUATION DONE!")
     sys.exit()
 

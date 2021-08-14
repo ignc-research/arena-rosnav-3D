@@ -4,6 +4,8 @@ import math
 import numpy as np
 from nav_msgs.msg import OccupancyGrid
 import random
+from tf.transformations import quaternion_from_euler
+from geometry_msgs.msg import Pose, PoseWithCovarianceStamped, Point, Quaternion
 
 
 def generate_freespace_indices(map_):
@@ -80,9 +82,9 @@ def get_random_pos_on_map(free_space_indices, map_, safe_dist, forbidden_zones =
                 raise Exception(
                     "cann't find any no-occupied space please check the map information")
         # in radius
-    q = quaternion_from_euler(0.0, random.uniform(-math.pi, math.pi), 0.0)
+    q = quaternion_from_euler(0.0, 0.0, random.uniform(-math.pi, math.pi), axes='sxyz')
 
     p = Pose()
-    p.position = Point(*[y_in_meters, y_in_meters, 0])
+    p.position = Point(*[x_in_meters, y_in_meters, 0])
     p.orientation = Quaternion(*q)
     return p

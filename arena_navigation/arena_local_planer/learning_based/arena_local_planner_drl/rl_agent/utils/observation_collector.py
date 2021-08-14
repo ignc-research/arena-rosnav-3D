@@ -85,11 +85,11 @@ class ObservationCollector:
 
         # subscriptions
         self._scan_sub = rospy.Subscriber(
-            f"{self.ns_prefix}scan", LaserScan, self.callback_scan, tcp_nodelay=True
+            "%sscan" % self.ns_prefix, LaserScan, self.callback_scan, tcp_nodelay=True
         )
 
         self._robot_state_sub = rospy.Subscriber(
-            f"{self.ns_prefix}odom",
+            "%sodom" % self.ns_prefix,
             Odometry,
             self.callback_robot_state,
             tcp_nodelay=True,
@@ -99,16 +99,16 @@ class ObservationCollector:
         #     f'{self.ns_prefix}clock', Clock, self.callback_clock, tcp_nodelay=True)
 
         self._subgoal_sub = rospy.Subscriber(
-            f"{self.ns_prefix}subgoal", PoseStamped, self.callback_subgoal
+            "%ssubgoal" % self.ns_prefix, PoseStamped, self.callback_subgoal
         )
 
         self._globalplan_sub = rospy.Subscriber(
-            f"{self.ns_prefix}globalPlan", Path, self.callback_global_plan
+            "%sglobalPlan" % self.ns_prefix, Path, self.callback_global_plan
         )
 
         # service clients
         if self._is_train_mode:
-            self._service_name_step = f"{self.ns_prefix}step_world"
+            self._service_name_step = "%sstep_world" % self.ns_prefix
             self._sim_step_client = rospy.ServiceProxy(
                 self._service_name_step, StepWorld
             )
@@ -122,7 +122,7 @@ class ObservationCollector:
             self.call_service_takeSimStep(self._action_frequency)
         else:
             try:
-                rospy.wait_for_message(f"{self.ns_prefix}next_cycle", Bool)
+                rospy.wait_for_message("%snext_cycle"% self.ns_prefix, Bool)
             except Exception:
                 pass
 
@@ -211,7 +211,7 @@ class ObservationCollector:
                     break
                 if i == timeout - 1:
                     raise TimeoutError(
-                        f"Timeout while trying to call '{self.ns_prefix}step_world'"
+                        "Timeout while trying to call '%sstep_world'" % self.ns_prefix
                     )
                 time.sleep(0.33)
 

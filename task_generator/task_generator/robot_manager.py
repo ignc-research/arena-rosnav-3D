@@ -36,13 +36,10 @@ class RobotManager:
         self.ns = ns
         self.update_map(map_)
 
-
     def update_map(self, new_map):
         # type (OccupancyGrid) -> None
         self.map = new_map
         self._free_space_indices = generate_freespace_indices(self.map)
-
-
 
     def move_robot(self, pose):
         # type: (Pose) -> None
@@ -50,11 +47,9 @@ class RobotManager:
         Args:
             pose (Pose): target postion
         """
-
         start_pos = ModelState()
         start_pos.model_name = 'turtlebot3'
         start_pos.pose = pose
-
         rospy.wait_for_service('/gazebo/set_model_state')
         try:
             set_state = rospy.ServiceProxy('/gazebo/set_model_state', SetModelState)
@@ -70,8 +65,6 @@ class RobotManager:
         start_pos.pose.pose = pose # Achtung in Random task hier .pose.pose
         pub.publish(start_pos)
 
-
-
     def publish_goal(self, pose):
         # type: (Pose) -> None
         """
@@ -80,10 +73,8 @@ class RobotManager:
         :param y y-position of the goal
         :param theta theta-position of the goal
         """
-
         client = actionlib.SimpleActionClient('move_base',MoveBaseAction)
         client.wait_for_server()
-
         self.goal = MoveBaseGoal()
         self.goal.target_pose.header.frame_id = "map"
         self.goal.target_pose.header.stamp = rospy.Time.now()
@@ -95,7 +86,11 @@ class RobotManager:
             rospy.logerr("Action server not available!")
             rospy.signal_shutdown("Action server not available!")
 
-
+    def set_start_pos_random(self):
+        start_pos = Pose()
+        start_pos = get_random_pos_on_map(
+            self._free_space_indices, self.map, ROBOT_RADIUS)
+        self.move_robot(start_pos)
 
     def set_start_pos_goal_pos(self, start_pos = None, goal_pos = None, min_dist=1):
         # type: (Union[Pose2D, None], Union[Pose2D, None], int)
@@ -121,9 +116,21 @@ class RobotManager:
         i_try = 0
         start_pos_ = None
         goal_pos_ = None
+      
         while i_try < max_try_times:
-            start_pos_ = start_pos
-            goal_pos_ = goal_pos
+
+            if start_pos is None:
+                start_pos_ = get_random_pos_on_map(
+                    self._free_space_indices, self.map, ROBOT_RADIUS * 2)
+            else:
+                start_pos_ = start_pos
+                
+            if goal_pos is None:
+                goal_pos_ = get_random_pos_on_map(
+                    self._free_space_indices, self.map, ROBOT_RADIUS * 2)
+            else:
+                goal_pos_ = goal_pos
+                
             if dist(start_pos_.position.x, start_pos_.position.y, goal_pos_.position.x, goal_pos_.position.y) < min_dist:
                 i_try += 1
                 continue
