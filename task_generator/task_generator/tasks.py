@@ -3,8 +3,8 @@
 
 import json, six, abc, actionlib
 import rospy, math, time, random
-from geometry_msgs.msg import Pose, PoseWithCovarianceStamped, Point, Quaternion
-from threading import Lock
+from geometry_msgs.msg import Pose, PoseWithCovarianceStamped, Point, Quaternion, Pose2D
+from threading import Lock, Condition
 from nav_msgs.msg import OccupancyGrid, Odometry
 from nav_msgs.srv import GetMap
 from gazebo_msgs.srv import SetModelState
@@ -89,7 +89,7 @@ class ManualTask(ABSTask):
     """randomly spawn obstacles and user can mannually set the goal postion of the robot
     """
 
-    def __init__(self, ns, robot_manager):
+    def __init__(self, ns, robot_manager):##################################################### ToDo, include obstacles
         # type: (str, RobotManager) -> Any
         super(ManualTask, self).__init__(robot_manager)
         self.ns = ns
@@ -103,7 +103,7 @@ class ManualTask(ABSTask):
     def reset(self):
         while True:
             with self._map_lock:
-                self.obstacles_manager.reset_pos_obstacles_random()
+                #self.obstacles_manager.reset_pos_obstacles_random()
                 self.robot_manager.set_start_pos_random()
                 with self._manual_goal_con:
                     # the user has 60s to set the goal, otherwise all objects will be reset.
@@ -117,10 +117,11 @@ class ManualTask(ABSTask):
                     try:
                         # in this step, the validation of the path will be checked
                         self.robot_manager.publish_goal(
-                            self._goal.x, self._goal.y, self._goal.theta)
-                    except Exception as e:
+                            Pose(Point(self._goal.x, self._goal.y, 0), Quaternion(quaternion_from_euler(0.0,self._goal.theta,0.0))))
+                    except rospy.ServiceException as e:
                         rospy.logwarn(repr(e))
 
+                
     def _set_goal_callback(self, goal):
         # type: (Pose) -> None
         with self._manual_goal_con:
@@ -129,6 +130,7 @@ class ManualTask(ABSTask):
         self._manual_goal_con.notify()
 
 
+# /home/elias/catkin_ws/src/arena-rosnav-3D/gz_arena_navigation/arena_local_planer/learning_based/arena_local_planner_drl/configs/training_curriculum_map1small.yaml
 class StagedRandomTask(RandomTask):
     def __init__(self, ns, robot_manager, start_stage = 1, PATHS=None):
         # type: (str, RobotManager, int, str) -> Any
@@ -197,15 +199,12 @@ class StagedRandomTask(RandomTask):
     def _initiate_stage(self):
         self._remove_obstacles()
         
-        static_obstacles = self._stages[self._curr_stage]['static']
         dynamic_obstacles = self._stages[self._curr_stage]['dynamic']
 
-        self.obstacles_manager.register_random_static_obstacles(
-            self._stages[self._curr_stage]['static'])
         self.obstacles_manager.register_random_dynamic_obstacles(
             self._stages[self._curr_stage]['dynamic'])
 
-        print("(", self.ns, ") Stage ", self._curr_stage, ": Spawning ", static_obstacles, " static and ", dynamic_obstacles, " dynamic obstacles!")
+        print("(", self.ns, ") Stage ", self._curr_stage, ": Spawning ", dynamic_obstacles, " dynamic obstacles!")
 
     def _read_stages_from_yaml(self):
         file_location = self._PATHS.get('curriculum')
