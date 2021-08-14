@@ -17,7 +17,7 @@ def generate_freespace_indices(map_):
     indices_y_x = np.where(map_2d == 0)
     return indices_y_x
 
-    def get_random_pos_on_map(free_space_indices, map_, safe_dist, forbidden_zones = None):
+def get_random_pos_on_map(free_space_indices, map_, safe_dist, forbidden_zones = None):
     # type: (OccupancyGrid, float, list)
     """
     Args:
@@ -26,7 +26,7 @@ def generate_freespace_indices(map_):
         map (OccupancyGrid): map proviced by the ros map service
         forbidden_zones (list of 3 elementary tuple(x,y,r)): a list of zones which is forbidden
     Returns:
-       x_in_meters,y_in_meters,theta
+    x_in_meters,y_in_meters,theta
     """
 
     def is_pos_valid(x_in_meters, y_in_meters):
@@ -50,7 +50,7 @@ def generate_freespace_indices(map_):
                     value = map_.data[index]
                 except IndexError:
                     print("IndexError: index: %d, map_length: %d" %
-                          (index, len(map_.data)))
+                        (index, len(map_.data)))
                     return False
                 if value != 0:
 

@@ -15,13 +15,18 @@ import numpy as np
 from tf.transformations import quaternion_from_euler
 from pathlib import Path
 from std_srvs.srv import Trigger
+import rospkg
+from .robot_manager import RobotManager
+from ped_manager.ArenaScenario import *
+from std_srvs.srv import Trigger
 from pedsim_srvs.srv import SpawnPeds, SpawnInteractiveObstacles, SpawnObstacle
-from pedsim_msgs.msg import Ped, InteractiveObstacle, LineObstacles, LineObstacle
-from rospkg import RosPack
+from pedsim_msgs.msg import Ped, AgentStates, InteractiveObstacle, LineObstacles
+from pedsim_msgs.msg import LineObstacle
 
 
 standart_orientation = quaternion_from_euler(0.0,0.0,0.0)
 ROBOT_RADIUS = 0.17
+
 
 class StopReset(Exception):
     """Raised when The Task can not be reset anymore """
@@ -116,7 +121,8 @@ class ManualTask(ABSTask):
                     except Exception as e:
                         rospy.logwarn(repr(e))
 
-    def _set_goal_callback(self, goal: Pose2D):
+    def _set_goal_callback(self, goal):
+        # type: (Pose) -> None
         with self._manual_goal_con:
             self._goal = goal
             self._new_goal_received = True
@@ -278,8 +284,8 @@ class PedsimManager():
 
 
 class ScenarioTask(ABSTask):
-    def __init__(self, robot_manager, scenario_path='/home/elias/catkin_ws/src/arena-rosnav-3D/simulator_setup/scenarios/test_scenario.json'):
-        # type: (ObstaclesManager, RobotManager, str) -> Any
+    def __init__(self, robot_manager, scenario_path):
+        # type: (RobotManager, str) -> Any
         super(ScenarioTask, self).__init__(robot_manager)
 
         # load scenario from file
@@ -293,7 +299,7 @@ class ScenarioTask(ABSTask):
             peds = [agent.getPedMsg() for agent in self.scenario.pedsimAgents]
             self.pedsim_manager.spawnPeds(peds)
 
-        spawn_peds_in_gazebo()
+       # spawn_peds_in_gazebo()
 
         self.reset_count = 0
 
@@ -349,7 +355,6 @@ def get_predefined_task(ns, mode="random", start_stage = 1, PATHS = None):
         task = StagedRandomTask(ns, start_stage, PATHS)
     if mode == "scenario":
         rospy.set_param("/task_mode", "scenario")
-        scenario_format = get_scenario_file_format(PATHS['scenario'])
         task = ScenarioTask(robot_manager, PATHS['scenario'])
 
     return task

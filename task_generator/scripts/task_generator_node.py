@@ -77,10 +77,10 @@ class TaskGenerator:
             self.curr_goal_pos_ = info['robot_goal_pos']
         rospy.loginfo("".join(["="]*80))
         rospy.loginfo("goal reached and task reset!")
-        #rospy.loginfo("".join(["="]*80)######################################################ToDo usually not commented
-        #self.sr.publish(self.nr)
-        #self.nr += 1
-        print('test')
+        rospy.loginfo("".join(["="]*80))
+        self.sr.publish(self.nr)
+        self.nr += 1
+        
 
     def check_robot_pos_callback(self, odom_msg):
         # type: (Odometry) -> Any
@@ -95,5 +95,6 @@ class TaskGenerator:
 
 if __name__ == '__main__':
     rospy.init_node('task_generator')
+    rospy.wait_for_service('/static_map')
     task_generator = TaskGenerator()
     rospy.spin()
