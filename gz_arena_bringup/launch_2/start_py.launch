@@ -1,4 +1,9 @@
 <launch>
     <node pkg="pedsim_gazebo_plugin" type="spawn_pedsim_agents.py" name="spawn_pedsim_agents"  output="screen"/>
     <node pkg="gz_task_gen" type="scenario_ped" name="scenario_ped"  output="screen"/>
+
+  <include file="$(find pedsim_visualizer)/launch/visualizer.launch"/>
+
+  <!-- Rviz -->
+  <node pkg="rviz" type="rviz" name="rviz" args="-d $(find pedsim_simulator)/rviz/social_contexts_activities.rviz" />
 </launch>

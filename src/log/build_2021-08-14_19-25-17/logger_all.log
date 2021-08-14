@@ -1,0 +1,194 @@
+[0.203s] DEBUG:colcon:Command line arguments: ['/usr/bin/colcon', 'build']
+[0.204s] DEBUG:colcon:Parsed command line arguments: Namespace(ament_cmake_args=None, base_paths=['.'], build_base='build', catkin_cmake_args=None, catkin_skip_building_tests=False, cmake_args=None, cmake_clean_cache=False, cmake_clean_first=False, cmake_force_configure=False, cmake_target=None, cmake_target_skip_unavailable=False, continue_on_error=False, event_handlers=None, executor='parallel', ignore_user_meta=False, install_base='install', log_base=None, log_level=None, main=<bound method BuildVerb.main of <colcon_core.verb.build.BuildVerb object at 0x7f376e6b4780>>, merge_install=False, metas=['./colcon.meta'], packages_above=None, packages_above_and_dependencies=None, packages_above_depth=None, packages_end=None, packages_ignore=None, packages_ignore_regex=None, packages_select=None, packages_select_build_failed=False, packages_select_by_dep=None, packages_select_regex=None, packages_select_test_failures=False, packages_skip=None, packages_skip_build_finished=False, packages_skip_by_dep=None, packages_skip_regex=None, packages_skip_test_passed=False, packages_skip_up_to=None, packages_start=None, packages_up_to=None, packages_up_to_regex=None, parallel_workers=4, paths=None, symlink_install=False, test_result_base=None, verb_extension=<colcon_core.verb.build.BuildVerb object at 0x7f376e6b4780>, verb_name='build', verb_parser=<colcon_defaults.argument_parser.defaults.DefaultArgumentsDecorator object at 0x7f376e6b4ac8>)
+[0.212s] Level 1:colcon.colcon_core.package_discovery:discover_packages(colcon_meta) check parameters
+[0.212s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) check parameters
+[0.212s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) check parameters
+[0.213s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) check parameters
+[0.213s] Level 1:colcon.colcon_core.package_discovery:discover_packages(colcon_meta) discover
+[0.213s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) discover
+[0.213s] INFO:colcon.colcon_core.package_discovery:Crawling recursively for packages in '/home/elias/catkin_ws/src/arena-rosnav-3D/src'
+[0.213s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['ignore', 'ignore_ament_install']
+[0.214s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ignore'
+[0.214s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ignore_ament_install'
+[0.214s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['colcon_pkg']
+[0.214s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'colcon_pkg'
+[0.214s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['colcon_meta']
+[0.214s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'colcon_meta'
+[0.214s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['ros']
+[0.214s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ros'
+[0.228s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['cmake', 'python']
+[0.228s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'cmake'
+[0.228s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'python'
+[0.228s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['python_setup_py']
+[0.229s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'python_setup_py'
+[0.229s] Level 1:colcon.colcon_core.package_identification:_identify(aws-robomaker-hospital-world) by extensions ['ignore', 'ignore_ament_install']
+[0.229s] Level 1:colcon.colcon_core.package_identification:_identify(aws-robomaker-hospital-world) by extension 'ignore'
+[0.229s] Level 1:colcon.colcon_core.package_identification:_identify(aws-robomaker-hospital-world) by extension 'ignore_ament_install'
+[0.229s] Level 1:colcon.colcon_core.package_identification:_identify(aws-robomaker-hospital-world) by extensions ['colcon_pkg']
+[0.229s] Level 1:colcon.colcon_core.package_identification:_identify(aws-robomaker-hospital-world) by extension 'colcon_pkg'
+[0.229s] Level 1:colcon.colcon_core.package_identification:_identify(aws-robomaker-hospital-world) by extensions ['colcon_meta']
+[0.229s] Level 1:colcon.colcon_core.package_identification:_identify(aws-robomaker-hospital-world) by extension 'colcon_meta'
+[0.230s] Level 1:colcon.colcon_core.package_identification:_identify(aws-robomaker-hospital-world) by extensions ['ros']
+[0.230s] Level 1:colcon.colcon_core.package_identification:_identify(aws-robomaker-hospital-world) by extension 'ros'
+[0.232s] DEBUG:colcon.colcon_core.package_identification:Package 'aws-robomaker-hospital-world' with type 'ros.catkin' and name 'aws_robomaker_hospital_world'
+[0.233s] Level 1:colcon.colcon_core.package_identification:_identify(aws-robomaker-small-warehouse-world) by extensions ['ignore', 'ignore_ament_install']
+[0.233s] Level 1:colcon.colcon_core.package_identification:_identify(aws-robomaker-small-warehouse-world) by extension 'ignore'
+[0.233s] Level 1:colcon.colcon_core.package_identification:_identify(aws-robomaker-small-warehouse-world) by extension 'ignore_ament_install'
+[0.233s] Level 1:colcon.colcon_core.package_identification:_identify(aws-robomaker-small-warehouse-world) by extensions ['colcon_pkg']
+[0.233s] Level 1:colcon.colcon_core.package_identification:_identify(aws-robomaker-small-warehouse-world) by extension 'colcon_pkg'
+[0.233s] Level 1:colcon.colcon_core.package_identification:_identify(aws-robomaker-small-warehouse-world) by extensions ['colcon_meta']
+[0.233s] Level 1:colcon.colcon_core.package_identification:_identify(aws-robomaker-small-warehouse-world) by extension 'colcon_meta'
+[0.233s] Level 1:colcon.colcon_core.package_identification:_identify(aws-robomaker-small-warehouse-world) by extensions ['ros']
+[0.234s] Level 1:colcon.colcon_core.package_identification:_identify(aws-robomaker-small-warehouse-world) by extension 'ros'
+[0.234s] DEBUG:colcon.colcon_core.package_identification:Package 'aws-robomaker-small-warehouse-world' with type 'ros.catkin' and name 'aws_robomaker_small_warehouse_world'
+[0.235s] Level 1:colcon.colcon_core.package_identification:_identify(build) by extensions ['ignore', 'ignore_ament_install']
+[0.235s] Level 1:colcon.colcon_core.package_identification:_identify(build) by extension 'ignore'
+[0.235s] Level 1:colcon.colcon_core.package_identification:_identify(build) ignored
+[0.235s] Level 1:colcon.colcon_core.package_identification:_identify(install) by extensions ['ignore', 'ignore_ament_install']
+[0.236s] Level 1:colcon.colcon_core.package_identification:_identify(install) by extension 'ignore'
+[0.236s] Level 1:colcon.colcon_core.package_identification:_identify(install) ignored
+[0.236s] Level 1:colcon.colcon_core.package_identification:_identify(log) by extensions ['ignore', 'ignore_ament_install']
+[0.236s] Level 1:colcon.colcon_core.package_identification:_identify(log) by extension 'ignore'
+[0.236s] Level 1:colcon.colcon_core.package_identification:_identify(log) ignored
+[0.236s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) using defaults
+[0.236s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) discover
+[0.237s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) using defaults
+[0.237s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) discover
+[0.237s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) using defaults
+[0.261s] Level 5:colcon.colcon_core.verb:set package 'aws_robomaker_hospital_world' build argument 'cmake_args' from command line to 'None'
+[0.261s] Level 5:colcon.colcon_core.verb:set package 'aws_robomaker_hospital_world' build argument 'cmake_target' from command line to 'None'
+[0.262s] Level 5:colcon.colcon_core.verb:set package 'aws_robomaker_hospital_world' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.262s] Level 5:colcon.colcon_core.verb:set package 'aws_robomaker_hospital_world' build argument 'cmake_clean_cache' from command line to 'False'
+[0.262s] Level 5:colcon.colcon_core.verb:set package 'aws_robomaker_hospital_world' build argument 'cmake_clean_first' from command line to 'False'
+[0.262s] Level 5:colcon.colcon_core.verb:set package 'aws_robomaker_hospital_world' build argument 'cmake_force_configure' from command line to 'False'
+[0.262s] Level 5:colcon.colcon_core.verb:set package 'aws_robomaker_hospital_world' build argument 'ament_cmake_args' from command line to 'None'
+[0.262s] Level 5:colcon.colcon_core.verb:set package 'aws_robomaker_hospital_world' build argument 'catkin_cmake_args' from command line to 'None'
+[0.262s] Level 5:colcon.colcon_core.verb:set package 'aws_robomaker_hospital_world' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.262s] DEBUG:colcon.colcon_core.verb:Building package 'aws_robomaker_hospital_world' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/elias/catkin_ws/src/arena-rosnav-3D/src/build/aws_robomaker_hospital_world', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/elias/catkin_ws/src/arena-rosnav-3D/src/install/aws_robomaker_hospital_world', 'merge_install': False, 'path': '/home/elias/catkin_ws/src/arena-rosnav-3D/src/aws-robomaker-hospital-world', 'symlink_install': False, 'test_result_base': None}
+[0.267s] Level 5:colcon.colcon_core.verb:set package 'aws_robomaker_small_warehouse_world' build argument 'cmake_args' from command line to 'None'
+[0.267s] Level 5:colcon.colcon_core.verb:set package 'aws_robomaker_small_warehouse_world' build argument 'cmake_target' from command line to 'None'
+[0.267s] Level 5:colcon.colcon_core.verb:set package 'aws_robomaker_small_warehouse_world' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.267s] Level 5:colcon.colcon_core.verb:set package 'aws_robomaker_small_warehouse_world' build argument 'cmake_clean_cache' from command line to 'False'
+[0.267s] Level 5:colcon.colcon_core.verb:set package 'aws_robomaker_small_warehouse_world' build argument 'cmake_clean_first' from command line to 'False'
+[0.267s] Level 5:colcon.colcon_core.verb:set package 'aws_robomaker_small_warehouse_world' build argument 'cmake_force_configure' from command line to 'False'
+[0.267s] Level 5:colcon.colcon_core.verb:set package 'aws_robomaker_small_warehouse_world' build argument 'ament_cmake_args' from command line to 'None'
+[0.267s] Level 5:colcon.colcon_core.verb:set package 'aws_robomaker_small_warehouse_world' build argument 'catkin_cmake_args' from command line to 'None'
+[0.267s] Level 5:colcon.colcon_core.verb:set package 'aws_robomaker_small_warehouse_world' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.268s] DEBUG:colcon.colcon_core.verb:Building package 'aws_robomaker_small_warehouse_world' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/elias/catkin_ws/src/arena-rosnav-3D/src/build/aws_robomaker_small_warehouse_world', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/elias/catkin_ws/src/arena-rosnav-3D/src/install/aws_robomaker_small_warehouse_world', 'merge_install': False, 'path': '/home/elias/catkin_ws/src/arena-rosnav-3D/src/aws-robomaker-small-warehouse-world', 'symlink_install': False, 'test_result_base': None}
+[0.268s] INFO:colcon.colcon_core.executor:Executing jobs using 'parallel' executor
+[0.271s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:run_until_complete
+[0.271s] INFO:colcon.colcon_ros.task.catkin.build:Building ROS package in '/home/elias/catkin_ws/src/arena-rosnav-3D/src/aws-robomaker-hospital-world' with build type 'catkin'
+[0.272s] INFO:colcon.colcon_cmake.task.cmake.build:Building CMake package in '/home/elias/catkin_ws/src/arena-rosnav-3D/src/aws-robomaker-hospital-world'
+[0.283s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_core.shell.bat': Not used on non-Windows systems
+[0.283s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.284s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[0.287s] DEBUG:colcon.colcon_core.shell:Ignoring prefix path '/home/elias/catkin_ws/devel'
+[0.287s] DEBUG:colcon.colcon_core.shell:Ignoring prefix path '/opt/ros/melodic'
+[0.290s] INFO:colcon.colcon_ros.task.catkin.build:Building ROS package in '/home/elias/catkin_ws/src/arena-rosnav-3D/src/aws-robomaker-small-warehouse-world' with build type 'catkin'
+[0.291s] INFO:colcon.colcon_cmake.task.cmake.build:Building CMake package in '/home/elias/catkin_ws/src/arena-rosnav-3D/src/aws-robomaker-small-warehouse-world'
+[0.293s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.293s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[0.299s] DEBUG:colcon.colcon_core.shell:Ignoring prefix path '/home/elias/catkin_ws/devel'
+[0.299s] DEBUG:colcon.colcon_core.shell:Ignoring prefix path '/opt/ros/melodic'
+[0.332s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/elias/catkin_ws/src/arena-rosnav-3D/src/build/aws_robomaker_hospital_world': /usr/bin/cmake /home/elias/catkin_ws/src/arena-rosnav-3D/src/aws-robomaker-hospital-world -DCATKIN_INSTALL_INTO_PREFIX_ROOT=0 -DCMAKE_INSTALL_PREFIX=/home/elias/catkin_ws/src/arena-rosnav-3D/src/install/aws_robomaker_hospital_world
+[0.351s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/elias/catkin_ws/src/arena-rosnav-3D/src/build/aws_robomaker_small_warehouse_world': /usr/bin/cmake /home/elias/catkin_ws/src/arena-rosnav-3D/src/aws-robomaker-small-warehouse-world -DCATKIN_INSTALL_INTO_PREFIX_ROOT=0 -DCMAKE_INSTALL_PREFIX=/home/elias/catkin_ws/src/arena-rosnav-3D/src/install/aws_robomaker_small_warehouse_world
+[4.039s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/elias/catkin_ws/src/arena-rosnav-3D/src/build/aws_robomaker_small_warehouse_world' returned '0': /usr/bin/cmake /home/elias/catkin_ws/src/arena-rosnav-3D/src/aws-robomaker-small-warehouse-world -DCATKIN_INSTALL_INTO_PREFIX_ROOT=0 -DCMAKE_INSTALL_PREFIX=/home/elias/catkin_ws/src/arena-rosnav-3D/src/install/aws_robomaker_small_warehouse_world
+[4.041s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/elias/catkin_ws/src/arena-rosnav-3D/src/build/aws_robomaker_small_warehouse_world': /usr/bin/cmake --build /home/elias/catkin_ws/src/arena-rosnav-3D/src/build/aws_robomaker_small_warehouse_world -- -j4 -l4
+[4.114s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/elias/catkin_ws/src/arena-rosnav-3D/src/build/aws_robomaker_small_warehouse_world' returned '0': /usr/bin/cmake --build /home/elias/catkin_ws/src/arena-rosnav-3D/src/build/aws_robomaker_small_warehouse_world -- -j4 -l4
+[4.254s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/elias/catkin_ws/src/arena-rosnav-3D/src/build/aws_robomaker_small_warehouse_world': /usr/bin/cmake --build /home/elias/catkin_ws/src/arena-rosnav-3D/src/build/aws_robomaker_small_warehouse_world --target tests -- -j4 -l4
+[4.370s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/elias/catkin_ws/src/arena-rosnav-3D/src/build/aws_robomaker_small_warehouse_world' returned '0': /usr/bin/cmake --build /home/elias/catkin_ws/src/arena-rosnav-3D/src/build/aws_robomaker_small_warehouse_world --target tests -- -j4 -l4
+[4.525s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/elias/catkin_ws/src/arena-rosnav-3D/src/build/aws_robomaker_small_warehouse_world': /usr/bin/cmake --build /home/elias/catkin_ws/src/arena-rosnav-3D/src/build/aws_robomaker_small_warehouse_world --target install -- -j4 -l4
+[4.745s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/elias/catkin_ws/src/arena-rosnav-3D/src/build/aws_robomaker_small_warehouse_world' returned '0': /usr/bin/cmake --build /home/elias/catkin_ws/src/arena-rosnav-3D/src/build/aws_robomaker_small_warehouse_world --target install -- -j4 -l4
+[4.872s] Level 1:colcon.colcon_core.shell:create_environment_hook('aws_robomaker_small_warehouse_world', 'ros_package_path')
+[4.874s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/elias/catkin_ws/src/arena-rosnav-3D/src/install/aws_robomaker_small_warehouse_world/share/aws_robomaker_small_warehouse_world/hook/ros_package_path.ps1'
+[4.877s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/elias/catkin_ws/src/arena-rosnav-3D/src/install/aws_robomaker_small_warehouse_world/share/aws_robomaker_small_warehouse_world/hook/ros_package_path.dsv'
+[4.883s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/elias/catkin_ws/src/arena-rosnav-3D/src/install/aws_robomaker_small_warehouse_world/share/aws_robomaker_small_warehouse_world/hook/ros_package_path.sh'
+[4.887s] Level 1:colcon.colcon_ros.task.catkin:checking '/home/elias/catkin_ws/src/arena-rosnav-3D/src/install/aws_robomaker_small_warehouse_world/lib/python2.7/dist-packages'
+[4.887s] Level 1:colcon.colcon_core.shell:create_environment_hook('aws_robomaker_small_warehouse_world', 'pkg_config_path')
+[4.887s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/elias/catkin_ws/src/arena-rosnav-3D/src/install/aws_robomaker_small_warehouse_world/share/aws_robomaker_small_warehouse_world/hook/pkg_config_path.ps1'
+[4.888s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/elias/catkin_ws/src/arena-rosnav-3D/src/install/aws_robomaker_small_warehouse_world/share/aws_robomaker_small_warehouse_world/hook/pkg_config_path.dsv'
+[4.889s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/elias/catkin_ws/src/arena-rosnav-3D/src/install/aws_robomaker_small_warehouse_world/share/aws_robomaker_small_warehouse_world/hook/pkg_config_path.sh'
+[4.893s] Level 1:colcon.colcon_core.shell:create_environment_hook('aws_robomaker_small_warehouse_world', 'pkg_config_path_multiarch')
+[4.895s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/elias/catkin_ws/src/arena-rosnav-3D/src/install/aws_robomaker_small_warehouse_world/share/aws_robomaker_small_warehouse_world/hook/pkg_config_path_multiarch.ps1'
+[4.895s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/elias/catkin_ws/src/arena-rosnav-3D/src/install/aws_robomaker_small_warehouse_world/share/aws_robomaker_small_warehouse_world/hook/pkg_config_path_multiarch.dsv'
+[4.896s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/elias/catkin_ws/src/arena-rosnav-3D/src/install/aws_robomaker_small_warehouse_world/share/aws_robomaker_small_warehouse_world/hook/pkg_config_path_multiarch.sh'
+[4.899s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(aws_robomaker_small_warehouse_world)
+[4.908s] Level 1:colcon.colcon_core.environment:checking '/home/elias/catkin_ws/src/arena-rosnav-3D/src/install/aws_robomaker_small_warehouse_world' for CMake module files
+[4.910s] Level 1:colcon.colcon_core.environment:checking '/home/elias/catkin_ws/src/arena-rosnav-3D/src/install/aws_robomaker_small_warehouse_world' for CMake config files
+[4.913s] Level 1:colcon.colcon_core.shell:create_environment_hook('aws_robomaker_small_warehouse_world', 'cmake_prefix_path')
+[4.914s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/elias/catkin_ws/src/arena-rosnav-3D/src/install/aws_robomaker_small_warehouse_world/share/aws_robomaker_small_warehouse_world/hook/cmake_prefix_path.ps1'
+[4.915s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/elias/catkin_ws/src/arena-rosnav-3D/src/install/aws_robomaker_small_warehouse_world/share/aws_robomaker_small_warehouse_world/hook/cmake_prefix_path.dsv'
+[4.916s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/elias/catkin_ws/src/arena-rosnav-3D/src/install/aws_robomaker_small_warehouse_world/share/aws_robomaker_small_warehouse_world/hook/cmake_prefix_path.sh'
+[4.919s] Level 1:colcon.colcon_core.environment:checking '/home/elias/catkin_ws/src/arena-rosnav-3D/src/install/aws_robomaker_small_warehouse_world/lib'
+[4.920s] Level 1:colcon.colcon_core.environment:checking '/home/elias/catkin_ws/src/arena-rosnav-3D/src/install/aws_robomaker_small_warehouse_world/bin'
+[4.920s] Level 1:colcon.colcon_core.environment:checking '/home/elias/catkin_ws/src/arena-rosnav-3D/src/install/aws_robomaker_small_warehouse_world/lib/pkgconfig/aws_robomaker_small_warehouse_world.pc'
+[4.921s] Level 1:colcon.colcon_core.shell:create_environment_hook('aws_robomaker_small_warehouse_world', 'pkg_config')
+[4.922s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/elias/catkin_ws/src/arena-rosnav-3D/src/install/aws_robomaker_small_warehouse_world/share/aws_robomaker_small_warehouse_world/hook/pkg_config.ps1'
+[4.923s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/elias/catkin_ws/src/arena-rosnav-3D/src/install/aws_robomaker_small_warehouse_world/share/aws_robomaker_small_warehouse_world/hook/pkg_config.dsv'
+[4.923s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/elias/catkin_ws/src/arena-rosnav-3D/src/install/aws_robomaker_small_warehouse_world/share/aws_robomaker_small_warehouse_world/hook/pkg_config.sh'
+[4.924s] Level 1:colcon.colcon_core.environment:checking '/home/elias/catkin_ws/src/arena-rosnav-3D/src/install/aws_robomaker_small_warehouse_world/lib/python3.6/site-packages'
+[4.926s] INFO:colcon.colcon_core.shell:Creating package script '/home/elias/catkin_ws/src/arena-rosnav-3D/src/install/aws_robomaker_small_warehouse_world/share/aws_robomaker_small_warehouse_world/package.ps1'
+[4.929s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/elias/catkin_ws/src/arena-rosnav-3D/src/install/aws_robomaker_small_warehouse_world/share/aws_robomaker_small_warehouse_world/package.dsv'
+[4.931s] INFO:colcon.colcon_core.shell:Creating package script '/home/elias/catkin_ws/src/arena-rosnav-3D/src/install/aws_robomaker_small_warehouse_world/share/aws_robomaker_small_warehouse_world/package.sh'
+[4.933s] INFO:colcon.colcon_core.shell:Creating package script '/home/elias/catkin_ws/src/arena-rosnav-3D/src/install/aws_robomaker_small_warehouse_world/share/aws_robomaker_small_warehouse_world/package.bash'
+[4.935s] INFO:colcon.colcon_core.shell:Creating package script '/home/elias/catkin_ws/src/arena-rosnav-3D/src/install/aws_robomaker_small_warehouse_world/share/aws_robomaker_small_warehouse_world/package.zsh'
+[4.937s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/elias/catkin_ws/src/arena-rosnav-3D/src/install/aws_robomaker_small_warehouse_world/share/colcon-core/packages/aws_robomaker_small_warehouse_world)
+[1156.249s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/elias/catkin_ws/src/arena-rosnav-3D/src/build/aws_robomaker_hospital_world' returned '0': /usr/bin/cmake /home/elias/catkin_ws/src/arena-rosnav-3D/src/aws-robomaker-hospital-world -DCATKIN_INSTALL_INTO_PREFIX_ROOT=0 -DCMAKE_INSTALL_PREFIX=/home/elias/catkin_ws/src/arena-rosnav-3D/src/install/aws_robomaker_hospital_world
+[1156.253s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/elias/catkin_ws/src/arena-rosnav-3D/src/build/aws_robomaker_hospital_world': /usr/bin/cmake --build /home/elias/catkin_ws/src/arena-rosnav-3D/src/build/aws_robomaker_hospital_world -- -j4 -l4
+[1156.321s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/elias/catkin_ws/src/arena-rosnav-3D/src/build/aws_robomaker_hospital_world' returned '0': /usr/bin/cmake --build /home/elias/catkin_ws/src/arena-rosnav-3D/src/build/aws_robomaker_hospital_world -- -j4 -l4
+[1156.410s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/elias/catkin_ws/src/arena-rosnav-3D/src/build/aws_robomaker_hospital_world': /usr/bin/cmake --build /home/elias/catkin_ws/src/arena-rosnav-3D/src/build/aws_robomaker_hospital_world --target tests -- -j4 -l4
+[1156.527s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/elias/catkin_ws/src/arena-rosnav-3D/src/build/aws_robomaker_hospital_world' returned '0': /usr/bin/cmake --build /home/elias/catkin_ws/src/arena-rosnav-3D/src/build/aws_robomaker_hospital_world --target tests -- -j4 -l4
+[1156.619s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/elias/catkin_ws/src/arena-rosnav-3D/src/build/aws_robomaker_hospital_world': /usr/bin/cmake --build /home/elias/catkin_ws/src/arena-rosnav-3D/src/build/aws_robomaker_hospital_world --target install -- -j4 -l4
+[1157.047s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/elias/catkin_ws/src/arena-rosnav-3D/src/build/aws_robomaker_hospital_world' returned '0': /usr/bin/cmake --build /home/elias/catkin_ws/src/arena-rosnav-3D/src/build/aws_robomaker_hospital_world --target install -- -j4 -l4
+[1157.149s] Level 1:colcon.colcon_core.shell:create_environment_hook('aws_robomaker_hospital_world', 'ros_package_path')
+[1157.151s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/elias/catkin_ws/src/arena-rosnav-3D/src/install/aws_robomaker_hospital_world/share/aws_robomaker_hospital_world/hook/ros_package_path.ps1'
+[1157.152s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/elias/catkin_ws/src/arena-rosnav-3D/src/install/aws_robomaker_hospital_world/share/aws_robomaker_hospital_world/hook/ros_package_path.dsv'
+[1157.152s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/elias/catkin_ws/src/arena-rosnav-3D/src/install/aws_robomaker_hospital_world/share/aws_robomaker_hospital_world/hook/ros_package_path.sh'
+[1157.153s] Level 1:colcon.colcon_ros.task.catkin:checking '/home/elias/catkin_ws/src/arena-rosnav-3D/src/install/aws_robomaker_hospital_world/lib/python2.7/dist-packages'
+[1157.154s] Level 1:colcon.colcon_core.shell:create_environment_hook('aws_robomaker_hospital_world', 'pkg_config_path')
+[1157.155s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/elias/catkin_ws/src/arena-rosnav-3D/src/install/aws_robomaker_hospital_world/share/aws_robomaker_hospital_world/hook/pkg_config_path.ps1'
+[1157.156s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/elias/catkin_ws/src/arena-rosnav-3D/src/install/aws_robomaker_hospital_world/share/aws_robomaker_hospital_world/hook/pkg_config_path.dsv'
+[1157.156s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/elias/catkin_ws/src/arena-rosnav-3D/src/install/aws_robomaker_hospital_world/share/aws_robomaker_hospital_world/hook/pkg_config_path.sh'
+[1157.157s] Level 1:colcon.colcon_core.shell:create_environment_hook('aws_robomaker_hospital_world', 'pkg_config_path_multiarch')
+[1157.158s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/elias/catkin_ws/src/arena-rosnav-3D/src/install/aws_robomaker_hospital_world/share/aws_robomaker_hospital_world/hook/pkg_config_path_multiarch.ps1'
+[1157.159s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/elias/catkin_ws/src/arena-rosnav-3D/src/install/aws_robomaker_hospital_world/share/aws_robomaker_hospital_world/hook/pkg_config_path_multiarch.dsv'
+[1157.159s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/elias/catkin_ws/src/arena-rosnav-3D/src/install/aws_robomaker_hospital_world/share/aws_robomaker_hospital_world/hook/pkg_config_path_multiarch.sh'
+[1157.183s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(aws_robomaker_hospital_world)
+[1157.185s] Level 1:colcon.colcon_core.environment:checking '/home/elias/catkin_ws/src/arena-rosnav-3D/src/install/aws_robomaker_hospital_world' for CMake module files
+[1157.186s] Level 1:colcon.colcon_core.environment:checking '/home/elias/catkin_ws/src/arena-rosnav-3D/src/install/aws_robomaker_hospital_world' for CMake config files
+[1157.197s] Level 1:colcon.colcon_core.shell:create_environment_hook('aws_robomaker_hospital_world', 'cmake_prefix_path')
+[1157.199s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/elias/catkin_ws/src/arena-rosnav-3D/src/install/aws_robomaker_hospital_world/share/aws_robomaker_hospital_world/hook/cmake_prefix_path.ps1'
+[1157.199s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/elias/catkin_ws/src/arena-rosnav-3D/src/install/aws_robomaker_hospital_world/share/aws_robomaker_hospital_world/hook/cmake_prefix_path.dsv'
+[1157.200s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/elias/catkin_ws/src/arena-rosnav-3D/src/install/aws_robomaker_hospital_world/share/aws_robomaker_hospital_world/hook/cmake_prefix_path.sh'
+[1157.201s] Level 1:colcon.colcon_core.environment:checking '/home/elias/catkin_ws/src/arena-rosnav-3D/src/install/aws_robomaker_hospital_world/lib'
+[1157.201s] Level 1:colcon.colcon_core.environment:checking '/home/elias/catkin_ws/src/arena-rosnav-3D/src/install/aws_robomaker_hospital_world/bin'
+[1157.201s] Level 1:colcon.colcon_core.environment:checking '/home/elias/catkin_ws/src/arena-rosnav-3D/src/install/aws_robomaker_hospital_world/lib/pkgconfig/aws_robomaker_hospital_world.pc'
+[1157.201s] Level 1:colcon.colcon_core.shell:create_environment_hook('aws_robomaker_hospital_world', 'pkg_config')
+[1157.202s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/elias/catkin_ws/src/arena-rosnav-3D/src/install/aws_robomaker_hospital_world/share/aws_robomaker_hospital_world/hook/pkg_config.ps1'
+[1157.202s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/elias/catkin_ws/src/arena-rosnav-3D/src/install/aws_robomaker_hospital_world/share/aws_robomaker_hospital_world/hook/pkg_config.dsv'
+[1157.204s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/elias/catkin_ws/src/arena-rosnav-3D/src/install/aws_robomaker_hospital_world/share/aws_robomaker_hospital_world/hook/pkg_config.sh'
+[1157.204s] Level 1:colcon.colcon_core.environment:checking '/home/elias/catkin_ws/src/arena-rosnav-3D/src/install/aws_robomaker_hospital_world/lib/python3.6/site-packages'
+[1157.205s] INFO:colcon.colcon_core.shell:Creating package script '/home/elias/catkin_ws/src/arena-rosnav-3D/src/install/aws_robomaker_hospital_world/share/aws_robomaker_hospital_world/package.ps1'
+[1157.206s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/elias/catkin_ws/src/arena-rosnav-3D/src/install/aws_robomaker_hospital_world/share/aws_robomaker_hospital_world/package.dsv'
+[1157.207s] INFO:colcon.colcon_core.shell:Creating package script '/home/elias/catkin_ws/src/arena-rosnav-3D/src/install/aws_robomaker_hospital_world/share/aws_robomaker_hospital_world/package.sh'
+[1157.208s] INFO:colcon.colcon_core.shell:Creating package script '/home/elias/catkin_ws/src/arena-rosnav-3D/src/install/aws_robomaker_hospital_world/share/aws_robomaker_hospital_world/package.bash'
+[1157.208s] INFO:colcon.colcon_core.shell:Creating package script '/home/elias/catkin_ws/src/arena-rosnav-3D/src/install/aws_robomaker_hospital_world/share/aws_robomaker_hospital_world/package.zsh'
+[1157.209s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/elias/catkin_ws/src/arena-rosnav-3D/src/install/aws_robomaker_hospital_world/share/colcon-core/packages/aws_robomaker_hospital_world)
+[1157.210s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:closing loop
+[1157.212s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:loop closed
+[1157.212s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:run_until_complete finished with '0'
+[1157.212s] DEBUG:colcon.colcon_core.event_reactor:joining thread
+[1157.220s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.terminal_notifier': Not used on non-Darwin systems
+[1157.221s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.win32': Not used on non-Windows systems
+[1157.221s] INFO:colcon.colcon_notification.desktop_notification:Sending desktop notification using 'notify2'
+[1157.232s] DEBUG:colcon.colcon_core.event_reactor:joined thread
+[1157.234s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/elias/catkin_ws/src/arena-rosnav-3D/src/install/local_setup.ps1'
+[1157.236s] INFO:colcon.colcon_core.shell:Creating prefix util module '/home/elias/catkin_ws/src/arena-rosnav-3D/src/install/_local_setup_util_ps1.py'
+[1157.238s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/elias/catkin_ws/src/arena-rosnav-3D/src/install/setup.ps1'
+[1157.245s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/elias/catkin_ws/src/arena-rosnav-3D/src/install/local_setup.sh'
+[1157.246s] INFO:colcon.colcon_core.shell:Creating prefix util module '/home/elias/catkin_ws/src/arena-rosnav-3D/src/install/_local_setup_util_sh.py'
+[1157.247s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/elias/catkin_ws/src/arena-rosnav-3D/src/install/setup.sh'
+[1157.252s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/elias/catkin_ws/src/arena-rosnav-3D/src/install/local_setup.bash'
+[1157.253s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/elias/catkin_ws/src/arena-rosnav-3D/src/install/setup.bash'
+[1157.258s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/elias/catkin_ws/src/arena-rosnav-3D/src/install/local_setup.zsh'
+[1157.260s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/elias/catkin_ws/src/arena-rosnav-3D/src/install/setup.zsh'

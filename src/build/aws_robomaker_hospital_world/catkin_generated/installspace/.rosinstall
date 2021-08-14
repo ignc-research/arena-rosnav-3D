@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/elias/catkin_ws/src/arena-rosnav-3D/src/install/aws_robomaker_hospital_world/setup.sh
