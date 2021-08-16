@@ -1,8 +1,0 @@
-prefix=/home/elias/catkin_ws/src/arena-rosnav-3D/src/build/aws_robomaker_small_warehouse_world/devel
-
-Name: aws_robomaker_small_warehouse_world
-Description: Description of aws_robomaker_small_warehouse_world
-Version: 1.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 

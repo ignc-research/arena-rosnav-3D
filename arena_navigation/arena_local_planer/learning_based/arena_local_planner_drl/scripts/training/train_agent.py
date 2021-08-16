@@ -29,7 +29,8 @@ from arena_navigation.arena_local_planner.learning_based.arena_local_planner_drl
 )
 
 
-def get_agent_name(args) -> str:
+def get_agent_name(args):
+    # type: () -> str
     """Function to get agent name to save to/load from file system
 
     Example names:
@@ -58,7 +59,8 @@ def get_agent_name(args) -> str:
     return args.load
 
 
-def get_paths(agent_name: str, args) -> dict:
+def get_paths(agent_name: str, args):
+    # type: (str) -> dict
     """
     Function to generate agent specific paths
 
@@ -108,14 +110,8 @@ def get_paths(agent_name: str, args) -> dict:
     return PATHS
 
 
-def make_envs(
-    with_ns: bool,
-    rank: int,
-    params: dict,
-    seed: int = 0,
-    PATHS: dict = None,
-    train: bool = True,
-):
+def make_envs(with_ns, rank, params, seed = 0, PATHS= None, train = True,):
+    # type: (bool, int, dict, int, dict, bool) -> Any
     """
     Utility function for multiprocessed env
 
@@ -129,9 +125,10 @@ def make_envs(
     :return: (Callable)
     """
 
-    def _init() -> Union[gym.Env, gym.Wrapper]:
-        train_ns = f"sim_{rank+1}" if with_ns else ""
-        eval_ns = f"eval_sim" if with_ns else ""
+    def _init():
+        # type: () -> Union[gym.Env, gym.Wrapper]
+        train_ns = "sim_%d" % (rank+1) if with_ns else ""
+        eval_ns = "eval_sim" if with_ns else ""
 
         if train:
             # train env
@@ -171,9 +168,8 @@ def make_envs(
     return _init
 
 
-def wait_for_nodes(
-    with_ns: bool, n_envs: int, timeout: int = 30, nodes_per_ns: int = 3
-):
+def wait_for_nodes(with_ns, n_envs, timeout = 30, nodes_per_ns = 3):
+    # type: (bool, int, int, int) -> Any
     """
     Checks for timeout seconds if all nodes to corresponding namespace are online.
 
@@ -185,11 +181,11 @@ def wait_for_nodes(
     if with_ns:
         assert (
             with_ns and n_envs >= 1
-        ), f"Illegal number of environments parsed: {n_envs}"
+        ), "Illegal number of environments parsed: ", n_envs
     else:
         assert (
             not with_ns and n_envs == 1
-        ), f"Simulation setup isn't compatible with the given number of envs"
+        ), "Simulation setup isn't compatible with the given number of envs"
 
     for i in range(n_envs):
         for k in range(timeout):
@@ -200,12 +196,12 @@ def wait_for_nodes(
                 break
 
             warnings.warn(
-                f"Check if all simulation parts of namespace '{ns}' are running properly"
+                "Check if all simulation parts of namespace '%s' are running properly" % ns
             )
-            warnings.warn(f"Trying to connect again..")
+            warnings.warn("Trying to connect again..")
             assert (
                 k < timeout - 1
-            ), f"Timeout while trying to connect to nodes of '{ns}'"
+            ), "Timeout while trying to connect to nodes of '%s'" % ns
 
             time.sleep(1)
 
@@ -477,6 +473,6 @@ if __name__ == "__main__":
         #update_total_timesteps_json(n_timesteps, PATHS)
 
     model.env.close()
-    print(f"Time passed: {time.time()-start}s")
+    print("Time passed: ", time.time()-start, " s")
     print("Training script will be terminated")
     sys.exit()

@@ -45,7 +45,8 @@ AGENTS = [
 ]
 
 
-def get_paths(args: dict, AGENT: str):
+def get_paths(args, AGENT):
+    # type: (dict, str)
     dir = rospkg.RosPack().get_path("arena_local_planner_drl")
     PATHS = {
         "model": os.path.join(dir, "agents", AGENT),
@@ -69,9 +70,8 @@ def get_paths(args: dict, AGENT: str):
     return PATHS
 
 
-def make_env(
-    with_ns: bool, PATHS: dict, PARAMS: dict, log: bool = False, max_steps: int = 1000
-):
+def make_env(with_ns, PATHS, PARAMS log = False, max_steps = 1000):
+    # type: (bool, dict, dict, bool, int) -> 
     """
     Utility function for the evaluation environment.
 

@@ -1,10 +1,10 @@
 
 <launch>
-<!--$(find simulator_setup)/scenarios/empty_map.json-->
-    <arg name="scenarios_json_path" default="/home/elias/catkin_ws/src/arena-rosnav-3D/arena_navigation/arena_local_planer/learning_based/arena_local_planner_drl/configs/training_curriculum_map1small.yaml"/>
+<!--/home/elias/catkin_ws/src/arena-rosnav-3D/arena_navigation/arena_local_planer/learning_based/arena_local_planner_drl/configs/training_curriculum_map1small.yaml-->
+    <arg name="scenarios_json_path" default="$(find simulator_setup)/scenarios/empty_map.json"/>
 
     <arg name="auto_reset" default="true" />
-    <arg name="task_mode" default="staged"  doc="task_mode type [scenario, random, manual, staged]"/>
+    <arg name="task_mode" default="scenario"  doc="task_mode type [scenario, random, manual, staged]"/>
     <arg name="delta" default="1.0"/>
     <arg name="timeout" default="2.0"/>     <!--  ************** minute  ***************  -->
     <!--  ************** task generator  ***************  -->

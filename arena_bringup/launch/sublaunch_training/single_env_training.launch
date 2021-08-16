@@ -1,6 +1,13 @@
 <launch>
     <arg name="ns" />
 
+    <!--args for simulation-->
+    <arg name="world" default="turtlebot3_house"/>
+    <arg name="model" default="burger"/>
+    <param name="world" value="$(arg world)" />
+    <param name="model" value="$(arg model)" />
+
+
     <!-- Don't change it if you don't know what does it mean! -->
     <arg name="global_frame_id"   value="map"/>
     <arg name="odom_frame_id"     value="$(arg ns)_odom"/>
@@ -26,6 +33,8 @@
     <!-- use simulator and rviz-->
     <include file="$(find arena_bringup)/launch/sublaunch_training/gazeboe_simulator.launch">
         <arg name="ns" value="$(arg ns)"/>
+        <arg name="world"  value="$(arg world)"/>
+        <arg name="model"  value="$(arg model)"/>
     </include>
 
   </launch>

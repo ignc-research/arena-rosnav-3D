@@ -1,7 +1,0 @@
-<launch>
-
-	<include file="$(find turtlebot3_gazebo)/launch/turtlebot3_world.launch"/>
-    <include file="$(find gz_arena_bringup)/launch/turtlebot3_navigation.launch"/>
-    <include file="$(find gz_arena_bringup)/launch/turtlebot3_gazebo_rviz.launch"/>
-
-</launch>

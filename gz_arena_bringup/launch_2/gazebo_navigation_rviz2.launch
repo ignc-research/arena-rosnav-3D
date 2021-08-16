@@ -1,8 +1,8 @@
 <launch>
 
     <include file="$(find turtlebot3_gazebo)/launch/turtlebot3_house.launch"/>
-    <include file="$(find gz_arena_bringup)/launch/turtlebot3_navigation.launch"/>
-    <include file="$(find gz_arena_bringup)/launch/turtlebot3_gazebo_rviz.launch"/>
+    <include file="$(find gz_arena_bringup)/launch_2/turtlebot3_navigation2.launch"/>
+    <include file="$(find gz_arena_bringup)/launch_2/turtlebot3_gazebo_rviz2.launch"/>
 
     <!-- Pedsim -->
     <arg name="enable_pedsim" default="true"/>

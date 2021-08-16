@@ -21,7 +21,7 @@ ROBOT_RADIUS = 0.17
 
 class RobotManager:
     """
-    A manager class using flatland provided services to spawn, move and delete Robot. Currently only one robot
+    A manager class using gazebo provided services to spawn, move and delete Robot. Currently only one robot
     is managed
     """
 

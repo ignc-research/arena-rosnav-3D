@@ -29,6 +29,53 @@ from pedsim_msgs.msg import LineObstacle
 from rospkg import RosPack
 
 
+
+
+
+from gazebo_msgs.srv import SpawnModel
+from geometry_msgs.msg import *
+from rospkg import RosPack
+import roslibpy
+
+global xml_file
+
+def spawn_object_gazebo():
+    #rospy.sleep(5)
+    rospack1 = RosPack()
+    pkg_path = rospack1.get_path('pedsim_gazebo_plugin')
+    default_actor_model_file = pkg_path + "/models/actor_model.sdf"
+
+    actor_model_file = rospy.get_param('~actor_model_file', default_actor_model_file)
+    file_xml = open(actor_model_file)
+    xml_string = file_xml.read()
+
+
+    rospy.wait_for_service("gazebo/spawn_sdf_model")
+    spawn_model = rospy.ServiceProxy("gazebo/spawn_sdf_model", SpawnModel)
+
+    def actor_poses_callback(actors):
+        for actor in actors.agent_states:
+            actor_id = str( actor.id )
+            actor_pose = actor.pose
+            rospy.loginfo("Spawning model: actor_id = %s", actor_id)
+
+            model_pose = Pose(Point(x= actor_pose.position.x,
+                                y= actor_pose.position.y,
+                                z= actor_pose.position.z),
+                            Quaternion(actor_pose.orientation.x,
+                                        actor_pose.orientation.y,
+                                        actor_pose.orientation.z,
+                                        actor_pose.orientation.w) )
+
+            spawn_model(actor_id, xml_string, "", model_pose, "world")
+        #rospy.signal_shutdown("all agents have been spawned !")
+        sub.unregister()
+
+    sub = rospy.Subscriber("/pedsim_simulator/simulated_agents", AgentStates, actor_poses_callback)
+
+
+
+
 standart_orientation = quaternion_from_euler(0.0,0.0,0.0)
 def generate_freespace_indices(map_):
     """generate the indices(represented in a tuple) of the freesapce based on the map
@@ -41,99 +88,6 @@ def generate_freespace_indices(map_):
     indices_y_x = np.where(map_2d == 0)
     return indices_y_x
 
-# def spawn_peds_in_gazebo():
-#     global xml_file
-
-#     def actor_poses_callback(actors):
- 
-#         for actor in actors.agent_states:
-#             actor_id = str( actor.id )
-#             memory.append(actor_id)
-#             actor_pose = actor.pose
-#             rospy.loginfo("Spawning model: actor_id = %s", actor_id)
-
-#             model_pose = Pose(Point(x= actor_pose.position.x,
-#                                 y= actor_pose.position.y,
-#                                 z= actor_pose.position.z),
-#                             Quaternion(actor_pose.orientation.x,
-#                                         actor_pose.orientation.y,
-#                                         actor_pose.orientation.z,
-#                                         actor_pose.orientation.w) )
-#             rospy.Subscriber('/gazebo/model_state', GetModelState)
-  
-#                 spawn_model(actor_id, xml_string, "", model_pose, "world")
-#                 memory.append(actor_id)
-#         return
-
-#     rospack1 = RosPack()
-#     pkg_path = rospack1.get_path('pedsim_gazebo_plugin')
-#     default_actor_model_file = pkg_path + "/models/actor_model.sdf"
-#     actor_model_file = rospy.get_param('~actor_model_file', default_actor_model_file)
-#     file_xml = open(actor_model_file)
-#     xml_string = file_xml.read()
-#     spawn_model = rospy.ServiceProxy("gazebo/spawn_sdf_model", SpawnModel)
-#     rospy.Subscriber("/pedsim_simulator/simulated_agents", AgentStates, actor_poses_callback)
-
-
-# class ObstaclesManager:
-#     """
-#     A manager class using flatland provided services to spawn, move and delete obstacles.
-#     """
-
-#     def __init__(self, ns, map_):
-#         # tpye (str, OccupancyGrid)
-#         """
-#         Args:
-#             map_ (OccupancyGrid):
-#             plugin_name: The name of the plugin which is used to control the movement of the obstacles, Currently we use "RandomMove" for training and Tween2 for evaluation.
-#                 The Plugin Tween2 can move the the obstacle along a trajectory which can be assigned by multiple waypoints with a constant velocity.Defaults to "RandomMove".
-#         """
-#         self.ns = ns
-#         self.ns_prefix = "" if ns == '' else "/"+ns+"/"
-
-#         # a list of publisher to move the obstacle to the start pos.
-#         self._move_all_obstacles_start_pos_pubs = []
-
-#         rospy.wait_for_service(f'{self.ns_prefix}SpawnModel', timeout=20)
-#         rospy.wait_for_service(f'{self.ns_prefix}DeleteModel', timeout=20)
-#         # allow for persistent connections to services
-#         self._srv_move_model = rospy.ServiceProxy(
-#             self.ns_prefix,'move_model', MoveModel, persistent=True) # persistent connection insted of reconecting each time
-#         self._srv_delete_model = rospy.ServiceProxy(
-#             self.ns_prefix, 'delete_model', DeleteModel, persistent=True)
-#         self._srv_spawn_model = rospy.ServiceProxy(
-#             self.ns_prefix, 'spawn_model', SpawnModel, persistent=True)
-
-#         self.update_map(map_)
-#         self.obstacle_name_list = []
-#         self._obstacle_name_prefix = 'obstacle'
-#         # remove all existing obstacles generated before create an instance of this class
-#         self.remove_obstacles()
-
-
-    # def update_map(self, new_map):
-    #     # type (OccupancyGrid)-> None
-    #     self.map = new_map
-    #     # a tuple stores the indices of the non-occupied spaces. format ((y,....),(x,...)
-    #     self._free_space_indices = generate_freespace_indices(self.map)
-
-    # def remove_obstacle(self, name):
-    #     # type (str) -> None
-    #     if len(self.obstacle_name_list) != 0:
-    #         assert name in self.obstacle_name_list
-    #     #srv_request = DeleteModelRequest()
-    #     #srv_request.name = name
-    #     response = self._srv_delete_model(srv_request)
-
-    #     if not response.success:
-    #         """
-    #         raise rospy.ServiceException(
-    #             f"failed to remove the object with the name: {name}! ")
-    #         """
-    #         warnings.warn(
-    #             f"failed to remove the object with the name: {name}!")
-    #     else:
-    #         rospy.logdebug(f"Removed the obstacle with the name {name}")
 
 
 class RobotManager:
@@ -312,6 +266,7 @@ class PedsimManager():
     def spawnPeds(self, peds):
         # type (List[Ped])
         res = self.spawn_peds_client.call(peds)
+        spawn_object_gazebo()
         print(res)
 
     def respawnPeds(self, peds):
