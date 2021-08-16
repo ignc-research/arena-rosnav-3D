@@ -6,14 +6,14 @@ from typing import Union
 from datetime import datetime as dt
 import warnings
 
-from stable_baselines3 import PPO
-from stable_baselines3.common.vec_env import SubprocVecEnv, DummyVecEnv, VecNormalize
-from stable_baselines3.common.monitor import Monitor
-from stable_baselines3.common.callbacks import (
-    EvalCallback,
-    StopTrainingOnRewardThreshold,
-)
-from stable_baselines3.common.utils import set_random_seed
+# from stable_baselines3 import PPO
+# from stable_baselines3.common.vec_env import SubprocVecEnv, DummyVecEnv, VecNormalize
+# from stable_baselines3.common.monitor import Monitor
+# from stable_baselines3.common.callbacks import (
+#     EvalCallback,
+#     StopTrainingOnRewardThreshold,
+# )
+# from stable_baselines3.common.utils import set_random_seed
 
 from arena_navigation.arena_local_planner.learning_based.arena_local_planner_drl.scripts.custom_policy import *
 from arena_navigation.arena_local_planner.learning_based.arena_local_planner_drl.rl_agent.envs.flatland_gym_env import (
@@ -59,7 +59,7 @@ def get_agent_name(args):
     return args.load
 
 
-def get_paths(agent_name: str, args):
+def get_paths(agent_name, args):
     # type: (str) -> dict
     """
     Function to generate agent specific paths
@@ -181,7 +181,7 @@ def wait_for_nodes(with_ns, n_envs, timeout = 30, nodes_per_ns = 3):
     if with_ns:
         assert (
             with_ns and n_envs >= 1
-        ), "Illegal number of environments parsed: ", n_envs
+        ), "Illegal number of environments parsed: %d" % n_envs
     else:
         assert (
             not with_ns and n_envs == 1
