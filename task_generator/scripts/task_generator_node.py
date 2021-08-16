@@ -17,6 +17,13 @@ class TaskGenerator:
 
         scenarios_json_path = rospy.get_param("~scenarios_json_path")
         paths = {"scenario": scenarios_json_path}
+        paths = {'curriculum': '/home/elias/catkin_ws/src/arena-rosnav-3D/arena_navigation/arena_local_planer/learning_based/arena_local_planner_drl/configs/training_curriculum_map1small.yaml', 
+                 'robot_setting': '/home/elias/catkin_ws/src/arena-rosnav-3D/simulator_setup/robot/myrobot.model.yaml', 
+                 'robot_as': '/home/elias/catkin_ws/src/arena-rosnav-3D/arena_navigation/arena_local_planer/learning_based/arena_local_planner_drl/configs/default_settings.yaml', 
+                 'hyperparams': '/home/elias/catkin_ws/src/arena-rosnav-3D/arena_navigation/arena_local_planer/learning_based/arena_local_planner_drl/configs/hyperparameters', 
+                 'eval': '/home/elias/catkin_ws/src/arena-rosnav-3D/arena_navigation/arena_local_planer/learning_based/arena_local_planner_drl/training_logs/train_eval_log/MLP_ARENA2D', 
+                 'model': '/home/elias/catkin_ws/src/arena-rosnav-3D/arena_navigation/arena_local_planer/learning_based/arena_local_planner_drl/agents/MLP_ARENA2D', 
+                 'tb': '/home/elias/catkin_ws/src/arena-rosnav-3D/arena_navigation/arena_local_planer/learning_based/arena_local_planner_drl/training_logs/tensorboard/MLP_ARENA2D'}
         self.task = get_predefined_task("",mode, PATHS=paths)
 
         # if auto_reset is set to true, the task generator will automatically reset the task
@@ -27,7 +34,7 @@ class TaskGenerator:
         # if the distance between the robot and goal_pos is smaller than this value, task will be reset
         self.timeout_= rospy.get_param("~timeout")
         self.timeout_= self.timeout_*60             # sec
-        self.start_time_=time.time()                # sec
+        self.start_time_ = time.time()                # sec
         self.delta_ = rospy.get_param("~delta")
         robot_odom_topic_name = rospy.get_param(
             "robot_odom_topic_name", "odom")

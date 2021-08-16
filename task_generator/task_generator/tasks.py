@@ -35,6 +35,9 @@ import roslibpy
 
 global xml_file
 
+
+
+# Problem: for some reason, actor_poses_callback is not called when spawn_object_gazebo is called the first time. It is called (and the obstacles are first spawned) when the rospy.Publisher is first called (in robot manager line 61)
 def spawn_object_gazebo():
     rospy.sleep(5)
     rospack1 = RosPack()
@@ -63,11 +66,11 @@ def spawn_object_gazebo():
                                         actor_pose.orientation.y,
                                         actor_pose.orientation.z,
                                         actor_pose.orientation.w) )
-
+                        # model_name # model_xml # robot_namespace # pose # reference_frame -> of Spawn Model
             spawn_model(actor_id, xml_string, "", model_pose, "world")
-        rospy.signal_shutdown("all agents have been spawned !")
+        sub.unregister()
 
-    rospy.Subscriber("/pedsim_simulator/simulated_agents", AgentStates, actor_poses_callback)
+    sub = rospy.Subscriber("/pedsim_simulator/simulated_agents", AgentStates, actor_poses_callback)
 
 
 
@@ -176,10 +179,11 @@ class ManualTask(ABSTask):
 
 
 # /home/elias/catkin_ws/src/arena-rosnav-3D/arena_navigation/arena_local_planer/learning_based/arena_local_planner_drl/configs/training_curriculum_map1small.yaml
+# see train_agent.py for details
 class StagedRandomTask(RandomTask):
-    def __init__(self, ns, robot_manager, start_stage = 1, PATHS=None):
+    def __init__(self, ns, PedsimManager,  robot_manager, start_stage = 1, PATHS=None):
         # type: (str, RobotManager, int, str) -> Any
-        super(StagedRandomTask, self).__init__(robot_manager)
+        super(StagedRandomTask, self).__init__(obstacles_manager, robot_manager)
         self.ns = ns
         self.ns_prefix = "" if ns == '' else "/"+ns+"/"
 
@@ -246,8 +250,7 @@ class StagedRandomTask(RandomTask):
         
         dynamic_obstacles = self._stages[self._curr_stage]['dynamic']
 
-        self.obstacles_manager.register_random_dynamic_obstacles(
-            self._stages[self._curr_stage]['dynamic'])
+        self.obstacles_manager.register_random_dynamic_obstacles(dynamic_obstacles)
 
         print("(", self.ns, ") Stage ", self._curr_stage, ": Spawning ", dynamic_obstacles, " dynamic obstacles!")
 
@@ -276,6 +279,7 @@ class StagedRandomTask(RandomTask):
                         ensure_ascii=False, indent=4)
 
     def _remove_obstacles(self):
+        # idea rosservice call /pedsim_simulator/remove_all_peds true (to remove all obstacles)
         self.obstacles_manager.remove_obstacles()
 
 
@@ -301,6 +305,10 @@ class PedsimManager():
         reset_all_peds_service_name = "pedsim_simulator/reset_all_peds"
         rospy.wait_for_service(reset_all_peds_service_name, 6.0)
         self.reset_all_peds_client = rospy.ServiceProxy(reset_all_peds_service_name, Trigger)
+        # remove all peds
+        remove_all_peds = "/pedsim_simulator/remove_all_peds"
+        rospy.wait_for_service(remove_all_peds, 6.0)
+        self.remove_all_peds_client = rospy.ServiceProxy(remove_all_peds)
 
     def spawnPeds(self, peds):
         # type (List[Ped])
@@ -323,9 +331,15 @@ class PedsimManager():
         res = self.respawn_interactive_obstacles_client.call(obstacles)
         print(res)
 
+        # setting peds in initial position
     def resetAllPeds(self):
         res = self.reset_all_peds_client.call()
         print(res)
+
+    def removeAllPeds(self):
+        res = self.remove_all_peds_client.call()
+        print(res)        
+
 
 
 class ScenarioTask(ABSTask):
