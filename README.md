@@ -4,6 +4,7 @@ This repository combines the 3D ROS simulator Gazebo with Pedsim to provide real
 The repo currently contains:
 * a 3D task generator with 3 modes: random, scenario and manual tasks
 * realistic 3D scenarios from AWS
+* Integration of the Pedsim-Gazebo pluggin to generate realisitc human behavior 
 * Integration of model-based arena-rosnav local planners (needs further testing)
 * Partial integration of learning based arena-rosnav planners (RLCA)
 
