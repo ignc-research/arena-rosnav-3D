@@ -124,7 +124,10 @@ class RandomTask(ABSTask):
             while fail_times < max_fail_times:
                 try:
                     start_pos, goal_pos = self.robot_manager.set_start_pos_goal_pos()
-                    # Todo set obstacles random
+                    self.obstacles_manager.reset_pos_obstacles_random(
+                        forbidden_zones=[
+                            (start_pos.x, start_pos.y, ROBOT_RADIUS),
+                            (goal_pos.x, goal_pos.y, ROBOT_RADIUS)])
                     break
                 except rospy.ServiceException as e:
                     rospy.logwarn(repr(e))
@@ -248,9 +251,9 @@ class StagedRandomTask(RandomTask):
     def _initiate_stage(self):
         self._remove_obstacles()
         
-        dynamic_obstacles = self._stages[self._curr_stage]['dynamic']
+        n_dynamic_obstacles = self._stages[self._curr_stage]['dynamic']
 
-        self.obstacles_manager.register_random_dynamic_obstacles(dynamic_obstacles)
+        self.obstacles_manager.register_random_dynamic_obstacles(n_dynamic_obstacles, forbidden_zones = [(start_pos.x, start_pos.y, ROBOT_RADIUS), (goal_pos.x, goal_pos.y, ROBOT_RADIUS)])
 
         print("(", self.ns, ") Stage ", self._curr_stage, ": Spawning ", dynamic_obstacles, " dynamic obstacles!")
 
@@ -309,6 +312,10 @@ class PedsimManager():
         remove_all_peds = "/pedsim_simulator/remove_all_peds"
         rospy.wait_for_service(remove_all_peds, 6.0)
         self.remove_all_peds_client = rospy.ServiceProxy(remove_all_peds)
+        # move all (dynamic) peds
+        move_peds = '/pedsim_simulator/move_peds'
+        rospy.wait_for_service(remove_all_peds, 6.0)
+        self.move_peds_client = rospy.ServiceProxy(move_peds)
 
     def spawnPeds(self, peds):
         # type (List[Ped])
@@ -338,7 +345,25 @@ class PedsimManager():
 
     def removeAllPeds(self):
         res = self.remove_all_peds_client.call()
-        print(res)        
+        print(res) 
+
+    def setup_spawn_ped(self, number):
+        
+        self.scenario = ArenaScenario()
+        # sample moving object
+        scenario_path = RosPack().get_path('simulator_setup') + '/scenarios/empty_map.json'
+        self.scenario.loadFromFile(scenario_path)
+
+        # setup pedsim agents
+        self.pedsim_manager = None
+        if len(self.scenario.pedsimAgents) > 0:
+            self.pedsim_manager = PedsimManager()
+            ped = [agent.getPedMsg() for agent in self.scenario.pedsimAgents] # ToDo select only the one dynamic agent
+            spawnPeds(ped)       
+
+    def move_peds(self):
+        res = self.move_peds_client.call()
+        print(res) 
 
 
 

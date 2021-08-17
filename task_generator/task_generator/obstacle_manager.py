@@ -28,6 +28,8 @@ class ObstaclesManager:
         # remove all existing obstacles generated before create an instance of this class
         #self.remove_obstacles()
 
+        self.OBSTACLE_RADIUS = 0,15
+
     def update_map(self, new_map):
         # type (OccupancyGrid)-> None
         self.map = new_map
@@ -38,7 +40,7 @@ class ObstaclesManager:
         removeAllPeds()
         #ToDo remove them in gazebo as well
 
-    def register_random_dynamic_obstacles(self, num_obstacles):
+    def register_random_dynamic_obstacles(self, num_obstacles, forbidden_zones): # [(start_pos.x, start_pos.y, self.robot_manager.ROBOT_RADIUS), robot goal...]
         # type: (int) -> Any
         
         """register dynamic obstacles (humans) with random start positions
@@ -48,7 +50,6 @@ class ObstaclesManager:
         """
         for obstacle in range(num_obstacles):
             start_pos = get_random_pos_on_map(self._free_space_indices, self.map, 0.2, forbidden_zones)
-
 
             def dist(x1, y1, x2, y2):
                 return math.sqrt((x1 - x2)**2 + (y1 - y2)**2)
@@ -66,7 +67,9 @@ class ObstaclesManager:
                     i_try += 1
                     continue
                 try:
+                    setup_spawn_ped(obstacle)
                     # spawn the obstacle with this coordinates and waypoint
+                    forbidden_zones.append((start_pos.pose.x, start_pos.pose.y, self.OBSTACLE_RADIUS))
                     break
                 except rospy.ServiceException:
                     i_try += 1
@@ -76,3 +79,10 @@ class ObstaclesManager:
                 "can not generate a path with the given start position and the goal position of the robot")
         else:
             return start_pos_, goal_pos_
+
+        def reset_pos_obstacles_random(self, forbidden_zones = None):
+            # type: (list) -> None
+            peds = rospy.Subscriber("/pedsim_simulator/simulated_agents", AgentStates)
+            for ped in peds.agent_states: # Todo how to get the current Agents?
+                start_pos = get_random_pos_on_map(self._free_space_indices, self.map, 0.2, forbidden_zones)
+                goal_pos = get_random_pos_on_map(self._free_space_indices, self.map, 0.2, forbidden_zones)
