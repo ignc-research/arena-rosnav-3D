@@ -10,6 +10,7 @@
   <arg name="scenario_file"   default="aws.json"/>
   <arg name="reset"   default="true"/>
   <arg name="enable_pedsim" default="true"/>
+  <arg name="enable_pedvis" default="false"/>
   <arg name="task_mode" default="scenario"></arg>
 
   <!-- To make the training more efficient make sure this step_size*laser_update_rate == 1  -->
@@ -85,12 +86,13 @@
         <param name="scene_file" value="$(arg scene_file)" type="string"/>
     </node>
 
+    <node name="pedsim_visualizer" type="pedsim_visualizer_node" pkg="pedsim_visualizer" if="$(arg enable_pedvis)"/>
 
   <!-- start task_generator node -->
   <arg name="timeout"        default="3.0"/>
   <include file="$(find task_generator_3d)/launch/task_generator.launch" unless="$(eval arg('disable_scenario') or arg('train_mode'))">
     <arg name="task_mode" value="$(arg task_mode)"></arg>
-   <arg name="scenarios_json_path"  value="$(find simulator_setup)/scenarios/$(arg scenario_file)"/>
+   <arg name="scenarios_json_path"  value="$(find task_generator_3d)/scenarios/$(arg scenario_file)"/>
    <arg name="auto_reset"           value="$(arg reset)"/>
    <arg name="timeout"              value="$(arg timeout)"/>
   </include>
