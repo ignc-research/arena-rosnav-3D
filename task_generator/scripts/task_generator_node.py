@@ -9,33 +9,37 @@ from nav_msgs.msg import Odometry
 
 class TaskGenerator:
     def __init__(self):
-        #
+        
         self.sr = rospy.Publisher('/scenario_reset', Int16, queue_size=1)
         self.nr = 0
         mode = rospy.get_param("~task_mode")
-  
+        #mode = 'staged'
 
         scenarios_json_path = rospy.get_param("~scenarios_json_path")
+        #scenarios_json_path = '/home/elias/catkin_ws/src/arena-rosnav-3D/simulator_setup/scenarios/test_scenario.json'
         paths = {"scenario": scenarios_json_path}
-        paths = {'curriculum': '/home/elias/catkin_ws/src/arena-rosnav-3D/arena_navigation/arena_local_planer/learning_based/arena_local_planner_drl/configs/training_curriculum_map1small.yaml', 
-                 'robot_setting': '/home/elias/catkin_ws/src/arena-rosnav-3D/simulator_setup/robot/myrobot.model.yaml', 
-                 'robot_as': '/home/elias/catkin_ws/src/arena-rosnav-3D/arena_navigation/arena_local_planer/learning_based/arena_local_planner_drl/configs/default_settings.yaml', 
-                 'hyperparams': '/home/elias/catkin_ws/src/arena-rosnav-3D/arena_navigation/arena_local_planer/learning_based/arena_local_planner_drl/configs/hyperparameters', 
-                 'eval': '/home/elias/catkin_ws/src/arena-rosnav-3D/arena_navigation/arena_local_planer/learning_based/arena_local_planner_drl/training_logs/train_eval_log/MLP_ARENA2D', 
-                 'model': '/home/elias/catkin_ws/src/arena-rosnav-3D/arena_navigation/arena_local_planer/learning_based/arena_local_planner_drl/agents/MLP_ARENA2D', 
-                 'tb': '/home/elias/catkin_ws/src/arena-rosnav-3D/arena_navigation/arena_local_planer/learning_based/arena_local_planner_drl/training_logs/tensorboard/MLP_ARENA2D'}
+        # paths = {'curriculum': '/home/elias/catkin_ws/src/arena-rosnav-3D/arena_navigation/arena_local_planer/learning_based/arena_local_planner_drl/configs/training_curriculum_map1small.yaml', 
+        #          'robot_setting': '/home/elias/catkin_ws/src/arena-rosnav-3D/simulator_setup/robot/myrobot.model.yaml', 
+        #          'robot_as': '/home/elias/catkin_ws/src/arena-rosnav-3D/arena_navigation/arena_local_planer/learning_based/arena_local_planner_drl/configs/default_settings.yaml', 
+        #          'hyperparams': '/home/elias/catkin_ws/src/arena-rosnav-3D/arena_navigation/arena_local_planer/learning_based/arena_local_planner_drl/configs/hyperparameters', 
+        #          'eval': '/home/elias/catkin_ws/src/arena-rosnav-3D/arena_navigation/arena_local_planer/learning_based/arena_local_planner_drl/training_logs/train_eval_log/MLP_ARENA2D', 
+        #          'model': '/home/elias/catkin_ws/src/arena-rosnav-3D/arena_navigation/arena_local_planer/learning_based/arena_local_planner_drl/agents/MLP_ARENA2D', 
+        #          'tb': '/home/elias/catkin_ws/src/arena-rosnav-3D/arena_navigation/arena_local_planer/learning_based/arena_local_planner_drl/training_logs/tensorboard/MLP_ARENA2D'}
         self.task = get_predefined_task("",mode, PATHS=paths)
 
         # if auto_reset is set to true, the task generator will automatically reset the task
         # this can be activated only when the mode set to 'ScenarioTask'
+        #auto_reset = True
         auto_reset = rospy.get_param("~auto_reset")
         self.start_time_= time.time()           
         
         # if the distance between the robot and goal_pos is smaller than this value, task will be reset
         self.timeout_= rospy.get_param("~timeout")
+        #self.timeout_ = 2.0
         self.timeout_= self.timeout_*60             # sec
         self.start_time_ = time.time()                # sec
         self.delta_ = rospy.get_param("~delta")
+        #self.delta_ = 1.0
         robot_odom_topic_name = rospy.get_param(
             "robot_odom_topic_name", "odom")
         

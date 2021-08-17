@@ -1,9 +1,11 @@
 #!/usr/bin/env python
 
-from .tasks import PedsimManager
+
+#from .tasks import PedsimManager
 from .utils import generate_freespace_indices, get_random_pos_on_map
-
-
+from gazebo_msgs.srv import GetWorldProperties
+import rospy
+from pedsim_msgs.msg import AgentStates
 
 class ObstaclesManager:
 
@@ -60,10 +62,10 @@ class ObstaclesManager:
             goal_pos_ = None
         
             while i_try < max_try_times:
-                    start_pos = get_random_pos_on_map(self._free_space_indices, self.map, 0.2, forbidden_zones)
-                    goal_pos = get_random_pos_on_map(self._free_space_indices, self.map, 0.2, forbidden_zones)
+                start_pos = get_random_pos_on_map(self._free_space_indices, self.map, 0.2, forbidden_zones)
+                goal_pos = get_random_pos_on_map(self._free_space_indices, self.map, 0.2, forbidden_zones)
 
-                if dist(start_pos_.position.x, start_pos_.position.y, goal_pos_.position.x, goal_pos_.position.y) < min_dist:
+                if dist(start_pos_.position.x, start_pos_.position.y, goal_pos_.position.x, goal_pos_.position.y) < min_dist: 
                     i_try += 1
                     continue
                 try:
@@ -80,9 +82,10 @@ class ObstaclesManager:
         else:
             return start_pos_, goal_pos_
 
-        def reset_pos_obstacles_random(self, forbidden_zones = None):
+    def reset_pos_obstacles_random(self, forbidden_zones = None):
             # type: (list) -> None
-            peds = rospy.Subscriber("/pedsim_simulator/simulated_agents", AgentStates)
-            for ped in peds.agent_states: # Todo how to get the current Agents?
+            elements = rospy.ServiceProxy("/gazebo/get_world_properties", GetWorldPropertis)
+            for ped in range(elements - 3): # Todo how to get the current Agents?
                 start_pos = get_random_pos_on_map(self._free_space_indices, self.map, 0.2, forbidden_zones)
                 goal_pos = get_random_pos_on_map(self._free_space_indices, self.map, 0.2, forbidden_zones)
+            #idee: 1. find all obstacles; 2.  for every obstacle call the move ped service

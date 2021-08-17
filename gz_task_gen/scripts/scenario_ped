@@ -30,7 +30,7 @@ from rospkg import RosPack
 
 
 
-
+import subprocess
 
 from gazebo_msgs.srv import SpawnModel
 from geometry_msgs.msg import *
@@ -40,19 +40,17 @@ import roslibpy
 global xml_file
 
 def spawn_object_gazebo():
-    #rospy.sleep(5)
-    rospack1 = RosPack()
-    pkg_path = rospack1.get_path('pedsim_gazebo_plugin')
+    
+    pkg_path = RosPack().get_path('pedsim_gazebo_plugin')
     default_actor_model_file = pkg_path + "/models/actor_model.sdf"
 
     actor_model_file = rospy.get_param('~actor_model_file', default_actor_model_file)
     file_xml = open(actor_model_file)
     xml_string = file_xml.read()
+    rospy.wait_for_service("gazebo/spawn_sdf_model")
+    spawn_model = rospy.ServiceProxy("gazebo/spawn_sdf_model", SpawnModel)
 
     def actor_poses_callback(actors):
-        rospy.wait_for_service("gazebo/spawn_sdf_model")
-        spawn_model = rospy.ServiceProxy("gazebo/spawn_sdf_model", SpawnModel)
-        
         for actor in actors.agent_states:
             actor_id = str( actor.id )
             actor_pose = actor.pose
@@ -66,11 +64,21 @@ def spawn_object_gazebo():
                                         actor_pose.orientation.w))
 
             spawn_model(actor_id, xml_string, "", model_pose, "world")
-        #rospy.signal_shutdown("all agents have been spawned !")
-        sub.unregister()
         
-
+        sub.unregister()
+        print('unregistering...')
+        
+    global sub
     sub = rospy.Subscriber("/pedsim_simulator/simulated_agents", AgentStates, actor_poses_callback)
+    #rospy.spin()
+    sub.unregister()
+    print('Test function run through----------delete')
+    def spinOnce():
+        r = rospy.Rate(1)
+        r.sleep()
+
+    spinOnce()
+    print('next test')
 
 
 
@@ -265,7 +273,8 @@ class PedsimManager():
     def spawnPeds(self, peds):
         # type (List[Ped])
         res = self.spawn_peds_client.call(peds)
-        spawn_object_gazebo()
+        subprocess.call('rosrun pedsim_gazebo_plugin spawn_pedsim_agents.py', shell = True)
+        #spawn_object_gazebo()
         print(res)
 
     def respawnPeds(self, peds):
