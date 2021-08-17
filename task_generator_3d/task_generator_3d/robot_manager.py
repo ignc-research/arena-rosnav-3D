@@ -9,8 +9,8 @@ import tf
 # from flatland_msgs.srv import MoveModel, MoveModelRequest, SpawnModelRequest, SpawnModel
 # from flatland_msgs.srv import StepWorld
 from geometry_msgs.msg import Pose2D, PoseWithCovarianceStamped, PoseStamped, Pose
-from gazebo_msgs.msg import SpawnModel, SetModelState
-
+from gazebo_msgs.srv import SpawnModel, SpawnModelRequest, SetModelState, SetModelStateRequest
+from gazebo_msgs.msg import ModelState
 from nav_msgs.msg import OccupancyGrid, Path
 
 from .utils import generate_freespace_indices, get_random_pos_on_map
@@ -32,7 +32,7 @@ class RobotManager:
 
         """
         self.ns = ns
-        self.ns_prefix = "" if ns == "" else "/"+ns+"/"
+        self.ns_prefix = "/" if ns == "" else "/"+ns+"/"
 
         self.is_training_mode = rospy.get_param("/train_mode")
         self.step_size = rospy.get_param("step_size")
@@ -54,7 +54,7 @@ class RobotManager:
         # self._initialpose_pub = rospy.Publisher(
         #     'initialpose', PoseWithCovarianceStamped, queue_size=1)
         self._goal_pub = rospy.Publisher(
-            f'{self.ns_prefix}goal', PoseStamped, queue_size=1, latch=True)
+            'move_base_simple/goal', PoseStamped, queue_size=1, latch=True)
 
         self.update_map(map_)
         self._spawn_robot()
@@ -70,10 +70,10 @@ class RobotManager:
         self._static_obstacle_name_list = []
 
     def _spawn_robot(self):
-        request = SpawnModel()
+        request = SpawnModelRequest()
         request.model_name = self.ROBOT_NAME
         request.model_xml = self.ROBOT_DESCRIPTION
-        request.robot_namespace = self.ns
+        request.robot_namespace = self.ns_prefix + self.ns
         request.initial_pose = Pose()
         request.reference_frame = 'world'
         self._srv_spawn_model(request)
@@ -83,6 +83,8 @@ class RobotManager:
         """
         self.ROBOT_NAME = 'turtlebot'
         self.ROBOT_DESCRIPTION = rospy.get_param("robot_description")
+        self.ROBOT_RADIUS = 0.2
+        self.LASER_UPDATE_RATE = 1
         
 
     def update_map(self, new_map: OccupancyGrid):
@@ -98,14 +100,20 @@ class RobotManager:
         """
         # call service move_model
 
-        srv_request = SetModelState()
-        srv_request.name = self.ROBOT_NAME
-        srv_request.pose.position.x = pose.x
-        srv_request.pose.position.y = pose.y
-        srv_request.orientation = tf.transformations.quaternion_from_euler(
+        srv_request = SetModelStateRequest()
+        state = ModelState()
+        state.model_name = self.ROBOT_NAME
+        state.pose.position.x = pose.x
+        state.pose.position.y = pose.y
+        quaternion = tf.transformations.quaternion_from_euler(
             0, 0, pose.theta)
+        state.pose.orientation.x = quaternion[0]
+        state.pose.orientation.y = quaternion[1]
+        state.pose.orientation.z = quaternion[2]
+        state.pose.orientation.w = quaternion[3]
+        state.reference_frame = "world"    
         # call service
-        self._srv_move_model(srv_request)
+        self._srv_move_model(state)
         if self.is_training_mode:
             # a necessaray procedure to let the flatland publish the
             # laser,odom's Transformation, which are needed for creating
@@ -118,7 +126,7 @@ class RobotManager:
 
     def set_start_pos_random(self):
         start_pos = Pose2D()
-        start_pos.x, start_pos, start_pos.theta = get_random_pos_on_map(
+        start_pos.x, start_pos.y, start_pos.theta = get_random_pos_on_map(
             self._free_space_indices, self.map, self.ROBOT_RADIUS)
         self.move_robot(start_pos)
 
@@ -211,11 +219,11 @@ class RobotManager:
         goal.header.frame_id = "map"
         goal.pose.position.x = x
         goal.pose.position.y = y
-        quaternion = tf.transformations.quaternion_from_euler(0, 0, 0)
-        goal.pose.orientation.w = quaternion[0]
-        goal.pose.orientation.x = quaternion[1]
-        goal.pose.orientation.y = quaternion[2]
-        goal.pose.orientation.z = quaternion[3]
+        quaternion = tf.transformations.quaternion_from_euler(0, 0, theta)
+        goal.pose.orientation.x = quaternion[0]
+        goal.pose.orientation.y = quaternion[1]
+        goal.pose.orientation.z = quaternion[2]
+        goal.pose.orientation.w = quaternion[3]
         self._goal_pub.publish(goal)
         # self._validate_path()
 
@@ -228,30 +236,3 @@ class RobotManager:
 
     def __mean_square_dist_(self, x, y):
         return math.sqrt(math.pow(x, 2) + math.pow(y, 2))
-
-#     def main():
-#         rospy.wait_for_service("/gazebo/spawn_urdf_model")
-#         rospy.wait_for_service('/gazebo/set_model_state')
-
-#         # rospy.wait_for_service(f'{self.ns_prefix}move_model', timeout=timeout)
-#         # rospy.wait_for_service(f'{self.ns_prefix}spawn_model', timeout=timeout)
-#         # rospy.wait_for_service('step_world', timeout=20)
-#         _srv_move_model = rospy.ServiceProxy(
-#             '/gazebo/set_model_state', SetModelState)
-#         _srv_spawn_model = rospy.ServiceProxy(
-#             '/gazebo/spawn_urdf_model', SpawnModel)
-#         request = SpawnModelRequest()
-#         request.model_name = 'myrobot'
-#         request.model_xml = open(
-#             '/usr/share/gazebo-9/models/ground_plane/model.sdf', 'r').read()
-#         request.robot_namespace = self.ns
-#         request.initial_pose = Pose()
-#         request.reference_frame = 'world'
-#         _srv_spawn_model(request)
-
-
-# if __name__ == '__main__':
-#     try:
-#         main()
-#     except rospy.ROSInterruptException:
-#         pass

@@ -1,5 +1,44 @@
 # arena-rosnav-3D
 
+
+## Setup (test)
+1. install the arena-rosnav environment:
+https://github.com/ignc-research/arena-rosnav
+2. Clone this repo into your catkin_ws/src folder: 
+```bash
+    cd ~/catkin_ws/src
+    git clone https://github.com/Jacenty00/arena-rosnav-3D.git
+```    
+3. Run rosws update:
+```bash
+   cd ~/catkin_ws/src/arena-rosnav-3D
+   rosws update --delete-changed-uris .
+```
+4. Build and source!:
+```bash
+   cd ~/catkin_ws
+   catkin_make -DPYTHON_EXECUTABLE=/usr/bin/python3
+   source devel/setup.zsh
+```
+## Testing Gazebo simulation and Task Generator
+For now only [warehouse world](https://github.com/aws-robotics/aws-robomaker-small-warehouse-world) is available. To start it, use the supplied launch file and specify the following params: (Bold values -- default)
+ * local_planner:=<**teb**, dwa, rlcl, mpc>
+ * task_mode:=<**scenario**,random, manual>    
+    
+    *   Example launch scenario
+```bash
+    roslaunch task_generator_3d test_task_node.launch local_planner:=dwa task_mode:=random
+```
+### Random mode
+* Use the Generate Task button in Rviz to randomly spawn pedsim agents, robot and set a random goal.
+[![random_mode.gif](https://s5.gifyu.com/images/random_mode.gif)](https://gifyu.com/image/GS1K)
+
+### Scenario mode
+   * Use the supplied scenario or create your own using [arena-tools](https://github.com/ignc-research/arena-tools). 
+   * Scenario files should be placed inside the scenarios folder, remember to change the parameter scenario_file:=<scenario_name.json>, while testing your own scenarios. 
+   * In scenario mode all objects will be spawned at their specified position and everything will reset back to this position once the robot reaches it's goal.
+   [![scenario_mode.gif](https://s5.gifyu.com/images/scenario_mode.gif)](https://gifyu.com/image/GSAe)
+   
 ## Gazebo
 
 ### Helpful links
