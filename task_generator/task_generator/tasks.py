@@ -15,8 +15,9 @@ import numpy as np
 from tf.transformations import quaternion_from_euler
 from pathlib import Path
 from std_srvs.srv import Trigger
-import rospkg
+import rospkg, subprocess
 from .robot_manager import RobotManager
+from .obstacle_manager import ObstaclesManager
 from ped_manager.ArenaScenario import *
 from std_srvs.srv import Trigger
 from pedsim_srvs.srv import SpawnPeds, SpawnInteractiveObstacles, SpawnObstacle
@@ -37,8 +38,13 @@ global xml_file
 
 
 
-# Problem: for some reason, actor_poses_callback is not called when spawn_object_gazebo is called the first time. It is called (and the obstacles are first spawned) when the rospy.Publisher is first called (in robot manager line 61)
+
 def spawn_object_gazebo():
+    """ ToDo
+    PROBLEM: the subscriber callback function is only called when using rospy.spin
+        -> if not solved agents are not spawned
+        (Description: see https://levelup.gitconnected.com/ros-spinning-threading-queuing-aac9c0a793f (aperently the queue is not called (It is called (and the obstacles are first spawned) when the rospy.Publisher is first called (in robot manager line 61))))
+    """
     rospy.sleep(5)
     rospack1 = RosPack()
     pkg_path = rospack1.get_path('pedsim_gazebo_plugin')
@@ -84,10 +90,11 @@ class ABSTask(abc.ABCMeta('ABC', (object,), {'__slots__': ()})):
     """
 
 
-    def __init__(self, robot_manager):
+    def __init__(self, obstacle_manager, robot_manager):
         # type: (ObstaclesManager, RobotManager) -> None
         #self.obstacles_manager = obstacles_manager
         self.robot_manager = robot_manager
+        self.obstacle_manager = obstacle_manager
         self._service_client_get_map = rospy.ServiceProxy('/static_map', GetMap)
         self._map_lock = Lock()
         rospy.Subscriber('/map', OccupancyGrid, self._update_map)
@@ -102,7 +109,7 @@ class ABSTask(abc.ABCMeta('ABC', (object,), {'__slots__': ()})):
     def _update_map(self, map_):
         # type (OccupancyGrid) -> None
         with self._map_lock:
-            #self.obstacles_manager.update_map(map_)
+            self.obstacle_manager.update_map(map_)
             self.robot_manager.update_map(map_)
 
 
@@ -111,9 +118,9 @@ class RandomTask(ABSTask):
     """
 
 
-    def __init__(self,  robot_manager):
-        #type (Any, ObstaclesManager, RobotManager)
-        super(RandomTask, self).__init__(robot_manager)
+    def __init__(self, obstacle_manager, robot_manager):
+        #type: (ObstaclesManager, RobotManager) -> 
+        super(RandomTask, self).__init__(obstacle_manager, robot_manager)
 
     def reset(self):
         """[summary]
@@ -124,10 +131,10 @@ class RandomTask(ABSTask):
             while fail_times < max_fail_times:
                 try:
                     start_pos, goal_pos = self.robot_manager.set_start_pos_goal_pos()
-                    self.obstacles_manager.reset_pos_obstacles_random(
+                    self.obstacle_manager.reset_pos_obstacles_random(
                         forbidden_zones=[
-                            (start_pos.x, start_pos.y, ROBOT_RADIUS),
-                            (goal_pos.x, goal_pos.y, ROBOT_RADIUS)])
+                            (start_pos.position.x, start_pos.position.y, ROBOT_RADIUS),
+                            (goal_pos.position.x, goal_pos.position.y, ROBOT_RADIUS)])
                     break
                 except rospy.ServiceException as e:
                     rospy.logwarn(repr(e))
@@ -141,7 +148,7 @@ class ManualTask(ABSTask):
     """
 
 
-    def __init__(self, ns, robot_manager):##################################################### ToDo, include obstacles
+    def __init__(self, ns, obstacle_manager, robot_manager):##################################################### ToDo, include obstacles
         # type: (str, RobotManager) -> Any
         super(ManualTask, self).__init__(robot_manager)
         self.ns = ns
@@ -184,9 +191,9 @@ class ManualTask(ABSTask):
 # /home/elias/catkin_ws/src/arena-rosnav-3D/arena_navigation/arena_local_planer/learning_based/arena_local_planner_drl/configs/training_curriculum_map1small.yaml
 # see train_agent.py for details
 class StagedRandomTask(RandomTask):
-    def __init__(self, ns, PedsimManager,  robot_manager, start_stage = 1, PATHS=None):
-        # type: (str, RobotManager, int, str) -> Any
-        super(StagedRandomTask, self).__init__(obstacles_manager, robot_manager)
+    def __init__(self, ns, obstacle_manager, robot_manager, start_stage = 1, PATHS=None):
+        # type: (str, RobotManager, int, dict) -> Any
+        super(StagedRandomTask, self).__init__(obstacle_manager, robot_manager)
         self.ns = ns
         self.ns_prefix = "" if ns == '' else "/"+ns+"/"
 
@@ -320,7 +327,8 @@ class PedsimManager():
     def spawnPeds(self, peds):
         # type (List[Ped])
         res = self.spawn_peds_client.call(peds)
-        spawn_object_gazebo()
+        #spawn_object_gazebo()
+        subprocess.call('rosrun pedsim_gazebo_plugin spawn_pedsim_agents.py', shell = True)
         print(res)
 
     def respawnPeds(self, peds):
@@ -370,7 +378,7 @@ class PedsimManager():
 class ScenarioTask(ABSTask):
     def __init__(self, robot_manager, scenario_path):
         # type: (RobotManager, str) -> Any
-        super(ScenarioTask, self).__init__(robot_manager)
+        super(ScenarioTask, self).__init__(obstacle_manager, robot_manager)
 
         # load scenario from file
         self.scenario = ArenaScenario()
@@ -423,12 +431,13 @@ def get_predefined_task(ns, mode="random", start_stage = 1, PATHS = None):
     models_folder_path = rospkg.RosPack().get_path('simulator_setup')
 
     robot_manager = RobotManager(ns='',map_= map_response.map)
+    obstacle_manager = ObstaclesManager(ns='',map_= map_response.map)
 
     # Tasks will be moved to other classes or functions.
     task = None
     if mode == "random":
         rospy.set_param("/task_mode", "random")
-        task = RandomTask(robot_manager)
+        task = RandomTask(obstacle_manager, robot_manager)
         print("random tasks requested")
     if mode == "manual":
         rospy.set_param("/task_mode", "manual")
