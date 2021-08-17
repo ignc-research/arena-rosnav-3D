@@ -126,7 +126,7 @@ class RobotManager:
 
     def set_start_pos_random(self):
         start_pos = Pose2D()
-        start_pos.x, start_pos, start_pos.theta = get_random_pos_on_map(
+        start_pos.x, start_pos.y, start_pos.theta = get_random_pos_on_map(
             self._free_space_indices, self.map, self.ROBOT_RADIUS)
         self.move_robot(start_pos)
 

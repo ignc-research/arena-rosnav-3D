@@ -7,9 +7,10 @@
   <arg name="local_planner"   default="teb"/> 
   <arg name="rviz_file"       default="nav_LP"/>
   <arg name="disable_scenario"    default="false"/>
-  <arg name="scenario_file"   default="empty_map.json"/>
+  <arg name="scenario_file"   default="aws.json"/>
   <arg name="reset"   default="true"/>
   <arg name="enable_pedsim" default="true"/>
+  <arg name="task_mode" default="scenario"></arg>
 
   <!-- To make the training more efficient make sure this step_size*laser_update_rate == 1  -->
   <arg name="step_size" default="0.01"/>
@@ -88,6 +89,7 @@
   <!-- start task_generator node -->
   <arg name="timeout"        default="3.0"/>
   <include file="$(find task_generator_3d)/launch/task_generator.launch" unless="$(eval arg('disable_scenario') or arg('train_mode'))">
+    <arg name="task_mode" value="$(arg task_mode)"></arg>
    <arg name="scenarios_json_path"  value="$(find simulator_setup)/scenarios/$(arg scenario_file)"/>
    <arg name="auto_reset"           value="$(arg reset)"/>
    <arg name="timeout"              value="$(arg timeout)"/>

@@ -21,7 +21,7 @@ class TaskGenerator:
        
         paths = {"scenario": scenarios_json_path}
   
-        self.task = get_predefined_task("", "random", PATHS=paths)
+        self.task = get_predefined_task("", mode, PATHS=paths)
        
 
 
