@@ -7,7 +7,7 @@ https://github.com/ignc-research/arena-rosnav
 2. Clone this repo into your catkin_ws/src folder: 
 ```bash
     cd ~/catkin_ws/src
-    git clone https://github.com/Jacenty00/arena-rosnav-3D.git
+    git clone https://github.com/ignc-research/arena-rosnav-3D.git
 ```    
 3. Run rosws update:
 ```bash
