@@ -1,4 +1,12 @@
 # arena-rosnav-3D
+This repository combines the 3D ROS simulator Gazebo with Pedsim to provide realistic dyanmic 3D scenarios and tasks to evaluate and and benchmark ROS navigation approaches. It is fully compatible with the planning algorithms trained and developed with arena-rosnav (2D). This presents an essential step in deploying the navigation approaches from arena-rosnav towards real robots. 
+
+The repo currently contains:
+* a 3D task generator with 3 modes: random, scenario and manual tasks
+* realistic 3D scenarios from AWS
+* Integration of the Pedsim-Gazebo pluggin to generate realisitc human behavior 
+* Integration of model-based arena-rosnav local planners (needs further testing)
+* Partial integration of learning based arena-rosnav planners (RLCA)
 
 
 ## Setup (test)
@@ -7,7 +15,7 @@ https://github.com/ignc-research/arena-rosnav
 2. Clone this repo into your catkin_ws/src folder: 
 ```bash
     cd ~/catkin_ws/src
-    git clone https://github.com/Jacenty00/arena-rosnav-3D.git
+    git clone https://github.com/ignc-research/arena-rosnav-3D.git
 ```    
 3. Run rosws update:
 ```bash
