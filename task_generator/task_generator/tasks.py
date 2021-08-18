@@ -119,7 +119,7 @@ class RandomTask(ABSTask):
 
 
     def __init__(self, obstacle_manager, robot_manager):
-        #type: (ObstaclesManager, RobotManager) -> 
+        #type: (ObstaclesManager, RobotManager) -> None
         super(RandomTask, self).__init__(obstacle_manager, robot_manager)
 
     def reset(self):
@@ -149,7 +149,7 @@ class ManualTask(ABSTask):
 
 
     def __init__(self, ns, obstacle_manager, robot_manager):##################################################### ToDo, include obstacles
-        # type: (str, RobotManager) -> Any
+        # type: (str, ObstaclesManager, RobotManager) -> Any
         super(ManualTask, self).__init__(robot_manager)
         self.ns = ns
         self.ns_prefix = "" if ns == '' else "/"+ns+"/"
@@ -192,7 +192,7 @@ class ManualTask(ABSTask):
 # see train_agent.py for details
 class StagedRandomTask(RandomTask):
     def __init__(self, ns, obstacle_manager, robot_manager, start_stage = 1, PATHS=None):
-        # type: (str, RobotManager, int, dict) -> Any
+        # type: (str, ObstaclesManager, RobotManager, int, dict) -> None
         super(StagedRandomTask, self).__init__(obstacle_manager, robot_manager)
         self.ns = ns
         self.ns_prefix = "" if ns == '' else "/"+ns+"/"
@@ -377,7 +377,7 @@ class PedsimManager():
 
 class ScenarioTask(ABSTask):
     def __init__(self, obstacle_manager, robot_manager, scenario_path):
-        # type: (RobotManager, str) -> Any
+        # type: (ObstaclesManager, RobotManager, str) -> None
         super(ScenarioTask, self).__init__(obstacle_manager, robot_manager)
 
         # load scenario from file

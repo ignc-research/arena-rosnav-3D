@@ -42,8 +42,8 @@ class ObstaclesManager:
         removeAllPeds()
         #ToDo remove them in gazebo as well
 
-    def register_random_dynamic_obstacles(self, num_obstacles, forbidden_zones): # [(start_pos.x, start_pos.y, self.robot_manager.ROBOT_RADIUS), robot goal...]
-        # type: (int) -> Any
+    def register_random_dynamic_obstacles(self, num_obstacles, forbidden_zones = None): # [(start_pos.x, start_pos.y, self.robot_manager.ROBOT_RADIUS), robot goal...]
+        # type: (int, list) -> None
         
         """register dynamic obstacles (humans) with random start positions
         Args:
