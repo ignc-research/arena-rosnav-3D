@@ -37,7 +37,7 @@ class TaskGenerator:
         robot_odom_topic_name = rospy.get_param(
             "robot_odom_topic_name", "odom")
         
-        auto_reset = auto_reset and mode == "scenario"
+        auto_reset = auto_reset and (mode == "scenario" or mode == "random")
         self.curr_goal_pos_ = None
         
         

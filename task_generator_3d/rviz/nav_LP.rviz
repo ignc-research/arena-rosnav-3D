@@ -282,6 +282,7 @@ Visualization Manager:
           Value: true
       Enabled: true
       Name: Local plan
+      
     - Class: rviz/Group
       Displays:
         - Alpha: 1
@@ -730,6 +731,87 @@ Visualization Manager:
       Topic: /subgoal
       Unreliable: false
       Value: true
+    - Class: rviz/Group
+      Displays:
+        - Alpha: 1
+          Class: spencer_tracking_rviz_plugin/TrackedPersons
+          Color: 130; 130; 130
+          Color map offset: 0
+          Color transform: SRL Tracking Colors
+          Delete after no. cycles: 5
+          Enabled: true
+          Excluded person IDs: ""
+          Font color: 255; 255; 255
+          Font color style: Same color
+          Font scale: 2
+          History as line:
+            Line width: 0.05000000074505806
+            Value: true
+          History size: 10
+          Included person IDs: ""
+          Min. history point distance: 0.4000000059604645
+          Missed alpha: 1
+          Name: TrackedPersons
+          Occlusion alpha: 1
+          Render covariances:
+            Line width: 0.10000000149011612
+            Value: false
+          Render detection IDs: false
+          Render history: true
+          Render person visual: true
+          Render track IDs: true
+          Render track state: false
+          Render velocities: true
+          Show DELETED tracks: false
+          Show MATCHED tracks: true
+          Show MISSED tracks: true
+          Show OCCLUDED tracks: true
+          Style:
+            Line width: 0.05000000074505806
+            Scaling factor: 1
+            Value: Bounding boxes
+          Topic: /pedsim_visualizer/tracked_persons
+          Unreliable: false
+          Value: true
+          Z offset:
+            Use Z position from message: false
+            Value: 0
+        - Alpha: 0.699999988079071
+          Class: spencer_tracking_rviz_plugin/TrackedGroups
+          Color: 130; 130; 130
+          Color map offset: 0
+          Color transform: Flat
+          Connect group members: true
+          Enabled: true
+          Excluded group IDs: ""
+          Excluded person IDs: ""
+          Font color: 255; 255; 255
+          Font color style: Same color
+          Font scale: 2
+          Global history size: 5
+          Group ID Z offset: 2
+          Included group IDs: ""
+          Included person IDs: ""
+          Name: TrackedGroups
+          Occlusion alpha: 1
+          Render group IDs:
+            Hide IDs of single-person groups: false
+            Value: true
+          Render history: false
+          Single-person groups in constant color: false
+          Style:
+            Line width: 0.05000000074505806
+            Scaling factor: 1
+            Value: Simple
+          Topic: /pedsim_visualizer/tracked_groups
+          Tracked persons topic: /pedsim_visualizer/tracked_persons
+          Unreliable: false
+          Value: true
+          Z offset:
+            Use Z position from message: false
+            Value: 0
+      Enabled: true
+      Name: Tracking-Visuals  
   Enabled: true
   Global Options:
     Background Color: 0; 0; 0
@@ -753,7 +835,6 @@ Visualization Manager:
       Topic: /manual_goal
     - Class: rviz_plugins/Goal3DTool
       Topic: /goal
-    - Class: flatland_viz/PauseSim
     - Class: rviz_plugins/TaskGenerator
     - Class: rviz/PublishPoint
       Single click: true

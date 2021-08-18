@@ -76,8 +76,9 @@ class RandomTask(ABSTask):
     def reset(self):
         """[summary]
         """
-        self.obstacles_manager.remove_all_peds_client(True)
+        info = {}
         with self._map_lock:
+            self.obstacles_manager.remove_all_peds_client(True)
             max_fail_times = 3
             fail_times = 0
             while fail_times < max_fail_times:
@@ -97,6 +98,8 @@ class RandomTask(ABSTask):
                     fail_times += 1
             if fail_times == max_fail_times:
                 raise Exception("reset error!")
+            info["robot_goal_pos"] = np.array([goal_pos.x, goal_pos.y])
+        return info        
 
 
 class ManualTask(ABSTask):

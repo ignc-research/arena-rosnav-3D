@@ -86,7 +86,7 @@
         <param name="scene_file" value="$(arg scene_file)" type="string"/>
     </node>
 
-    <node name="pedsim_visualizer" type="pedsim_visualizer_node" pkg="pedsim_visualizer" if="$(arg enable_pedvis)"/>
+    <node name="pedsim_visualizer" type="pedsim_visualizer_node" pkg="pedsim_visualizer"  output="screen" if="$(arg enable_pedvis)"/>
 
   <!-- start task_generator node -->
   <arg name="timeout"        default="3.0"/>

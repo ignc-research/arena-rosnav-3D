@@ -89,7 +89,7 @@ class ObstaclesManager:
             ped.group_talking_base_time = 20.0
             peds.append(ped)
 
-        self.registered_peds = peds    
+        self.registered_peds = peds 
     def register_obstacles(self, num_obstacles: int, model_yaml_file_path: str, start_pos: list = []):
         """register the obstacles defined by a yaml file and request flatland to respawn the them.
 

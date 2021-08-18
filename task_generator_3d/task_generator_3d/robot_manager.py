@@ -54,7 +54,7 @@ class RobotManager:
         # self._initialpose_pub = rospy.Publisher(
         #     'initialpose', PoseWithCovarianceStamped, queue_size=1)
         self._goal_pub = rospy.Publisher(
-            'move_base_simple/goal', PoseStamped, queue_size=1, latch=True)
+            '/move_base_simple/goal', PoseStamped, queue_size=1, latch=True)
 
         self.update_map(map_)
         self._spawn_robot()
