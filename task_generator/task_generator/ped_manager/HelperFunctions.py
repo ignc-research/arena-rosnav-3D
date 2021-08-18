@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 def get_ros_package_path(package_name):
     # type: (str) -> str
     try:

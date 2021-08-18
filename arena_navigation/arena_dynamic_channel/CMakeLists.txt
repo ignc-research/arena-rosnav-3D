@@ -14,7 +14,6 @@ find_package(catkin REQUIRED
   nav_msgs
   geometry_msgs
   visualization_msgs
-  arena_mapping
   arena_traj_planner
 )
 

@@ -14,7 +14,6 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   sensor_msgs
   std_msgs
-  tf
   laser_geometry
   pcl_conversions
   pcl_ros

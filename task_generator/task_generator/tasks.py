@@ -18,9 +18,9 @@ from std_srvs.srv import Trigger
 import rospkg, subprocess
 from .robot_manager import RobotManager
 from .obstacle_manager import ObstaclesManager
-from ped_manager.ArenaScenario import *
+from .ped_manager.ArenaScenario import *
 from std_srvs.srv import Trigger
-from pedsim_srvs.srv import SpawnPeds, SpawnInteractiveObstacles, SpawnObstacle
+from pedsim_srvs.srv import SpawnPeds, SpawnInteractiveObstacles, SpawnObstacle, MovePeds
 from pedsim_msgs.msg import Ped, AgentStates, InteractiveObstacle, LineObstacles
 from pedsim_msgs.msg import LineObstacle
 
@@ -318,11 +318,11 @@ class PedsimManager():
         # remove all peds
         remove_all_peds = "/pedsim_simulator/remove_all_peds"
         rospy.wait_for_service(remove_all_peds, 6.0)
-        self.remove_all_peds_client = rospy.ServiceProxy(remove_all_peds)
+        self.remove_all_peds_client = rospy.ServiceProxy(remove_all_peds, Trigger)
         # move all (dynamic) peds
         move_peds = '/pedsim_simulator/move_peds'
         rospy.wait_for_service(remove_all_peds, 6.0)
-        self.move_peds_client = rospy.ServiceProxy(move_peds)
+        self.move_peds_client = rospy.ServiceProxy(move_peds, MovePeds)
 
     def spawnPeds(self, peds):
         # type (List[Ped])
@@ -376,7 +376,7 @@ class PedsimManager():
 
 
 class ScenarioTask(ABSTask):
-    def __init__(self, robot_manager, scenario_path):
+    def __init__(self, obstacle_manager, robot_manager, scenario_path):
         # type: (RobotManager, str) -> Any
         super(ScenarioTask, self).__init__(obstacle_manager, robot_manager)
 
@@ -448,6 +448,6 @@ def get_predefined_task(ns, mode="random", start_stage = 1, PATHS = None):
         task = StagedRandomTask(ns, start_stage, PATHS)
     if mode == "scenario":
         rospy.set_param("/task_mode", "scenario")
-        task = ScenarioTask(robot_manager, PATHS['scenario'])
+        task = ScenarioTask(obstacle_manager, robot_manager, PATHS['scenario'])
 
     return task

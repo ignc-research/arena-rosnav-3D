@@ -1,7 +1,7 @@
 import numpy as np
 from enum import Enum
 #from FlatlandModel import FlatlandModel
-from HelperFunctions import *
+from .HelperFunctions import *
 
 class PedsimStartupMode(Enum):
     DEFAULT = 0
