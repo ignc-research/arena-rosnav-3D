@@ -23,7 +23,8 @@ https://github.com/ignc-research/arena-rosnav
 ## Testing Gazebo simulation and Task Generator
 For now only [warehouse world](https://github.com/aws-robotics/aws-robomaker-small-warehouse-world) is available. To start it, use the supplied launch file and specify the following params: (Bold values -- default)
  * local_planner:=<**teb**, dwa, rlcl, mpc>
- * task_mode:=<**scenario**,random, manual>    
+ * task_mode:=<**scenario**,random, manual>
+ * enable_pedvis:=<**false**, true> if, you want to visualize pedsim agents in rviz
     
     *   Example launch scenario
 ```bash
