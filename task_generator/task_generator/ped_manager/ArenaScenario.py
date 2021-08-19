@@ -89,3 +89,23 @@ class ArenaScenario():
 
         else:
             raise Exception("file ", path_in, " does not exist")
+
+    def createSimplePed(self, ids, s_pos, w_pos):
+        # type: (list, list, list) -> None
+        peds = []
+        for id, spos, wpos in zip(ids, s_pos, w_pos):
+            peds.append({"name": "Pedestrian", "id": id, "pos": [*spos], "type": "adult", "yaml_file": "/home/daniel/catkin_ws/src/arena-rosnav-3D/simulator_setup/dynamic_obstacles/person_two_legged.model.yaml",
+            "number_of_peds": 1, "vmax": 0.3, "start_up_mode": "default", "wait_time": 0.0, "trigger_zone_radius": 0.0, "chatting_probability": 0.01, "tell_story_probability": 0, "group_talking_probability": 0.01, "talking_and_walking_probability": 0.01,
+            "requesting_service_probability": 0.01, "requesting_guide_probability": 0.01, "requesting_follower_probability": 0.01, "max_talking_distance": 5, "max_servicing_radius": 5, "talking_base_time": 10,
+            "tell_story_base_time": 0, "group_talking_base_time": 10, "talking_and_walking_base_time": 6, "receiving_service_base_time": 20, "requesting_service_base_time": 30, "force_factor_desired": 1,
+            "force_factor_obstacle": 1, "force_factor_social": 5, "force_factor_robot": 0,
+            "waypoints": [ [*spos], [*wpos] ], "waypoint_mode": 0})
+
+        path = get_current_user_path('/home/user/catkin_ws/src/arena-rosnav-3D/simulator_setup/scenarios/empty_ped_scenario.json')
+        if os.path.exists(path):
+            _, file_extension = os.path.splitext(path)
+            with open(path, "r") as f:
+                data = json.load(f)
+
+        data["pedsim_agents"] = peds
+        self.loadFromDict(data)

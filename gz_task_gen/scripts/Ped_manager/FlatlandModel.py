@@ -1,4 +1,4 @@
-from HelperFunctions import *
+from .HelperFunctions import *
 from PyQt5 import QtGui, QtCore, QtWidgets
 from enum import Enum
 import yaml

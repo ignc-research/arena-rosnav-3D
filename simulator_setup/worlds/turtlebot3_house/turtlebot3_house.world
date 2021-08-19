@@ -1,5 +1,6 @@
 <sdf version='1.4'>
   <world name='default'>
+    <plugin name="ActorPosesPlugin" filename="libActorPosesPlugin.so"/>
     <!-- A global light source -->
     <include>
       <uri>model://sun</uri>

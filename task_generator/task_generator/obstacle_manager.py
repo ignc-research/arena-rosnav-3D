@@ -4,8 +4,12 @@
 #from .tasks import PedsimManager
 from .utils import generate_freespace_indices, get_random_pos_on_map
 from gazebo_msgs.srv import GetWorldProperties
-import rospy
+import rospy, math
 from pedsim_msgs.msg import AgentStates
+from .ped_manager.ArenaScenario import *
+from .pedsim_manager import PedsimManager
+
+
 
 class ObstaclesManager:
 
@@ -30,7 +34,7 @@ class ObstaclesManager:
         # remove all existing obstacles generated before create an instance of this class
         #self.remove_obstacles()
 
-        self.OBSTACLE_RADIUS = 0,15
+        self.OBSTACLE_RADIUS = 0.15
 
     def update_map(self, new_map):
         # type (OccupancyGrid)-> None
@@ -42,7 +46,7 @@ class ObstaclesManager:
         removeAllPeds()
         #ToDo remove them in gazebo as well
 
-    def register_random_dynamic_obstacles(self, num_obstacles, forbidden_zones = None): # [(start_pos.x, start_pos.y, self.robot_manager.ROBOT_RADIUS), robot goal...]
+    def register_random_dynamic_obstacles(self, num_obstacles, forbidden_zones = None, min_dist=1): # [(start_pos.x, start_pos.y, self.robot_manager.ROBOT_RADIUS), robot goal...]
         # type: (int, list) -> None
         
         """register dynamic obstacles (humans) with random start positions
@@ -50,28 +54,32 @@ class ObstaclesManager:
             num_obstacles (int): number of the obstacles.
 
         """
-        for obstacle in range(num_obstacles):
-            start_pos = get_random_pos_on_map(self._free_space_indices, self.map, 0.2, forbidden_zones)
+        s_pos = []
+        g_pos = []
+        ids = []
+        if forbidden_zones == None: forbidden_zones = []
 
-            def dist(x1, y1, x2, y2):
-                return math.sqrt((x1 - x2)**2 + (y1 - y2)**2)
+        def dist(x1, y1, x2, y2):
+            return math.sqrt((x1 - x2)**2 + (y1 - y2)**2)
+
+        for obstacle in range(num_obstacles):
 
             max_try_times = 20
             i_try = 0
-            start_pos_ = None
-            goal_pos_ = None
         
             while i_try < max_try_times:
                 start_pos = get_random_pos_on_map(self._free_space_indices, self.map, 0.2, forbidden_zones)
                 goal_pos = get_random_pos_on_map(self._free_space_indices, self.map, 0.2, forbidden_zones)
 
-                if dist(start_pos_.position.x, start_pos_.position.y, goal_pos_.position.x, goal_pos_.position.y) < min_dist: 
+                if dist(start_pos.position.x, start_pos.position.y, goal_pos.position.x, goal_pos.position.y) < min_dist: 
                     i_try += 1
                     continue
                 try:
-                    setup_spawn_ped(obstacle)
+                    ids.append(obstacle)
+                    s_pos.append([start_pos.position.x, start_pos.position.y])
+                    g_pos.append([goal_pos.position.x, goal_pos.position.y])
                     # spawn the obstacle with this coordinates and waypoint
-                    forbidden_zones.append((start_pos.pose.x, start_pos.pose.y, self.OBSTACLE_RADIUS))
+                    forbidden_zones.append((start_pos.position.x, start_pos.position.y, self.OBSTACLE_RADIUS))
                     break
                 except rospy.ServiceException:
                     i_try += 1
@@ -79,8 +87,17 @@ class ObstaclesManager:
             # TODO Define specific type of Exception
             raise rospy.ServiceException(
                 "can not generate a path with the given start position and the goal position of the robot")
-        else:
-            return start_pos_, goal_pos_
+        # load the peds in pedsim format
+        print(s_pos,g_pos)
+        self.scenario = ArenaScenario()
+        self.scenario.createSimplePed(ids, s_pos, g_pos)
+                # setup pedsim agents
+        self.pedsim_manager = None
+
+        if len(self.scenario.pedsimAgents) > 0:
+            self.pedsim_manager = PedsimManager()
+            peds = [agent.getPedMsg() for agent in self.scenario.pedsimAgents]
+            self.pedsim_manager.spawnPeds(peds)
 
     def reset_pos_obstacles_random(self, forbidden_zones = None):
             # type: (list) -> None

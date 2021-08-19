@@ -2,9 +2,9 @@ import numpy as np
 import os
 import yaml
 import json
-from PedsimAgent import *
-from FlatlandModel import *
-from HelperFunctions import *
+from .PedsimAgent import *
+from .FlatlandModel import *
+from .HelperFunctions import *
 
 class ArenaScenario():
     def __init__(self):
@@ -83,7 +83,7 @@ class ArenaScenario():
                     data = yaml.safe_load(f)
                 else:
                     raise Exception("wrong format. file needs to have 'json' or 'yaml' file ending.")
-
+                print('test')
                 self.loadFromDict(data)
                 self.path = path_in
 

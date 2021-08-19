@@ -18,6 +18,7 @@ from std_srvs.srv import Trigger
 import rospkg, subprocess
 from .robot_manager import RobotManager
 from .obstacle_manager import ObstaclesManager
+from .pedsim_manager import PedsimManager
 from .ped_manager.ArenaScenario import *
 from std_srvs.srv import Trigger
 from pedsim_srvs.srv import SpawnPeds, SpawnInteractiveObstacles, SpawnObstacle, MovePeds
@@ -76,7 +77,7 @@ def spawn_object_gazebo():
             spawn_model(actor_id, xml_string, "", model_pose, "world")
         sub.unregister()
 
-    sub = rospy.Subscriber("/pedsim_simulator/simulated_agents", AgentStates, actor_poses_callback)
+    #sub = rospy.Subscriber("/pedsim_simulator/simulated_agents", AgentStates, actor_poses_callback)
 
 
 
@@ -90,11 +91,12 @@ class ABSTask(abc.ABCMeta('ABC', (object,), {'__slots__': ()})):
     """
 
 
-    def __init__(self, obstacle_manager, robot_manager):
+    def __init__(self, pedsim_manager, obstacle_manager, robot_manager):
         # type: (ObstaclesManager, RobotManager) -> None
         #self.obstacles_manager = obstacles_manager
         self.robot_manager = robot_manager
         self.obstacle_manager = obstacle_manager
+        self.pedsim_manager = pedsim_manager
         self._service_client_get_map = rospy.ServiceProxy('/static_map', GetMap)
         self._map_lock = Lock()
         rospy.Subscriber('/map', OccupancyGrid, self._update_map)
@@ -118,9 +120,10 @@ class RandomTask(ABSTask):
     """
 
 
-    def __init__(self, obstacle_manager, robot_manager):
+    def __init__(self, pedsim_manager, obstacle_manager, robot_manager):
         #type: (ObstaclesManager, RobotManager) -> None
-        super(RandomTask, self).__init__(obstacle_manager, robot_manager)
+        super(RandomTask, self).__init__(pedsim_manager, obstacle_manager, robot_manager)
+        
 
     def reset(self):
         """[summary]
@@ -131,7 +134,8 @@ class RandomTask(ABSTask):
             while fail_times < max_fail_times:
                 try:
                     start_pos, goal_pos = self.robot_manager.set_start_pos_goal_pos()
-                    self.obstacle_manager.reset_pos_obstacles_random(
+                    self.pedsim_manager.removeAllPeds()
+                    self.obstacle_manager.register_random_dynamic_obstacles(2, 
                         forbidden_zones=[
                             (start_pos.position.x, start_pos.position.y, ROBOT_RADIUS),
                             (goal_pos.position.x, goal_pos.position.y, ROBOT_RADIUS)])
@@ -148,9 +152,9 @@ class ManualTask(ABSTask):
     """
 
 
-    def __init__(self, ns, obstacle_manager, robot_manager):##################################################### ToDo, include obstacles
+    def __init__(self, ns, pedsim_manager, obstacle_manager, robot_manager):##################################################### ToDo, include obstacles
         # type: (str, ObstaclesManager, RobotManager) -> Any
-        super(ManualTask, self).__init__(robot_manager)
+        super(ManualTask, self).__init__(pedsim_manager, obstacle_manager, robot_manager)
         self.ns = ns
         self.ns_prefix = "" if ns == '' else "/"+ns+"/"
         # subscribe
@@ -191,9 +195,9 @@ class ManualTask(ABSTask):
 # /home/elias/catkin_ws/src/arena-rosnav-3D/arena_navigation/arena_local_planer/learning_based/arena_local_planner_drl/configs/training_curriculum_map1small.yaml
 # see train_agent.py for details
 class StagedRandomTask(RandomTask):
-    def __init__(self, ns, obstacle_manager, robot_manager, start_stage = 1, PATHS=None):
+    def __init__(self, ns, pedsim_manager, obstacle_manager, robot_manager, start_stage = 1, PATHS=None):
         # type: (str, ObstaclesManager, RobotManager, int, dict) -> None
-        super(StagedRandomTask, self).__init__(obstacle_manager, robot_manager)
+        super(StagedRandomTask, self).__init__(pedsim_manager, obstacle_manager, robot_manager)
         self.ns = ns
         self.ns_prefix = "" if ns == '' else "/"+ns+"/"
 
@@ -293,92 +297,12 @@ class StagedRandomTask(RandomTask):
         self.obstacles_manager.remove_obstacles()
 
 
-class PedsimManager():
-    def __init__(self):
-        # spawn peds
-        spawn_peds_service_name = "pedsim_simulator/spawn_peds"
-        rospy.wait_for_service(spawn_peds_service_name, 6.0)
-        self.spawn_peds_client = rospy.ServiceProxy(spawn_peds_service_name, SpawnPeds)
-        # respawn peds
-        respawn_peds_service_name = "pedsim_simulator/respawn_peds"
-        rospy.wait_for_service(respawn_peds_service_name, 6.0)
-        self.respawn_peds_client = rospy.ServiceProxy(respawn_peds_service_name, SpawnPeds)
-        # spawn interactive obstacles
-        pawn_interactive_obstacles_service_name = "pedsim_simulator/spawn_interactive_obstacles"
-        rospy.wait_for_service(pawn_interactive_obstacles_service_name, 6.0)
-        self.spawn_interactive_obstacles_client = rospy.ServiceProxy(pawn_interactive_obstacles_service_name, SpawnInteractiveObstacles)
-        # respawn interactive obstacles
-        respawn_interactive_obstacles_service_name = "pedsim_simulator/respawn_interactive_obstacles"
-        rospy.wait_for_service(respawn_interactive_obstacles_service_name, 6.0)
-        self.respawn_interactive_obstacles_client = rospy.ServiceProxy(respawn_interactive_obstacles_service_name, SpawnInteractiveObstacles)
-        # respawn interactive obstacles
-        reset_all_peds_service_name = "pedsim_simulator/reset_all_peds"
-        rospy.wait_for_service(reset_all_peds_service_name, 6.0)
-        self.reset_all_peds_client = rospy.ServiceProxy(reset_all_peds_service_name, Trigger)
-        # remove all peds
-        remove_all_peds = "/pedsim_simulator/remove_all_peds"
-        rospy.wait_for_service(remove_all_peds, 6.0)
-        self.remove_all_peds_client = rospy.ServiceProxy(remove_all_peds, Trigger)
-        # move all (dynamic) peds
-        move_peds = '/pedsim_simulator/move_peds'
-        rospy.wait_for_service(remove_all_peds, 6.0)
-        self.move_peds_client = rospy.ServiceProxy(move_peds, MovePeds)
-
-    def spawnPeds(self, peds):
-        # type (List[Ped])
-        res = self.spawn_peds_client.call(peds)
-        #spawn_object_gazebo()
-        subprocess.call('rosrun pedsim_gazebo_plugin spawn_pedsim_agents.py', shell = True)
-        print(res)
-
-    def respawnPeds(self, peds):
-        # type (List[Ped])
-        res = self.respawn_peds_client.call(peds)
-        print(res)
-
-    def spawnInteractiveObstacles(self, obstacles):
-        # type (List[InteractiveObstacle])
-        res = self.spawn_interactive_obstacles_client.call(obstacles)
-        print(res)
-
-    def respawnInteractiveObstacles(self, obstacles):
-        # type (List[InteractiveObstacle])
-        res = self.respawn_interactive_obstacles_client.call(obstacles)
-        print(res)
-
-        # setting peds in initial position
-    def resetAllPeds(self):
-        res = self.reset_all_peds_client.call()
-        print(res)
-
-    def removeAllPeds(self):
-        res = self.remove_all_peds_client.call()
-        print(res) 
-
-    def setup_spawn_ped(self, number):
-        
-        self.scenario = ArenaScenario()
-        # sample moving object
-        scenario_path = RosPack().get_path('simulator_setup') + '/scenarios/empty_map.json'
-        self.scenario.loadFromFile(scenario_path)
-
-        # setup pedsim agents
-        self.pedsim_manager = None
-        if len(self.scenario.pedsimAgents) > 0:
-            self.pedsim_manager = PedsimManager()
-            ped = [agent.getPedMsg() for agent in self.scenario.pedsimAgents] # ToDo select only the one dynamic agent
-            spawnPeds(ped)       
-
-    def move_peds(self):
-        res = self.move_peds_client.call()
-        print(res) 
-
 
 
 class ScenarioTask(ABSTask):
-    def __init__(self, obstacle_manager, robot_manager, scenario_path):
+    def __init__(self, pedsim_manager, obstacle_manager, robot_manager, scenario_path):
         # type: (ObstaclesManager, RobotManager, str) -> None
-        super(ScenarioTask, self).__init__(obstacle_manager, robot_manager)
+        super(ScenarioTask, self).__init__(pedsim_manager, obstacle_manager, robot_manager)
 
         # load scenario from file
         self.scenario = ArenaScenario()
@@ -387,7 +311,7 @@ class ScenarioTask(ABSTask):
         # setup pedsim agents
         self.pedsim_manager = None
         if len(self.scenario.pedsimAgents) > 0:
-            self.pedsim_manager = PedsimManager()
+            self.pedsim_manager = pedsim_manager
             peds = [agent.getPedMsg() for agent in self.scenario.pedsimAgents]
             self.pedsim_manager.spawnPeds(peds)
 
@@ -432,22 +356,24 @@ def get_predefined_task(ns, mode="random", start_stage = 1, PATHS = None):
 
     robot_manager = RobotManager(ns='',map_= map_response.map)
     obstacle_manager = ObstaclesManager(ns='',map_= map_response.map)
+    pedsim_manager = PedsimManager()
 
     # Tasks will be moved to other classes or functions.
     task = None
     if mode == "random":
         rospy.set_param("/task_mode", "random")
-        task = RandomTask(obstacle_manager, robot_manager)
+        obstacle_manager.register_random_dynamic_obstacles(2)
+        task = RandomTask(pedsim_manager, obstacle_manager, robot_manager)
         print("random tasks requested")
     if mode == "manual":
         rospy.set_param("/task_mode", "manual")
-        task = ManualTask(ns, robot_manager)
+        task = ManualTask(ns, pedsim_manager, robot_manager)
         print("manual tasks requested")
     if mode == "staged":
         rospy.set_param("/task_mode", "staged")
         task = StagedRandomTask(ns, start_stage, PATHS)
     if mode == "scenario":
         rospy.set_param("/task_mode", "scenario")
-        task = ScenarioTask(obstacle_manager, robot_manager, PATHS['scenario'])
+        task = ScenarioTask(pedsim_manager, obstacle_manager, robot_manager, PATHS['scenario'])
 
     return task
