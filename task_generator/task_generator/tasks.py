@@ -149,50 +149,6 @@ class RandomTask(ABSTask):
                 raise Exception("reset error!")
 
 
-class ManualTask(ABSTask):
-    """randomly spawn obstacles and user can mannually set the goal postion of the robot
-    """
-
-
-    def __init__(self, ns, pedsim_manager, obstacle_manager, robot_manager):##################################################### ToDo, include obstacles
-        # type: (str, ObstaclesManager, RobotManager) -> Any
-        super(ManualTask, self).__init__(pedsim_manager, obstacle_manager, robot_manager)
-        self.ns = ns
-        self.ns_prefix = "" if ns == '' else "/"+ns+"/"
-        # subscribe
-        rospy.Subscriber('%smanual_goal' % self.ns, Pose2D, self._set_goal_callback)
-        self._goal = Pose2D()
-        self._new_goal_received = False
-        self._manual_goal_con = Condition()
-
-    def reset(self):
-        while True:
-            with self._map_lock:
-                #self.obstacles_manager.reset_pos_obstacles_random()
-                self.robot_manager.set_start_pos_random()
-                with self._manual_goal_con:
-                    # the user has 60s to set the goal, otherwise all objects will be reset.
-                    self._manual_goal_con.wait_for(
-                        self._new_goal_received, timeout=60)
-                    if not self._new_goal_received:
-                        raise Exception(
-                            "TimeOut, User does't provide goal position!")
-                    else:
-                        self._new_goal_received = False
-                    try:
-                        # in this step, the validation of the path will be checked
-                        self.robot_manager.publish_go_new_goal_receivedal(
-                            Pose(Point(self._goal.x, self._goal.y, 0), Quaternion(quaternion_from_euler(0.0,self._goal.theta,0.0))))
-                    except rospy.ServiceException as e:
-                        rospy.logwarn(repr(e))
-                
-    def _set_goal_callback(self, goal):
-        # type: (Pose) -> None
-        with self._manual_goal_con:
-            self._goal = goal
-            self._new_goal_received = True
-        self._manual_goal_con.notify()
-
 
 # /home/elias/catkin_ws/src/arena-rosnav-3D/arena_navigation/arena_local_planer/learning_based/arena_local_planner_drl/configs/training_curriculum_map1small.yaml
 # see train_agent.py for details
@@ -367,10 +323,6 @@ def get_predefined_task(ns, mode="random", start_stage = 1, PATHS = None):
         obstacle_manager.register_random_dynamic_obstacles(N_OBS)
         task = RandomTask(pedsim_manager, obstacle_manager, robot_manager)
         print("random tasks requested")
-    if mode == "manual":
-        rospy.set_param("/task_mode", "manual")
-        task = ManualTask(ns, pedsim_manager, robot_manager)
-        print("manual tasks requested")
     if mode == "staged":
         rospy.set_param("/task_mode", "staged")
         task = StagedRandomTask(ns, start_stage, PATHS)
