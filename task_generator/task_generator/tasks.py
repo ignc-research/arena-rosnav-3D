@@ -24,11 +24,13 @@ from std_srvs.srv import Trigger
 from pedsim_srvs.srv import SpawnPeds, SpawnInteractiveObstacles, SpawnObstacle, MovePeds
 from pedsim_msgs.msg import Ped, AgentStates, InteractiveObstacle, LineObstacles
 from pedsim_msgs.msg import LineObstacle
-
+from filelock import FileLock
+from std_msgs.msg import Bool
 
 standart_orientation = quaternion_from_euler(0.0,0.0,0.0)
 ROBOT_RADIUS = 0.17
-
+global N_OBS
+N_OBS = 2
 
 from gazebo_msgs.srv import SpawnModel
 from geometry_msgs.msg import *
@@ -134,8 +136,8 @@ class RandomTask(ABSTask):
             while fail_times < max_fail_times:
                 try:
                     start_pos, goal_pos = self.robot_manager.set_start_pos_goal_pos()
-                    self.pedsim_manager.removeAllPeds()
-                    self.obstacle_manager.register_random_dynamic_obstacles(2, 
+                    self.obstacle_manager.remove_all_obstacles(N_OBS)
+                    self.obstacle_manager.register_random_dynamic_obstacles(N_OBS, 
                         forbidden_zones=[
                             (start_pos.position.x, start_pos.position.y, ROBOT_RADIUS),
                             (goal_pos.position.x, goal_pos.position.y, ROBOT_RADIUS)])
@@ -196,7 +198,7 @@ class ManualTask(ABSTask):
 # see train_agent.py for details
 class StagedRandomTask(RandomTask):
     def __init__(self, ns, pedsim_manager, obstacle_manager, robot_manager, start_stage = 1, PATHS=None):
-        # type: (str, ObstaclesManager, RobotManager, int, dict) -> None
+        # type: (str, PedsimManager, ObstaclesManager, RobotManager, int, dict) -> None
         super(StagedRandomTask, self).__init__(pedsim_manager, obstacle_manager, robot_manager)
         self.ns = ns
         self.ns_prefix = "" if ns == '' else "/"+ns+"/"
@@ -264,9 +266,9 @@ class StagedRandomTask(RandomTask):
         
         n_dynamic_obstacles = self._stages[self._curr_stage]['dynamic']
 
-        self.obstacles_manager.register_random_dynamic_obstacles(n_dynamic_obstacles, forbidden_zones = [(start_pos.x, start_pos.y, ROBOT_RADIUS), (goal_pos.x, goal_pos.y, ROBOT_RADIUS)])
+        self.obstacle_manager.register_random_dynamic_obstacles(n_dynamic_obstacles)
 
-        print("(", self.ns, ") Stage ", self._curr_stage, ": Spawning ", dynamic_obstacles, " dynamic obstacles!")
+        print("(", self.ns, ") Stage ", self._curr_stage, ": Spawning ", n_dynamic_obstacles, " dynamic obstacles!")
 
     def _read_stages_from_yaml(self):
         file_location = self._PATHS.get('curriculum')
@@ -362,7 +364,7 @@ def get_predefined_task(ns, mode="random", start_stage = 1, PATHS = None):
     task = None
     if mode == "random":
         rospy.set_param("/task_mode", "random")
-        obstacle_manager.register_random_dynamic_obstacles(2)
+        obstacle_manager.register_random_dynamic_obstacles(N_OBS)
         task = RandomTask(pedsim_manager, obstacle_manager, robot_manager)
         print("random tasks requested")
     if mode == "manual":

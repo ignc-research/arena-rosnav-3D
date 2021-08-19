@@ -3,7 +3,7 @@
 
 #from .tasks import PedsimManager
 from .utils import generate_freespace_indices, get_random_pos_on_map
-from gazebo_msgs.srv import GetWorldProperties
+from gazebo_msgs.srv import DeleteModel
 import rospy, math
 from pedsim_msgs.msg import AgentStates
 from .ped_manager.ArenaScenario import *
@@ -42,9 +42,19 @@ class ObstaclesManager:
         # a tuple stores the indices of the non-occupied spaces. format ((y,....),(x,...)
         self._free_space_indices = generate_freespace_indices(self.map)
 
-    def remove_obstacles(self):
-        removeAllPeds()
-        #ToDo remove them in gazebo as well
+
+    # def remove_obstacle(self, id):
+    #     # type: (int) -> None
+    #     del_model_prox = rospy.ServiceProxy('gazebo/delete_model', DeleteModel)
+    #     del_model_prox(str(id))
+
+    def remove_all_obstacles(self, N_OBS):
+        # type: (int) -> None
+        self.pedsim_manager = PedsimManager()
+        self.pedsim_manager.removeAllPeds()
+        for obstale in range(N_OBS):
+            del_model_prox = rospy.ServiceProxy('gazebo/delete_model', DeleteModel)
+            del_model_prox(str(obstale + 1))
 
     def register_random_dynamic_obstacles(self, num_obstacles, forbidden_zones = None, min_dist=1): # [(start_pos.x, start_pos.y, self.robot_manager.ROBOT_RADIUS), robot goal...]
         # type: (int, list) -> None

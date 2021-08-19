@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <sdf version='1.4'>
   <world name='default'>
     <plugin name="ActorPosesPlugin" filename="libActorPosesPlugin.so"/>

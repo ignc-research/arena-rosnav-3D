@@ -5,7 +5,7 @@ import rospy
 from std_srvs.srv import Trigger
 import subprocess
 from .ped_manager.ArenaScenario import *
-from std_srvs.srv import Trigger
+from std_srvs.srv import Trigger, SetBool
 from pedsim_srvs.srv import SpawnPeds, SpawnInteractiveObstacles, MovePeds
 
 
@@ -34,7 +34,7 @@ class PedsimManager():
         # remove all peds
         remove_all_peds = "/pedsim_simulator/remove_all_peds"
         rospy.wait_for_service(remove_all_peds, 6.0)
-        self.remove_all_peds_client = rospy.ServiceProxy(remove_all_peds, Trigger)
+        self.remove_all_peds_client = rospy.ServiceProxy(remove_all_peds, SetBool)
         # move all (dynamic) peds
         move_peds = '/pedsim_simulator/move_peds'
         rospy.wait_for_service(remove_all_peds, 6.0)
@@ -68,22 +68,8 @@ class PedsimManager():
         print(res)
 
     def removeAllPeds(self):
-        res = self.remove_all_peds_client.call()
-        print(res) 
-
-    def setup_spawn_ped(self, number):
-        
-        self.scenario = ArenaScenario()
-        # sample moving object
-        scenario_path = RosPack().get_path('simulator_setup') + '/scenarios/empty_map.json'
-        self.scenario.loadFromFile(scenario_path)
-
-        # setup pedsim agents
-        self.pedsim_manager = None
-        if len(self.scenario.pedsimAgents) > 0:
-            self.pedsim_manager = PedsimManager()
-            ped = [agent.getPedMsg() for agent in self.scenario.pedsimAgents] # ToDo select only the one dynamic agent
-            spawnPeds(ped)       
+        res = self.remove_all_peds_client.call(True)
+        print()     
 
     def move_peds(self):
         res = self.move_peds_client.call()

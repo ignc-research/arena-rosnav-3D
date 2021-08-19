@@ -12,8 +12,8 @@
   <arg name="enable_pedsim" default="true"/>
 
   <!-- To make the training more efficient make sure this step_size*laser_update_rate == 1  -->
-  <arg name="world" default="turtlebot3_house"/>
-  <arg name="model" default="burger"/>
+  <arg name="world" default="aws_house" doc="world type [turtlebot3_house, small_warehouse, aws_house]"/>
+  <arg name="model" default="burger" doc="model type [burger, waffle]"/>
   <arg name="step_size" default="0.01"/>
   <arg name="update_rate" default="250"/>
   <arg name="show_viz"  default="true"/>
@@ -29,10 +29,7 @@
   <param name="use_rviz"       value="$(arg use_rviz)"/>
   <param name="single_env"       value="true"/>
 
-  <!-- the folder name under the path simulator_setup/maps  -->
-  <arg name="map_file"        default="map_house"/>
-  <arg name="map_path" default="$(find simulator_setup)/maps/$(arg map_file)/map.yaml" />
-  <!--<param name="world_path" value="$(find simulator_setup)/maps/$(arg map_file)/map.world.yaml" />
+  <arg name="map_path" default="$(find simulator_setup)/maps/map_$(arg world)/map.yaml" />
   -->
   <!-- the velocity of randomly genelized obstacles  -->
   <arg name="obs_vel" default="0.3" />
