@@ -21,9 +21,6 @@ from .obstacle_manager import ObstaclesManager
 from .pedsim_manager import PedsimManager
 from .ped_manager.ArenaScenario import *
 from std_srvs.srv import Trigger
-from pedsim_srvs.srv import SpawnPeds, SpawnInteractiveObstacles, SpawnObstacle, MovePeds
-from pedsim_msgs.msg import Ped, AgentStates, InteractiveObstacle, LineObstacles
-from pedsim_msgs.msg import LineObstacle
 from filelock import FileLock
 from std_msgs.msg import Bool
 
@@ -321,6 +318,7 @@ def get_predefined_task(ns, mode="random", start_stage = 1, PATHS = None):
     if mode == "random":
         rospy.set_param("/task_mode", "random")
         obstacle_manager.register_random_dynamic_obstacles(N_OBS)
+        obstacle_manager.register_random_static_obstacles(N_OBS)
         task = RandomTask(pedsim_manager, obstacle_manager, robot_manager)
         print("random tasks requested")
     if mode == "staged":

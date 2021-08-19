@@ -2,14 +2,18 @@
 
 
 #from .tasks import PedsimManager
+from random import randint, uniform
 from .utils import generate_freespace_indices, get_random_pos_on_map
-from gazebo_msgs.srv import DeleteModel
+from gazebo_msgs.srv import DeleteModel, SpawnModel
 import rospy, math
+import rospkg
 from pedsim_msgs.msg import AgentStates
 from .ped_manager.ArenaScenario import *
 from .pedsim_manager import PedsimManager
+from geometry_msgs.msg import Pose, Point, Quaternion
+from tf.transformations import quaternion_from_euler
 
-
+standart_orientation = quaternion_from_euler(0.0,0.0,0.0)
 
 class ObstaclesManager:
 
@@ -55,6 +59,29 @@ class ObstaclesManager:
         for obstale in range(N_OBS):
             del_model_prox = rospy.ServiceProxy('gazebo/delete_model', DeleteModel)
             del_model_prox(str(obstale + 1))
+
+    def spawn_static_obstacle(self, number, pos, random_size = False):
+        # type: (bool) -> None
+
+        spawn_model = rospy.ServiceProxy('gazebo/spawn_sdf_model', SpawnModel)
+        s_obs_model_file = rospkg.RosPack().get_path('simulator_setup') + '/obstacles/cylinder/model.sdf'
+
+        # loading the model and setting radius 
+        for o_pos_, id in zip(pos, number): 
+            with open(s_obs_model_file) as f:
+                xml_model = f.read()
+            if random_size: 
+                radius = uniform(0.5, 3.)
+                xml_model = xml_model.replace('size', str(radius))
+            else: xml_model.replace('size', '1.')
+            o_pos = Pose(Point(*o_pos_, 0), Quaternion(*standart_orientation))
+            print(o_pos)
+            spawn_model(
+                model_name="s_obs_%d" % id, 
+                model_xml = xml_model, 
+                robot_namespace='/foo', 
+                initial_pose = o_pos, 
+                reference_frame = 'world')
 
     def register_random_dynamic_obstacles(self, num_obstacles, forbidden_zones = None, min_dist=1): # [(start_pos.x, start_pos.y, self.robot_manager.ROBOT_RADIUS), robot goal...]
         # type: (int, list) -> None
@@ -108,6 +135,36 @@ class ObstaclesManager:
             self.pedsim_manager = PedsimManager()
             peds = [agent.getPedMsg() for agent in self.scenario.pedsimAgents]
             self.pedsim_manager.spawnPeds(peds)
+
+
+    def register_random_static_obstacles(self, num_obstacles, forbidden_zones = None): # [(start_pos.x, start_pos.y, self.robot_manager.ROBOT_RADIUS), robot goal...]
+        # type: (int, list) -> None
+        """register dynamic obstacles (humans) with random start positions
+        Args:
+            num_obstacles (int): number of the obstacles.
+
+        """
+        pos = []
+        ids = []
+        if forbidden_zones == None: forbidden_zones = []
+
+        for obstacle in range(num_obstacles):
+
+            max_try_times = 20
+            i_try = 0
+        
+            while i_try < max_try_times:
+                pos_obs = get_random_pos_on_map(self._free_space_indices, self.map, 0.2, forbidden_zones)
+                try:
+                    ids.append(obstacle)
+                    pos.append([pos_obs.position.x, pos_obs.position.y])
+                    break
+                except rospy.ServiceException:
+                    i_try += 1
+        self.spawn_static_obstacle(ids, pos)
+    
+
+
 
     def reset_pos_obstacles_random(self, forbidden_zones = None):
             # type: (list) -> None

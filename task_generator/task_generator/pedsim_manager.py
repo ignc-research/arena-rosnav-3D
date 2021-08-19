@@ -8,7 +8,6 @@ from .ped_manager.ArenaScenario import *
 from std_srvs.srv import Trigger, SetBool
 from pedsim_srvs.srv import SpawnPeds, SpawnInteractiveObstacles, MovePeds
 
-
 class PedsimManager():
     def __init__(self):
         # spawn peds
