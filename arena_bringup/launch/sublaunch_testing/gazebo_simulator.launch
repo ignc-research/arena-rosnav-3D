@@ -1,5 +1,5 @@
 <launch>
-  <arg name="world" default="turtlebot3_house" doc = "world type [turtlebot3_house, small_warehouse, aws_house]" /><!--extent for hospital & warehouse-->
+  <arg name="world" default="turtlebot3_house" doc = "world type [turtlebot3_house, small_warehouse, aws_house, outside]" /><!--extent for hospital & warehouse-->
   <arg name="model" default="burger" doc="model type [burger, waffle]"/>
   <arg name="show_viz" default="true"/> <!--maybe change later!-->
   <arg name="use_rviz" default="true"/>
@@ -17,6 +17,7 @@
     <arg name="gui" value="true"/><!--maybe change later!-->
     <arg name="headless" value="false"/>
     <arg name="debug" value="false"/>
+    <arg name='verbose' value='false'/>
   </include>
 
 

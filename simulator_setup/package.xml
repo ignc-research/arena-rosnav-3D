@@ -19,6 +19,7 @@
   <exec_depend>gazebo_ros</exec_depend>
   <exec_depend>gazebo</exec_depend>
   <exec_depend>gazebo_plugins</exec_depend>
+  <exec_depend>turtlebot3_description</exec_depend>
 
   <export>
     <gazebo_ros plugin_path="${prefix}/worlds/aws_house/lib" gazebo_media_path="${prefix}/worlds/aws_house" gazebo_model_path="${prefix}/worlds/aws_house/models"/>

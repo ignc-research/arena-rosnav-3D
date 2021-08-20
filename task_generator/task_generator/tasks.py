@@ -27,7 +27,7 @@ from std_msgs.msg import Bool
 standart_orientation = quaternion_from_euler(0.0,0.0,0.0)
 ROBOT_RADIUS = 0.17
 global N_OBS
-N_OBS = 2
+N_OBS = 10
 
 from gazebo_msgs.srv import SpawnModel
 from geometry_msgs.msg import *
@@ -317,8 +317,8 @@ def get_predefined_task(ns, mode="random", start_stage = 1, PATHS = None):
     task = None
     if mode == "random":
         rospy.set_param("/task_mode", "random")
-        obstacle_manager.register_random_dynamic_obstacles(N_OBS)
-        obstacle_manager.register_random_static_obstacles(N_OBS)
+        obstacle_manager.register_random_static_obstacles(10)
+        #obstacle_manager.register_random_dynamic_obstacles(N_OBS)
         task = RandomTask(pedsim_manager, obstacle_manager, robot_manager)
         print("random tasks requested")
     if mode == "staged":

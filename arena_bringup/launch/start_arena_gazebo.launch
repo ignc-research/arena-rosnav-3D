@@ -84,8 +84,6 @@
   <include file="$(find arena_bringup)/launch/sublaunch_testing/sensor_sim.launch" unless="$(eval arg('disable_scenario') or arg('train_mode'))">
   </include>
 
-  
-
   <!-- move_base plan manager: which provide basic global planner and cost map --> <!-- TODO: noch drei planer stehen aus. Bisher nur: tep, dwa, rlca-->
   <include file="$(find arena_bringup)/launch/sublaunch_testing/move_base/move_base_$(arg local_planner).launch"/>
 
@@ -101,7 +99,7 @@
   <!-- Pedsim -->
   <arg name="simulation_factor" default="1"/>
   <arg name="pedsim_update_rate" default="30.0"/>
-  <arg name="scene_file" default="$(find simulator_setup)/scenarios/empty.xml"/>
+  <arg name="scene_file" default="$(find simulator_setup)/scenarios/ped_scenarios/$(arg world).xml"/>
 
   <node name="pedsim_simulator" pkg="pedsim_simulator" type="pedsim_simulator" output="screen" if="$(arg enable_pedsim)">
       <param name="simulation_factor" value="$(arg simulation_factor)" type="double"/>

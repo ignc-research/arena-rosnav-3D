@@ -1,12 +1,14 @@
 #!/usr/bin/env python
 
 
-import rospy
+import rospy, itertools
 from std_srvs.srv import Trigger
 import subprocess
 from .ped_manager.ArenaScenario import *
 from std_srvs.srv import Trigger, SetBool
-from pedsim_srvs.srv import SpawnPeds, SpawnInteractiveObstacles, MovePeds
+from pedsim_srvs.srv import SpawnPeds, SpawnInteractiveObstacles, MovePeds, SpawnObstacle
+from geometry_msgs.msg import Point
+from pedsim_msgs.msg import LineObstacles
 
 class PedsimManager():
     def __init__(self):
@@ -38,6 +40,10 @@ class PedsimManager():
         move_peds = '/pedsim_simulator/move_peds'
         rospy.wait_for_service(remove_all_peds, 6.0)
         self.move_peds_client = rospy.ServiceProxy(move_peds, MovePeds)
+        # spawn Object in pedsim
+        spawn_obstacle = '/pedsim_simulator/add_obstacle'
+        rospy. wait_for_service(spawn_obstacle, 6.0)
+        self.spawn_obstacle = rospy.ServiceProxy(spawn_obstacle, SpawnObstacle)
 
     def spawnPeds(self, peds):
         # type (List[Ped])
@@ -74,3 +80,14 @@ class PedsimManager():
         res = self.move_peds_client.call()
         print(res) 
 
+    def spawnObstacle(self, position, size):
+        # type: (list, float) -> None
+        start_x = position[0] - size/2
+        start_y = position[1] - size/2
+        end_x = position[0] + size/2
+        end_y = position[1] + size/2
+
+        # creates the coordinates of the linear obstacles, by combining uniquely combining all four corner coordinates (in total 4 obstacles are spawned)
+        pos = list(itertools.product([start_x, start_y], [end_x, end_y]))
+        for a, b  in zip(pos[::2], pos[1::2]):
+            self.spawn_obstacle(LineObstacles(Point(*a, 0), Point(*b, 0)))
