@@ -19,7 +19,7 @@ def generate_freespace_indices(map_):
     indices_y_x = np.where(map_2d == 0)
     return indices_y_x
 
-def get_random_pos_on_map(free_space_indices, map_, safe_dist, forbidden_zones = None):
+def get_random_pos_on_map(free_space_indices, map_, safe_dist, forbidden_zones = None, ):
     # type: (OccupancyGrid, float, list)
     """
     Args:
@@ -28,21 +28,19 @@ def get_random_pos_on_map(free_space_indices, map_, safe_dist, forbidden_zones =
         map (OccupancyGrid): map proviced by the ros map service
         forbidden_zones (list of 3 elementary tuple(x,y,r)): a list of zones which is forbidden
     Returns:
-    x_in_meters,y_in_meters,theta
+        Position in Pose() msg form (containng Point + Quaternion)
     """
-
+    # checks for all forbidden zones if the distance to the chosen position is larger then its safe_distance + the objects radius
     def is_pos_valid(x_in_meters, y_in_meters):
         for forbidden_zone in forbidden_zones:
             if (x_in_meters-forbidden_zone[0])**2+(y_in_meters-forbidden_zone[1])**2 < (forbidden_zone[2]+safe_dist)**2:
                 return False
 
-        # in pixel
-        cell_radius = int(safe_dist / map_.info.resolution)
+        # converts distance from meter in pixel
+        cell_radius = int((forbidden_zone[2] + safe_dist) / map_.info.resolution) # radius +  safe dist
         x_index = int((x_in_meters - map_.info.origin.position.x) // map_.info.resolution)
         y_index = int((y_in_meters - map_.info.origin.position.y) // map_.info.resolution)
 
-        # check occupancy around (x_index,y_index) with cell_radius
-        # TODO use numpy for checking
         for i in range(x_index - cell_radius, x_index + cell_radius, 1):
             for j in range(y_index - cell_radius, y_index + cell_radius, 1):
                 index = j * map_.info.width + i

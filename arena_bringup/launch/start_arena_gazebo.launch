@@ -1,7 +1,7 @@
 <launch>
   <param name="use_sim_time" value="true"/>
 
-  <arg name="train_mode"       default="true"/>
+  <arg name="train_mode"       default="false"/>
   <param name="train_mode" value="$(arg train_mode)" />
   
   <arg name="local_planner"   default="dwa"/> <!--originally teb-->
@@ -11,8 +11,10 @@
   <arg name="reset"   default="true"/>
   <arg name="enable_pedsim" default="true"/>
 
-  <!-- To make the training more efficient make sure this step_size*laser_update_rate == 1  -->
-  <arg name="world" default="outside" doc="world type [turtlebot3_house, small_warehouse, aws_house, outside]"/>
+  <!-- chose the inside scenario -->
+  <arg name="outside" default="false"/>
+  <arg name="world" default="turtlebot3_house" doc="world type [turtlebot3_house, small_warehouse, aws_house, outside]" unless="$(arg outside)"/>
+  <arg name="world" default="outside" if="$(arg outside)"/>
   <arg name="model" default="burger" doc="model type [burger, waffle]"/>
   <arg name="step_size" default="0.01"/>
   <arg name="update_rate" default="250"/>
@@ -78,6 +80,7 @@
    <arg name="scenarios_json_path"  value="$(find simulator_setup)/scenarios/$(arg scenario_file)"/>
    <arg name="auto_reset"           value="$(arg reset)"/>
    <arg name="timeout"              value="$(arg timeout)"/>
+   <arg name="world"                value="$(arg world)"/>
   </include>
 
 <!-- ********************************* nicht klar, was er macht & wofür man den braucht************************************************************-->

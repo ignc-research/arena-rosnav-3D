@@ -92,7 +92,7 @@ class RobotManager:
             self._free_space_indices, self.map, ROBOT_RADIUS)
         self.move_robot(start_pos)
 
-    def set_start_pos_goal_pos(self, start_pos = None, goal_pos = None, min_dist=1):
+    def set_start_pos_goal_pos(self, start_pos = None, goal_pos = None, min_dist=1, forbidden_zones = None):
         # type: (Union[Pose2D, None], Union[Pose2D, None], int)
         """set up start position and the goal postion. Path validation checking will be conducted. If it failed, an
         exception will be raised.
@@ -112,7 +112,7 @@ class RobotManager:
             max_try_times = 20
         else:
             max_try_times = 1
-
+        if forbidden_zones == None: forbidden_zones = None # change later
         i_try = 0
         start_pos_ = None
         goal_pos_ = None
@@ -121,13 +121,13 @@ class RobotManager:
 
             if start_pos is None:
                 start_pos_ = get_random_pos_on_map(
-                    self._free_space_indices, self.map, ROBOT_RADIUS * 2)
+                    self._free_space_indices, self.map, ROBOT_RADIUS * 2, forbidden_zones)
             else:
                 start_pos_ = start_pos
                 
             if goal_pos is None:
                 goal_pos_ = get_random_pos_on_map(
-                    self._free_space_indices, self.map, ROBOT_RADIUS * 2)
+                    self._free_space_indices, self.map, ROBOT_RADIUS * 2, forbidden_zones)
             else:
                 goal_pos_ = goal_pos
                 

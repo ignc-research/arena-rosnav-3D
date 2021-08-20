@@ -120,19 +120,20 @@ class RandomTask(ABSTask):
 
 
     def __init__(self, pedsim_manager, obstacle_manager, robot_manager):
-        #type: (ObstaclesManager, RobotManager) -> None
+        #type: (ObstaclesManager, RobotManager, list) -> None
         super(RandomTask, self).__init__(pedsim_manager, obstacle_manager, robot_manager)
         
 
     def reset(self):
         """[summary]
         """
+        forbidden_zones = []
         with self._map_lock:
             max_fail_times = 3
             fail_times = 0
             while fail_times < max_fail_times:
                 try:
-                    start_pos, goal_pos = self.robot_manager.set_start_pos_goal_pos()
+                    start_pos, goal_pos = self.robot_manager.set_start_pos_goal_pos(forbidden_zones)
                     self.obstacle_manager.remove_all_obstacles(N_OBS)
                     self.obstacle_manager.register_random_dynamic_obstacles(N_OBS, 
                         forbidden_zones=[
@@ -317,8 +318,8 @@ def get_predefined_task(ns, mode="random", start_stage = 1, PATHS = None):
     task = None
     if mode == "random":
         rospy.set_param("/task_mode", "random")
-        obstacle_manager.register_random_static_obstacles(10)
-        #obstacle_manager.register_random_dynamic_obstacles(N_OBS)
+        forbidden_zones = obstacle_manager.register_random_static_obstacles(10)
+        forbidden_zones = obstacle_manager.register_random_dynamic_obstacles(N_OBS, forbidden_zones=forbidden_zones)
         task = RandomTask(pedsim_manager, obstacle_manager, robot_manager)
         print("random tasks requested")
     if mode == "staged":
