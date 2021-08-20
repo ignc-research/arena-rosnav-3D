@@ -1,28 +1,20 @@
-# IROS21 information
-To test the code and reproduce the experiments, follow the installation steps in [Installation.md](docs/Installation.md). Afterwards, follow the steps in [Evaluations.md](docs/Evaluations.md).
-
-To test the different **Waypoint Generators**, follow the steps in [waypoint_eval.md](docs/eval_28032021.md)
-
-**DRL agents** are located in the [agents folder](/arena_navigation/arena_local_planner/learning_based/arena_local_planner_drl/agents).
-
+find the project task-description [here](docs/project_tasks.md)
 # Arena-Rosnav - 3D
-A flexible, high-performance 3D simulator with configurable agents, multiple sensors, and benchmark scenarios for testing robotic navigation. 
+This repository builds on the [arena-rosnav](https://github.com/ignc-research/arena-rosnav) repository and extends its functionalities by including a version of the [pedsim_ros](https://github.com/eliastreis/pedsim_ros) for obstacle management and Gazebo as simulator. (The Flatland-simulator, as used in arena-rosnav is not included). (For a detailed description of differences to arena-rosnav see [here](docs/difference_arena_arena-3D)).
 
-Arena-Rosnav uses Gazebo as the core simulator and is a modular high-level library for end-to-end experiments in embodied AI -- defining embodied AI tasks (e.g. navigation, obstacle avoidance, behavior cloning), training agents (via imitation or reinforcement learning, or no learning at all using conventional approaches like DWA, TEB or MPC), and benchmarking their performance on the defined tasks using standard metrics.
-
-
+## Examples
 | <img width="400" height="400" src="/img/rosnav1.gif"> | <img width="400" height="400" src="/img/rosnav2.gif"> |
 |:--:| :--:| 
 | *Training Stage* | *Deployment Stage* |
 
 
 ## What is this repository for?
-Train DRL agents on ROS compatible simulations for autonomous navigation in highly dynamic environments. Flatland-DRL integration is inspired by Ronja Gueldenring's work: [drl_local_planner_ros_stable_baselines](https://github.com/RGring/drl_local_planner_ros_stable_baselines.git). Test state of the art local and global planners in ROS environments both in simulation and on real hardware. Following features are included:
+Testing DRL agents on ROS compatible simulations for autonomous navigation in highly dynamic 3D environments. Test state of the art local and global planners in ROS environments both in simulation and on real hardware. Following features are included:
 
-* Setup to train a local planner with reinforcement learning approaches from [stable baselines3](https://github.com/DLR-RM/stable-baselines3.git)
-* Training in simulator [Flatland](https://github.com/avidbots/flatland) in train mode
-* Include realistic behavior patterns and semantic states of obstacles (speaking, running, etc.)
-* Include different obstacles classes (other robots, vehicles, types of persons, etc.)
+* multiple detailed scenario-worlds 
+* creation of random 3D-words with static and dynamic obstacles
+* different robot models
+* realistic behavior patterns and semantic states of dynamic obstacles (by including pedsims extended social force model)
 * Implementation of intermediate planner classes to combine local DRL planner with global map-based planning of ROS Navigation stack
 * Testing a variety of planners (learning based and model based) within specific scenarios in test mode
 * Modular structure for extension of new functionalities and approaches
@@ -36,65 +28,35 @@ We provide a Docker file to run our code on other operating systems. Please refe
 
 ## 2. Usage
 
-### DRL Training
+### Testing
 
-Please refer to [DRL-Training.md](docs/DRL-Training.md) for detailed explanations about agent, policy and training setups.
+Please refer to [Testing.md](docs/Testing.md) for detailed explanations about agent, policy and training setups.
 
-### Scenario Creation with the [arena-scenario-gui](https://github.com/ignc-research/arena-scenario-gui/)
-To create complex, collaborative scenarios for training and/or evaluation purposes, please refer to the repo [arena-scenario-gui](https://github.com/ignc-research/arena-scenario-gui/). This application provides you with an user interface to easily create complex scenarios with multiple dynamic and static obstacles by drawing and other simple UI elements like dragging and dropping. This will save you a lot of time in creating complex scenarios for you individual use cases.
+**Sample usage**
+
+After successfull installion run the following command with your python-env activated (`workon rosnav`)
+```bash
+roslaunch arena_bringup start_arena_gazebo.launch
+```
+The following output can be expected:
+
+**insert immage**
+
+
+### Training
+***Arena-Rosnav's training functionality is not yet included***
+
+## Miscellaneous
+
+- [How to include further world files](<docs/../docs/Miscellaneous.md:How to include further world files>)
+- [Detailed description of changes to arena-rosnav](docs/project_report.md)
+- [Further improvement ideas](<docs/project_report.md:Open topics>)
+- [DesignStructure](docs/DesignStructure.md) ToDo
 
 # Used third party repos:
-* Flatland: http://flatland-simulator.readthedocs.io
 * ROS navigation stack: http://wiki.ros.org/navigation
 * Pedsim: https://github.com/srl-freiburg/pedsim_ros
+* Small-warehouse world: https://github.com/aws-robotics/aws-robomaker-small-warehouse-world
+* Small-house world: https://github.com/aws-robotics/aws-robomaker-small-warehouse-world
+* Turtlebot3-robot & house-world: https://github.com/ROBOTIS-GIT/turtlebot3_simulations
 
----
-# arena-rosnav-3D
-
-## Gazebo
-
-### Helpful links
-* https://github.com/aws-robotics/aws-robomaker-hospital-world
-* https://github.com/aws-robotics/aws-robomaker-small-warehouse-world
-
-
-Human Gazebo
-
-* https://github.com/robotology/human-gazebo
-
-
-
-## First Steps
-* Do ROS1 tutorials (we are working with ubuntu 18 and ROS melodic! :
-http://wiki.ros.org/ROS/Tutorials
-
-* Install Gazebo Robot simulator and do some tutorials to understand gazebo: 
-Start with this:
-https://emanual.robotis.com/docs/en/platform/turtlebot3/simulation/
-* Tutorials for advanced functionalities later on (spawn obstacles, build world, etc.):
-http://gazebosim.org/tutorials
-
-http://wiki.ros.org/simulator_gazebo/Tutorials/SpawningObjectInSimulation
-
-* install the arena-rosnav environment:
-https://github.com/ignc-research/arena-rosnav
-
-* Understand the task generator (you can have a look, copy and adjust the code for gazebo, whereas arena-rosnav uses flatland as simulation engine to spawn obstacles, this should now be achieved in gazebo):
-https://github.com/ignc-research/arena-rosnav/tree/local_planner_subgoalmode/task_generator/
-
-
-## Follow-up Steps
-* Build some complex environments of offices, warehouses, etc. (see existing world files and links above)
-* Integrate humans and dynamic obstacles 
-Therefore, have a look at these gazebo pluggins: 
-    * https://github.com/onlytailei/gym_ped_sim
-    * https://github.com/srl-freiburg/pedsim_ros
-
-    Also have a look at the Gazebo actor documentation 
-    http://gazebosim.org/tutorials?tut=actor&cat=build_robot
-    
-* Implement/integrate the tasks generator of arena-rosnav into gazebo to have different spawn modes:
-    * random spawning of dynamic obstacles
-    * scenario spawning (where we can set specific scenarios)
-    * reset functionality, where the robot resets after reaching a goal (this is improtatnt to conduct consistant evaluation runs which consist of e.g. 50 runs where the robot has to reach the goal 50 times in order to evaluate its performance
-* Test some arena-rosnav planners in Gazebo
