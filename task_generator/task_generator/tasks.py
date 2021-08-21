@@ -27,7 +27,7 @@ from std_msgs.msg import Bool
 standart_orientation = quaternion_from_euler(0.0,0.0,0.0)
 ROBOT_RADIUS = 0.17
 global N_OBS
-N_OBS = 10
+N_OBS = 2
 
 from gazebo_msgs.srv import SpawnModel
 from geometry_msgs.msg import *
@@ -133,7 +133,7 @@ class RandomTask(ABSTask):
             fail_times = 0
             while fail_times < max_fail_times:
                 try:
-                    start_pos, goal_pos = self.robot_manager.set_start_pos_goal_pos(forbidden_zones)
+                    start_pos, goal_pos = self.robot_manager.set_start_pos_goal_pos()
                     self.obstacle_manager.remove_all_obstacles(N_OBS)
                     self.obstacle_manager.register_random_dynamic_obstacles(N_OBS, 
                         forbidden_zones=[

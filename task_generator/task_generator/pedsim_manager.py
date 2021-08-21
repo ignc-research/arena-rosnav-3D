@@ -3,12 +3,13 @@
 
 import rospy, itertools
 from std_srvs.srv import Trigger
+from std_msgs.msg import Header
 import subprocess
 from .ped_manager.ArenaScenario import *
 from std_srvs.srv import Trigger, SetBool
 from pedsim_srvs.srv import SpawnPeds, SpawnInteractiveObstacles, MovePeds, SpawnObstacle
 from geometry_msgs.msg import Point
-from pedsim_msgs.msg import LineObstacles
+from pedsim_msgs.msg import LineObstacles, LineObstacle
 
 class PedsimManager():
     def __init__(self):
@@ -89,5 +90,5 @@ class PedsimManager():
 
         # creates the coordinates of the linear obstacles, by combining uniquely combining all four corner coordinates (in total 4 obstacles are spawned)
         pos = list(itertools.product([start_x, start_y], [end_x, end_y]))
-        for a, b  in zip(pos[::2], pos[1::2]):
-            self.spawn_obstacle(LineObstacles(Point(*a, 0), Point(*b, 0)))
+        #for a, b  in zip(pos[::2], pos[1::2]):
+            #self.spawn_obstacle(LineObstacles(header = Header(), obstacle = LineObstacle(start = Point(*a, 0), end = Point(*b, 0))))

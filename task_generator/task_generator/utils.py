@@ -37,7 +37,7 @@ def get_random_pos_on_map(free_space_indices, map_, safe_dist, forbidden_zones =
                 return False
 
         # converts distance from meter in pixel
-        cell_radius = int((forbidden_zone[2] + safe_dist) / map_.info.resolution) # radius +  safe dist
+        cell_radius = int((safe_dist) / map_.info.resolution)
         x_index = int((x_in_meters - map_.info.origin.position.x) // map_.info.resolution)
         y_index = int((y_in_meters - map_.info.origin.position.y) // map_.info.resolution)
 

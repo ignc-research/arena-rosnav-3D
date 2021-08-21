@@ -8,7 +8,7 @@
 		  <geometry>
 		    <cylinder>
 		      <radius>shape</radius>
-		      <length>5.</length>
+		      <length>2.2</length>
 		    </cylinder>
 		  </geometry>
 		</collision>
@@ -16,7 +16,7 @@
 		  <geometry>
 		    <cylinder>
 		      <radius>shape</radius>
-		      <length>5.</length>
+		      <length>2.2</length>
 		    </cylinder>
 		  </geometry>
 		</visual>

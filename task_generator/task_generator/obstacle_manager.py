@@ -72,13 +72,13 @@ class ObstaclesManager:
             with open(s_obs_model_file) as f:
                 xml_model = f.read()
             xml_model = xml_model.replace('shape', str(r))
-            o_pos = Pose(Point(*o_pos_, 0), Quaternion(*standart_orientation))
+            o_pos = Pose(Point(*o_pos_, 1.1), Quaternion(*standart_orientation))
             # spawn obstacle in gazebo & pedsim
             spawn_model("s_obs_%d" % id, xml_model,'', o_pos, 'world')
-            #self.pedsim_manager.spawnObstacle(o_pos_, radius)
+            #self.pedsim_manager.spawnObstacle(o_pos_, r) # ToDo not yet working
 
     def register_random_dynamic_obstacles(self, num_obstacles, forbidden_zones = None, min_dist=1): # [(start_pos.x, start_pos.y, self.robot_manager.ROBOT_RADIUS), robot goal...]
-        # type: (int, list) -> None
+        # type: (int, list, int) -> None
         
         """register dynamic obstacles (humans) with random start positions
         Args:
@@ -136,9 +136,10 @@ class ObstaclesManager:
             num_obstacles (int): number of the obstacles.
 
         """
-        status = rospy.get_param('~world')
+        #status = rospy.get_param('~world')
+        status='no'
         if not status == 'outside':
-            forbidden_zones = []
+            forbidden_zones = None
             return forbidden_zones
 
         pos, ids, radius = [], [], []

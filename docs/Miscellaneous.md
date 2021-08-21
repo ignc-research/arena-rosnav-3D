@@ -1,6 +1,6 @@
 # How to include further world files
 
-1. Dowload the worldfile + ggf. needed models 
+1. Download the world-file + models (if needed)
 2. The `.world` file should be saved in [simulator_setup/worlds](simulator_setup/worlds). Create a file of the following structure:
 
 ```
@@ -16,4 +16,25 @@
 ```bash
 <plugin name="ActorPosesPlugin" filename="libActorPosesPlugin.so"/>
 ```
-4. Create a map-file
+4. If your world includes further gazebo models set the `GAZEBO_MODEL_PATH` by appending the following line in the arena_simulator `package.xml` file (in between the `<export></export>` tags)
+```bash
+ <gazebo_ros plugin_path="${prefix}/worlds/{NAME OF YOUR WORLD}/lib" gazebo_media_path="${prefix}worlds/{NAME OF YOUR WORLD}" gazebo_model_path="${prefix}/worlds/{NAME OF YOUR WORLD}/models"/>
+```
+5. Create a  occupancy map-file, safe it under `simulator_setup/maps/map_{NAME OF YOUR WORLD}/map.png`. If the map is not already created you can create it by using: 
+
+- [Gmapping](http://wiki.ros.org/gmapping)
+- [gazebo_ros_2Dmap_plugin](https://github.com/marinaKollmitz/gazebo_ros_2Dmap_plugin): automatically generates a 2D occupancy map from gazebo
+- [birdview_map]() to create 2D map that includes obstacles above robot hight (which might effect dynamic obstacle)
+
+6. Create a pedsim-scenario by using this package and your (created) .map file. The pedsim-scenario should be saved under `simulator_setup/scenarios/ped_scenarios/{NAME_OF_YOUR_WORLD}.xml`
+
+ 
+7. Build arena-rosnav-3D with `catkin_make`
+8. Start arena-rosnav-3D with your world file included by running the following command in the terminal:
+```bash
+roslaunch arena_bringup start_arena_gazebo.launch world:={NAME_OF_YOUR_WORLD}
+```
+
+<ins>NOTE:</ins> The {NAME_OF_YOUR_WORLD} must be consistent!
+
+
