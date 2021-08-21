@@ -257,7 +257,7 @@ class StagedRandomTask(RandomTask):
 
 class ScenarioTask(ABSTask):
     def __init__(self, pedsim_manager, obstacle_manager, robot_manager, scenario_path):
-        # type: (ObstaclesManager, RobotManager, str) -> None
+        # type: (PedsimManager, ObstaclesManager, RobotManager, str) -> None
         super(ScenarioTask, self).__init__(pedsim_manager, obstacle_manager, robot_manager)
 
         # load scenario from file
@@ -270,9 +270,6 @@ class ScenarioTask(ABSTask):
             self.pedsim_manager = pedsim_manager
             peds = [agent.getPedMsg() for agent in self.scenario.pedsimAgents]
             self.pedsim_manager.spawnPeds(peds)
-
-       # spawn_peds_in_gazebo()
-
         self.reset_count = 0
 
     def reset(self):
@@ -286,8 +283,7 @@ class ScenarioTask(ABSTask):
             # reset robot
             self.robot_manager.set_start_pos_goal_pos(
                 Pose(Point(*np.append(self.scenario.robotPosition, 0)), Quaternion(*standart_orientation)), 
-                Pose(Point(*np.append(self.scenario.robotGoal, 0)), Quaternion(*standart_orientation))
-                )
+                Pose(Point(*np.append(self.scenario.robotGoal, 0)), Quaternion(*standart_orientation)))
 
             # fill info dict
             if self.reset_count == 1:

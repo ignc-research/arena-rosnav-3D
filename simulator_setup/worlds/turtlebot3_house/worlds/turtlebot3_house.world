@@ -2,27 +2,6 @@
 <sdf version='1.4'>
   <world name='default'>
     <plugin name="ActorPosesPlugin" filename="libActorPosesPlugin.so"/>
-      <actor name="1">
-        <pose>
-          12.1254
-          5.385326
-          1.0
-          1.570796
-          -0.0
-          3.141593
-        </pose>
-        <skin>
-          <filename>moonwalk.dae</filename>
-          <scale>1.0</scale>
-        </skin>
-        <animation name="walking">
-          <filename>walk.dae</filename>
-          <scale>1.000000</scale>
-          <interpolate_x>true</interpolate_x>
-        </animation>
-    </actor>
-
-
     
     <!-- A global light source -->
     <include>

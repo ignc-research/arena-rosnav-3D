@@ -1,5 +1,4 @@
 #- git: {local-name: src/aws-robomaker-small-warehouse-world, uri: 'https://github.com/aws-robotics/aws-robomaker-small-warehouse-world.git', version: ros1}
-# - git: {local-name: src/aws-robomaker-hospital-world, uri: 'https://github.com/aws-robotics/aws-robomaker-hospital-world.git', version: ros1}
 #- git: {local-name: ford_msgs, uri: 'https://bitbucket.org/acl-swarm/ford_msgs/src', version: master}
 #- git: {local-name: pedsim_ros, uri: 'https://github.com/eliastreis/pedsim_ros.git', version: ros-melodic-gazebo}
-- git: {local-name: src/aws-robomaker-small-house-world, uri: 'https://github.com/aws-robotics/aws-robomaker-small-house-world.git', version: ros1}
+#- git: {local-name: src/aws-robomaker-small-house-world, uri: 'https://github.com/aws-robotics/aws-robomaker-small-house-world.git', version: ros1}

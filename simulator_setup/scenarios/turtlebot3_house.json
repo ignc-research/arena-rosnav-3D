@@ -96,42 +96,6 @@
         }
     ],
     "static_obstacles": [
-        {
-            "name": "obstacle_0",
-            "model_path": "/home/daniel/catkin_ws/src/arena-rosnav-3D/simulator_setup/obstacles/shelf.yaml",
-            "pos": [
-                11.88,
-                14.05
-            ],
-            "angle": 6.283185307179586
-        },
-        {
-            "name": "obstacle_1",
-            "model_path": "/home/daniel/catkin_ws/src/arena-rosnav-3D/simulator_setup/obstacles/shelf.yaml",
-            "pos": [
-                20.86,
-                16.87
-            ],
-            "angle": 6.255414670586165
-        },
-        {
-            "name": "obstacle_2",
-            "model_path": "/home/daniel/catkin_ws/src/arena-rosnav-3D/simulator_setup/obstacles/shelf.yaml",
-            "pos": [
-                21.73,
-                15.15
-            ],
-            "angle": 7.302999146300847
-        },
-        {
-            "name": "obstacle_3",
-            "model_path": "/home/daniel/catkin_ws/src/arena-rosnav-3D/simulator_setup/obstacles/shelf.yaml",
-            "pos": [
-                14.13,
-                14.04
-            ],
-            "angle": 6.283185307179586
-        }
     ],
     "robot_position": [
         1,
@@ -141,6 +105,6 @@
         3,
         3
     ],
-    "map_path": "/home/daniel/catkin_ws/src/arena-rosnav-3D/simulator_setup/maps/map3/map.yaml",
+    "map_path": "/home/daniel/catkin_ws/src/arena-rosnav-3D/simulator_setup/maps/map_turtlebot3_house/map.yaml",
     "format": "arena-tools"
 }

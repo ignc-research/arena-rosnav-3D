@@ -11,13 +11,13 @@
 
     <!-- start World (Scenario) file in Gazebo -->
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
-    <arg name="world_name" value="$(find simulator_setup)/worlds/$(arg world)/worlds/$(arg world).world"/>
-    <arg name="paused" value="false"/>
-    <arg name="use_sim_time" value="true"/>
-    <arg name="gui" value="true"/><!--maybe change later!-->
-    <arg name="headless" value="false"/>
-    <arg name="debug" value="false"/>
-    <arg name='verbose' value='true'/>
+    <arg name="world_name"    value="$(find simulator_setup)/worlds/$(arg world)/worlds/$(arg world).world"/>
+    <arg name="paused"        value="false"/>
+    <arg name="use_sim_time"  value="true"/>
+    <arg name="gui"           value="true"/><!--maybe change later!-->
+    <arg name="headless"      value="false"/>
+    <arg name="debug"         value="false"/>
+    <arg name='verbose'       value='false'/>
   </include>
 
   <!--Spawn Robot-->

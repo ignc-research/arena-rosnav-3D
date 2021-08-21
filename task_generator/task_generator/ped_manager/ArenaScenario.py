@@ -1,5 +1,5 @@
 import numpy as np
-import os
+import os, rospkg
 import yaml
 import json
 from .PedsimAgent import *
@@ -92,6 +92,8 @@ class ArenaScenario():
 
     def createSimplePed(self, ids, s_pos, w_pos):
         # type: (list, list, list) -> None
+
+        # creates pedsim-agents
         peds = []
         for id, spos, wpos in zip(ids, s_pos, w_pos):
             peds.append({"name": "Pedestrian", "id": id, "pos": [*spos], "type": "adult", "yaml_file": "/home/daniel/catkin_ws/src/arena-rosnav-3D/simulator_setup/dynamic_obstacles/person_two_legged.model.yaml",
@@ -101,7 +103,9 @@ class ArenaScenario():
             "force_factor_obstacle": 1, "force_factor_social": 5, "force_factor_robot": 0,
             "waypoints": [ [*spos], [*wpos] ], "waypoint_mode": 0})
 
-        path = get_current_user_path('/home/user/catkin_ws/src/arena-rosnav-3D/simulator_setup/scenarios/empty_ped_scenario.json')
+        # loading the an empty pedsim-scenario file and inserting peds
+        path = rospkg.RosPack().get_path('simulator_setup') + 'scenarios/utils/empty_ped_scenario.json'
+        
         if os.path.exists(path):
             _, file_extension = os.path.splitext(path)
             with open(path, "r") as f:
