@@ -2,8 +2,10 @@ find the project task-description [here](docs/project_tasks.md)
 # Arena-Rosnav - 3D
 This repository builds on the [arena-rosnav](https://github.com/ignc-research/arena-rosnav) repository and extends its functionalities by including a version of the [pedsim_ros](https://github.com/eliastreis/pedsim_ros) for obstacle management and Gazebo as simulator. (The Flatland-simulator, as used in arena-rosnav is not included). (For a detailed description of differences to arena-rosnav see [here](docs/difference_arena_arena-3D)).
 
+CURRENTLY, THIS PACKAGE IS STILL UNDER DEVELOPMENT. IT IS NOT YET FULLY FUNCTIONAL.
+
 ## Examples
-| <img width="400" height="400" src="/img/rosnav1.gif"> | <img width="400" height="400" src="/img/rosnav2.gif"> |
+| <img width="400" height="400" src="/img/small_warehouse.png"> | <img width="400" height="400" src="/img/rosnav2.gif"> |
 |:--:| :--:| 
 | *Training Stage* | *Deployment Stage* |
 
@@ -31,13 +33,13 @@ Please refer to [Testing.md](docs/Testing.md) for detailed explanations about ag
 
 **Sample usage**
 
-After successfull installion run the following command with your python-env activated (`workon rosnav`)
+After successfull installion run the following command with your python-env activated (`workon rosnav`).
 ```bash
 roslaunch arena_bringup start_arena_gazebo.launch
 ```
 The following output can be expected:
 
-**insert immage**
+<img width="1000" height="400" src="/img/aws_house.png">
 
 
 ### Training

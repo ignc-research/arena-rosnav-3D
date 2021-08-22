@@ -13,11 +13,11 @@
 ```    
 3. Insert the following line into your model between the `<world></world>` tags to enable dynamic obstacle steering via pedsim_ros
 
-```bash
+```xml
 <plugin name="ActorPosesPlugin" filename="libActorPosesPlugin.so"/>
 ```
 4. If your world includes further gazebo models set the `GAZEBO_MODEL_PATH` by appending the following line in the arena_simulator `package.xml` file (in between the `<export></export>` tags)
-```bash
+```xml
  <gazebo_ros plugin_path="${prefix}/worlds/{NAME OF YOUR WORLD}/lib" gazebo_media_path="${prefix}worlds/{NAME OF YOUR WORLD}" gazebo_model_path="${prefix}/worlds/{NAME OF YOUR WORLD}/models"/>
 ```
 5. Create a  occupancy map-file, safe it under `simulator_setup/maps/map_{NAME OF YOUR WORLD}/map.png`. If the map is not already created you can create it by using: 
