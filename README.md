@@ -7,7 +7,7 @@ CURRENTLY, THIS PACKAGE IS STILL UNDER DEVELOPMENT. IT IS NOT YET FULLY FUNCTION
 ## Examples
 | <img width="400" height="400" src="/img/small_warehouse.png"> | <img width="400" height="400" src="/img/rosnav2.gif"> |
 |:--:| :--:| 
-| *Training Stage* | *Deployment Stage* |
+| *Inside map | *Random map* |
 
 
 ## What is this repository for?
