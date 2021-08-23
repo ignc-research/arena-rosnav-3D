@@ -1,9 +1,9 @@
 # Introduction
-Arena-rosnav-3D is structurally very similar to arena-rosnav to allow easy switching between 2D and 3D environments. Currently, three custom worlds and a random generator are supported. In our detailed custom worlds you can generate dynamic obstacles either in a scenario mode or in a random mode where the obstacle trajectories are determined randomly. 
+Arena-rosnav-3D is structurally very similar to arena-rosnav to allow easy switching between 2D and 3D environments. Currently, three custom worlds and a random world generator are supported. In our detailed custom worlds you can generate dynamic obstacles either in a scenario mode or in a random mode where the obstacle trajectories are determined randomly. 
 
 # Worlds
 We provide the following four worlds for your use: 
-|<img width="250" height="250" src="/img/aws_house-2.png">|<img width="250" height="250" src="/img/aws_house-2.png">|<img width="250" height="250" src="/img/small_warehouse.png">|<img width="250" height="250" src="/img/outside.png">|
+|<img width="250" height="240" src="/img/aws_house-2.png">|<img width="250" height="240" src="/img/turtlebot3_house.png">|<img width="250" height="240" src="/img/small_warehouse-2.png">|<img width="250" height="240" src="/img/outside.png">|
 |:--:       |              :--:|             :--:|          :--:| 
 | *aws_house* | *turtlebot3_house* | *small_warehouse* | *random world* |
 ## Pre-build world
@@ -47,9 +47,10 @@ local_planner ToDo
 # Advanced Parameters
 You can further customize the simulation altering the following parameters:
 
-| Name | Options | Description |
-|:--:| :--:| :--:|  
+| Name  | Options   | Description   |
+|:--:   | :--:      | :--:          |  
 | train_mode | true, **false** | Since training mode is not yet implemented `false` should stay selected. (This would deactivate e.g. the task_generator) |
 | disable_scenario | true, **false** | This parameter would e.g. disable the task generator and other selected notes. This should only be changed with caution |
 | reset | **true**, false | Determines whether the scenario should be reset (or terminated) after reaching its objective (Robot has reached navigation goal) |
 | enable_pedsim | **true**, false | Pedsim is used to for dynamic obstacle management. Setting this to false should disable dynamic obstacles |
+| 

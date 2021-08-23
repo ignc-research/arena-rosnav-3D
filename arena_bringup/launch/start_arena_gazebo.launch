@@ -78,7 +78,7 @@
     <arg name="auto_reset"            value="$(arg reset)"/>
     <arg name="timeout"               value="$(arg timeout)"/>
     <arg name="world"                 value="$(arg world)"/>
-    <arg name="world"                 value="$(arg task_mode)"/>
+    <arg name="task_mode"             value="$(arg task_mode)"/>
   </include>
 
   <include file="$(find arena_bringup)/launch/sublaunch_testing/sensor_sim.launch" unless="$(eval arg('disable_scenario') or arg('train_mode'))"/>
