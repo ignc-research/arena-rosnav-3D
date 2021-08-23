@@ -3,9 +3,9 @@ Arena-rosnav-3D is structurally very similar to arena-rosnav to allow easy switc
 
 # Worlds
 We provide the following four worlds for your use: 
-|<img width="200" height="200" src="/img/aws_house-2.png">|<img width="200" height="200" src="/img/aws_house-2.png">|<img width="200" height="200" src="/img/aws_house-2.png">|<img width="200" height="200" src="/img/outside.png">|
+|<img width="250" height="250" src="/img/aws_house-2.png">|<img width="250" height="250" src="/img/aws_house-2.png">|<img width="250" height="250" src="/img/small_warehouse.png">|<img width="250" height="250" src="/img/outside.png">|
 |:--:       |              :--:|             :--:|          :--:| 
-| aws_house | turtlebot3_house | small_warehouse | random world |
+| *aws_house* | *turtlebot3_house* | *small_warehouse* | *random world* |
 ## Pre-build world
 To select one of our pre-build worlds, specify your scenario by selecting **aws_house**,  turtlebot3_house, small_warehouse *(bold is your default world)* in your startup file:
 ```bash
