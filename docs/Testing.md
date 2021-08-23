@@ -11,7 +11,10 @@ To select one of our pre-build worlds, specify your scenario by selecting **aws_
 ```bash
 roslaunch arena_bringup start_arena_gazebo.launch world:=turtlebot3_house
 ```
-Since our pre-build worlds are very detailed we do not spawn further static obstacles. For the dynamic obstacle mode see here. To implement your own custom world file see [here](/docs/Miscellaneous.md#How-to-include-further-world-files)
+Since our pre-build worlds are very detailed we do not spawn further static obstacles. For obstacle and robot task-management see [here](#task-mode). 
+
+To implement your own custom world file see [here](/docs/Miscellaneous.md#How-to-include-further-world-files)
+
 ## Random world
 To select our custom world generator specify the outside argument with `true` (default is false)
 ```bash
@@ -23,6 +26,7 @@ If you want to change the number of static obstacles you do this [here](https://
 
 If you want to change the number of dynamic obstacles you do this [here](https://github.com/eliastreis/arena-rosnav-3D/blob/18ed507bfbf31015002c5727f2ab9aef3a05ca9b/task_generator/task_generator/tasks.py#L26)
 
+---
 # Task-Mode
 We currently support a random and a dynamic mode (you can also set the robot goal manually using Rviz).
 
@@ -41,9 +45,11 @@ In scenario mode, object obstacle and robot behavior is scripted. We support cur
 
 Find the associated code [here](https://github.com/eliastreis/arena-rosnav-3D/blob/18ed507bfbf31015002c5727f2ab9aef3a05ca9b/task_generator/task_generator/tasks.py#L245).
 
+---
 # Local Planer
 local_planner ToDo
 
+---
 # Advanced Parameters
 You can further customize the simulation altering the following parameters:
 
@@ -53,4 +59,25 @@ You can further customize the simulation altering the following parameters:
 | disable_scenario | true, **false** | This parameter would e.g. disable the task generator and other selected notes. This should only be changed with caution |
 | reset | **true**, false | Determines whether the scenario should be reset (or terminated) after reaching its objective (Robot has reached navigation goal) |
 | enable_pedsim | **true**, false | Pedsim is used to for dynamic obstacle management. Setting this to false should disable dynamic obstacles |
-| 
+
+
+```xml
+<arg name="train_mode"        default="false"/>
+  <arg name="local_planner"     default="dwa"         doc = "local_planer type [tep, dwa, rlca]"/> <!--originally teb-->
+  <arg name="rviz_file"         default="nav_LP"/>
+  <arg name="disable_scenario"  default="false"/>
+  <arg name="reset"             default="true"/>
+  <arg name="enable_pedsim"     default="true"/>
+  <arg name="outside"           default="false"/>
+  <arg name="world"             default="aws_house"   doc="world type [turtlebot3_house, small_warehouse, aws_house, outside]" unless="$(arg outside)"/>
+  <arg name="world"             default="outside"     if="$(arg outside)"/>
+  <arg name="model"             default="burger"      doc="model type [burger, waffle]"/>
+  <arg name="scenario_file"     default="$(arg world).json"/>
+  <arg name="step_size"         default="0.01"/>
+  <arg name="update_rate"       default="250"/>
+  <arg name="show_viz"          default="true"/>
+  <arg name="viz_pub_rate"      default="30" />
+  <arg name="use_rviz"          default="true"/>
+  <arg name="map_path"          default="$(find simulator_setup)/maps/map_$(arg world)/map.yaml" />
+  <arg name="task_mode"           default="random"  doc="task_mode type [scenario, random]"/> 
+  ```
