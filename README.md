@@ -1,6 +1,6 @@
 find the project task-description [here](docs/project_tasks.md)
 # Arena-Rosnav - 3D
-This repository builds on the [arena-rosnav](https://github.com/ignc-research/arena-rosnav) repository and extends its functionalities by including a version of the [pedsim_ros](https://github.com/eliastreis/pedsim_ros) for obstacle management and Gazebo as simulator. (The Flatland-simulator, as used in arena-rosnav is not included). (For a detailed description of differences to arena-rosnav see [here](docs/project_report)).
+This repository builds on the [arena-rosnav](https://github.com/ignc-research/arena-rosnav) repository and extends its functionalities by including a version of the [pedsim_ros](https://github.com/eliastreis/pedsim_ros) for obstacle management and Gazebo as simulator. (The Flatland-simulator, as used in arena-rosnav is not included). (For a detailed description of differences to arena-rosnav see [here](docs/project_report.md)).
 
 CURRENTLY, THIS PACKAGE IS STILL UNDER DEVELOPMENT. IT IS NOT YET FULLY FUNCTIONAL.
 
@@ -49,7 +49,7 @@ The following output can be expected:
 
 - [How to include further world files](docs/Miscellaneous.md#How-to-include-further-world-files)
 - [Detailed description of changes to arena-rosnav](docs/project_report.md)
-- [Further improvement ideas](<docs/project_report.md:Open topics>)
+- [Further improvement ideas](docs/project_report.md#Open-topics)
 - [DesignStructure](docs/DesignStructure.md) ToDo
 
 # Used third party repos:
