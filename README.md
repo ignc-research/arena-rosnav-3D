@@ -50,7 +50,7 @@ The following output can be expected:
 - [How to include further world files](docs/Miscellaneous.md#How-to-include-further-world-files)
 - [Detailed description of changes to arena-rosnav](docs/project_report.md)
 - [Further improvement ideas](docs/project_report.md#Open-topics)
-- [DesignStructure](docs/DesignStructure.md) ToDo
+- [DesignStructure](docs/DesignStructure.md)
 
 # Used third party repos:
 * ROS navigation stack: http://wiki.ros.org/navigation
