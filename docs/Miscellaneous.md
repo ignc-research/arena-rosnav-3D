@@ -37,6 +37,21 @@ roslaunch arena_bringup start_arena_gazebo.launch world:={NAME_OF_YOUR_WORLD}
 
 <ins>NOTE:</ins> The {NAME_OF_YOUR_WORLD} must be consistent!
 
-# How to include further scenarios
 
+# How to include further scenarios
+We currently provide one scenario per world. To you can extent this by
+
+- include more dynamic obstacles
+- alter obstacle behavior like speed (vmax)
+- alter robot goal behavior
+
+To create a new scenario for a specific world
+
+1. Find the current scenario under `simulator_setup/scenarios/{NAME_OF_YOUR_WORLD}.json`
+2. Create your own scenario on basis of the current scenario. (You can also look into other scenario files to find other predefined dynamic obstacles). (Keep in mind the inverted oriented orientation of X and Y achses at Gazebo-startup)
+3. Save the file under the above path. In case you create multiple scenarios per world you will have to specify your scenario at startup like this:
+   
+```bash
+roslaunch arena_bringup start_arena_gazebo.launch scenario_file:=`simulator_setup/scenarios/prefix_{NAME_OF_YOUR_WORLD}.json`
+```
 NOTE: The number of indoor dynamic obstacles should be chosen wisely. In confined environments such as the turtlebot3_house, too many obstacles will result in uneven trajectories (like obstacles getting stuck etc).
