@@ -1,17 +1,15 @@
 #!/usr/bin/env python
 
 
-#from .tasks import PedsimManager
+import rospy, math, rospkg
 from random import randint, uniform, choice
 from .utils import generate_freespace_indices, get_random_pos_on_map
 from gazebo_msgs.srv import DeleteModel, SpawnModel
-import rospy, math
-import rospkg
-from pedsim_msgs.msg import AgentStates
-from .ped_manager.ArenaScenario import *
-from .pedsim_manager import PedsimManager
 from geometry_msgs.msg import Pose, Point, Quaternion
 from tf.transformations import quaternion_from_euler
+from .ped_manager.ArenaScenario import *
+from .pedsim_manager import PedsimManager
+
 
 standart_orientation = quaternion_from_euler(0.0,0.0,0.0)
 

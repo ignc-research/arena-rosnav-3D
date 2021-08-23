@@ -1,20 +1,12 @@
 #!/usr/bin/env python
 
 
-from pathlib import Path
-import json, six, abc
-import rospy, math, time, random
-from geometry_msgs.msg import Pose, PoseWithCovarianceStamped, Point, Quaternion
-from threading import Lock
-from nav_msgs.msg import OccupancyGrid, Odometry
-from nav_msgs.srv import GetMap
+import rospy, math
+from geometry_msgs.msg import Pose, PoseWithCovarianceStamped
 from gazebo_msgs.srv import SetModelState
 from gazebo_msgs.msg import ModelState
 from move_base_msgs.msg import MoveBaseAction, MoveBaseGoal
 import actionlib
-from std_msgs.msg import Int16
-import numpy as np
-from tf.transformations import quaternion_from_euler
 from .utils import generate_freespace_indices, get_random_pos_on_map
 
 ROBOT_RADIUS = 0.17

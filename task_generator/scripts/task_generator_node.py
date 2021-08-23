@@ -1,7 +1,6 @@
 #! /usr/bin/env python
 
 import rospy, time
-from std_srvs.srv import Empty, EmptyResponse
 from nav_msgs.msg import Odometry
 from task_generator.tasks import get_predefined_task
 from std_msgs.msg import Int16

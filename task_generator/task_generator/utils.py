@@ -1,11 +1,9 @@
 #!/usr/bin/env python
 
-import math
+import math, random
 import numpy as np
-from nav_msgs.msg import OccupancyGrid
-import random
 from tf.transformations import quaternion_from_euler
-from geometry_msgs.msg import Pose, PoseWithCovarianceStamped, Point, Quaternion
+from geometry_msgs.msg import Pose, Point, Quaternion
 
 
 def generate_freespace_indices(map_):

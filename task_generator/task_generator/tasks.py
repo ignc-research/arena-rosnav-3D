@@ -1,42 +1,29 @@
 #!/usr/bin/env python
 
 
-import json, six, abc, actionlib
-import rospy, math, time, random
-from geometry_msgs.msg import Pose, PoseWithCovarianceStamped, Point, Quaternion, Pose2D
-from threading import Lock, Condition
-from nav_msgs.msg import OccupancyGrid, Odometry
+import json, six, abc, rospy
+from geometry_msgs.msg import Pose, Point, Quaternion
+from threading import Lock
+from nav_msgs.msg import OccupancyGrid
 from nav_msgs.srv import GetMap
-from gazebo_msgs.srv import SetModelState
-from gazebo_msgs.msg import ModelState
-from move_base_msgs.msg import MoveBaseAction, MoveBaseGoal
-from std_msgs.msg import Int16
 import numpy as np
 from tf.transformations import quaternion_from_euler
-from pathlib import Path
-from std_srvs.srv import Trigger
-import rospkg, subprocess
+import rospkg
 from .robot_manager import RobotManager
 from .obstacle_manager import ObstaclesManager
 from .pedsim_manager import PedsimManager
 from .ped_manager.ArenaScenario import *
-from std_srvs.srv import Trigger
 from filelock import FileLock
 from std_msgs.msg import Bool
+from gazebo_msgs.srv import SpawnModel
+from geometry_msgs.msg import *
+from rospkg import RosPack
+
 
 standart_orientation = quaternion_from_euler(0.0,0.0,0.0)
 ROBOT_RADIUS = 0.17
 global N_OBS
 N_OBS = 10
-
-from gazebo_msgs.srv import SpawnModel
-from geometry_msgs.msg import *
-from rospkg import RosPack
-import roslibpy
-
-global xml_file
-
-
 
 
 def spawn_object_gazebo():

@@ -26,3 +26,4 @@
 | Actor integration | To create moving pedestrians with walking animation see: [here](http://gazebosim.org/tutorials?tut=actor&cat=build_robot) and [here](https://github.com/BruceChanJianLe/gazebo-plugin-autonomous-actor/) |
 | Update package.xml & CMakes | Update package.xml and CMakelists. Pot. create a Metapackage |
 | Arena_bringup | Some launch files are currently (unnecessarily) overloaded with args and params. These could be simplified and put into a coherent order to increase comprehensibility. |
+| More obstacles | We currently support only 1 type of dynamic and 2 types of static obstacles. This could be easily extended  |
