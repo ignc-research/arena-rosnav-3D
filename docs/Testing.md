@@ -3,13 +3,15 @@ Arena-rosnav-3D is structurally very similar to arena-rosnav to allow easy switc
 
 # Worlds
 We provide the following four worlds for your use: 
-||||||
+|<img width="200" height="200" src="/img/aws_house-2.png">|<img width="200" height="200" src="/img/aws_house-2.png">|<img width="200" height="200" src="/img/aws_house-2.png">|<img width="200" height="200" src="/img/outside.png">|
+|:--:       |              :--:|             :--:|          :--:| 
+| aws_house | turtlebot3_house | small_warehouse | random world |
 ## Pre-build world
-To select one of our pre-build worlds, specify your scenario by selecting **aws_house**,  turtlebot3_house, small_warehouse *(bould is your default world)* in your startup file:
+To select one of our pre-build worlds, specify your scenario by selecting **aws_house**,  turtlebot3_house, small_warehouse *(bold is your default world)* in your startup file:
 ```bash
 roslaunch arena_bringup start_arena_gazebo.launch world:=turtlebot3_house
 ```
-Since our pre-build worlds are very detailed we do not spawn further static obstacles. For the dynamic obstacle mode see here. To implement your own custom world file see [here]()
+Since our pre-build worlds are very detailed we do not spawn further static obstacles. For the dynamic obstacle mode see here. To implement your own custom world file see [here](/docs/Miscellaneous.md#How-to-include-further-world-files)
 ## Random world
 To select our custom world generator specify the outside argument with `true` (default is false)
 ```bash
@@ -17,9 +19,9 @@ roslaunch arena_bringup start_arena_gazebo.launch outside:=true
 ```
 The custom world generator creates a map with a set number of static and dynamic obstacles of a randomly determined size (and shape).
 
-If you want to change the number of static obstacles you do this [here]()
+If you want to change the number of static obstacles you do this [here](https://github.com/eliastreis/arena-rosnav-3D/blob/18ed507bfbf31015002c5727f2ab9aef3a05ca9b/task_generator/task_generator/tasks.py#L304)
 
-If you want to change the number of dynamic obstacles you do this [here]()
+If you want to change the number of dynamic obstacles you do this [here](https://github.com/eliastreis/arena-rosnav-3D/blob/18ed507bfbf31015002c5727f2ab9aef3a05ca9b/task_generator/task_generator/tasks.py#L26)
 
 # Task-Mode
 We currently support a random and a dynamic mode (you can also set the robot goal manually using Rviz).
@@ -31,13 +33,13 @@ roslaunch arena_bringup start_arena_gazebo.launch task_mode:=random
 ## Random Mode
 In random mode arena-rosnav chooses the robot start and goal position, as well as the trajectory of the dynamic obstacles randomly. 
 
-If you want to change the number of dynamic obstacles you do this [here]().
+If you want to change the number of dynamic obstacles you do this [here](https://github.com/eliastreis/arena-rosnav-3D/blob/18ed507bfbf31015002c5727f2ab9aef3a05ca9b/task_generator/task_generator/tasks.py#L26)
 
-Find the associated code [here]().
+Find the associated code [here](https://github.com/eliastreis/arena-rosnav-3D/blob/18ed507bfbf31015002c5727f2ab9aef3a05ca9b/task_generator/task_generator/tasks.py#L104).
 ## Scenario Mode
-In scenario mode, object obstacle and robot behavior is scripted. We support currently one scenario per world. To extend this and build your own custom scenarios see [here]().
+In scenario mode, object obstacle and robot behavior is scripted. We support currently one scenario per world. To extend this and build your own custom scenarios see [here](/docs/Miscellaneous.md#How-to-include-further-scenarios).
 
-Find the associated code [here]().
+Find the associated code [here](https://github.com/eliastreis/arena-rosnav-3D/blob/18ed507bfbf31015002c5727f2ab9aef3a05ca9b/task_generator/task_generator/tasks.py#L245).
 
 # Local Planer
 local_planner ToDo
@@ -47,7 +49,7 @@ You can further customize the simulation altering the following parameters:
 
 | Name | Options | Description |
 |:--:| :--:| :--:|  
-| train_mode | true, **false** |  Since training mode is not yet implemented `false` should stay selected. (This would deactivate e.g. the task_generator) |
+| train_mode | true, **false** | Since training mode is not yet implemented `false` should stay selected. (This would deactivate e.g. the task_generator) |
 | disable_scenario | true, **false** | This parameter would e.g. disable the task generator and other selected notes. This should only be changed with caution |
 | reset | **true**, false | Determines whether the scenario should be reset (or terminated) after reaching its objective (Robot has reached navigation goal) |
-| enable_pedsim | **true**, false | Pedsim is used to for dynamic obstacle management. Setting this to false should disable dynmaic obstacles |
+| enable_pedsim | **true**, false | Pedsim is used to for dynamic obstacle management. Setting this to false should disable dynamic obstacles |

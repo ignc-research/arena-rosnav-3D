@@ -37,4 +37,6 @@ roslaunch arena_bringup start_arena_gazebo.launch world:={NAME_OF_YOUR_WORLD}
 
 <ins>NOTE:</ins> The {NAME_OF_YOUR_WORLD} must be consistent!
 
+# How to include further scenarios
 
+NOTE: The number of indoor dynamic obstacles should be chosen wisely. In confined environments such as the turtlebot3_house, too many obstacles will result in uneven trajectories (like obstacles getting stuck etc).
