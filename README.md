@@ -5,7 +5,7 @@ This repository builds on the [arena-rosnav](https://github.com/ignc-research/ar
 CURRENTLY, THIS PACKAGE IS STILL UNDER DEVELOPMENT. IT IS NOT YET FULLY FUNCTIONAL.
 
 ## Examples
-| <img width="400" height="400" src="/img/small_warehouse.png"> | <img width="400" height="400" src="/img/rosnav2.gif"> |
+| <img width="400" height="400" src="/img/small_warehouse.png"> | <img width="400" height="400" src="/img/outside.png"> |
 |:--:| :--:| 
 | *Inside map | *Random map* |
 

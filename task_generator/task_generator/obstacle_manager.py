@@ -137,7 +137,7 @@ class ObstaclesManager:
 
         """
         #status = rospy.get_param('~world')
-        status='no'
+        status='outside'
         if not status == 'outside':
             forbidden_zones = None
             return forbidden_zones

@@ -27,7 +27,7 @@ from std_msgs.msg import Bool
 standart_orientation = quaternion_from_euler(0.0,0.0,0.0)
 ROBOT_RADIUS = 0.17
 global N_OBS
-N_OBS = 2
+N_OBS = 10
 
 from gazebo_msgs.srv import SpawnModel
 from geometry_msgs.msg import *

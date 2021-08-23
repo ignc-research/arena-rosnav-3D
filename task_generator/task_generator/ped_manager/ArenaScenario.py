@@ -104,7 +104,7 @@ class ArenaScenario():
             "waypoints": [ [*spos], [*wpos] ], "waypoint_mode": 0})
 
         # loading the an empty pedsim-scenario file and inserting peds
-        path = rospkg.RosPack().get_path('simulator_setup') + 'scenarios/utils/empty_ped_scenario.json'
+        path = rospkg.RosPack().get_path('simulator_setup') + '/scenarios/utils/empty_ped_scenario.json'
         
         if os.path.exists(path):
             _, file_extension = os.path.splitext(path)
