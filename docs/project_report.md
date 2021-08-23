@@ -8,6 +8,7 @@
   - [Task_generator](#task_generator)
   - [Pedsim_ros](#pedsim_ros)
 - [Open topics](#open-topics)
+  - [Open problems:](#open-problems)
 # Introduction
 # Approach
 # New Structure
@@ -27,3 +28,6 @@
 | Update package.xml & CMakes | Update package.xml and CMakelists. Pot. create a Metapackage |
 | Arena_bringup | Some launch files are currently (unnecessarily) overloaded with args and params. These could be simplified and put into a coherent order to increase comprehensibility. |
 | More obstacles | We currently support only 1 type of dynamic and 2 types of static obstacles. This could be easily extended  |
+
+## Open problems:
+- the robot gets overrun by pedestrians - should we register the robot as interactive obstacle?

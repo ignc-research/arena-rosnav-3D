@@ -7,7 +7,7 @@ CURRENTLY, THIS PACKAGE IS STILL UNDER DEVELOPMENT. IT IS NOT YET FULLY FUNCTION
 ## Examples
 | <img width="400" height="400" src="/img/small_warehouse.png"> | <img width="400" height="400" src="/img/outside.png"> |
 |:--:| :--:| 
-| *Inside map* | *Random map* |
+| *Pre-build map* | *Random map* |
 
 
 ## What is this repository for?

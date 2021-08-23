@@ -17,7 +17,8 @@
   <arg name="viz_pub_rate"      default="30" />
   <arg name="use_rviz"          default="true"/>
   <arg name="map_path"          default="$(find simulator_setup)/maps/map_$(arg world)/map.yaml" />
-
+  <arg name="task_mode"           default="random"  doc="task_mode type [scenario, random]"/> 
+  
   <param name="use_sim_time"    value="true"/>
   <param name="train_mode"      value="$(arg train_mode)" />
   <param name="world"           value="$(arg world)" />
@@ -77,6 +78,7 @@
     <arg name="auto_reset"            value="$(arg reset)"/>
     <arg name="timeout"               value="$(arg timeout)"/>
     <arg name="world"                 value="$(arg world)"/>
+    <arg name="world"                 value="$(arg task_mode)"/>
   </include>
 
   <include file="$(find arena_bringup)/launch/sublaunch_testing/sensor_sim.launch" unless="$(eval arg('disable_scenario') or arg('train_mode'))"/>

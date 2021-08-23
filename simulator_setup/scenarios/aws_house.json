@@ -4,13 +4,13 @@
             "name": "20",
             "id": 0,
             "pos": [
-                8.02,
-                8.89
+                8.42,
+                -4.03
             ],
             "type": "adult",
             "yaml_file": "/home/daniel/catkin_ws/src/arena-rosnav-3D/simulator_setup/dynamic_obstacles/person_two_legged.model.yaml",
             "number_of_peds": 1,
-            "vmax": 1.0,
+           "vmax": 0.3,
             "start_up_mode": "default",
             "wait_time": 0.0,
             "trigger_zone_radius": 0.0,
@@ -36,15 +36,11 @@
             "waypoints": [
                 [
                     8.42,
-                    8.03
+                    -4.03
                 ],
                 [
-                    8.42,
-                    7.99
-                ],
-                [
-                    0.8,
-                    10.4
+                    -1.42,
+                    -4.03
                 ]
             ],
             "waypoint_mode": 0
@@ -53,13 +49,13 @@
             "name": "24",
             "id": 0,
             "pos": [
-                0.33,
-                6.78
+                0.0,
+                2.03
             ],
             "type": "adult",
             "yaml_file": "/home/daniel/catkin_ws/src/arena-rosnav-3D/simulator_setup/dynamic_obstacles/person_two_legged.model.yaml",
             "number_of_peds": 1,
-            "vmax": 1.0,
+           "vmax": 0.3,
             "start_up_mode": "default",
             "wait_time": 0.0,
             "trigger_zone_radius": 0.0,
@@ -84,16 +80,12 @@
             "force_factor_robot": 0.0,
             "waypoints": [
                 [
-                    8.42,
-                    8.03
+                    0.0,
+                    2.03
                 ],
                 [
-                    8.42,
-                    7.99
-                ],
-                [
-                    0.8,
-                    10.4
+                    4.00,
+                    0.99
                 ]
             ],
             "waypoint_mode": 0
@@ -101,12 +93,12 @@
     ],
     "static_obstacles": [],
     "robot_position": [
-        1.74,
-        1.12
+        1.0,
+        0.0
     ],
     "robot_goal": [
-        2.05,
-        -1.72
+        1.05,
+        -2.72
     ],
     "map_path": "/home/daniel/catkin_ws/src/arena-rosnav-3D/simulator_setup/maps/map_aws_house/map.yaml",
     "format": "arena-tools"
