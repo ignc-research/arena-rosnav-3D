@@ -65,15 +65,15 @@ ToDo
   # List of all Parameters
   ```xml
   <arg name="train_mode"        default="false"/>
-  <arg name="local_planner"     default="dwa"         doc = "local_planer type [tep, dwa, rlca]"/> <!--originally teb-->
+  <arg name="local_planner"     default="dwa"         doc = "local_planer type [tep, dwa, rlca]"/>
   <arg name="rviz_file"         default="nav_LP"/>
   <arg name="disable_scenario"  default="false"/>
   <arg name="reset"             default="true"/>
   <arg name="enable_pedsim"     default="true"/>
   <arg name="outside"           default="false"/>
-  <arg name="world"             default="aws_house"   doc="world type [turtlebot3_house, small_warehouse, aws_house, outside]" unless="$(arg outside)"/>
+  <arg name="world"             default="aws_house"   unless="$(arg outside)"/>
   <arg name="world"             default="outside"     if="$(arg outside)"/>
-  <arg name="model"             default="burger"      doc="model type [burger, waffle]"/>
+  <arg name="model"             default="burger" 
   <arg name="scenario_file"     default="$(arg world).json"/>
   <arg name="step_size"         default="0.01"/>
   <arg name="update_rate"       default="250"/>
@@ -81,7 +81,7 @@ ToDo
   <arg name="viz_pub_rate"      default="30" />
   <arg name="use_rviz"          default="true"/>
   <arg name="map_path"          default="$(find simulator_setup)/maps/map_$(arg world)/map.yaml" />
-  <arg name="task_mode"         default="random"  doc="task_mode type [scenario, random]"/> 
+  <arg name="task_mode"         default="random"/> 
   <arg name="obs_vel"           default="0.3" />
   <arg name="action_frequency"  default="10"/>
   <arg name="global_frame_id"   value="map"/>
