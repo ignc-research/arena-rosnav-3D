@@ -169,6 +169,7 @@ pip install -e .
 catkin_make -DCMAKE_BUILD_TYPE=Release -DPYTHON_EXECUTABLE=/usr/bin/python3
 ```
 
+
 * To install all dependent packages for arena-rosnav use `rosdep`
 ```bash
 sudo apt install python-rosdep
