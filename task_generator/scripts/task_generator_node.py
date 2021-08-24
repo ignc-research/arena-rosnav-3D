@@ -11,7 +11,7 @@ class TaskGenerator:
         
         self.sr = rospy.Publisher('/scenario_reset', Int16, queue_size=1)
         self.nr = 0
-        #mode = rospy.get_param("~task_mode")
+        # mode = rospy.get_param("~task_mode")
         mode = 'scenario'
 
         scenarios_json_path = rospy.get_param("~scenarios_json_path")

@@ -17,7 +17,7 @@
   <arg name="viz_pub_rate"      default="30" />
   <arg name="use_rviz"          default="true"/>
   <arg name="map_path"          default="$(find simulator_setup)/maps/map_$(arg world)/map.yaml" />
-  <arg name="task_mode"           default="random"  doc="task_mode type [scenario, random]"/> 
+  <arg name="task_mode"         default="scenario"    doc="task_mode type [scenario, random]"/> 
   
   <param name="use_sim_time"    value="true"/>
   <param name="train_mode"      value="$(arg train_mode)" />

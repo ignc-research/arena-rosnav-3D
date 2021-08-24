@@ -81,7 +81,7 @@ class PedsimManager():
         res = self.move_peds_client.call()
         print(res) 
 
-    def spawnObstacle(self, position, size):
+    def spawnObstacle(self, position, size): # This does not yet work. the LineObstacle message is not received by pedsim yet !
         # type: (list, float) -> None
         start_x = position[0] - size/2
         start_y = position[1] - size/2
@@ -90,5 +90,5 @@ class PedsimManager():
 
         # creates the coordinates of the linear obstacles, by combining uniquely combining all four corner coordinates (in total 4 obstacles are spawned)
         pos = list(itertools.product([start_x, start_y], [end_x, end_y]))
-        #for a, b  in zip(pos[::2], pos[1::2]):
-            #self.spawn_obstacle(LineObstacles(header = Header(), obstacle = LineObstacle(start = Point(*a, 0), end = Point(*b, 0))))
+        # for a, b  in zip(pos[::2], pos[1::2]):
+        #     self.spawn_obstacle(LineObstacles(header = Header(), obstacle = LineObstacle(start = Point(*a, 0), end = Point(*b, 0))))

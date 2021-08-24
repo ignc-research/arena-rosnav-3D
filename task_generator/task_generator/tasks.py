@@ -2,69 +2,24 @@
 
 
 import json, six, abc, rospy
+import numpy as np
 from geometry_msgs.msg import Pose, Point, Quaternion
 from threading import Lock
 from nav_msgs.msg import OccupancyGrid
 from nav_msgs.srv import GetMap
-import numpy as np
 from tf.transformations import quaternion_from_euler
-import rospkg
 from .robot_manager import RobotManager
 from .obstacle_manager import ObstaclesManager
 from .pedsim_manager import PedsimManager
 from .ped_manager.ArenaScenario import *
 from filelock import FileLock
 from std_msgs.msg import Bool
-from gazebo_msgs.srv import SpawnModel
 from geometry_msgs.msg import *
-from rospkg import RosPack
 
 
-standart_orientation = quaternion_from_euler(0.0,0.0,0.0)
-ROBOT_RADIUS = 0.17
-global N_OBS
-N_OBS = 10
-
-
-def spawn_object_gazebo():
-    """ ToDo
-    PROBLEM: the subscriber callback function is only called when using rospy.spin
-        -> if not solved agents are not spawned
-        (Description: see https://levelup.gitconnected.com/ros-spinning-threading-queuing-aac9c0a793f (aperently the queue is not called (It is called (and the obstacles are first spawned) when the rospy.Publisher is first called (in robot manager line 61))))
-    """
-    rospy.sleep(5)
-    rospack1 = RosPack()
-    pkg_path = rospack1.get_path('pedsim_gazebo_plugin')
-    default_actor_model_file = pkg_path + "/models/actor_model.sdf"
-
-    actor_model_file = rospy.get_param('~actor_model_file', default_actor_model_file)
-    file_xml = open(actor_model_file)
-    xml_string = file_xml.read()
-
-    print("Waiting for gazebo services...")
-    rospy.wait_for_service("gazebo/spawn_sdf_model")
-    spawn_model = rospy.ServiceProxy("gazebo/spawn_sdf_model", SpawnModel)
-    print("service: spawn_sdf_model is available ....")
-
-    def actor_poses_callback(actors):
-        for actor in actors.agent_states:
-            actor_id = str( actor.id )
-            actor_pose = actor.pose
-            rospy.loginfo("Spawning model: actor_id = %s", actor_id)
-
-            model_pose = Pose(Point(x= actor_pose.position.x,
-                                y= actor_pose.position.y,
-                                z= actor_pose.position.z),
-                            Quaternion(actor_pose.orientation.x,
-                                        actor_pose.orientation.y,
-                                        actor_pose.orientation.z,
-                                        actor_pose.orientation.w) )
-                        # model_name # model_xml # robot_namespace # pose # reference_frame -> of Spawn Model
-            spawn_model(actor_id, xml_string, "", model_pose, "world")
-        sub.unregister()
-
-    #sub = rospy.Subscriber("/pedsim_simulator/simulated_agents", AgentStates, actor_poses_callback)
-
+STANDART_ORIENTATION = quaternion_from_euler(0.0,0.0,0.0)
+ROBOT_RADIUS = 0.17 
+N_OBS = 10 # Number of dynamic obstacle
 
 
 class StopReset(Exception):
@@ -76,10 +31,8 @@ class ABSTask(abc.ABCMeta('ABC', (object,), {'__slots__': ()})):
     """An abstract class, all tasks must implement reset function.
     """
 
-
     def __init__(self, pedsim_manager, obstacle_manager, robot_manager):
-        # type: (ObstaclesManager, RobotManager) -> None
-        #self.obstacles_manager = obstacles_manager
+        # type: (PedsimManager, ObstaclesManager, RobotManager) -> None
         self.robot_manager = robot_manager
         self.obstacle_manager = obstacle_manager
         self.pedsim_manager = pedsim_manager
@@ -88,10 +41,10 @@ class ABSTask(abc.ABCMeta('ABC', (object,), {'__slots__': ()})):
         rospy.Subscriber('/map', OccupancyGrid, self._update_map)
         # a mutex keep the map is not unchanged during reset task.
 
-    @abc.abstractmethod #abstract methods must be implemented in its sub-classes
+    @abc.abstractmethod
     def reset(self):
         """
-        a funciton to reset the task. Make sure that _map_lock is used.
+        a function to reset the task. Make sure that _map_lock is used.
         """
 
     def _update_map(self, map_):
@@ -104,7 +57,6 @@ class ABSTask(abc.ABCMeta('ABC', (object,), {'__slots__': ()})):
 class RandomTask(ABSTask):
     """ Evertime the start position and end position of the robot is reset.
     """
-
 
     def __init__(self, pedsim_manager, obstacle_manager, robot_manager):
         #type: (ObstaclesManager, RobotManager, list) -> None
@@ -135,8 +87,7 @@ class RandomTask(ABSTask):
 
 
 
-# /home/elias/catkin_ws/src/arena-rosnav-3D/arena_navigation/arena_local_planer/learning_based/arena_local_planner_drl/configs/training_curriculum_map1small.yaml
-# see train_agent.py for details
+# This class is not yet tested
 class StagedRandomTask(RandomTask):
     def __init__(self, ns, pedsim_manager, obstacle_manager, robot_manager, start_stage = 1, PATHS=None):
         # type: (str, PedsimManager, ObstaclesManager, RobotManager, int, dict) -> None
@@ -240,8 +191,6 @@ class StagedRandomTask(RandomTask):
         self.obstacles_manager.remove_obstacles()
 
 
-
-
 class ScenarioTask(ABSTask):
     def __init__(self, pedsim_manager, obstacle_manager, robot_manager, scenario_path):
         # type: (PedsimManager, ObstaclesManager, RobotManager, str) -> None
@@ -269,8 +218,8 @@ class ScenarioTask(ABSTask):
 
             # reset robot
             self.robot_manager.set_start_pos_goal_pos(
-                Pose(Point(*np.append(self.scenario.robotPosition, 0)), Quaternion(*standart_orientation)), 
-                Pose(Point(*np.append(self.scenario.robotGoal, 0)), Quaternion(*standart_orientation)))
+                Pose(Point(*np.append(self.scenario.robotPosition, 0)), Quaternion(*STANDART_ORIENTATION)), 
+                Pose(Point(*np.append(self.scenario.robotGoal, 0)), Quaternion(*STANDART_ORIENTATION)))
 
             # fill info dict
             if self.reset_count == 1:
@@ -279,19 +228,16 @@ class ScenarioTask(ABSTask):
                 info["new_scenerio_loaded"] = False
             info["robot_goal_pos"] = self.scenario.robotGoal
             info['num_repeats_curr_scene'] = self.reset_count
-            info['max_repeats_curr_scene'] = 1000  # todo: implement max number of repeats for scenario
+            info['max_repeats_curr_scene'] = 1000  # TODO: implement max number of repeats for scenario
         return info
 
 
 def get_predefined_task(ns, mode="random", start_stage = 1, PATHS = None):
-    # type: (str, str, int, dict) -> Any
+    # type: (str, str, int, dict) -> None
 
     # get the map
     service_client_get_map = rospy.ServiceProxy('/static_map', GetMap)
     map_response = service_client_get_map()
-
-    # use rospkg to get the path where the model config yaml file stored
-    models_folder_path = rospkg.RosPack().get_path('simulator_setup')
 
     robot_manager = RobotManager(ns='',map_= map_response.map)
     obstacle_manager = ObstaclesManager(ns='',map_= map_response.map)

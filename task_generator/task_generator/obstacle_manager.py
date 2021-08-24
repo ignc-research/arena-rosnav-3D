@@ -11,7 +11,8 @@ from .ped_manager.ArenaScenario import *
 from .pedsim_manager import PedsimManager
 
 
-standart_orientation = quaternion_from_euler(0.0,0.0,0.0)
+STANDART_ORIENTATION = quaternion_from_euler(0.0,0.0,0.0)
+
 
 class ObstaclesManager:
 
@@ -34,7 +35,7 @@ class ObstaclesManager:
         self.obstacle_name_list = []
         self._obstacle_name_prefix = 'obstacle'
         # remove all existing obstacles generated before create an instance of this class
-        #self.remove_obstacles()
+        # self.remove_obstacles()
 
         self.OBSTACLE_RADIUS = 0.15
 
@@ -70,12 +71,12 @@ class ObstaclesManager:
             with open(s_obs_model_file) as f:
                 xml_model = f.read()
             xml_model = xml_model.replace('shape', str(r))
-            o_pos = Pose(Point(*o_pos_, 1.1), Quaternion(*standart_orientation))
+            o_pos = Pose(Point(*o_pos_, 1.1), Quaternion(*STANDART_ORIENTATION))
             # spawn obstacle in gazebo & pedsim
             spawn_model("s_obs_%d" % id, xml_model,'', o_pos, 'world')
-            #self.pedsim_manager.spawnObstacle(o_pos_, r) # ToDo not yet working
+            # self.pedsim_manager.spawnObstacle(o_pos_, r) # TODO not yet working
 
-    def register_random_dynamic_obstacles(self, num_obstacles, forbidden_zones = None, min_dist=1): # [(start_pos.x, start_pos.y, self.robot_manager.ROBOT_RADIUS), robot goal...]
+    def register_random_dynamic_obstacles(self, num_obstacles, forbidden_zones = None, min_dist=1): 
         # type: (int, list, int) -> None
         
         """register dynamic obstacles (humans) with random start positions
@@ -117,7 +118,7 @@ class ObstaclesManager:
         print(s_pos,g_pos)
         self.scenario = ArenaScenario()
         self.scenario.createSimplePed(ids, s_pos, g_pos)
-                # setup pedsim agents
+        # setup pedsim agents
         self.pedsim_manager = None
 
         if len(self.scenario.pedsimAgents) > 0:
@@ -127,14 +128,14 @@ class ObstaclesManager:
         return forbidden_zones
 
 
-    def register_random_static_obstacles(self, num_obstacles, forbidden_zones = None): # [(start_pos.x, start_pos.y, self.robot_manager.ROBOT_RADIUS), robot goal...]
+    def register_random_static_obstacles(self, num_obstacles, forbidden_zones = None): 
         # type: (int, list) -> list
         """register dynamic obstacles (humans) with random start positions
         Args:
             num_obstacles (int): number of the obstacles.
 
         """
-        #status = rospy.get_param('~world')
+        # status = rospy.get_param('~world')
         status='no'
         if not status == 'outside':
             forbidden_zones = None
@@ -163,16 +164,11 @@ class ObstaclesManager:
                     i_try += 1
         self.spawn_static_obstacle(ids, pos, radius)
         return forbidden_zones
-            
-
-    
-
-
 
     def reset_pos_obstacles_random(self, forbidden_zones = None):
             # type: (list) -> None
             elements = rospy.ServiceProxy("/gazebo/get_world_properties", GetWorldPropertis)
-            for ped in range(elements - 3): # Todo how to get the current Agents?
+            for ped in range(elements - 3): # TODO how to get the current Agents?
                 start_pos = get_random_pos_on_map(self._free_space_indices, self.map, 0.2, forbidden_zones)
                 goal_pos = get_random_pos_on_map(self._free_space_indices, self.map, 0.2, forbidden_zones)
-            #idee: 1. find all obstacles; 2.  for every obstacle call the move ped service
+            # IDEA: 1. find all obstacles; 2.  for every obstacle call the move ped service

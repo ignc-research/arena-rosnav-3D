@@ -48,11 +48,13 @@ The following output can be expected:
 ## Miscellaneous
 
 - [How to include further world files](docs/Miscellaneous.md#How-to-include-further-world-files)
-- [Detailed description of changes to arena-rosnav](docs/project_report.md)
+- [How to include further scenarios](docs/Miscellaneous.md#How-to-include-further-scenarios)
 - [Further improvement ideas](docs/project_report.md#Open-topics)
-- [DesignStructure](docs/DesignStructure.md)
+- [Detailed description of changes to arena-rosnav](docs/project_report.md) (currently in progress)
+
 
 # Used third party repos:
+
 * ROS navigation stack: http://wiki.ros.org/navigation
 * Pedsim: https://github.com/srl-freiburg/pedsim_ros
 * Small-warehouse world: https://github.com/aws-robotics/aws-robomaker-small-warehouse-world

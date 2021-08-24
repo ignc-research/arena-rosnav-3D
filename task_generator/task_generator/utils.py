@@ -18,7 +18,7 @@ def generate_freespace_indices(map_):
     return indices_y_x
 
 def get_random_pos_on_map(free_space_indices, map_, safe_dist, forbidden_zones = None, ):
-    # type: (OccupancyGrid, float, list)
+    # type: (OccupancyGrid, list, float, list) -> bool
     """
     Args:
         indices_y_x(tuple): a 2 elementary tuple stores the indices of the non-occupied cells, the first element is the y-axis indices,
@@ -26,7 +26,7 @@ def get_random_pos_on_map(free_space_indices, map_, safe_dist, forbidden_zones =
         map (OccupancyGrid): map proviced by the ros map service
         forbidden_zones (list of 3 elementary tuple(x,y,r)): a list of zones which is forbidden
     Returns:
-        Position in Pose() msg form (containng Point + Quaternion)
+        Position in Pose() msg form (containing Point + Quaternion)
     """
     # checks for all forbidden zones if the distance to the chosen position is larger then its safe_distance + the objects radius
     def is_pos_valid(x_in_meters, y_in_meters):
