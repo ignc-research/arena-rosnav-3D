@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 
-import rospy, math
+import rospy, math, subprocess
 from geometry_msgs.msg import Pose, PoseWithCovarianceStamped
 from gazebo_msgs.srv import SetModelState
 from gazebo_msgs.msg import ModelState
@@ -54,9 +54,11 @@ class RobotManager:
         rospy.sleep(3)
         start_pos = PoseWithCovarianceStamped()
         start_pos.header.frame_id = 'map'
-        start_pos.pose.pose = pose # Achtung in Random task hier .pose.pose
+        start_pos.pose.pose = pose 
         pub.publish(start_pos)
-
+        print(f'rosrun tf static_transform_publisher {start_pos.pose.pose.position.x} {start_pos.pose.pose.position.y} {start_pos.pose.pose.position.z} {start_pos.pose.pose.orientation.x} {start_pos.pose.pose.orientation.y} {start_pos.pose.pose.orientation.z} {start_pos.pose.pose.orientation.w} map base_scan 10')
+        # subprocess(f'rosrun tf static_transform_publisher 1 2 0 0 0 0 1 map base_scan 10', shell = True)
+        
     def publish_goal(self, pose):
         # type: (Pose) -> None
         """
@@ -74,7 +76,7 @@ class RobotManager:
 
         client.send_goal(self.goal)
         wait = client.wait_for_result()
-        if not wait: ############################################can be deleted later
+        if not wait: 
             rospy.logerr("Action server not available!")
             rospy.signal_shutdown("Action server not available!")
 
@@ -85,7 +87,7 @@ class RobotManager:
         self.move_robot(start_pos)
 
     def set_start_pos_goal_pos(self, start_pos = None, goal_pos = None, min_dist=1, forbidden_zones = None):
-        # type: (Union[Pose2D, None], Union[Pose2D, None], int)
+        # type: (Union[Pose, None], Union[Pose, None], int, list) -> float
         """set up start position and the goal postion. Path validation checking will be conducted. If it failed, an
         exception will be raised.
         Args:
@@ -129,7 +131,7 @@ class RobotManager:
             # move the robot to the start pos
             self.move_robot(start_pos_)
             try:
-                # publish the goal, if the gobal plath planner can't generate a path, a, exception will be raised.
+                # publish the goal, if the global plath planner can't generate a path, a, exception will be raised.
                 self.publish_goal(goal_pos_)
                 break
             except rospy.ServiceException:
