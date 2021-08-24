@@ -29,6 +29,6 @@
 
    <!-- start_rviz -->
   <group if="$(arg use_rviz)">
-    <node name="gazebo_rviz" pkg="rviz" type="rviz"  args="-d $(find arena_bringup)/rviz/$(arg rviz_file).rviz"/>
+    <node name="gazebo_rviz" pkg="rviz" type="rviz"  args="-d $(find turtlebot3_navigation)/rviz/turtlebot3_navigation.rviz"/>
   </group> 
 </launch>

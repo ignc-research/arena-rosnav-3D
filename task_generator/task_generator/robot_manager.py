@@ -56,9 +56,7 @@ class RobotManager:
         start_pos.header.frame_id = 'map'
         start_pos.pose.pose = pose 
         pub.publish(start_pos)
-        print(f'rosrun tf static_transform_publisher {start_pos.pose.pose.position.x} {start_pos.pose.pose.position.y} {start_pos.pose.pose.position.z} {start_pos.pose.pose.orientation.x} {start_pos.pose.pose.orientation.y} {start_pos.pose.pose.orientation.z} {start_pos.pose.pose.orientation.w} map base_scan 10')
-        # subprocess(f'rosrun tf static_transform_publisher 1 2 0 0 0 0 1 map base_scan 10', shell = True)
-        
+
     def publish_goal(self, pose):
         # type: (Pose) -> None
         """
@@ -67,7 +65,7 @@ class RobotManager:
         :param y y-position of the goal
         :param theta theta-position of the goal
         """
-        client = actionlib.SimpleActionClient('move_base',MoveBaseAction)
+        client = actionlib.SimpleActionClient('move_base', MoveBaseAction)
         client.wait_for_server()
         self.goal = MoveBaseGoal()
         self.goal.target_pose.header.frame_id = "map"

@@ -21,9 +21,9 @@ in local_costmap_params:
   -->
 <launch>
   <!-- Arguments -->
-  <arg name="model" default="burger" doc="model type [burger, waffle, waffle_pi]"/>
+  <arg name="model"         default="burger" doc="model type [burger, waffle, waffle_pi]"/>
   <arg name="cmd_vel_topic" default="/cmd_vel" />
-  <arg name="odom_topic" default="odom" />
+  <arg name="odom_topic"    default="odom" />
 
  
   <!-- move_base -->
@@ -40,7 +40,7 @@ in local_costmap_params:
 
 
     <!-- teb -->
-    <param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS" />
+    <param name="base_local_planner"  value="teb_local_planner/TebLocalPlannerROS" />
     <param name="controller_frequency" value="5.0" />
     <param name="controller_patience" value="15.0" />
     <param name="planner_frequency" value="1.0" />

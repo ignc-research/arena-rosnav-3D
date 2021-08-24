@@ -47,3 +47,11 @@ Therefore, have a look at these gazebo pluggins:
     * scenario spawning (where we can set specific scenarios)
     * reset functionality, where the robot resets after reaching a goal (this is improtatnt to conduct consistant evaluation runs which consist of e.g. 50 runs where the robot has to reach the goal 50 times in order to evaluate its performance
 * Test some arena-rosnav planners in Gazebo
+
+
+## Open Questions:
+- the robot gets overrun by pedestrians - should we register the robot as interactive obstacle?
+- For the dwa local planer im not able to find th files should we include it? (mpc_local_planner_examples this file seems not to exist)
+```xml
+    <rosparam file="$(find mpc_local_planner_examples)/cfg/diff_drive/mpc_local_planner_params_minimum_time.yaml" command="load" />
+```

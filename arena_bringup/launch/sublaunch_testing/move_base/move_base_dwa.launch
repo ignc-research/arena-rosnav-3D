@@ -14,7 +14,7 @@
     <rosparam file="$(find conventional)/config/tb3/local_costmap_params.yaml" command="load" />
     <rosparam file="$(find conventional)/config/tb3/global_costmap_params.yaml" command="load" />
     <rosparam file="$(find conventional)/config/tb3/move_base_params.yaml" command="load" />
-    <rosparam file="$(find turtlebot3_navigation)/param/dwa_local_planner_params_$(arg model).yaml" command="load" /><!--ACTUNG: nicht in arena, aber in turtlebot-->
+    <!--<rosparam file="$(find turtlebot3_navigation)/param/dwa_local_planner_params_$(arg model).yaml" command="load" />--><!--ACTUNG: nicht in arena, aber in turtlebot-->
     <!-- ^^ ev. löschen, weil nicht in arena-rosnav-->
     <remap from="cmd_vel" to="$(arg cmd_vel_topic)"/>
     <remap from="odom" to="$(arg odom_topic)"/>

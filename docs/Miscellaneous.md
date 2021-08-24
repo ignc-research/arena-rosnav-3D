@@ -55,4 +55,18 @@ To create a new scenario for a specific world
 roslaunch arena_bringup start_arena_gazebo.launch scenario_file:=simulator_setup/scenarios/prefix_{NAME_OF_YOUR_WORLD}.json
 ```
 
-NOTE: The number of indoor dynamic obstacles should be chosen wisely. In confined environments such as the turtlebot3_house, too many obstacles will result in uneven trajectories (like obstacles getting stuck etc).
+<ins>NOTE:</ins> The number of indoor dynamic obstacles should be chosen wisely. In confined environments such as the turtlebot3_house, too many obstacles will result in uneven trajectories (like obstacles getting stuck etc).
+
+# Things to know when integrating arena-rosnav (2D) planer
+Arena-rosnav-3D does set the robot's goal position slightly different then arena-rosnav (see the code [here](https://github.com/eliastreis/arena-rosnav-3D/blob/9642467f01ba8704f65693d185d468e361cfb747/task_generator/task_generator/robot_manager.py#L62). Arena-rosnav uses as for goal publishing `PoseStamped` as message type for the navigation goal. Arena-rosnav-3D uses `MoveBaseGoal` (since it includes a third dimension (z)).
+
+Import the following line:
+```python
+from move_base_msgs.msg import MoveBaseAction, MoveBaseGoal
+```
+replacing `PoseStamped` by .. usually should do the trick.
+
+^^ This is not true. The problem lies with the time space planer. (I think it takes the wrong message type)
+
+
+see: arena_navigation/arena_timespace_planner

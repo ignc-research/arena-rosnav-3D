@@ -169,6 +169,15 @@ pip install -e .
 catkin_make -DCMAKE_BUILD_TYPE=Release -DPYTHON_EXECUTABLE=/usr/bin/python3
 ```
 
+* To install all dependent packages for arena-rosnav use `rosdep`
+```bash
+sudo apt install python-rosdep
+sudo rosdep init
+cd ~/catkin_ws
+rosdep install --from-paths src --ignore-src -r -y
+```
+
+
 
 # Error Handling 
 if you encounter the error "world path not given", it is probably because you havent updated the forks repository or working on an old branch.

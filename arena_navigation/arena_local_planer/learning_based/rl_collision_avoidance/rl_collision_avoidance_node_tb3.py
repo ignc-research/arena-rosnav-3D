@@ -6,6 +6,8 @@ from geometry_msgs.msg import PoseStamped, Twist, Vector3, Point
 from ford_msgs.msg import Clusters
 from visualization_msgs.msg import Marker, MarkerArray
 from nav_msgs.msg import Odometry
+from move_base_msgs.msg import MoveBaseAction, MoveBaseGoal
+
 
 # algorithm slef dependencies
 import os
