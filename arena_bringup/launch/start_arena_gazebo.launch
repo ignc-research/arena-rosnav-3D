@@ -1,7 +1,7 @@
 <launch>
   <!-- simulator arguments-->
   <arg name="train_mode"        default="false"/>
-  <arg name="local_planner"     default="dwa"         doc = "local_planer type [tep, dwa, rlca]"/> <!--originally teb-->
+  <arg name="local_planner"     default="teb"         doc = "local_planer type [teb, dwa, mpc, rlca, cadrl]"/> <!--rlca are implemented but msg type not yet adjusted from 2D; dwa has a file missing (see project_task)-->
   <arg name="rviz_file"         default="nav_LP"/>
   <arg name="disable_scenario"  default="false"/>
   <arg name="reset"             default="true"/>
@@ -59,6 +59,10 @@
     <arg name="use_rviz"              value="$(arg use_rviz)"/>
     <arg name="rviz_file"             value="$(arg rviz_file)"/>
   </include>
+
+  <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
+    <param name="publish_frequency" type="double" value="50.0" />
+  </node>
 
   <!-- map server-->
   <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_path)">
