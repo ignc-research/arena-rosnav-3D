@@ -14,6 +14,7 @@
     <rosparam file="$(find conventional)/config/tb3/local_costmap_params.yaml" command="load" />
     <rosparam file="$(find conventional)/config/tb3/global_costmap_params.yaml" command="load" />
     <rosparam file="$(find conventional)/config/tb3/move_base_params.yaml" command="load" /> 
+    
     <rosparam file="$(find conventional)/config/tb3/dwa_local_planner_params_$(arg model).yaml" command="load" />
    
     <remap from="cmd_vel"                         to="foo"/>

@@ -11,27 +11,23 @@ class TaskGenerator:
         
         self.sr = rospy.Publisher('/scenario_reset', Int16, queue_size=1)
         self.nr = 0
-        # mode = rospy.get_param("~task_mode")
-        mode = 'scenario'
+        mode = rospy.get_param("~task_mode")
 
         scenarios_json_path = rospy.get_param("~scenarios_json_path")
-        #scenarios_json_path = '/home/elias/catkin_ws/src/arena-rosnav-3D/simulator_setup/scenarios/turtlebot3_house.json'
         paths = {"scenario": scenarios_json_path}
         self.task = get_predefined_task("",mode, PATHS=paths)
 
         # if auto_reset is set to true, the task generator will automatically reset the task
         # this can be activated only when the mode set to 'ScenarioTask'
-        auto_reset = True
-        #auto_reset = rospy.get_param("~auto_reset")
-        #self.start_time_= time.time()           
+        auto_reset = rospy.get_param("~auto_reset")
+        self.start_time_= time.time()           
         
         # if the distance between the robot and goal_pos is smaller than this value, task will be reset
         #self.timeout_= rospy.get_param("~timeout")
         self.timeout_ = 2.0
         self.timeout_= self.timeout_*60             # sec
         self.start_time_ = time.time()                # sec
-        #self.delta_ = rospy.get_param("~delta")
-        self.delta_ = 1.0
+        self.delta_ = rospy.get_param("~delta")
         robot_odom_topic_name = rospy.get_param(
             "robot_odom_topic_name", "odom")
         

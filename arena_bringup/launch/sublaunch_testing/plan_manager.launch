@@ -8,9 +8,6 @@
     <arg name="timeout_goal" />
     <arg name="timeout_subgoal" />
     
-    
-
-    
     <!-- arena_plan_manager -->
     <node pkg="arena_plan_manager" name="plan_manager" type="plan_manager_node" output="screen">
         <param name="train_mode"            value="$(arg train_mode)"/>

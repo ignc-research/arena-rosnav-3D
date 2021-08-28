@@ -183,7 +183,10 @@ rosdep install --from-paths src --ignore-src -r -y
 cd ~/catkin_ws/src/arena-rosnav-3D
 git clone https://github.com/eliastreis/pedsim_ros.git
 ```
-
+* To use the cadrl planer install the following ternsorflow version:
+```bash
+pip install tensorflow==1.15
+```  
 
 
 

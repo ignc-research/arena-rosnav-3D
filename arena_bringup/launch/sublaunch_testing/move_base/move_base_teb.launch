@@ -21,7 +21,7 @@ in local_costmap_params:
   -->
 <launch>
   <!-- Arguments -->
-  <arg name="model"         default="burger" doc="model type [burger, waffle, waffle_pi]"/>
+  <arg name="model"         default="burger"  doc="model type [burger, waffle, waffle_pi]"/>
   <arg name="cmd_vel_topic" default="/cmd_vel" />
   <arg name="odom_topic"    default="odom" />
 

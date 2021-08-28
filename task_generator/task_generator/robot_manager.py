@@ -2,10 +2,11 @@
 
 
 import rospy, math, subprocess
-from geometry_msgs.msg import Pose, PoseWithCovarianceStamped
+from geometry_msgs.msg import Pose, PoseWithCovarianceStamped, PoseStamped
 from gazebo_msgs.srv import SetModelState
 from gazebo_msgs.msg import ModelState
 from move_base_msgs.msg import MoveBaseAction, MoveBaseGoal
+from nav_msgs.msg import Path
 import actionlib
 from .utils import generate_freespace_indices, get_random_pos_on_map
 
@@ -27,6 +28,8 @@ class RobotManager:
         """
         self.ns = ns
         self.update_map(map_)
+        self._goal_pub = rospy.Publisher(
+            'goal', PoseStamped, queue_size=1, latch=True)
 
     def update_map(self, new_map):
         # type (OccupancyGrid) -> None
@@ -65,18 +68,34 @@ class RobotManager:
         :param y y-position of the goal
         :param theta theta-position of the goal
         """
-        client = actionlib.SimpleActionClient('move_base', MoveBaseAction)
-        client.wait_for_server()
-        self.goal = MoveBaseGoal()
-        self.goal.target_pose.header.frame_id = "map"
-        self.goal.target_pose.header.stamp = rospy.Time.now()
-        self.goal.target_pose.pose = pose
+        # Elias way
+        # client = actionlib.SimpleActionClient('move_base', MoveBaseAction)
+        # client.wait_for_server()
+        # self.goal = MoveBaseGoal()
+        # self.goal.target_pose.header.frame_id = "map"
+        # self.goal.target_pose.header.stamp = rospy.Time.now()
+        # self.goal.target_pose.pose = pose
 
-        client.send_goal(self.goal)
-        wait = client.wait_for_result()
-        if not wait: 
-            rospy.logerr("Action server not available!")
-            rospy.signal_shutdown("Action server not available!")
+        # client.send_goal(self.goal)
+        # wait = client.wait_for_result()
+        # if not wait: 
+        #     rospy.logerr("Action server not available!")
+        #     rospy.signal_shutdown("Action server not available!")
+
+ 
+
+
+        # arena-rosnav way
+
+
+        self._global_path = Path()
+        self._old_global_path_timestamp = self._global_path.header.stamp
+        goal = PoseStamped()
+        goal.header.stamp = rospy.Time.now()
+        goal.header.frame_id = "map"
+        goal.pose = pose
+        self._goal_pub.publish(goal)
+        
 
     def set_start_pos_random(self):
         start_pos = Pose()
