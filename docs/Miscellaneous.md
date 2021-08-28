@@ -23,7 +23,7 @@
 5. Create a  occupancy map-file, safe it under `simulator_setup/maps/map_{NAME OF YOUR WORLD}/map.png`. If the map is not already created you can create it by using: 
 
 - [Gmapping](http://wiki.ros.org/gmapping)
-- [gazebo_ros_2Dmap_plugin](https://github.com/marinaKollmitz/gazebo_ros_2Dmap_plugin): automatically generates a 2D occupancy map from gazebo
+- [gazebo_ros_2d_map_plugin](https://github.com/marinaKollmitz/gazebo_ros_2d_map_plugin): automatically generates a 2D occupancy map from gazebo
 - [birdview_map]() to create 2D map that includes obstacles above robot hight (which might effect dynamic obstacle)
 
 6. Create a pedsim-scenario by using this package and your (created) .map file. The pedsim-scenario should be saved under `simulator_setup/scenarios/ped_scenarios/{NAME_OF_YOUR_WORLD}.xml`
@@ -70,3 +70,6 @@ replacing `PoseStamped` by .. usually should do the trick.
 
 
 see: arena_navigation/arena_timespace_planner
+
+# How tu build your own world file
+Gazebo offers a well made documentation on this see [here](http://gazebosim.org/tutorials?tut=build_world&cat=build_world). If you include any additional plugins into your world-file or built additional your own models, make sure to add the storage position to the gazebo Path so it can be found by the simulator.

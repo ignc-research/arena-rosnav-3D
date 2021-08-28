@@ -131,7 +131,7 @@ source devel/setup.bash
 ````
 Note: if you use zsh replace bash with zsh in the commands
 
-* Install ros geometry2 and geometry2 from source (compiled with python3) 
+  * Install ros geometry and geometry2 from source (compiled with python3) 
 
 The official ros only support tf2 with python2. In order to make the *tf* work in python3, its necessary to compile it with python3. Run the following commands in the terminal:
 ```
@@ -177,6 +177,13 @@ sudo rosdep init
 cd ~/catkin_ws
 rosdep install --from-paths src --ignore-src -r -y
 ```
+
+* To install pedsim (for obstacle management) run the following command: 
+```bash
+cd ~/catkin_ws/src/arena-rosnav-3D
+git clone https://github.com/eliastreis/pedsim_ros
+```
+
 
 
 
