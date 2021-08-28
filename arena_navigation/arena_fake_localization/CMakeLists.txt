@@ -1,30 +1,26 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(arena_mapping)
+project(arena_fake_localization)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
+  geometry_msgs
+  message_filters
+  nav_msgs
   roscpp
   rospy
   sensor_msgs
-  std_msgs
-  tf
-  laser_geometry
-  pcl_conversions
-  pcl_ros
-  message_filters
-  visualization_msgs
+  tf2_geometry_msgs
+  tf2_ros
+  angles
+  rosconsole  
 )
-find_package(Eigen3 REQUIRED)
-find_package(PCL 1.7 REQUIRED)
-
-
+find_package(Boost REQUIRED)
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
 
@@ -82,7 +78,7 @@ find_package(PCL 1.7 REQUIRED)
 ## Generate added messages and services with any dependencies listed here
 # generate_messages(
 #   DEPENDENCIES
-#   sensor_msgs#   std_msgs
+#   geometry_msgs#   nav_msgs#   sensor_msgs#   tf2_geometry_msgs
 # )
 
 ################################################
@@ -115,11 +111,13 @@ find_package(PCL 1.7 REQUIRED)
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-  INCLUDE_DIRS include
-  LIBRARIES arena_mapping
-  CATKIN_DEPENDS roscpp rospy sensor_msgs std_msgs 
-#  DEPENDS system_lib
+    INCLUDE_DIRS include
+    LIBRARIES ${PROJECT_NAME}
+    CATKIN_DEPENDS geometry_msgs  nav_msgs roscpp rospy
 )
+
+#  DEPENDS system_lib
+
 
 ###########
 ## Build ##
@@ -129,18 +127,13 @@ catkin_package(
 ## Your package locations should be listed before other locations
 include_directories(
   include
-  SYSTEM
   ${catkin_INCLUDE_DIRS}
-  ${Eigen3_INCLUDE_DIRS}
-  ${PCL_INCLUDE_DIRS} 
+  ${Boost_INCLUDE_DIRS}
 )
-link_directories(${PCL_LIBRARY_DIRS})
-set(CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS} -O3 -Wall")
 
-# Declare a C++ library
-add_library(arena_mapping
-  src/mapping.cpp 
-  src/raycast.cpp
+## Declare a C++ library
+add_library(${PROJECT_NAME}
+  src/fake_localization.cpp
 )
 
 ## Add cmake target dependencies of the library
@@ -151,10 +144,8 @@ add_library(arena_mapping
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-
-#add_executable(arena_mapping src/mapping.cpp src/raycast.cpp src/edt_environment.cpp)
-
-
+# add_executable(${PROJECT_NAME}_node src/arena_fake_localization_node.cpp)
+add_executable(fake_localization src/fake_localization.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -165,11 +156,16 @@ add_library(arena_mapping
 ## Add cmake target dependencies of the executable
 ## same as for the library above
 # add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(fake_localization ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(arena_mapping
-  ${catkin_LIBRARIES}
-  ${PCL_LIBRARIES}
+# target_link_libraries(${PROJECT_NAME}_node
+#   ${catkin_LIBRARIES}
+# )
+
+target_link_libraries(fake_localization
+    ${catkin_LIBRARIES}
+    ${Boost_LIBRARIES}
 )
 
 #############
@@ -192,6 +188,7 @@ target_link_libraries(arena_mapping
 #   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 # )
 
+
 ## Mark libraries for installation
 ## See http://docs.ros.org/melodic/api/catkin/html/howto/format1/building_libraries.html
 # install(TARGETS ${PROJECT_NAME}
@@ -199,6 +196,12 @@ target_link_libraries(arena_mapping
 #   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   RUNTIME DESTINATION ${CATKIN_GLOBAL_BIN_DESTINATION}
 # )
+install(
+  TARGETS ${PROJECT_NAME}
+  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  RUNTIME DESTINATION ${CATKIN_GLOBAL_BIN_DESTINATION}
+)
 
 ## Mark cpp header files for installation
 # install(DIRECTORY include/${PROJECT_NAME}/
@@ -206,6 +209,11 @@ target_link_libraries(arena_mapping
 #   FILES_MATCHING PATTERN "*.h"
 #   PATTERN ".svn" EXCLUDE
 # )
+
+install(
+  DIRECTORY include/${PROJECT_NAME}/
+  DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+)
 
 ## Mark other files for installation (e.g. launch and bag files, etc.)
 # install(FILES
@@ -219,7 +227,7 @@ target_link_libraries(arena_mapping
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_arena_mapping.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_arena_fake_localization.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()

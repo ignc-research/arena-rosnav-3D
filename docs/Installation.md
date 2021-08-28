@@ -181,7 +181,7 @@ rosdep install --from-paths src --ignore-src -r -y
 * To install pedsim (for obstacle management) run the following command: 
 ```bash
 cd ~/catkin_ws/src/arena-rosnav-3D
-git clone https://github.com/eliastreis/pedsim_ros
+git clone https://github.com/eliastreis/pedsim_ros.git
 ```
 
 
