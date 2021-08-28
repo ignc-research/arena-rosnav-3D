@@ -19,7 +19,7 @@ from geometry_msgs.msg import *
 
 STANDART_ORIENTATION = quaternion_from_euler(0.0,0.0,0.0)
 ROBOT_RADIUS = 0.17 
-N_OBS = 10 # Number of dynamic obstacle
+N_OBS = {'static': 10, 'dynamic': 2}
 
 
 class StopReset(Exception):
@@ -73,8 +73,8 @@ class RandomTask(ABSTask):
             while fail_times < max_fail_times:
                 try:
                     start_pos, goal_pos = self.robot_manager.set_start_pos_goal_pos()
-                    self.obstacle_manager.remove_all_obstacles(N_OBS)
-                    self.obstacle_manager.register_random_dynamic_obstacles(N_OBS, 
+                    self.obstacle_manager.remove_all_obstacles(N_OBS["dynamic"])
+                    self.obstacle_manager.register_random_dynamic_obstacles(N_OBS["dynamic"], 
                         forbidden_zones=[
                             (start_pos.position.x, start_pos.position.y, ROBOT_RADIUS),
                             (goal_pos.position.x, goal_pos.position.y, ROBOT_RADIUS)])
@@ -247,8 +247,8 @@ def get_predefined_task(ns, mode="random", start_stage = 1, PATHS = None):
     task = None
     if mode == "random":
         rospy.set_param("/task_mode", "random")
-        forbidden_zones = obstacle_manager.register_random_static_obstacles(10)
-        forbidden_zones = obstacle_manager.register_random_dynamic_obstacles(N_OBS, forbidden_zones=forbidden_zones)
+        forbidden_zones = obstacle_manager.register_random_static_obstacles(N_OBS["static"])
+        forbidden_zones = obstacle_manager.register_random_dynamic_obstacles(N_OBS["dynamic"], forbidden_zones=forbidden_zones)
         task = RandomTask(pedsim_manager, obstacle_manager, robot_manager)
         print("random tasks requested")
     if mode == "staged":
