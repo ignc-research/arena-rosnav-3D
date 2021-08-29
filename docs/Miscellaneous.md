@@ -80,3 +80,6 @@ If you intend to include pedestrians in your model, you can do so using the Acto
 
 To include your custom world in arena-rosnav-3D, see [here](docs/Miscellaneous.md#How-to-create-more-world-files).
 
+# How to speed-up gazebo simulation speed
+It is possible to run Gazebo faster than real time. The maximum simulation speed depends on the complexity of the world and the processing power, a speedup between 2 and 300 of the simulation time is possible.
+- To speed up the simulation time to the maximum capacity, go into the world file of the gazebo (for the small warehouse world this would be [here](simulator_setup/worlds/small_warehouse/worlds)) and change the `real_time_update_rate` from `<real_time_update_rate>1000</real_time_update_rate>` to `<real_time_update_rate>0</real_time_update_rate>`. This will speed up your simulation and adjust all parameters. (If you want to increase the simulation by a certain factor, see [here](http://gazebosim.org/tutorials?tut=physics_params&cat=physics)). You can further increase the speed by running the simulation headless. To do this, follow the description [here](arena_bringup/launch/sublaunch_testing/gazebo_simulator.launch).

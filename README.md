@@ -49,6 +49,7 @@ The following output can be expected:
 
 - [How to include further world files](docs/Miscellaneous.md#How-to-include-further-world-files)
 - [How to create more world files](docs/Miscellaneous.md#How-to-create-more-world-files)
+- [How to speed-up gazebo simulation speed](docs/Miscellaneous.md#How-to-speed-up-gazebo-simulation-speed)
 - [How to include further scenarios](docs/Miscellaneous.md#How-to-include-further-scenarios)
 - [Further improvement ideas](docs/project_report.md#Open-topics)
 - [Detailed description of changes to arena-rosnav](docs/project_report.md) (currently in progress)
