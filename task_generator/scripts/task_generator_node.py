@@ -5,6 +5,8 @@ from nav_msgs.msg import Odometry
 from task_generator.tasks import get_predefined_task
 from std_msgs.msg import Int16
 from nav_msgs.msg import Odometry
+# for clearing costmap
+from clear_costmap import clear_costmaps
 
 class TaskGenerator:
     def __init__(self):
@@ -60,6 +62,12 @@ class TaskGenerator:
         if(time.time()-self.start_time_>self.timeout_):
             print("timeout")
             self.reset_task()
+
+    # def clear_costmaps(self):
+    #     bashCommand = "rosservice call /move_base/clear_costmaps"
+    #     process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
+    #     output, error = process.communicate()
+    #     print([output, error])
 
     def reset_srv_callback(self, req):
         rospy.loginfo("Task Generator received task-reset request!")
