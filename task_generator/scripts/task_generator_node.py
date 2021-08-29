@@ -53,7 +53,6 @@ class TaskGenerator:
         self.err_g = 100
         
 
-
     def goal_reached(self,event):
 
         if self.err_g < self.delta_:
