@@ -28,8 +28,8 @@ class RobotManager:
         """
         self.ns = ns
         self.update_map(map_)
-        self._goal_pub = rospy.Publisher(
-            'goal', PoseStamped, queue_size=1, latch=True)
+        self._goal_pub = rospy.Publisher('goal', PoseStamped, queue_size=1, latch=True)
+        self.pub_mvb_goal =  rospy.Publisher('/move_base_simple/goal',PoseStamped,queue_size=1, latch=True)
 
     def update_map(self, new_map):
         # type (OccupancyGrid) -> None
@@ -86,8 +86,7 @@ class RobotManager:
 
 
         # arena-rosnav way
-
-
+        
         self._global_path = Path()
         self._old_global_path_timestamp = self._global_path.header.stamp
         goal = PoseStamped()
@@ -95,6 +94,8 @@ class RobotManager:
         goal.header.frame_id = "map"
         goal.pose = pose
         self._goal_pub.publish(goal)
+        # added by Elias for communication with move_base
+        self.pub_mvb_goal.publish(goal)
         
 
     def set_start_pos_random(self):

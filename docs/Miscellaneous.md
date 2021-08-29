@@ -71,5 +71,12 @@ replacing `PoseStamped` by .. usually should do the trick.
 
 see: arena_navigation/arena_timespace_planner
 
-# How tu build your own world file
-Gazebo offers a well made documentation on this see [here](http://gazebosim.org/tutorials?tut=build_world&cat=build_world). If you include any additional plugins into your world-file or built additional your own models, make sure to add the storage position to the gazebo Path so it can be found by the simulator.
+# How to create more world files
+Gazebo provides a well done documentation on how to build a base world, see [here](http://gazebosim.org/tutorials?tut=building_editor&cat=build_world). This allows you to effortlessly build walls, doors and windows (based on a floor plan) (on some computers the build editor crashes when you try to add windows and doors, in which case just skip this step (leave space in the wall for possible doors)).
+
+To populate the world further, for example with furniture, see [this](http://gazebosim.org/tutorials?tut=model_editor&cat=build_robot) tutorial. If you're new to Gazebo, you might also want to check out [this](http://gazebosim.org/tutorials?cat=guided_b&tut=guided_b2) tutorial on the user interface. 
+
+If you intend to include pedestrians in your model, you can do so using the Actor concept, as described [here](http://gazebosim.org/tutorials?tut=actor&cat=build_robot).
+
+To include your custom world in arena-rosnav-3D, see [here](docs/Miscellaneous.md#How-to-create-more-world-files).
+
