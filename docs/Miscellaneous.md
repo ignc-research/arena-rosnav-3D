@@ -23,10 +23,10 @@
 5. Create a  occupancy map-file, safe it under `simulator_setup/maps/map_{NAME OF YOUR WORLD}/map.png`. If the map is not already created you can create it by using: 
 
 - [Gmapping](http://wiki.ros.org/gmapping)
-- [gazebo_ros_2d_map_plugin](https://github.com/marinaKollmitz/gazebo_ros_2d_map_plugin): automatically generates a 2D occupancy map from gazebo
+- [gazebo_ros_2d_map_plugin](https://github.com/marinaKollmitz/gazebo_ros_2Dmap_plugin): automatically generates a 2D occupancy map from gazebo
 - [birdview_map]() to create 2D map that includes obstacles above robot hight (which might effect dynamic obstacle)
 
-6. Create a pedsim-scenario by using this package and your (created) .map file. The pedsim-scenario should be saved under `simulator_setup/scenarios/ped_scenarios/{NAME_OF_YOUR_WORLD}.xml`
+6. Create a pedsim-scenario by using [this](https://github.com/fverdoja/ros_maps_to_pedsim) package and your (created) .map file. The pedsim-scenario should be saved under `simulator_setup/scenarios/ped_scenarios/{NAME_OF_YOUR_WORLD}.xml`
 
  
 7. Build arena-rosnav-3D with `catkin_make`
@@ -125,6 +125,7 @@ You can also download further models from [here](https://app.ignitionrobotics.or
 
 
 To include your custom world in arena-rosnav-3D, see [here](#How-to-include-further-world-files).
+If you are using models, downloaded from ignitionrobotics you need to copy their folders from `~/.gazebo/models` to `~/catkin_ws/src/arena-rosnav-3D/simulator_setup/worlds/small_warehouse/models` so they are included with the simulator.
 
 # How to speed-up gazebo simulation speed
 It is possible to run Gazebo faster than real time. The maximum simulation speed depends on the complexity of the world and the processing power, a speedup between 2 and 300 of the simulation time is possible.
