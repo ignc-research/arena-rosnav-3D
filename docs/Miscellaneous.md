@@ -20,15 +20,19 @@
 ```xml
  <gazebo_ros plugin_path="${prefix}/worlds/{NAME OF YOUR WORLD}/lib" gazebo_media_path="${prefix}worlds/{NAME OF YOUR WORLD}" gazebo_model_path="${prefix}/worlds/{NAME OF YOUR WORLD}/models"/>
 ```
-5. Create a  occupancy map-file, safe it under `simulator_setup/maps/map_{NAME OF YOUR WORLD}/map.png`. If the map is not already created you can create it by using: 
+5. Create a  occupancy map-file, safe it under `simulator_setup/maps/map_{NAME OF YOUR WORLD}/map.pgm`. If the map is not already created you can create it by using: 
 
 - [Gmapping](http://wiki.ros.org/gmapping)
 - [gazebo_ros_2d_map_plugin](https://github.com/marinaKollmitz/gazebo_ros_2Dmap_plugin): automatically generates a 2D occupancy map from gazebo
 - [birdview_map]() to create 2D map that includes obstacles above robot hight (which might effect dynamic obstacle)
 
 6. Create a pedsim-scenario by using [this](https://github.com/fverdoja/ros_maps_to_pedsim) package and your (created) .map file. The pedsim-scenario should be saved under `simulator_setup/scenarios/ped_scenarios/{NAME_OF_YOUR_WORLD}.xml`
+   
+   Your launch file for this will probably look something like this:
+   ```bash
+   roslaunch ros_maps_to_pedsim ros_maps_to_pedsim.launch map_path:='{path to the folder}' use_map_origin:='true' add_agents:='false'
+   ```
 
- 
 7. Build arena-rosnav-3D with `catkin_make`
 8. Start arena-rosnav-3D with your world file included by running the following command in the terminal:
 ```bash
