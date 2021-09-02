@@ -84,6 +84,8 @@ class RandomTask(ABSTask):
                     fail_times += 1
             if fail_times == max_fail_times:
                 raise Exception("reset error!")
+            info["robot_goal_pos"] = np.array([goal_pos.position.x, goal_pos.position.y])
+
 
 
 

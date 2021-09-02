@@ -5,6 +5,7 @@ from nav_msgs.msg import Odometry
 from task_generator.tasks import get_predefined_task
 from std_msgs.msg import Int16
 from nav_msgs.msg import Odometry
+from std_srvs.srv import Empty
 # for clearing costmap
 from clear_costmap import clear_costmaps
 
@@ -33,7 +34,7 @@ class TaskGenerator:
         robot_odom_topic_name = rospy.get_param(
             "robot_odom_topic_name", "odom")
         
-        auto_reset = auto_reset and mode == "scenario"
+        auto_reset = auto_reset and (mode == "scenario" or mode == "random")
         self.curr_goal_pos_ = None
         
         
@@ -41,14 +42,16 @@ class TaskGenerator:
             rospy.loginfo(
                 "Task Generator is set to auto_reset mode, Task will be automatically reset as the robot approaching the goal_pos")
             self.reset_task()
-            #self.robot_pos_sub_ = rospy.Subscriber(
-             #   robot_odom_topic_name, Odometry, self.check_robot_pos_callback)
+            self.robot_pos_sub_ = rospy.Subscriber(
+               robot_odom_topic_name, Odometry, self.check_robot_pos_callback)
 
             rospy.Timer(rospy.Duration(0.5),self.goal_reached)
             
         else:
             # declare new service task_generator, request are handled in callback task generate
             self.reset_task()
+            self.task_generator_srv_ = rospy.Service(
+                'task_generator', Empty, self.reset_srv_callback)
                 
         self.err_g = 100
         
