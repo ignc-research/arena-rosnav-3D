@@ -27,7 +27,7 @@ class TaskGenerator:
         
         # if the distance between the robot and goal_pos is smaller than this value, task will be reset
         #self.timeout_= rospy.get_param("~timeout")
-        self.timeout_ = 2.0
+        self.timeout_= rospy.get_param("~timeout", 2.0)
         self.timeout_= self.timeout_*60             # sec
         self.start_time_ = time.time()                # sec
         self.delta_ = rospy.get_param("~delta")
