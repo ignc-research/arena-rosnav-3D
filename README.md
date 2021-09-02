@@ -49,49 +49,68 @@ For now only [warehouse world](https://github.com/aws-robotics/aws-robomaker-sma
    [![scenario_mode.gif](https://s5.gifyu.com/images/scenario_mode.gif)](https://gifyu.com/image/GSAe)
    
 ## Gazebo
+find the project task-description [here](docs/project_tasks.md)
+# Arena-Rosnav - 3D
+This repository builds on the [arena-rosnav](https://github.com/ignc-research/arena-rosnav) repository and extends its functionalities by including a version of the [pedsim_ros](https://github.com/eliastreis/pedsim_ros) for obstacle management and Gazebo as simulator. (The Flatland-simulator, as used in arena-rosnav is not included). (For a detailed description of differences to arena-rosnav see [here](docs/project_report.md)).
 
-### Helpful links
-* https://github.com/aws-robotics/aws-robomaker-hospital-world
-* https://github.com/aws-robotics/aws-robomaker-small-warehouse-world
+CURRENTLY, THIS PACKAGE IS STILL UNDER DEVELOPMENT. IT IS NOT YET FULLY FUNCTIONAL.
 
-
-Human Gazebo
-
-* https://github.com/robotology/human-gazebo
-
-
-
-## First Steps
-* Do ROS1 tutorials (we are working with ubuntu 18 and ROS melodic! :
-http://wiki.ros.org/ROS/Tutorials
-
-* Install Gazebo Robot simulator and do some tutorials to understand gazebo: 
-Start with this:
-https://emanual.robotis.com/docs/en/platform/turtlebot3/simulation/
-* Tutorials for advanced functionalities later on (spawn obstacles, build world, etc.):
-http://gazebosim.org/tutorials
-
-http://wiki.ros.org/simulator_gazebo/Tutorials/SpawningObjectInSimulation
-
-* install the arena-rosnav environment:
-https://github.com/ignc-research/arena-rosnav
-
-* Understand the task generator (you can have a look, copy and adjust the code for gazebo, whereas arena-rosnav uses flatland as simulation engine to spawn obstacles, this should now be achieved in gazebo):
-https://github.com/ignc-research/arena-rosnav/tree/local_planner_subgoalmode/task_generator/
+## Examples
+| <img width="400" height="400" src="/img/small_warehouse.png"> | <img width="400" height="400" src="/img/outside.png"> |
+|:--:| :--:| 
+| *Pre-build map* | *Random map* |
 
 
-## Follow-up Steps
-* Build some complex environments of offices, warehouses, etc. (see existing world files and links above)
-* Integrate humans and dynamic obstacles 
-Therefore, have a look at these gazebo pluggins: 
-    * https://github.com/onlytailei/gym_ped_sim
-    * https://github.com/srl-freiburg/pedsim_ros
+## What is this repository for?
+Testing DRL agents on ROS compatible simulations for autonomous navigation in highly dynamic 3D environments. Test state of the art local and global planners in ROS environments both in simulation and on real hardware. Following features are included:
 
-    Also have a look at the Gazebo actor documentation 
-    http://gazebosim.org/tutorials?tut=actor&cat=build_robot
-    
-* Implement/integrate the tasks generator of arena-rosnav into gazebo to have different spawn modes:
-    * random spawning of dynamic obstacles
-    * scenario spawning (where we can set specific scenarios)
-    * reset functionality, where the robot resets after reaching a goal (this is improtatnt to conduct consistant evaluation runs which consist of e.g. 50 runs where the robot has to reach the goal 50 times in order to evaluate its performance
-* Test some arena-rosnav planners in Gazebo
+* multiple detailed scenario-worlds 
+* creation of random 3D-words with static and dynamic obstacles
+* different robot models
+* realistic behavior patterns and semantic states of dynamic obstacles (by including pedsim's extended social force model)
+* Implementation of intermediate planner classes to combine local DRL planner with global map-based planning of ROS Navigation stack
+* Testing a variety of planners (learning based and model based) within specific scenarios in test mode
+* Modular structure for extension of new functionalities and approaches
+
+
+## 1. Installation
+Please refer to [Installation.md](docs/Installation.md) for detailed explanations about the installation process.
+
+## 2. Usage
+
+### Testing
+
+Please refer to [Testing.md](docs/Testing.md) for detailed explanations about agent, policy and training setups.
+
+**Sample usage**
+
+After successful installation run the following command with your python-env activated (`workon rosnav`).
+```bash
+roslaunch arena_bringup start_arena_gazebo.launch
+```
+The following output can be expected:
+
+<img width="1000" height="400" src="/img/aws_house.png">
+
+
+### Training
+***Arena-Rosnav's training functionality is not yet included***
+
+## Miscellaneous
+
+- [How to include further world files](docs/Miscellaneous.md#How-to-include-further-world-files)
+- [How to create more world files](docs/Miscellaneous.md#How-to-create-more-world-files)
+- [How to speed-up gazebo simulation speed](docs/Miscellaneous.md#How-to-speed-up-gazebo-simulation-speed)
+- [How to include further scenarios](docs/Miscellaneous.md#How-to-include-further-scenarios)
+- [Further improvement ideas](docs/project_report.md#Open-topics)
+- [Detailed description of changes to arena-rosnav](docs/project_report.md) (currently in progress)
+
+
+# Used third party repos:
+
+* ROS navigation stack: http://wiki.ros.org/navigation
+* Pedsim: https://github.com/srl-freiburg/pedsim_ros
+* Small-warehouse world: https://github.com/aws-robotics/aws-robomaker-small-warehouse-world
+* Small-house world: https://github.com/aws-robotics/aws-robomaker-small-warehouse-world
+* Turtlebot3-robot & house-world: https://github.com/ROBOTIS-GIT/turtlebot3_simulations
+
