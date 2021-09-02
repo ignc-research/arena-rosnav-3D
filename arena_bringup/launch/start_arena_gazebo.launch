@@ -30,7 +30,7 @@
   <param name="use_rviz"        value="$(arg use_rviz)"/>
   <param name="single_env"      value="true"/>
 
-  <!-- the velocity of randomly genelized obstacles  -->
+  <param name="robot_description" command="$(find xacro)/xacro $(find simulator_setup)/robot/urdf/turtlebot3_$(arg model).urdf.xacro" />  <!-- the velocity of randomly genelized obstacles  -->
   <arg name="obs_vel" default="0.3" />
   <param name="obs_vel" value="$(arg obs_vel)" /> 
  

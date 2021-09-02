@@ -3,7 +3,7 @@
 
 import rospy, math, subprocess
 from geometry_msgs.msg import Pose, PoseWithCovarianceStamped, PoseStamped
-from gazebo_msgs.srv import SetModelState
+from gazebo_msgs.srv import SetModelState, SpawnModelRequest, SpawnModel
 from gazebo_msgs.msg import ModelState
 from move_base_msgs.msg import MoveBaseAction, MoveBaseGoal
 from nav_msgs.msg import Path
@@ -27,14 +27,29 @@ class RobotManager:
             robot_yaml_path (str): the file name of the robot yaml file.
         """
         self.ns = ns
+        self.ns_prefix = "/" if ns == "" else "/"+ns+"/"
         self.update_map(map_)
+        self.ROBOT_NAME = 'turtlebot3'
+        self.ROBOT_DESCRIPTION = rospy.get_param("robot_description")
         self._goal_pub = rospy.Publisher('goal', PoseStamped, queue_size=1, latch=True)
         self.pub_mvb_goal =  rospy.Publisher('/move_base_simple/goal',PoseStamped,queue_size=1, latch=True)
+        rospy.wait_for_service("/gazebo/spawn_urdf_model")
+        rospy.wait_for_service('/gazebo/set_model_state')
+        self.spawn_robot()
 
     def update_map(self, new_map):
         # type (OccupancyGrid) -> None
         self.map = new_map
         self._free_space_indices = generate_freespace_indices(self.map)
+
+    def spawn_robot(self):
+        request = SpawnModelRequest()
+        request.model_name = self.ROBOT_NAME
+        request.model_xml = self.ROBOT_DESCRIPTION
+        request.robot_namespace = self.ns_prefix + self.ns
+        request.initial_pose = Pose()
+        request.reference_frame = 'world'
+        self._srv_spawn_model(request)
 
     def move_robot(self, pose):
         # type: (Pose) -> None

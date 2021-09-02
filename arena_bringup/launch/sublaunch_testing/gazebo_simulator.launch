@@ -21,13 +21,6 @@
 
   </include>
 
-  <!--Spawn Robot-->
-  <param name="robot_description" command="$(find xacro)/xacro $(find simulator_setup)/robot/urdf/turtlebot3_$(arg model).urdf.xacro" />
-  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-urdf -model turtlebot3 -x $(arg x_pos) -y $(arg y_pos) -z $(arg z_pos) -param robot_description" />
-
-  <arg name="urdf_file" default="$(find xacro)/xacro --inorder '$(find turtlebot3_description)/urdf/turtlebot3_$(arg model).urdf.xacro'" />
-  <param name="robot_description" command="$(arg urdf_file)" />
-
    <!-- start_rviz -->
   <group if="$(arg use_rviz)">
     <node name="gazebo_rviz" pkg="rviz" type="rviz"  args="-d $(find turtlebot3_navigation)/rviz/turtlebot3_navigation.rviz"/>
