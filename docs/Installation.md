@@ -1,5 +1,17 @@
-## 1. Installation
-#### 1.1. Standard ROS setup
+# 1. Installation
+# For those who already have installed arena-rosnav
+**For those who already installed arena-rosnav, please follow the following instructions**
+
+* Install additional turtlebot packages
+```
+sudo apt-get update && sudo apt-get install -y \
+ros-melodic-turtlebot3-description \
+ros-melodic-turtlebot3-navigation \
+```
+* create a new catkin_workspace
+* start from point 1.3: arena-rosnav-3D
+
+## 1.1. Standard ROS setup
 (Code has been tested with ROS-melodic on Ubuntu 18.04 and Python 3.6)
 
 * Configure your Ubuntu repositories
@@ -62,6 +74,8 @@ ros-melodic-teb-local-planner \
 ros-melodic-mpc-local-planner \
 libarmadillo-dev \
 ros-melodic-nlopt \
+ros-melodic-turtlebot3-description \
+ros-melodic-turtlebot3-navigation \
 ```
 
 #### 1.2. Prepare virtual environment & install python packages
@@ -81,7 +95,7 @@ cd $HOME
 mkdir python_env   # create a venv folder in your home directory 
 ```
 
-* Add exports into your .bashrc:
+* Add exports into your .bashrc or .zshrc:
 ```
 echo "export WORKON_HOME=$HOME/python_env   #path to your venv folder
 export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3   #path to your python3 
@@ -107,31 +121,7 @@ pip install pyyaml catkin_pkg netifaces pathlib
 ```
 pip install stable-baselines3
 ```
-
-### 1.3 setup gazebo_ros for python3 compatibility
-To ensure python3 compatibility the `gazebo_ros` package must be changed: (we recomend the following steps):
-1. run this command in the terminal to receive writing rights for the package:
-```bash
-sudo chown -R $USER:$USER /opt/ros
-```
-go to `/opt/ros/melodic/lib/gazebo_ros` and change *#!/usr/bin/env python2.7*  to  *#!/usr/bin/env python*
-
-#### 1.4. Install arena-rosnav repo
-* Create a catkin_ws and clone this repo into your catkin_ws 
-````
-cd $HOME
-mkdir -p catkin_ws/src && cd catkin_ws/src
-git clone https://github.com/eliastreis/arena-rosnav-3D.git
-
-cd arena-rosnav-3D && rosws update --delete-changed-uris .
-source $HOME/.bashrc
-cd ../.. 
-catkin_make -DCMAKE_BUILD_TYPE=Release -DPYTHON_EXECUTABLE=/usr/bin/python3
-source devel/setup.bash
-````
-Note: if you use zsh replace bash with zsh in the commands
-
-  * Install ros geometry and geometry2 from source (compiled with python3) 
+* Install ros geometry and geometry2 from source (compiled with python3) 
 
 The official ros only support tf2 with python2. In order to make the *tf* work in python3, its necessary to compile it with python3. Run the following commands in the terminal:
 ```
@@ -145,50 +135,71 @@ git clone https://github.com/ros/geometry.git -b melodic-devel
 cd .. && catkin_make -DPYTHON_EXECUTABLE=/usr/bin/python3
 ```
 
-* Set python path in .bashrc (or .bashrc if you use that)
+# 1.3 Install arena-rosnav-3D repo
+* Create a catkin_ws and clone this repo into your catkin_ws 
+````
+cd $HOME
+mkdir -p catkin_ws/src && cd catkin_ws/src
+git clone https://github.com/eliastreis/arena-rosnav-3D.git
+
+source $HOME/.zshrc
+cd ../.. 
+catkin_make -DCMAKE_BUILD_TYPE=Release -DPYTHON_EXECUTABLE=/usr/bin/python3
+source devel/setup.zsh
+````
+Note: if you use zsh replace bash with zsh in the commands or vice versa
+
+* (Optional) Set python path in .zshrc (or .bashrc if you use that)
 ```
-nano ~/.bashrc
+vim ~/.bashrc
 ```
-Add these lines below "source/opt/ros/melodic/setup.bash"
+Add these lines to your .zshrc or .bashrc
 ```
-source /$HOME/catkin_ws/devel/setup.bash
+source /$HOME/catkin_ws/devel/setup.zsh
 export PYTHONPATH=$HOME/catkin_ws/src/arena-rosnav-3D:${PYTHONPATH}
 ```
-Add this line above "source/opt/ros/melodic/setup.bash"
+Add this line above to the beginning of .zshrc or .bashrc
 ```
 export PYTHONPATH=""
 ```
+Note: if you dont add these lines, you have to manually set the Pythonpath with every new terminal.
 
-* Inside forks/stable-baselines3
-```
-pip install -e .
-
-```
-* inside catkin_ws:
-```
-catkin_make -DCMAKE_BUILD_TYPE=Release -DPYTHON_EXECUTABLE=/usr/bin/python3
-```
-
-
-* To install all dependent packages for arena-rosnav use `rosdep`
+### Gazbebo and Pedsim part
+* Install additional packages using `rosdep`
 ```bash
-sudo apt install python-rosdep
+sudo apt install python-rosdep, python-rospkg
 sudo rosdep init
 cd ~/catkin_ws
 rosdep install --from-paths src --ignore-src -r -y
 ```
 
-* To install pedsim (for obstacle management) run the following command: 
+* Install pedsim (for obstacle management): 
 ```bash
-cd ~/catkin_ws/src/arena-rosnav-3D
-git clone https://github.com/eliastreis/pedsim_ros.git
+cd ~/catkin_ws/src/
+git clone https://github.com/eliastreis/pedsim_ros.git -b ros-melodic-gazebo
+../..
+catkin_make -DCMAKE_BUILD_TYPE=Release -DPYTHON_EXECUTABLE=/usr/bin/python3
 ```
 * To use the cadrl planer install the following ternsorflow version:
 ```bash
 pip install tensorflow==1.15
 ```  
 
+* Setup gazebo_ros for python3 compatibility
+To ensure python3 compatibility the `gazebo_ros` package must be changed: (we recomend the following steps):
+1. run this command in the terminal to receive writing rights for the package:
+```bash
+sudo chown -R $USER:$USER /opt/ros
+```
+go to `/opt/ros/melodic/lib/gazebo_ros/spawn_model` 
+```
+vim /opt/ros/melodic/lib/gazebo_ros/spawn_model
+```
+and change *#!/usr/bin/env python2.7* to *#!/usr/bin/env python*
 
+
+# Note: Install Gazebo from source
+Normally, the gazebo package should be included in the ros-full-desktop version. In case you dont have it, you can install it from source by executing the script provided (install_gazebo.sh). Please see [install_gazebo.md](docs/install_gazebo.md). 
 
 # Error Handling 
 if you encounter the error "world path not given", it is probably because you havent updated the forks repository or working on an old branch.
