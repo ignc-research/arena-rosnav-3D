@@ -55,8 +55,9 @@ class TaskGenerator:
 
     def goal_reached(self,event):
 
-        if self.err_g < self.delta_:
+        if self.err_g < 20*self.delta_:
             print(self.err_g)
+            print("reached goal")
             self.reset_task()
         if(time.time()-self.start_time_>self.timeout_):
             print("timeout")
@@ -79,6 +80,7 @@ class TaskGenerator:
         info = self.task.reset()
         
         # clear_costmaps()
+        # set goal position
         if info is not None:
             self.curr_goal_pos_ = info['robot_goal_pos']
         rospy.loginfo("".join(["="]*80))

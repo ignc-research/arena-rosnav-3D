@@ -28,7 +28,7 @@ class RobotManager:
         """
         self.ns = ns
         self.update_map(map_)
-        self._goal_pub = rospy.Publisher('goal', PoseStamped, queue_size=1, latch=True)
+        self._goal_pub = rospy.Publisher('/subgoal', PoseStamped, queue_size=1, latch=True)
         self.pub_mvb_goal =  rospy.Publisher('/move_base_simple/goal',PoseStamped,queue_size=1, latch=True)
 
     def update_map(self, new_map):
@@ -86,7 +86,7 @@ class RobotManager:
 
 
         # arena-rosnav way
-        
+        print("test")
         self._global_path = Path()
         self._old_global_path_timestamp = self._global_path.header.stamp
         goal = PoseStamped()

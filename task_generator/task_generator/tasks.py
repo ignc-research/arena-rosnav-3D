@@ -19,7 +19,7 @@ from geometry_msgs.msg import *
 
 STANDART_ORIENTATION = quaternion_from_euler(0.0,0.0,0.0)
 ROBOT_RADIUS = 0.17 
-N_OBS = {'static': 10, 'dynamic': 2}
+N_OBS = {'static': 10, 'dynamic': 6}
 
 
 class StopReset(Exception):
@@ -72,12 +72,14 @@ class RandomTask(ABSTask):
             fail_times = 0
             while fail_times < max_fail_times:
                 try:
+                    print("loglog: reached goal 2")
                     start_pos, goal_pos = self.robot_manager.set_start_pos_goal_pos()
                     self.obstacle_manager.remove_all_obstacles(N_OBS["dynamic"])
                     self.obstacle_manager.register_random_dynamic_obstacles(N_OBS["dynamic"], 
                         forbidden_zones=[
                             (start_pos.position.x, start_pos.position.y, ROBOT_RADIUS),
                             (goal_pos.position.x, goal_pos.position.y, ROBOT_RADIUS)])
+                    print("loglog: reached goal 3")
                     break
                 except rospy.ServiceException as e:
                     rospy.logwarn(repr(e))
@@ -256,6 +258,7 @@ def get_predefined_task(ns, mode="random", start_stage = 1, PATHS = None):
         task = StagedRandomTask(ns, start_stage, PATHS)
     if mode == "scenario":
         rospy.set_param("/task_mode", "scenario")
+        forbidden_zones = obstacle_manager.register_random_static_obstacles(N_OBS["static"])
         task = ScenarioTask(pedsim_manager, obstacle_manager, robot_manager, PATHS['scenario'])
 
     return task
