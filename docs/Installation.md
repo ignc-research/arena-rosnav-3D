@@ -135,15 +135,14 @@ git clone https://github.com/ros/geometry.git -b melodic-devel
 cd .. && catkin_make -DPYTHON_EXECUTABLE=/usr/bin/python3
 ```
 
-# 1.3 Install arena-rosnav-3D repo
+# 1.3 Install arena-rosnav-3D and pedsim repo
 * Create a catkin_ws and clone this repo into your catkin_ws 
 ````
 cd $HOME
 mkdir -p catkin_ws/src && cd catkin_ws/src
 git clone https://github.com/eliastreis/arena-rosnav-3D.git
-
-source $HOME/.zshrc
-cd ../.. 
+git clone https://github.com/eliastreis/pedsim_ros.git -b ros-melodic-gazebo
+cd ..
 catkin_make -DCMAKE_BUILD_TYPE=Release -DPYTHON_EXECUTABLE=/usr/bin/python3
 source devel/setup.zsh
 ````
