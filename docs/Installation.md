@@ -194,7 +194,9 @@ go to `/opt/ros/melodic/lib/gazebo_ros/spawn_model`
 ```
 vim /opt/ros/melodic/lib/gazebo_ros/spawn_model
 ```
-and change *#!/usr/bin/env python2.7* to *#!/usr/bin/env python*
+and change *#!/usr/bin/env python2.7* to *#!/usr/bin/env python*. Safe and close. Now you should be able to use gazebo9 with python3
+
+
 
 
 # Note: Install Gazebo from source
@@ -210,7 +212,12 @@ Subsequently, go to the forks/stable_baselines3 folder and do:
 ```
 pip install -e .
 ```
+## TF2 ERROR
+Errors with tf2 (transform2) are due to the fact that ROS melodic only supports python2 and the tf1 package. However, our repository contains a lot of packages from python3 that require tf2. As a workaround we installed the geometry2 package (that contains tf2) from source and every operation that is looking for tf2 should look into that geometry 2 path instead of the /ros path. Thus, in your Pythonpath variable, you need to check that the geometry2 path **is in front** of the /opt/ros/melodic path! 
+An example echo $PYTHONPATH could look like this:
+```
 
+```
 # Training with GPU RTX 3090
 in order to train with an NVIDIA GPU RTX3090 you need the latest version of pytorch. Inside your venv, do:
 ```
