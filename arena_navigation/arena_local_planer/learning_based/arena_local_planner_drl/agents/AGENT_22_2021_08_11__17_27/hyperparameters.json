@@ -1,9 +1,9 @@
 {
-    "agent_name": "baseline_ppo_human",
+    "agent_name": "AGENT_22_2021_08_11__17_27",
     "robot": "myrobot",
-    "batch_size": 24000,
+    "batch_size": 19200,
     "gamma": 0.99,
-    "n_steps": 1000,
+    "n_steps": 19200,
     "ent_coef": 0.005,
     "learning_rate": 0.0003,
     "vf_coef": 0.22,
@@ -12,12 +12,12 @@
     "m_batch_size": 15,
     "n_epochs": 3,
     "clip_range": 0.22,
-    "train_max_steps_per_episode": 600,
+    "train_max_steps_per_episode": 500,
     "eval_max_steps_per_episode": 650,
     "goal_radius": 0.25,
-    "reward_fnc": "rule_04",
+    "reward_fnc": "rule_02",
     "discrete_action_space": false,
-    "normalize": false,
+    "normalize": true,
     "task_mode": "staged",
-    "curr_stage": 5
+    "curr_stage": 1
 }

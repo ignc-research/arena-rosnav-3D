@@ -12,14 +12,10 @@ from stable_baselines3.common.vec_env import SubprocVecEnv, DummyVecEnv, VecNorm
 from stable_baselines3.common.monitor import Monitor
 from stable_baselines3.common.evaluation import evaluate_policy
 
+from rl_agent.envs.flatland_gym_env import FlatlandEnv
 from task_generator.task_generator.tasks import StopReset
-from arena_navigation.arena_local_planner.learning_based.arena_local_planner_drl.rl_agent.envs.flatland_gym_env import (
-    FlatlandEnv,
-)
-from arena_navigation.arena_local_planner.learning_based.arena_local_planner_drl.tools.argsparser import (
-    parse_run_agent_args,
-)
-from arena_navigation.arena_local_planner.learning_based.arena_local_planner_drl.tools.train_agent_utils import *
+from tools.argsparser import parse_run_agent_args
+from tools.train_agent_utils import load_hyperparameters_json, print_hyperparameters
 
 ### AGENT LIST ###
 AGENTS = [
@@ -45,8 +41,7 @@ AGENTS = [
 ]
 
 
-def get_paths(args, AGENT):
-    # type: (dict, str)
+def get_paths(args: dict, AGENT: str):
     dir = rospkg.RosPack().get_path("arena_local_planner_drl")
     PATHS = {
         "model": os.path.join(dir, "agents", AGENT),
@@ -70,8 +65,9 @@ def get_paths(args, AGENT):
     return PATHS
 
 
-def make_env(with_ns, PATHS, PARAMS log = False, max_steps = 1000):
-    # type: (bool, dict, dict, bool, int) -> 
+def make_env(
+    with_ns: bool, PATHS: dict, PARAMS: dict, log: bool = False, max_steps: int = 1000
+):
     """
     Utility function for the evaluation environment.
 
@@ -83,7 +79,7 @@ def make_env(with_ns, PATHS, PARAMS log = False, max_steps = 1000):
     """
 
     def _init():
-        ns = "eval_sim" if with_ns else ""
+        ns = f"eval_sim" if with_ns else ""
 
         env = FlatlandEnv(
             ns,
@@ -130,7 +126,7 @@ if __name__ == "__main__":
     start = time.time()
     while len(AGENTS) != 0:
         AGENT = AGENTS.pop(0)
-        print("START RUNNING AGENT:    ", AGENT)
+        print(f"START RUNNING AGENT:    {AGENT}")
         PATHS = get_paths(args, AGENT)
 
         assert os.path.isfile(os.path.join(PATHS["model"], "best_model.zip")), (
@@ -150,7 +146,7 @@ if __name__ == "__main__":
             if not os.path.isfile(PATHS["vecnorm"]):
                 # without it agent performance will be strongly altered
                 warnings.warn(
-                    "Couldn't find VecNormalize pickle for {}, going to skip this model".format(PATHS['model'].split('/')[-1])
+                    f"Couldn't find VecNormalize pickle for {PATHS['model'].split('/')[-1]}, going to skip this model"
                 )
                 continue
 
@@ -167,7 +163,7 @@ if __name__ == "__main__":
             pass
 
     time = round(time.time() - start)
-    print("Time passed:    ", time, "s")
+    print(f"Time passed:    {time}s")
     print("EVALUATION DONE!")
     sys.exit()
 

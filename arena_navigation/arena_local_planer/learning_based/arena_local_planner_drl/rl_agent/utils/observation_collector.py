@@ -1,5 +1,4 @@
 #! /usr/bin/env python
-import threading
 from typing import Tuple
 
 from numpy.core.numeric import normalize_axis_tuple
@@ -13,14 +12,10 @@ import threading
 
 # observation msgs
 from sensor_msgs.msg import LaserScan
-from geometry_msgs.msg import Pose2D, PoseStamped, PoseWithCovarianceStamped
-from geometry_msgs.msg import Twist
+from geometry_msgs.msg import Pose2D, PoseStamped, Twist
 from nav_msgs.msg import Path
 from rosgraph_msgs.msg import Clock
 from nav_msgs.msg import Odometry
-
-# services
-from flatland_msgs.srv import StepWorld, StepWorldRequest
 
 # message filter
 import message_filters
@@ -31,13 +26,17 @@ from tf.transformations import *
 from gym import spaces
 import numpy as np
 
-from std_msgs.msg import Bool
-
-from rl_agent.utils.debug import timeit
+"""SET A METHOD TO EXTRACT IF MARL IS BEIN REQUESTED"""
+MARL = rospy.get_param("MARL", default=False)
 
 
 class ObservationCollector:
-    def __init__(self, ns: str, num_lidar_beams: int, lidar_range: float):
+    def __init__(
+        self,
+        ns: str,
+        num_lidar_beams: int,
+        lidar_range: float,
+    ):
         """a class to collect and merge observations
 
         Args:
@@ -48,22 +47,27 @@ class ObservationCollector:
         if ns is None or ns == "":
             self.ns_prefix = ""
         else:
-            self.ns_prefix = "/" + ns + "/"
+            self.ns_prefix = (
+                "/" + ns + "/" if not ns.endswith("/") else "/" + ns
+            )
 
         # define observation_space
         self.observation_space = ObservationCollector._stack_spaces(
             (
                 spaces.Box(
-                    low=0, high=lidar_range, shape=(num_lidar_beams,), dtype=np.float32
+                    low=0,
+                    high=lidar_range,
+                    shape=(num_lidar_beams,),
+                    dtype=np.float32,
                 ),
                 spaces.Box(low=0, high=10, shape=(1,), dtype=np.float32),
-                spaces.Box(low=-np.pi, high=np.pi, shape=(1,), dtype=np.float32),
+                spaces.Box(
+                    low=-np.pi, high=np.pi, shape=(1,), dtype=np.float32
+                ),
             )
         )
 
-        self._laser_num_beams = rospy.get_param("/laser_num_beams")
-        # for frequency controlling
-        self._action_frequency = 1 / rospy.get_param("/robot_action_rate")
+        self._laser_num_beams = num_lidar_beams
 
         self._clock = Clock()
         self._scan = LaserScan()
@@ -72,24 +76,15 @@ class ObservationCollector:
         self._subgoal = Pose2D()
         self._globalplan = np.array([])
 
-        # train mode?
-        self._is_train_mode = rospy.get_param("/train_mode")
-
-        # synchronization parameters
-        self._first_sync_obs = True  # whether to return first sync'd obs or most recent
-        self.max_deque_size = 10
-        self._sync_slop = 0.05
-
-        self._laser_deque = deque()
-        self._rs_deque = deque()
-
         # subscriptions
         self._scan_sub = rospy.Subscriber(
-            "%sscan" % self.ns_prefix, LaserScan, self.callback_scan, tcp_nodelay=True
+            f"{self.ns_prefix}scan",
+            LaserScan,
+            self.callback_scan,
+            tcp_nodelay=True,
         )
-
         self._robot_state_sub = rospy.Subscriber(
-            "%sodom" % self.ns_prefix,
+            f"{self.ns_prefix}odom",
             Odometry,
             self.callback_robot_state,
             tcp_nodelay=True,
@@ -98,34 +93,31 @@ class ObservationCollector:
         # self._clock_sub = rospy.Subscriber(
         #     f'{self.ns_prefix}clock', Clock, self.callback_clock, tcp_nodelay=True)
 
+        # when using MARL listen to goal directly since no intermediate planner is considered
+        goal_topic = (
+            f"{self.ns_prefix}goal" if MARL else f"{self.ns_prefix}subgoal"
+        )
         self._subgoal_sub = rospy.Subscriber(
-            "%ssubgoal" % self.ns_prefix, PoseStamped, self.callback_subgoal
+            f"{goal_topic}", PoseStamped, self.callback_subgoal
         )
-
         self._globalplan_sub = rospy.Subscriber(
-            "%sglobalPlan" % self.ns_prefix, Path, self.callback_global_plan
+            f"{self.ns_prefix}globalPlan", Path, self.callback_global_plan
         )
 
-        # service clients
-        if self._is_train_mode:
-            self._service_name_step = "%sstep_world" % self.ns_prefix
-            self._sim_step_client = rospy.ServiceProxy(
-                self._service_name_step, StepWorld
-            )
+        # synchronization parameters
+        self._first_sync_obs = (
+            True  # whether to return first sync'd obs or most recent
+        )
+        self.max_deque_size = 10
+        self._sync_slop = 0.1
+
+        self._laser_deque = deque()
+        self._rs_deque = deque()
 
     def get_observation_space(self):
         return self.observation_space
 
     def get_observations(self):
-        # apply action time horizon
-        if self._is_train_mode:
-            self.call_service_takeSimStep(self._action_frequency)
-        else:
-            try:
-                rospy.wait_for_message("%snext_cycle"% self.ns_prefix, Bool)
-            except Exception:
-                pass
-
         # try to retrieve sync'ed obs
         laser_scan, robot_pose = self.get_sync_obs()
         if laser_scan is not None and robot_pose is not None:
@@ -161,9 +153,9 @@ class ObservationCollector:
         y_relative = goal_pos.y - robot_pos.y
         x_relative = goal_pos.x - robot_pos.x
         rho = (x_relative ** 2 + y_relative ** 2) ** 0.5
-        theta = (np.arctan2(y_relative, x_relative) - robot_pos.theta + 4 * np.pi) % (
-            2 * np.pi
-        ) - np.pi
+        theta = (
+            np.arctan2(y_relative, x_relative) - robot_pos.theta + 4 * np.pi
+        ) % (2 * np.pi) - np.pi
         return rho, theta
 
     def get_sync_obs(self):
@@ -199,25 +191,6 @@ class ObservationCollector:
         # print(f"Laser_stamp: {laser_stamp}, Robot_stamp: {robot_stamp}")
         return laser_scan, robot_pose
 
-    def call_service_takeSimStep(self, t=None):
-        request = StepWorldRequest() if t is None else StepWorldRequest(t)
-        timeout = 12
-        try:
-            for i in range(timeout):
-                response = self._sim_step_client(request)
-                rospy.logdebug("step service=", response)
-
-                if response.success:
-                    break
-                if i == timeout - 1:
-                    raise TimeoutError(
-                        "Timeout while trying to call '%sstep_world'" % self.ns_prefix
-                    )
-                time.sleep(0.33)
-
-        except rospy.ServiceException as e:
-            rospy.logdebug("step Service call failed: %s" % e)
-
     def callback_clock(self, msg_Clock):
         self._clock = msg_Clock.clock.to_sec()
         return
@@ -227,7 +200,9 @@ class ObservationCollector:
         return
 
     def callback_global_plan(self, msg_global_plan):
-        self._globalplan = ObservationCollector.process_global_plan_msg(msg_global_plan)
+        self._globalplan = ObservationCollector.process_global_plan_msg(
+            msg_global_plan
+        )
         return
 
     def callback_scan(self, msg_laserscan):
@@ -240,7 +215,9 @@ class ObservationCollector:
             self._rs_deque.popleft()
         self._rs_deque.append(msg_robotstate)
 
-    def callback_observation_received(self, msg_LaserScan, msg_RobotStateStamped):
+    def callback_observation_received(
+        self, msg_LaserScan, msg_RobotStateStamped
+    ):
         # process sensor msg
         self._scan = self.process_scan_msg(msg_LaserScan)
         self._robot_pose, self._robot_vel = self.process_robot_state_msg(
