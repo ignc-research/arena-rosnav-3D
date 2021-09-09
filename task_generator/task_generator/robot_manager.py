@@ -12,7 +12,6 @@ from .utils import generate_freespace_indices, get_random_pos_on_map
 
 ROBOT_RADIUS = 0.17
 
-
 class RobotManager:
     """
     A manager class using gazebo provided services to spawn, move and delete Robot. Currently only one robot
@@ -29,12 +28,8 @@ class RobotManager:
         """
         self.ns = ns
         self.update_map(map_)
-        self._goal_pub = rospy.Publisher(
-            "/subgoal", PoseStamped, queue_size=1, latch=True
-        )
-        # self.pub_mvb_goal = rospy.Publisher(
-        #     "/move_base_simple/goal", PoseStamped, queue_size=1, latch=True
-        # )
+        self._goal_pub = rospy.Publisher('/subgoal', PoseStamped, queue_size=1, latch=True)
+        self.pub_mvb_goal =  rospy.Publisher('/move_base_simple/goal',PoseStamped,queue_size=1, latch=True)
 
     def update_map(self, new_map):
         # type (OccupancyGrid) -> None
@@ -48,25 +43,21 @@ class RobotManager:
             pose (Pose): target postion
         """
         start_pos = ModelState()
-        start_pos.model_name = "turtlebot3"
+        start_pos.model_name = 'turtlebot3'
         start_pos.pose = pose
-        rospy.wait_for_service("/gazebo/set_model_state")
+        rospy.wait_for_service('/gazebo/set_model_state')
         try:
-            set_state = rospy.ServiceProxy(
-                "/gazebo/set_model_state", SetModelState
-            )
+            set_state = rospy.ServiceProxy('/gazebo/set_model_state', SetModelState)
             resp = set_state(start_pos)
 
         except rospy.ServiceException:
             print("Move Robot to position failed")
 
-        pub = rospy.Publisher(
-            "/initialpose", PoseWithCovarianceStamped, queue_size=10
-        )
+        pub = rospy.Publisher('/initialpose', PoseWithCovarianceStamped, queue_size = 10)
         rospy.sleep(3)
         start_pos = PoseWithCovarianceStamped()
-        start_pos.header.frame_id = "map"
-        start_pos.pose.pose = pose
+        start_pos.header.frame_id = 'map'
+        start_pos.pose.pose = pose 
         pub.publish(start_pos)
 
     def publish_goal(self, pose):
@@ -87,9 +78,12 @@ class RobotManager:
 
         # client.send_goal(self.goal)
         # wait = client.wait_for_result()
-        # if not wait:
+        # if not wait: 
         #     rospy.logerr("Action server not available!")
         #     rospy.signal_shutdown("Action server not available!")
+
+ 
+
 
         # arena-rosnav way
         print("test")
@@ -101,18 +95,16 @@ class RobotManager:
         goal.pose = pose
         self._goal_pub.publish(goal)
         # added by Elias for communication with move_base
-        # self.pub_mvb_goal.publish(goal)
+        self.pub_mvb_goal.publish(goal)
+        
 
     def set_start_pos_random(self):
         start_pos = Pose()
         start_pos = get_random_pos_on_map(
-            self._free_space_indices, self.map, ROBOT_RADIUS
-        )
+            self._free_space_indices, self.map, ROBOT_RADIUS)
         self.move_robot(start_pos)
 
-    def set_start_pos_goal_pos(
-        self, start_pos=None, goal_pos=None, min_dist=1, forbidden_zones=None
-    ):
+    def set_start_pos_goal_pos(self, start_pos = None, goal_pos = None, min_dist=1, forbidden_zones = None):
         # type: (Union[Pose, None], Union[Pose, None], int, list) -> float
         """set up start position and the goal postion. Path validation checking will be conducted. If it failed, an
         exception will be raised.
@@ -125,50 +117,33 @@ class RobotManager:
         """
 
         def dist(x1, y1, x2, y2):
-            return math.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2)
+            return math.sqrt((x1 - x2)**2 + (y1 - y2)**2)
 
         if start_pos is None or goal_pos is None:
             # if any of them need to be random generated, we set a higher threshold,otherwise only try once
             max_try_times = 20
         else:
             max_try_times = 1
-        if forbidden_zones == None:
-            forbidden_zones = None  # change later
+        if forbidden_zones == None: forbidden_zones = None # change later
         i_try = 0
         start_pos_ = None
         goal_pos_ = None
-
+      
         while i_try < max_try_times:
 
             if start_pos is None:
                 start_pos_ = get_random_pos_on_map(
-                    self._free_space_indices,
-                    self.map,
-                    ROBOT_RADIUS * 2,
-                    forbidden_zones,
-                )
+                    self._free_space_indices, self.map, ROBOT_RADIUS * 2, forbidden_zones)
             else:
                 start_pos_ = start_pos
-
+                
             if goal_pos is None:
                 goal_pos_ = get_random_pos_on_map(
-                    self._free_space_indices,
-                    self.map,
-                    ROBOT_RADIUS * 2,
-                    forbidden_zones,
-                )
+                    self._free_space_indices, self.map, ROBOT_RADIUS * 2, forbidden_zones)
             else:
                 goal_pos_ = goal_pos
-
-            if (
-                dist(
-                    start_pos_.position.x,
-                    start_pos_.position.y,
-                    goal_pos_.position.x,
-                    goal_pos_.position.y,
-                )
-                < min_dist
-            ):
+                
+            if dist(start_pos_.position.x, start_pos_.position.y, goal_pos_.position.x, goal_pos_.position.y) < min_dist:
                 i_try += 1
                 continue
             # move the robot to the start pos
@@ -182,7 +157,6 @@ class RobotManager:
         if i_try == max_try_times:
             # TODO Define specific type of Exception
             raise rospy.ServiceException(
-                "can not generate a path with the given start position and the goal position of the robot"
-            )
+                "can not generate a path with the given start position and the goal position of the robot")
         else:
             return start_pos_, goal_pos_
