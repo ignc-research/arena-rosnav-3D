@@ -23,8 +23,12 @@ class ActionPublisher:
         # apply rate in sim time
         rate = (1 / self._action_publish_rate) / self._real_second_in_sim
 
-        ns_prefix = "" if "/single_env" in rospy.get_param_names() else "/eval_sim/"
-        self._pub_cmd_vel = rospy.Publisher(f"{ns_prefix}cmd_vel", Twist, queue_size=1)
+        ns_prefix = (
+            "" if "/single_env" in rospy.get_param_names() else "/eval_sim/"
+        )
+        self._pub_cmd_vel = rospy.Publisher(
+            f"{ns_prefix}cmd_vel", Twist, queue_size=1
+        )
         self._pub_cycle_trigger = rospy.Publisher(
             f"{ns_prefix}next_cycle", Bool, queue_size=1
         )
@@ -48,7 +52,9 @@ class ActionPublisher:
 
         while not rospy.is_shutdown():
             if self._sub.get_num_connections() < 1:
-                print(f"ActionPublisher: No publisher to {ns_prefix}cmd_vel_pub yet.. ")
+                print(
+                    f"ActionPublisher: No publisher to {ns_prefix}cmd_vel_pub yet.. "
+                )
                 time.sleep(1)
                 continue
 

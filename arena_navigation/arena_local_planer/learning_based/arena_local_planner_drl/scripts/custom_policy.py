@@ -29,7 +29,10 @@ with open(yaml_ROBOT_SETTING_PATH, "r") as fd:
             laser_angle_max = plugin["angle"]["max"]
             laser_angle_increment = plugin["angle"]["increment"]
             _L = int(
-                round((laser_angle_max - laser_angle_min) / laser_angle_increment) + 1
+                round(
+                    (laser_angle_max - laser_angle_min) / laser_angle_increment
+                )
+                + 1
             )  # num of laser beams
             break
 
@@ -57,7 +60,10 @@ class MLP_ARENA2D(nn.Module):
 
         # Body network
         self.body_net = nn.Sequential(
-            nn.Linear(_L + _RS, 64), nn.ReLU(), nn.Linear(64, feature_dim), nn.ReLU()
+            nn.Linear(_L + _RS, 64),
+            nn.ReLU(),
+            nn.Linear(64, feature_dim),
+            nn.ReLU(),
         )
 
         # Policy network
@@ -119,7 +125,9 @@ class AGENT_1(BaseFeaturesExtractor):
         This corresponds to the number of unit for the last layer.
     """
 
-    def __init__(self, observation_space: gym.spaces.Box, features_dim: int = 128):
+    def __init__(
+        self, observation_space: gym.spaces.Box, features_dim: int = 128
+    ):
         super(AGENT_1, self).__init__(observation_space, features_dim + _RS)
 
         self.cnn = nn.Sequential(
@@ -174,7 +182,9 @@ class AGENT_2(BaseFeaturesExtractor):
         This corresponds to the number of unit for the last layer.
     """
 
-    def __init__(self, observation_space: gym.spaces.Box, features_dim: int = 128):
+    def __init__(
+        self, observation_space: gym.spaces.Box, features_dim: int = 128
+    ):
         super(AGENT_2, self).__init__(observation_space, features_dim + _RS)
 
         self.cnn = nn.Sequential(
@@ -229,7 +239,9 @@ class AGENT_3(BaseFeaturesExtractor):
         This corresponds to the number of unit for the last layer.
     """
 
-    def __init__(self, observation_space: gym.spaces.Box, features_dim: int = 128):
+    def __init__(
+        self, observation_space: gym.spaces.Box, features_dim: int = 128
+    ):
         super(AGENT_3, self).__init__(observation_space, features_dim + _RS)
 
         self.cnn = nn.Sequential(
@@ -289,7 +301,9 @@ class AGENT_4(BaseFeaturesExtractor):
         This corresponds to the number of unit for the last layer.
     """
 
-    def __init__(self, observation_space: gym.spaces.Box, features_dim: int = 32):
+    def __init__(
+        self, observation_space: gym.spaces.Box, features_dim: int = 32
+    ):
         super(AGENT_4, self).__init__(observation_space, features_dim + _RS)
 
         self.cnn = nn.Sequential(
@@ -364,7 +378,8 @@ and value network.
 :constant policy_kwargs_navrep: (dict)
 """
 policy_kwargs_agent_7 = dict(
-    net_arch=[128, 64, 64, dict(pi=[64, 64], vf=[64, 64])], activation_fn=th.nn.ReLU
+    net_arch=[128, 64, 64, dict(pi=[64, 64], vf=[64, 64])],
+    activation_fn=th.nn.ReLU,
 )
 
 """
@@ -373,7 +388,8 @@ and value network.
 :constant policy_kwargs_navrep: (dict)
 """
 policy_kwargs_agent_8 = dict(
-    net_arch=[64, 64, 64, dict(pi=[64, 64], vf=[64, 64])], activation_fn=th.nn.ReLU
+    net_arch=[64, 64, 64, dict(pi=[64, 64], vf=[64, 64])],
+    activation_fn=th.nn.ReLU,
 )
 
 """
@@ -397,7 +413,9 @@ class AGENT_10(BaseFeaturesExtractor):
         This corresponds to the number of unit for the last layer.
     """
 
-    def __init__(self, observation_space: gym.spaces.Box, features_dim: int = 32):
+    def __init__(
+        self, observation_space: gym.spaces.Box, features_dim: int = 32
+    ):
         super(AGENT_10, self).__init__(observation_space, features_dim + _RS)
 
         self.cnn = nn.Sequential(
@@ -493,7 +511,8 @@ and value network.
 :constant policy_kwargs_navrep: (dict)
 """
 policy_kwargs_agent_15 = dict(
-    net_arch=[64, 64, 64, 64, dict(pi=[64, 64], vf=[64, 64])], activation_fn=th.nn.ReLU
+    net_arch=[64, 64, 64, 64, dict(pi=[64, 64], vf=[64, 64])],
+    activation_fn=th.nn.ReLU,
 )
 
 """
@@ -536,7 +555,8 @@ and value network.
 :constant policy_kwargs_navrep: (dict)
 """
 policy_kwargs_agent_19 = dict(
-    net_arch=[128, 128, 128, dict(pi=[64, 64], vf=[64, 64])], activation_fn=th.nn.ReLU
+    net_arch=[128, 128, 128, dict(pi=[64, 64], vf=[64, 64])],
+    activation_fn=th.nn.ReLU,
 )
 
 """

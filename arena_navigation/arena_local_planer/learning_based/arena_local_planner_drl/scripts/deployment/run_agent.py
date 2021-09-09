@@ -8,14 +8,21 @@ import time
 import warnings
 
 from stable_baselines3 import PPO
-from stable_baselines3.common.vec_env import SubprocVecEnv, DummyVecEnv, VecNormalize
+from stable_baselines3.common.vec_env import (
+    SubprocVecEnv,
+    DummyVecEnv,
+    VecNormalize,
+)
 from stable_baselines3.common.monitor import Monitor
 from stable_baselines3.common.evaluation import evaluate_policy
 
 from rl_agent.envs.flatland_gym_env import FlatlandEnv
 from task_generator.task_generator.tasks import StopReset
 from tools.argsparser import parse_run_agent_args
-from tools.train_agent_utils import load_hyperparameters_json, print_hyperparameters
+from tools.train_agent_utils import (
+    load_hyperparameters_json,
+    print_hyperparameters,
+)
 
 ### AGENT LIST ###
 AGENTS = [
@@ -47,7 +54,9 @@ def get_paths(args: dict, AGENT: str):
         "model": os.path.join(dir, "agents", AGENT),
         "vecnorm": os.path.join(dir, "agents", AGENT, "vec_normalize.pkl"),
         "robot_setting": os.path.join(
-            rospkg.RosPack().get_path("simulator_setup"), "robot", "myrobot.model.yaml"
+            rospkg.RosPack().get_path("simulator_setup"),
+            "robot",
+            "myrobot.model.yaml",
         ),
         "robot_as": os.path.join(dir, "configs", "default_settings.yaml"),
         "scenario": os.path.join(
@@ -66,7 +75,11 @@ def get_paths(args: dict, AGENT: str):
 
 
 def make_env(
-    with_ns: bool, PATHS: dict, PARAMS: dict, log: bool = False, max_steps: int = 1000
+    with_ns: bool,
+    PATHS: dict,
+    PARAMS: dict,
+    log: bool = False,
+    max_steps: int = 1000,
 ):
     """
     Utility function for the evaluation environment.
@@ -157,7 +170,10 @@ if __name__ == "__main__":
 
         try:
             evaluate_policy(
-                model=agent, env=env, n_eval_episodes=args.num_eps, deterministic=True
+                model=agent,
+                env=env,
+                n_eval_episodes=args.num_eps,
+                deterministic=True,
             )
         except StopReset:
             pass
