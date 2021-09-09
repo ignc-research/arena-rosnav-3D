@@ -100,7 +100,7 @@ class ObservationCollector:
         # need to evaulate each possibility
         if self._ext_time_sync:
             self._scan_sub = message_filters.Subscriber(
-                f"{self.ns_prefix}scan", LaserScan
+                f"{self.ns_prefix}scan_mapped", LaserScan
             )
             self._robot_state_sub = message_filters.Subscriber(
                 f"{self.ns_prefix}odom", Odometry
@@ -115,7 +115,7 @@ class ObservationCollector:
             self.ts.registerCallback(self.callback_odom_scan)
         else:
             self._scan_sub = rospy.Subscriber(
-                f"{self.ns_prefix}scan",
+                f"{self.ns_prefix}scan_mapped",
                 LaserScan,
                 self.callback_scan,
                 tcp_nodelay=True,

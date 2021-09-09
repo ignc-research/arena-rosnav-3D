@@ -75,7 +75,7 @@ class BaseDRLAgent(ABC):
         self.setup_reward_calculator()
 
         self.observation_collector = ObservationCollector(
-            self._ns_robot, self._num_laser_beams, self._laser_range
+            self._ns_robot, self._num_laser_beams, self._laser_range, True
         )
 
         # for time controlling in train mode
