@@ -167,7 +167,7 @@ Note: if you dont add these lines, you have to manually set the Pythonpath with 
 ### Gazbebo and Pedsim part
 * Install additional packages using `rosdep`
 ```bash
-sudo apt install python-rosdep, python-rospkg
+sudo apt install python-rosdep python-rospkg
 sudo rosdep init
 cd ~/catkin_ws
 rosdep install --from-paths src --ignore-src -r -y
