@@ -6,6 +6,7 @@
   <arg name="disable_scenario"  default="false"/>
   <arg name="reset"             default="true"/>
   <arg name="enable_pedsim"     default="true"/>
+  <arg name="enable_pedvis"     default="true"/>
   <arg name="outside"           default="false"/>
   <arg name="world"             default="ignc_lab"   doc ="world type [turtlebot3_house, small_warehouse, aws_house, outside, ignc_lab]" unless="$(arg outside)"/>
   <arg name="world"             default="outside"     if = "$(arg outside)"/>
@@ -122,5 +123,8 @@
       <param name="pedsim_update_rate"  value="$(arg pedsim_update_rate)" type="double"/>
       <param name="scene_file"          value="$(arg scene_file)"         type="string"/>
   </node>
+
+  <node name="pedsim_visualizer" type="pedsim_visualizer_node" pkg="pedsim_visualizer"  output="screen" if="$(arg enable_pedvis)"/>
+
 
 </launch>
