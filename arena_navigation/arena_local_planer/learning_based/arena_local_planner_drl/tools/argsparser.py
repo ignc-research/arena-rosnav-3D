@@ -2,9 +2,8 @@ import argparse
 import os
 import numpy as np
 
-from arena_navigation.arena_local_planner.learning_based.arena_local_planner_drl.tools.custom_mlp_utils import (
-    get_net_arch,
-)
+from rl_agent.model.agent_factory import AgentFactory
+from tools.custom_mlp_utils import get_net_arch
 
 
 def training_args(parser):
@@ -24,29 +23,7 @@ def training_args(parser):
     group.add_argument(
         "--agent",
         type=str,
-        choices=[
-            "MLP_ARENA2D",
-            "AGENT_1",
-            "AGENT_2",
-            "AGENT_3",
-            "AGENT_4",
-            "AGENT_5",
-            "AGENT_6",
-            "AGENT_7",
-            "AGENT_8",
-            "AGENT_9",
-            "AGENT_10",
-            "AGENT_11",
-            "AGENT_12",
-            "AGENT_13",
-            "AGENT_14",
-            "AGENT_15",
-            "AGENT_16",
-            "AGENT_17",
-            "AGENT_18",
-            "AGENT_19",
-            "AGENT_20",
-        ],
+        choices=AgentFactory.registry.keys(),
         help="predefined agent to train",
     )
     group.add_argument(
@@ -76,7 +53,15 @@ def training_args(parser):
         action="store_true",
         help="enables storage of evaluation data",
     )
-    parser.add_argument("--tb", action="store_true", help="enables tensorboard logging")
+    parser.add_argument(
+        "--tb", action="store_true", help="enables tensorboard logging"
+    )
+
+
+def marl_training_args(parser):
+    parser.add_argument(
+        "--robots", type=int, default=1, help="number of robots"
+    )
 
 
 def run_agent_args(parser):
@@ -90,7 +75,9 @@ def run_agent_args(parser):
         help="agent to be loaded for training",
     )
     parser.add_argument(
-        "--log", action="store_true", help="store log file with episode information"
+        "--log",
+        action="store_true",
+        help="store log file with episode information",
     )
     parser.add_argument(
         "-s",
@@ -185,7 +172,19 @@ def parse_training_args(args=None, ignore_unknown=False):
     arg_populate_funcs = [training_args, custom_mlp_args]
     arg_check_funcs = [process_training_args]
 
-    return parse_various_args(args, arg_populate_funcs, arg_check_funcs, ignore_unknown)
+    return parse_various_args(
+        args, arg_populate_funcs, arg_check_funcs, ignore_unknown
+    )
+
+
+def parse_marl_training_args(args=None, ignore_unknown=False):
+    """parser for training script"""
+    arg_populate_funcs = [training_args, custom_mlp_args]
+    arg_check_funcs = [process_training_args]
+
+    return parse_various_args(
+        args, arg_populate_funcs, arg_check_funcs, ignore_unknown
+    )
 
 
 def parse_run_agent_args(args=None, ignore_unknown=False):
@@ -193,10 +192,14 @@ def parse_run_agent_args(args=None, ignore_unknown=False):
     arg_populate_funcs = [run_agent_args]
     arg_check_funcs = [process_run_agent_args]
 
-    return parse_various_args(args, arg_populate_funcs, arg_check_funcs, ignore_unknown)
+    return parse_various_args(
+        args, arg_populate_funcs, arg_check_funcs, ignore_unknown
+    )
 
 
-def parse_various_args(args, arg_populate_funcs, arg_check_funcs, ignore_unknown):
+def parse_various_args(
+    args, arg_populate_funcs, arg_check_funcs, ignore_unknown
+):
     """generic arg parsing function"""
     parser = argparse.ArgumentParser()
 

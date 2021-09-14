@@ -135,8 +135,8 @@ class ObstaclesManager:
             num_obstacles (int): number of the obstacles.
 
         """
-        # status = rospy.get_param('~world')
-        status='no'
+        status = rospy.get_param('~world')
+        # status='no'
         if not status == 'outside':
             forbidden_zones = None
             return forbidden_zones

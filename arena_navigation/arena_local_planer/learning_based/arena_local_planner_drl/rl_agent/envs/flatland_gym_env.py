@@ -10,17 +10,19 @@ import yaml
 from rl_agent.utils.observation_collector import ObservationCollector
 from rl_agent.utils.reward import RewardCalculator
 from rl_agent.utils.debug import timeit
+from rospy.exceptions import ROSException
 from task_generator.tasks import ABSTask
 import numpy as np
 import rospy
 from geometry_msgs.msg import Twist
+from std_msgs.msg import String
 from flatland_msgs.srv import StepWorld, StepWorldRequest
 from std_msgs.msg import Bool
 import time
 import math
 
 from rl_agent.utils.debug import timeit
-from task_generator.task_generator.tasks import *
+from task_generator.tasks import get_predefined_task
 
 
 class FlatlandEnv(gym.Env):
@@ -30,7 +32,7 @@ class FlatlandEnv(gym.Env):
         self,
         ns: str,
         reward_fnc: str,
-        is_action_space_discrete,
+        is_action_space_discrete: bool,
         safe_dist: float = None,
         goal_radius: float = 0.1,
         max_steps_per_episode=100,
@@ -66,7 +68,7 @@ class FlatlandEnv(gym.Env):
             time.sleep(ns_int * 2)
         except Exception:
             rospy.logwarn(
-                "Can't not determinate the number of the environment, training script may crash!"
+                f"Can't not determinate the number of the environment, training script may crash!"
             )
 
         # process specific namespace in ros system
@@ -74,24 +76,26 @@ class FlatlandEnv(gym.Env):
 
         if not debug:
             if train_mode:
-                rospy.init_node("train_env_%s" % self.ns, disable_signals=False)
+                rospy.init_node(f"train_env_{self.ns}", disable_signals=False)
             else:
-                rospy.init_node("train_env_%s" % self.ns, disable_signals=False)
+                rospy.init_node(f"eval_env_{self.ns}", disable_signals=False)
 
         self._extended_eval = extended_eval
         self._is_train_mode = rospy.get_param("/train_mode")
         self._is_action_space_discrete = is_action_space_discrete
+        self._action_frequency = 1 / rospy.get_param(
+            "/robot_action_rate"
+        )  # for time controlling in train mode
 
         self.setup_by_configuration(PATHS["robot_setting"], PATHS["robot_as"])
-
-        # set rosparam
-        rospy.set_param("/laser_num_beams", self._laser_num_beams)
 
         # observation collector
         self.observation_collector = ObservationCollector(
             self.ns, self._laser_num_beams, self._laser_max_range
         )
-        self.observation_space = self.observation_collector.get_observation_space()
+        self.observation_space = (
+            self.observation_collector.get_observation_space()
+        )
 
         # reward calculator
         if safe_dist is None:
@@ -108,16 +112,16 @@ class FlatlandEnv(gym.Env):
         # action agent publisher
         if self._is_train_mode:
             self.agent_action_pub = rospy.Publisher(
-                "%scmd_vel" % self.ns_prefix, Twist, queue_size=1
+                f"{self.ns_prefix}cmd_vel", Twist, queue_size=1
             )
         else:
             self.agent_action_pub = rospy.Publisher(
-                "%scmd_vel_pub" % self.ns_prefix, Twist, queue_size=1
+                f"{self.ns_prefix}cmd_vel_pub", Twist, queue_size=1
             )
 
         # service clients
         if self._is_train_mode:
-            self._service_name_step = "%sstep_world" % self.ns_prefix
+            self._service_name_step = f"{self.ns_prefix}step_world"
             self._sim_step_client = rospy.ServiceProxy(
                 self._service_name_step, StepWorld
             )
@@ -131,14 +135,18 @@ class FlatlandEnv(gym.Env):
         self._max_steps_per_episode = max_steps_per_episode
 
         # for extended eval
-        self._action_frequency = 1 / rospy.get_param("/robot_action_rate")
         self._last_robot_pose = None
         self._distance_travelled = 0
         self._safe_dist_counter = 0
         self._collisions = 0
         self._in_crash = False
 
-    def setup_by_configuration(self, robot_yaml_path: str, settings_yaml_path: str):
+        # publisher for random map training
+        self.demand_map_pub = rospy.Publisher("/demand", String, queue_size=1)
+
+    def setup_by_configuration(
+        self, robot_yaml_path: str, settings_yaml_path: str
+    ):
         """get the configuration from the yaml file, including robot radius, discrete action space and continuous action space.
 
         Args:
@@ -164,7 +172,8 @@ class FlatlandEnv(gym.Env):
                     laser_angle_increment = plugin["angle"]["increment"]
                     self._laser_num_beams = int(
                         round(
-                            (laser_angle_max - laser_angle_min) / laser_angle_increment
+                            (laser_angle_max - laser_angle_min)
+                            / laser_angle_increment
                         )
                         + 1
                     )
@@ -174,7 +183,9 @@ class FlatlandEnv(gym.Env):
             setting_data = yaml.safe_load(fd)
             if self._is_action_space_discrete:
                 # self._discrete_actions is a list, each element is a dict with the keys ["name", 'linear','angular']
-                self._discrete_acitons = setting_data["robot"]["discrete_actions"]
+                self._discrete_acitons = setting_data["robot"][
+                    "discrete_actions"
+                ]
                 self.action_space = spaces.Discrete(len(self._discrete_acitons))
             else:
                 linear_range = setting_data["robot"]["continuous_actions"][
@@ -189,30 +200,42 @@ class FlatlandEnv(gym.Env):
                     dtype=np.float,
                 )
 
-    def _pub_action(self, action):
+    def _pub_action(self, action: np.ndarray):
         action_msg = Twist()
         action_msg.linear.x = action[0]
         action_msg.angular.z = action[1]
         self.agent_action_pub.publish(action_msg)
 
-    def _translate_disc_action(self, action):
+    def _translate_disc_action(self, action: np.ndarray):
         new_action = np.array([])
-        new_action = np.append(new_action, self._discrete_acitons[action]["linear"])
-        new_action = np.append(new_action, self._discrete_acitons[action]["angular"])
+        new_action = np.append(
+            new_action, self._discrete_acitons[action]["linear"]
+        )
+        new_action = np.append(
+            new_action, self._discrete_acitons[action]["angular"]
+        )
 
         return new_action
 
-    def step(self, action):
+    def step(self, action: np.ndarray):
         """
         done_reasons:   0   -   exceeded max steps
                         1   -   collision with obstacle
                         2   -   goal reached
         """
-        if self._is_action_space_discrete:
-            action = self._translate_disc_action(action)
-        self._pub_action(action)
-        # print(f"Linear: {action[0]}, Angular: {action[1]}")
         self._steps_curr_episode += 1
+
+        (
+            self._pub_action(action)
+            if not self._is_action_space_discrete
+            else self._pub_action(self._translate_disc_action(action))
+        )
+
+        # apply action time horizon
+        if self._is_train_mode:
+            self.call_service_takeSimStep(self._action_frequency)
+        else:
+            self._wait_for_next_action_cycle()
 
         # wait for new observations
         merged_obs, obs_dict = self.observation_collector.get_observations()
@@ -245,23 +268,23 @@ class FlatlandEnv(gym.Env):
             info["is_success"] = 0
 
         # for logging
-        if self._extended_eval:
-            if done:
-                info["collisions"] = self._collisions
-                info["distance_travelled"] = round(self._distance_travelled, 2)
-                info["time_safe_dist"] = (
-                    self._safe_dist_counter * self._action_frequency
-                )
-                info["time"] = self._steps_curr_episode * self._action_frequency
+        if self._extended_eval and done:
+            info["collisions"] = self._collisions
+            info["distance_travelled"] = round(self._distance_travelled, 2)
+            info["time_safe_dist"] = (
+                self._safe_dist_counter * self._action_frequency
+            )
+            info["time"] = self._steps_curr_episode * self._action_frequency
         return merged_obs, reward, done, info
 
     def reset(self):
-
+        self.demand_map_pub.publish("")  # publisher to demand a map update
         # set task
         # regenerate start position end goal position of the robot and change the obstacles accordingly
         self.agent_action_pub.publish(Twist())
         if self._is_train_mode:
             self._sim_step_client()
+        time.sleep(0.1)  # map_pub needs some time to update map
         self.task.reset()
         self.reward_calculator.reset()
         self._steps_curr_episode = 0
@@ -278,6 +301,21 @@ class FlatlandEnv(gym.Env):
 
     def close(self):
         pass
+
+    def call_service_takeSimStep(self, t: float = None):
+        request = StepWorldRequest() if t is None else StepWorldRequest(t)
+
+        try:
+            response = self._sim_step_client(request)
+            rospy.logdebug("step service=", response)
+        except rospy.ServiceException as e:
+            rospy.logdebug("step Service call failed: %s" % e)
+
+    def _wait_for_next_action_cycle(self):
+        try:
+            rospy.wait_for_message(f"{self.ns_prefix}next_cycle", Bool)
+        except ROSException:
+            pass
 
     def _update_eval_statistics(self, obs_dict: dict, reward_info: dict):
         """
