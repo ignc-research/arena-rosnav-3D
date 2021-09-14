@@ -29,9 +29,7 @@ class RobotManager:
         self.ns = ns
         self.ns_prefix = "/" if ns == "" else "/"+ns+"/"
         self.update_map(map_)
-        self.ROBOT_NAME = 'turtlebot3'
-        self.ROBOT_DESCRIPTION = rospy.get_param("robot_description")
-        self._goal_pub = rospy.Publisher('goal', PoseStamped, queue_size=1, latch=True)
+        self._goal_pub = rospy.Publisher('/subgoal', PoseStamped, queue_size=1, latch=True)
         self.pub_mvb_goal =  rospy.Publisher('/move_base_simple/goal',PoseStamped,queue_size=1, latch=True)
         rospy.wait_for_service("/gazebo/spawn_urdf_model")
         rospy.wait_for_service('/gazebo/set_model_state')
@@ -101,7 +99,7 @@ class RobotManager:
 
 
         # arena-rosnav way
-        
+        print("test")
         self._global_path = Path()
         self._old_global_path_timestamp = self._global_path.header.stamp
         goal = PoseStamped()

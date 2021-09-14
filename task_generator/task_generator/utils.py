@@ -78,7 +78,9 @@ def get_random_pos_on_map(free_space_indices, map_, safe_dist, forbidden_zones =
                 raise Exception(
                     "cann't find any no-occupied space please check the map information")
         # in radius
-    q = quaternion_from_euler(0.0, 0.0, random.uniform(-math.pi, math.pi), axes='sxyz')
+
+    q = quaternion_from_euler(0.0, 0.0, 1, axes='sxyz')    
+    #q = quaternion_from_euler(0.0, 0.0, random.uniform(-math.pi, math.pi), axes='sxyz')
 
     p = Pose()
     p.position = Point(*[x_in_meters, y_in_meters, 0])
