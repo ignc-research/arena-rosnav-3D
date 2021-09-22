@@ -1,0 +1,6 @@
+turtlebot3_navigation
+turtlebot3_description
+
+# python
+mpi4py
+tensorflow
