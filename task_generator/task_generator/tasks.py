@@ -81,8 +81,6 @@ class RandomTask(ABSTask):
                         start_pos,
                         goal_pos,
                     ) = self.robot_manager.set_start_pos_goal_pos()
-                    self.obstacle_manager.remove_all_obstacles(
-                        N_OBS["dynamic"])
                     self.obstacle_manager.register_random_dynamic_obstacles(
                         self.num_of_actors,
                         forbidden_zones=[
