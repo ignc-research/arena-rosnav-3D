@@ -1,7 +1,10 @@
 #!/usr/bin/env python
 
 
-import json, six, abc, rospy
+import json
+import six
+import abc
+import rospy
 import numpy as np
 from geometry_msgs.msg import Pose, Point, Quaternion
 from threading import Lock
@@ -19,7 +22,7 @@ from geometry_msgs.msg import *
 
 STANDART_ORIENTATION = quaternion_from_euler(0.0, 0.0, 0.0)
 ROBOT_RADIUS = 0.17
-N_OBS = {"static": 0, "dynamic": 6}
+N_OBS = {"static": 0, "dynamic": 3}
 
 
 class StopReset(Exception):
@@ -35,7 +38,8 @@ class ABSTask(abc.ABCMeta("ABC", (object,), {"__slots__": ()})):
         self.robot_manager = robot_manager
         self.obstacle_manager = obstacle_manager
         self.pedsim_manager = pedsim_manager
-        self._service_client_get_map = rospy.ServiceProxy("/static_map", GetMap)
+        self._service_client_get_map = rospy.ServiceProxy(
+            "/static_map", GetMap)
         self._map_lock = Lock()
         rospy.Subscriber("/map", OccupancyGrid, self._update_map)
         # a mutex keep the map is not unchanged during reset task.
@@ -61,9 +65,11 @@ class RandomTask(ABSTask):
         super(RandomTask, self).__init__(
             pedsim_manager, obstacle_manager, robot_manager
         )
+        self.num_of_actors = rospy.get_param("~actors", 3)
 
     def reset(self):
         """[summary]"""
+        info = {}
         forbidden_zones = []
         with self._map_lock:
             max_fail_times = 3
@@ -75,9 +81,10 @@ class RandomTask(ABSTask):
                         start_pos,
                         goal_pos,
                     ) = self.robot_manager.set_start_pos_goal_pos()
-                    self.obstacle_manager.remove_all_obstacles(N_OBS["dynamic"])
+                    self.obstacle_manager.remove_all_obstacles(
+                        N_OBS["dynamic"])
                     self.obstacle_manager.register_random_dynamic_obstacles(
-                        N_OBS["dynamic"],
+                        self.num_of_actors,
                         forbidden_zones=[
                             (
                                 start_pos.position.x,
@@ -98,8 +105,9 @@ class RandomTask(ABSTask):
                     fail_times += 1
             if fail_times == max_fail_times:
                 raise Exception("reset error!")
-            info["robot_goal_pos"] = np.array([goal_pos.position.x, goal_pos.position.y])
-
+            info["robot_goal_pos"] = np.array(
+                [goal_pos.position.x, goal_pos.position.y])
+        return info
 
 
 # This class is not yet tested
@@ -315,12 +323,12 @@ def get_predefined_task(ns, mode="random", start_stage=1, PATHS=None):
     task = None
     if mode == "random":
         rospy.set_param("/task_mode", "random")
-        forbidden_zones = obstacle_manager.register_random_static_obstacles(
-            N_OBS["static"]
-        )
-        forbidden_zones = obstacle_manager.register_random_dynamic_obstacles(
-            N_OBS["dynamic"], forbidden_zones=forbidden_zones
-        )
+        # forbidden_zones = obstacle_manager.register_random_static_obstacles(
+        #     N_OBS["static"]
+        # )
+        # forbidden_zones = obstacle_manager.register_random_dynamic_obstacles(
+        #     N_OBS["dynamic"], forbidden_zones=forbidden_zones
+        # )
         task = RandomTask(pedsim_manager, obstacle_manager, robot_manager)
         print("random tasks requested")
     if mode == "staged":
