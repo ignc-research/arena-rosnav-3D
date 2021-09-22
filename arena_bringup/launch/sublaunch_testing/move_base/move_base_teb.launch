@@ -34,7 +34,7 @@ in local_costmap_params:
       <rosparam file="$(find conventional)/config/tb3/global_costmap_params.yaml" command="load" />
    
       <!-- planner params --> 
-      <rosparam file="$(find conventional)/config/tb3/base_local_planner_params.yaml" command="load" />
+      <rosparam file="$(find conventional)/config/tb3/teb_local_planner_params.yaml" command="load" />
       <remap from="cmd_vel" to="$(arg cmd_vel_topic)"/>
       <remap from="odom" to="$(arg odom_topic)"/>
   
@@ -44,13 +44,13 @@ in local_costmap_params:
       <param name="controller_frequency" value="5.0" />
       <param name="controller_patience" value="15.0" />
       <param name="planner_frequency" value="1.0" />
-      <param name="TebLocalPlannerROS/max_vel_x" value="0.22" />
+      <!-- <param name="TebLocalPlannerROS/max_vel_x" value="0.22" />
       <param name="TebLocalPlannerROS/max_vel_y" value="0" />
       <param name="TebLocalPlannerROS/max_vel_theta" value="2.84" />
       <param name="TebLocalPlannerROS/acc_lim_x" value="0.5" />
       <param name="TebLocalPlannerROS/acc_lim_y" value="0.5" />
       <param name="TebLocalPlannerROS/acc_lim_theta" value="0.8" />
-      <param name="TebLocalPlannerROS/max_vel_x_backwards" value="0.2" />
+      <param name="TebLocalPlannerROS/max_vel_x_backwards" value="0.2" /> -->
   
     </node>
   </launch>
