@@ -6,6 +6,9 @@ Panels:
       Expanded:
         - /obstacles1
         - /Plan Manager1/subgoal1
+        - /Tracking-Visuals1
+        - /Tracking-Visuals1/TrackedPersons1
+        - /Tracking-Visuals1/TrackedPersons1/History as line1
       Splitter Ratio: 0.4374079406261444
     Tree Height: 506
   - Class: rviz/Selection
@@ -38,8 +41,7 @@ Visualization Manager:
       Enabled: true
       Marker Topic: /visualizer/path
       Name: Path_Marker
-      Namespaces:
-        {}
+      Namespaces: {}
       Queue Size: 100
       Value: true
     - Class: rviz/Group
@@ -77,16 +79,11 @@ Visualization Manager:
               odom:
                 base_footprint:
                   base_link:
-                    base_scan:
-                      {}
-                    caster_back_link:
-                      {}
-                    imu_link:
-                      {}
-                    wheel_left_link:
-                      {}
-                    wheel_right_link:
-                      {}
+                    base_scan: {}
+                    caster_back_link: {}
+                    imu_link: {}
+                    wheel_left_link: {}
+                    wheel_right_link: {}
           Update Interval: 0
           Value: true
         - Alpha: 1
@@ -161,16 +158,14 @@ Visualization Manager:
           Enabled: true
           Marker Topic: /cadrl/goal_path_marker
           Name: Marker
-          Namespaces:
-            {}
+          Namespaces: {}
           Queue Size: 100
           Value: true
         - Class: rviz/MarkerArray
           Enabled: true
           Marker Topic: /cadrl/other_agents_markers
           Name: MarkerArray
-          Namespaces:
-            {}
+          Namespaces: {}
           Queue Size: 100
           Value: true
       Enabled: false
@@ -282,7 +277,6 @@ Visualization Manager:
           Value: true
       Enabled: true
       Name: Local plan
-      
     - Class: rviz/Group
       Displays:
         - Alpha: 1
@@ -394,8 +388,7 @@ Visualization Manager:
       Enabled: true
       Marker Topic: /action
       Name: Marker
-      Namespaces:
-        {}
+      Namespaces: {}
       Queue Size: 100
       Value: true
     - Class: rviz/Group
@@ -408,16 +401,14 @@ Visualization Manager:
           Enabled: true
           Marker Topic: /cadrl/goal_path_marker
           Name: Marker
-          Namespaces:
-            {}
+          Namespaces: {}
           Queue Size: 100
           Value: true
         - Class: rviz/MarkerArray
           Enabled: true
           Marker Topic: /other_agents_markers
           Name: MarkerArray
-          Namespaces:
-            {}
+          Namespaces: {}
           Queue Size: 100
           Value: true
       Enabled: true
@@ -474,32 +465,28 @@ Visualization Manager:
           Enabled: true
           Marker Topic: /vis_goal
           Name: goal
-          Namespaces:
-            {}
+          Namespaces: {}
           Queue Size: 100
           Value: true
         - Class: rviz/Marker
           Enabled: true
           Marker Topic: /planning_vis/subgoal
           Name: subgoal
-          Namespaces:
-            {}
+          Namespaces: {}
           Queue Size: 100
           Value: true
         - Class: rviz/Marker
           Enabled: true
           Marker Topic: /vis_landmarks_
           Name: landmarks
-          Namespaces:
-            {}
+          Namespaces: {}
           Queue Size: 100
           Value: true
         - Class: rviz/Marker
           Enabled: true
           Marker Topic: /vis_triangle
           Name: triangulation_map
-          Namespaces:
-            {}
+          Namespaces: {}
           Queue Size: 100
           Value: true
         - Alpha: 1
@@ -673,16 +660,14 @@ Visualization Manager:
       Enabled: true
       Marker Topic: /time_space/vis_visted_samples
       Name: samples
-      Namespaces:
-        {}
+      Namespaces: {}
       Queue Size: 1
       Value: true
     - Class: rviz/Marker
       Enabled: true
       Marker Topic: /planning_vis/goal
       Name: Marker
-      Namespaces:
-        {}
+      Namespaces: {}
       Queue Size: 100
       Value: true
     - Alpha: 1
@@ -712,8 +697,7 @@ Visualization Manager:
       Enabled: true
       Marker Topic: /planning_vis/subgoal
       Name: Marker
-      Namespaces:
-        {}
+      Namespaces: {}
       Queue Size: 100
       Value: true
     - Alpha: 1
@@ -757,7 +741,7 @@ Visualization Manager:
             Line width: 0.10000000149011612
             Value: false
           Render detection IDs: false
-          Render history: true
+          Render history: false
           Render person visual: true
           Render track IDs: true
           Render track state: false
@@ -769,7 +753,7 @@ Visualization Manager:
           Style:
             Line width: 0.05000000074505806
             Scaling factor: 1
-            Value: Bounding boxes
+            Value: Person meshes
           Topic: /pedsim_visualizer/tracked_persons
           Unreliable: false
           Value: true
@@ -811,7 +795,7 @@ Visualization Manager:
             Use Z position from message: false
             Value: 0
       Enabled: true
-      Name: Tracking-Visuals  
+      Name: Tracking-Visuals
   Enabled: true
   Global Options:
     Background Color: 0; 0; 0
@@ -833,9 +817,9 @@ Visualization Manager:
       Topic: /move_base_simple/goal
     - Class: rviz/SetGoal
       Topic: /manual_goal
-    - Class: rviz_plugins/Goal3DTool
-      Topic: /goal
-    - Class: rviz_plugins/TaskGenerator
+    # - Class: rviz_plugins/Goal3DTool
+    #   Topic: /goal
+    # - Class: rviz_plugins/TaskGenerator
     - Class: rviz/PublishPoint
       Single click: true
       Topic: /clicked_point
@@ -852,7 +836,7 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Scale: 31.148040771484375
+      Scale: 95.63054656982422
       Target Frame: <Fixed Frame>
       Value: TopDownOrtho (rviz)
       X: 1.0637261867523193
@@ -875,4 +859,4 @@ Window Geometry:
     collapsed: false
   Width: 1271
   X: 255
-  Y: 180
+  Y: 157
