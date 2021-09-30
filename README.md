@@ -68,7 +68,10 @@ https://user-images.githubusercontent.com/41898845/135459990-dac33393-76a6-4173-
 - Use the supplied scenario or create your own using [arena-tools](https://github.com/ignc-research/arena-tools).
 - Scenario files should be placed inside the scenarios folder, remember to change the parameter scenario_file:=<scenario_name.json>, while testing your own scenarios.
 - In scenario mode all objects will be spawned at their specified position and everything will reset back to this position once the robot reaches it's goal.
-  [![scenario_mode.gif](https://s5.gifyu.com/images/scenario_mode.gif)](https://gifyu.com/image/GSAe)
+
+
+https://user-images.githubusercontent.com/41898845/135480113-e5ae02bf-5268-45b8-be29-011be0e65c61.mp4
+
 
 ## Gazebo
 
