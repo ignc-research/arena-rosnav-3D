@@ -124,6 +124,7 @@ class RobotManager:
         start_pos = get_random_pos_on_map(
             self._free_space_indices, self.map, ROBOT_RADIUS)
         self.move_robot(start_pos)
+        return start_pos
 
     def set_start_pos_goal_pos(self, start_pos=None, goal_pos=None, min_dist=1, forbidden_zones=None):
         # type: (Union[Pose, None], Union[Pose, None], int, list) -> float

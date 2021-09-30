@@ -15,10 +15,10 @@ from .robot_manager import RobotManager
 from .obstacle_manager import ObstaclesManager
 from .pedsim_manager import PedsimManager
 from .ped_manager.ArenaScenario import *
-from filelock import FileLock
 from std_msgs.msg import Bool
 from geometry_msgs.msg import *
-
+from threading import Condition, Lock
+from filelock import FileLock
 
 STANDART_ORIENTATION = quaternion_from_euler(0.0, 0.0, 0.0)
 ROBOT_RADIUS = 0.17
@@ -81,6 +81,7 @@ class RandomTask(ABSTask):
                         start_pos,
                         goal_pos,
                     ) = self.robot_manager.set_start_pos_goal_pos()
+                    self.obstacle_manager.remove_all_obstacles(N_OBS["static"])
                     self.obstacle_manager.register_random_dynamic_obstacles(
                         self.num_of_actors,
                         forbidden_zones=[
@@ -106,6 +107,69 @@ class RandomTask(ABSTask):
             info["robot_goal_pos"] = np.array(
                 [goal_pos.position.x, goal_pos.position.y])
         return info
+
+
+class ManualTask(ABSTask):
+    """randomly spawn obstacles and user can manually set the goal postion of the robot
+    """
+
+    def __init__(self, pedsim_manager, obstacle_manager, robot_manager):
+        # type: (ObstaclesManager, RobotManager, list) -> None
+        super(ManualTask, self).__init__(
+            pedsim_manager, obstacle_manager, robot_manager
+        )
+        # subscribe
+        rospy.Subscriber('/manual_goal',
+                         PoseStamped, self._set_goal_callback)
+        self._goal = PoseStamped()
+        self._new_goal_received = False
+        self._manual_goal_con = Condition()
+        self.num_of_actors = rospy.get_param("~actors", 3)
+
+    def is_True(self):
+        if self._new_goal_received is True:
+            return True
+        else:
+            return False
+
+    def reset(self):
+        while True:
+            with self._map_lock:
+                self.obstacle_manager.remove_all_obstacles(
+                    N_OBS["static"])
+                start_pos = self.robot_manager.set_start_pos_random()
+                self.obstacle_manager.register_random_dynamic_obstacles(
+                    self.num_of_actors,
+                    forbidden_zones=[
+                        (
+                            start_pos.position.x,
+                            start_pos.position.y,
+                            ROBOT_RADIUS,
+                        ),
+                    ]
+                )
+                with self._manual_goal_con:
+                    # the user has 60s to set the goal, otherwise all objects will be reset.
+                    self._manual_goal_con.wait_for(
+                        lambda: self.is_True() is True, timeout=60)
+                    if not self._new_goal_received:
+                        raise Exception(
+                            "TimeOut, User does't provide goal position!")
+                    else:
+                        self._new_goal_received = False
+                    try:
+                        # in this step, the validation of the path will be checked
+                        self.robot_manager._goal_pub.publish(self._goal)
+                        self.robot_manager.pub_mvb_goal.publish(self._goal)
+
+                    except Exception as e:
+                        rospy.logwarn(repr(e))
+
+    def _set_goal_callback(self, goal: PoseStamped):
+        with self._manual_goal_con:
+            self._goal = goal
+            self._new_goal_received = True
+            self._manual_goal_con.notify()
 
 
 # This class is not yet tested
@@ -340,5 +404,8 @@ def get_predefined_task(ns, mode="random", start_stage=1, PATHS=None):
         task = ScenarioTask(
             pedsim_manager, obstacle_manager, robot_manager, PATHS["scenario"]
         )
+    if mode == "manual":
+        rospy.set_param("/task_mode", "manual")
+        task = ManualTask(pedsim_manager, obstacle_manager, robot_manager)
 
     return task
