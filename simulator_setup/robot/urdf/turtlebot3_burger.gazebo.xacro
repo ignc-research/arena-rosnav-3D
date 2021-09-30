@@ -1,7 +1,8 @@
 <?xml version="1.0"?>
-<robot name="turtlebot3_burger_sim" xmlns:xacro="http://ros.org/wiki/xacro">
+<robot name="turtlebot3_burger_sim"
+  xmlns:xacro="http://ros.org/wiki/xacro">
   <xacro:arg name="laser_visual" default="false"/>
-  <xacro:arg name="imu_visual"   default="false"/>
+  <xacro:arg name="imu_visual" default="false"/>
 
   <gazebo reference="base_link">
     <material>Gazebo/DarkGrey</material>
@@ -101,7 +102,7 @@
 
   <gazebo reference="base_scan">
     <material>Gazebo/FlatBlack</material>
-    <sensor type="gpu_ray" name="lds_lfcd_sensor">
+    <sensor type="ray" name="lds_lfcd_sensor">
       <pose>0 0 0 0 0 0</pose>
       <visualize>$(arg laser_visual)</visualize>
       <update_rate>5</update_rate>
@@ -125,7 +126,7 @@
           <stddev>0.01</stddev>
         </noise>
       </ray>
-      <plugin name="gazebo_ros_lds_lfcd_controller" filename="libgazebo_ros_gpu_laser.so">
+      <plugin name="gazebo_ros_lds_lfcd_controller" filename="libgazebo_ros_laser.so">
         <topicName>scan</topicName>
         <frameName>base_scan</frameName>
       </plugin>
