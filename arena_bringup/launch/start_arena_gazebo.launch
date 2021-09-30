@@ -19,7 +19,7 @@
   <arg name="viz_pub_rate" default="30" />
   <arg name="use_rviz" default="true"/>
   <arg name="map_path" default="$(find simulator_setup)/maps/$(arg world)/map.yaml" />
-  <arg name="task_mode" default="scenario" doc="task_mode type [scenario, random]"/>
+  <arg name="task_mode" default="scenario" doc="task_mode type [scenario, random, manual]"/>
   <arg name="actors" default="3"/>
 
   <param name="use_sim_time" value="true"/>
@@ -56,7 +56,7 @@
   <arg name="odom_ground_truth" default="/odometry/ground_truth"/>
 
   <!-- Adding actors to world  -->
-  <node name="generate_world" pkg="task_generator" type="generate_world.py">
+  <node name="generate_world" pkg="task_generator" type="generate_world.py" if="$(arg enable_pedsim)">
     <param name="task_mode" value="$(arg task_mode)"/>
     <param name="actors" value="$(arg actors)"/>
     <param name="scenario_path" value="$(find simulator_setup)/scenarios/$(arg scenario_file)"/>
