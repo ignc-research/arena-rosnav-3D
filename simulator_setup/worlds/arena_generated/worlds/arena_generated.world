@@ -13,6 +13,5 @@
       <ambient>0.0 0.0 0.0 1.0</ambient>
       <shadows>0</shadows>
     </scene>
-    <plugin name="default" filename="libArenaGenPlugin.so"/>
   </world>
 </sdf>
