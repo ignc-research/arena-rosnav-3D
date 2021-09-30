@@ -2,7 +2,6 @@
 <sdf version="1.6">
 
     <world name="default">
-        <plugin name="ActorPosesPlugin" filename="libActorPosesPlugin.so"/>
         <gravity>0 0 -9.8</gravity>
         <physics default="0" name="default_physics" type="ode">
             <max_step_size>0.001</max_step_size>
@@ -232,7 +231,4 @@
             <cast_shadows>1</cast_shadows>
             <direction>0.1 0.1 -1</direction>
         </light>
-
-
-        <actor name="person_1"><skin><filename>model://actor/meshes/SKIN_man_green_shirt.dae</filename><scale>1</scale></skin><animation name="animation"><filename>model://actor/meshes/ANIMATION_walking.dae</filename><scale>1</scale><interpolate_x>true</interpolate_x></animation><plugin name="None" filename="libActorTestPlugin.so"/></actor><actor name="person_2"><skin><filename>model://actor/meshes/SKIN_man_green_shirt.dae</filename><scale>1</scale></skin><animation name="animation"><filename>model://actor/meshes/ANIMATION_walking.dae</filename><scale>1</scale><interpolate_x>true</interpolate_x></animation><plugin name="None" filename="libActorTestPlugin.so"/></actor><actor name="person_3"><skin><filename>model://actor/meshes/SKIN_man_green_shirt.dae</filename><scale>1</scale></skin><animation name="animation"><filename>model://actor/meshes/ANIMATION_walking.dae</filename><scale>1</scale><interpolate_x>true</interpolate_x></animation><plugin name="None" filename="libActorTestPlugin.so"/></actor><actor name="person_4"><skin><filename>model://actor/meshes/SKIN_man_green_shirt.dae</filename><scale>1</scale></skin><animation name="animation"><filename>model://actor/meshes/ANIMATION_walking.dae</filename><scale>1</scale><interpolate_x>true</interpolate_x></animation><plugin name="None" filename="libActorTestPlugin.so"/></actor><actor name="person_5"><skin><filename>model://actor/meshes/SKIN_man_green_shirt.dae</filename><scale>1</scale></skin><animation name="animation"><filename>model://actor/meshes/ANIMATION_walking.dae</filename><scale>1</scale><interpolate_x>true</interpolate_x></animation><plugin name="None" filename="libActorTestPlugin.so"/></actor><actor name="person_6"><skin><filename>model://actor/meshes/SKIN_man_green_shirt.dae</filename><scale>1</scale></skin><animation name="animation"><filename>model://actor/meshes/ANIMATION_walking.dae</filename><scale>1</scale><interpolate_x>true</interpolate_x></animation><plugin name="None" filename="libActorTestPlugin.so"/></actor></world>
-</sdf>
+    </sdf>
