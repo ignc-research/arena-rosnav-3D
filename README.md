@@ -51,7 +51,17 @@ For now only [warehouse world](https://github.com/aws-robotics/aws-robomaker-sma
 ### Random mode
 
 - Use the Generate Task button in Rviz to randomly spawn pedsim agents, robot and set a random goal.
-  [![random_mode.gif](https://s5.gifyu.com/images/random_mode.gif)](https://gifyu.com/image/GS1K)
+
+https://user-images.githubusercontent.com/41898845/135458175-eb1634a9-f1e4-48d1-9696-b5248bcc5718.mp4
+
+
+### Arena Generated
+
+
+
+https://user-images.githubusercontent.com/41898845/135459990-dac33393-76a6-4173-8abe-fc25d0b95643.mp4
+
+
 
 ### Scenario mode
 
