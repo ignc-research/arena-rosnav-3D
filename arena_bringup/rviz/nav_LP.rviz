@@ -815,10 +815,10 @@ Visualization Manager:
       Y std deviation: 0.5
     - Class: rviz/SetGoal
       Topic: /move_base_simple/goal
-    - Class: rviz/SetGoal
-      Topic: /manual_goal
-    # - Class: rviz_plugins/Goal3DTool
-    #   Topic: /goal
+    # - Class: rviz/SetGoal
+    #   Topic: /manual_goal
+    - Class: rviz_plugins/Goal3DTool
+      Topic: manual_goal
     # - Class: rviz_plugins/TaskGenerator
     - Class: rviz/PublishPoint
       Single click: true
