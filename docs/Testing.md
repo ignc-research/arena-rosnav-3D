@@ -24,30 +24,39 @@ The custom world generator creates a map with a set number of static and dynamic
 
 If you want to change the number of static obstacles you do this [here](https://github.com/eliastreis/arena-rosnav-3D/blob/18ed507bfbf31015002c5727f2ab9aef3a05ca9b/task_generator/task_generator/tasks.py#L304)
 
-If you want to change the number of dynamic obstacles you do this [here](https://github.com/eliastreis/arena-rosnav-3D/blob/18ed507bfbf31015002c5727f2ab9aef3a05ca9b/task_generator/task_generator/tasks.py#L26)
+If you want to change the number of actors you can specify the amount using parameters like this:
+
+```bash
+roslaunch arena_bringup start_arena_gazebo.launch outside:=true agents:=4
+```
 
 ---
 # Task-Mode
-We currently support a random and a dynamic mode (you can also set the robot goal manually using Rviz).
+We currently support a random, scenario or manual task mode.
 
-Select either **random** or scenario and run:
+Select either **random** or scenario, manual and run:
 ```bash
 roslaunch arena_bringup start_arena_gazebo.launch task_mode:=random
 ```
 ## Random Mode
 In random mode arena-rosnav chooses the robot start and goal position, as well as the trajectory of the dynamic obstacles randomly. 
 
-If you want to change the number of dynamic obstacles you do this [here](https://github.com/eliastreis/arena-rosnav-3D/blob/18ed507bfbf31015002c5727f2ab9aef3a05ca9b/task_generator/task_generator/tasks.py#L26)
+If you want to change the number of dynamic obstacles, use the following parameter:
 
-Find the associated code [here](https://github.com/eliastreis/arena-rosnav-3D/blob/18ed507bfbf31015002c5727f2ab9aef3a05ca9b/task_generator/task_generator/tasks.py#L104).
+```bash
+roslaunch arena_bringup start_arena_gazebo.launch task_mode:=random agents:= 9
+```
+
 ## Scenario Mode
-In scenario mode, object obstacle and robot behavior is scripted. We support currently one scenario per world. To extend this and build your own custom scenarios see [here](/docs/Miscellaneous.md#How-to-include-further-scenarios).
+In scenario mode, the robot's starting/end position and the amount of actors, as well as their trajectories are set beforehand. We support currently one scenario per world. To extend this and build your own custom scenarios see [here](/docs/Miscellaneous.md#How-to-include-further-scenarios).
 
-Find the associated code [here](https://github.com/eliastreis/arena-rosnav-3D/blob/18ed507bfbf31015002c5727f2ab9aef3a05ca9b/task_generator/task_generator/tasks.py#L245).
+```bash
+roslaunch arena_bringup start_arena_gazebo.launch task_mode:=scenario
+```
 
 ---
 # Local Planer
-local_planner ToDo
+local_planner ToD
 
 ---
 # Advanced Parameters
