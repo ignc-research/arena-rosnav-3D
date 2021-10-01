@@ -9,7 +9,7 @@
 │        └── {NAME OF YOUR WORLD}
 │            └── models/ # if needed
 |            └── worlds/
-|                └── {NAME OF YOUR WORLD}.word
+|                └── {NAME OF YOUR WORLD}.world
 ```    
 
 3. If your world includes further gazebo models set the `GAZEBO_MODEL_PATH` by appending the following line in the arena_simulator `package.xml` file (in between the `<export></export>` tags)
