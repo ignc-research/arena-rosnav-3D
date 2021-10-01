@@ -44,7 +44,7 @@ In random mode arena-rosnav chooses the robot start and goal position, as well a
 If you want to change the number of dynamic obstacles, use the following parameter:
 
 ```bash
-roslaunch arena_bringup start_arena_gazebo.launch task_mode:=random agents:= 9
+roslaunch arena_bringup start_arena_gazebo.launch task_mode:=random agents:=9
 ```
 
 ## Scenario Mode
