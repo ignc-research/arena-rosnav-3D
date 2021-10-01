@@ -21,7 +21,7 @@ Please refer to [Installation.md](docs/Installation.md) for detailed explanation
 
 ## 2. Usage
 
-Please refer to [Testing.md](docs/Testing.md) for detailed explanations about agent, policy and training setups.
+Please refer to [Usage.md](docs/Usage.md) for detailed explanations about agent, policy and training setups.
 
 **Sample usage**
 
