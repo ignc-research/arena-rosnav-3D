@@ -55,10 +55,14 @@ roslaunch arena_bringup start_arena_gazebo.launch task_mode:=scenario
 ```
 
 ---
-# Local Planer
-local_planner ToD
+# Local Planners 
+We offer the following local planners [teb, dwa, mpc, rlca, cadrl], which can be used by setting the local planner argument like this:
 
----
+```bash
+roslaunch arena_bringup start_arena_gazebo.launch local_planner:=teb
+```
+
+
 # Advanced Parameters
 You can further customize the simulation altering the following parameters:
 
@@ -68,8 +72,8 @@ You can further customize the simulation altering the following parameters:
 | disable_scenario | true, **false** | This parameter would e.g. disable the task generator and other selected notes. This should only be changed with caution |
 | reset | **true**, false | Determines whether the scenario should be reset (or terminated) after reaching its objective (Robot has reached navigation goal) |
 | enable_pedsim | **true**, false | Pedsim is used to for dynamic obstacle management. Setting this to false should disable dynamic obstacles |
-ToDo
----
+| enable_pedvis | **true**, false | Responsible for converting pedsim messages, such as agent states, obstacles and providing their visualization in Rviz |
+
 
   # List of all Parameters
   ```xml
@@ -89,7 +93,7 @@ ToDo
   <arg name="show_viz"          default="true"/>
   <arg name="viz_pub_rate"      default="30" />
   <arg name="use_rviz"          default="true"/>
-  <arg name="map_path"          default="$(find simulator_setup)/maps/map_$(arg world)/map.yaml" />
+  <arg name="map_path"          default="$(find simulator_setup)/maps/$(arg world)/map.yaml" />
   <arg name="task_mode"         default="random"/> 
   <arg name="obs_vel"           default="0.3" />
   <arg name="action_frequency"  default="10"/>
