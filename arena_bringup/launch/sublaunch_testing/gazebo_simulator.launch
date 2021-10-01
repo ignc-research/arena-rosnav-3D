@@ -1,35 +1,31 @@
 <launch>
-  <arg name="world"           default="turtlebot3_house"  doc = "world type [turtlebot3_house, small_warehouse, aws_house, outside]" />
-  <arg name="model"           default="burger"            doc = "model type [burger, waffle]"/>
-  <arg name="show_viz"        default="true"/> 
-  <arg name="use_rviz"        default="true"/>
-  <arg name="rviz_file"       default="nav_LP"/>
-  <arg name="x_pos"           default="0.0"/>
-  <arg name="y_pos"           default="0.0"/>
-  <arg name="z_pos"           default="0.0"/>
+  <arg name="world" default="turtlebot3_house"  doc = "world type [turtlebot3_house, small_warehouse, aws_house, outside]" />
+  <arg name="model" default="burger"            doc = "model type [burger, waffle]"/>
+  <arg name="show_viz" default="true"/>
+  <arg name="use_rviz" default="true"/>
+  <arg name="rviz_file" default="nav_LP"/>
+  <arg name="x_pos" default="0.0"/>
+  <arg name="y_pos" default="0.0"/>
+  <arg name="z_pos" default="0.0"/>
 
 
-    <!-- start World (Scenario) file in Gazebo -->
+  <!-- start World (Scenario) file in Gazebo -->
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
-    <arg name="world_name"    value="$(find simulator_setup)/worlds/$(arg world)/worlds/$(arg world).world"/>
-    <arg name="paused"        value="false"/>
-    <arg name="use_sim_time"  value="true"/>
-    <arg name="gui"           value="true"/> <!-- change here to run only the server (gzserver) (to false)-->
-    <arg name="headless"      value="false"/> <!-- change here to run only the server (gzserver) (to true)-->
-    <arg name="debug"         value="false"/>
-    <arg name='verbose'       value='false'/>
+    <arg name="world_name" value="$(find simulator_setup)/worlds/$(arg world)/worlds/$(arg world).world"/>
+    <arg name="paused" value="false"/>
+    <arg name="use_sim_time" value="true"/>
+    <arg name="gui" value="true"/>
+    <!-- change here to run only the server (gzserver) (to false)-->
+    <arg name="headless" value="false"/>
+    <!-- change here to run only the server (gzserver) (to true)-->
+    <arg name="debug" value="false"/>
+    <arg name="verbose" value="true"/>
+
 
   </include>
 
-  <!--Spawn Robot-->
-  <param name="robot_description" command="$(find xacro)/xacro $(find simulator_setup)/robot/urdf/turtlebot3_$(arg model).urdf.xacro" />
-  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-urdf -model turtlebot3 -x $(arg x_pos) -y $(arg y_pos) -z $(arg z_pos) -param robot_description" />
-
-  <arg name="urdf_file" default="$(find xacro)/xacro --inorder '$(find turtlebot3_description)/urdf/turtlebot3_$(arg model).urdf.xacro'" />
-  <param name="robot_description" command="$(arg urdf_file)" />
-
-   <!-- start_rviz -->
+  <!-- start_rviz -->
   <group if="$(arg use_rviz)">
-    <node name="gazebo_rviz" pkg="rviz" type="rviz"  args="-d $(find turtlebot3_navigation)/rviz/turtlebot3_navigation.rviz"/>
-  </group> 
+    <node name="gazebo_rviz" pkg="rviz" type="rviz" args="-d $(find arena_bringup)/rviz/$(arg rviz_file).rviz"/>
+  </group>
 </launch>

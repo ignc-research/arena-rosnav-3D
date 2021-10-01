@@ -35,11 +35,11 @@
     local-name: ../forks/pedsim_ros
     uri: https://github.com/Jacenty00/pedsim_ros
     version: master
-    
+
 - git:
     local-name: ../forks/arena-tools
-    uri: https://github.com/ignc-research/arena-tools
+    uri: https://github.com/Jacenty00/arena-tools
     version: main
 - git:
-    local-name: ../forks/aws-robomaker-small-warehouse-world
-    uri: https://github.com/Jacenty00/aws-robomaker-small-warehouse-world
+    local-name: ../forks/navigation/map_server
+    uri: https://github.com/Jacenty00/map_server

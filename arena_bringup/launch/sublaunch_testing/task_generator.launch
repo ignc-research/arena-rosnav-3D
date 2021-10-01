@@ -1,18 +1,21 @@
 <launch>
-    <arg name="world"               default="outside"/>
+    <arg name="world" default="outside"/>
     <arg name="scenarios_json_path" default="$(find simulator_setup)/scenarios/$(arg world).json"/>
-    <arg name="auto_reset"          default="true" />
-    <arg name="task_mode"           default="random"  doc="task_mode type [scenario, random]"/>
-    <arg name="delta"               default="1.0"/>
-    <arg name="timeout"             default="2.0"/>     <!--  ************** minute  ***************  -->
+    <arg name="auto_reset" default="true" />
+    <arg name="task_mode" default="random" doc="task_mode type [scenario, random]"/>
+    <arg name="delta" default="1.0"/>
+    <arg name="timeout" default="2.0"/>
+    <!--  ************** minute  ***************  -->
+    <arg name="actors" default="3"/>
 
     <!--  ************** task generator  ***************  -->
     <node pkg="task_generator" name="task_generator_node" type="task_generator_node.py" output="screen">
         <param name="scenarios_json_path" value="$(arg scenarios_json_path)"/>
-        <param name="auto_reset"    value="$(arg auto_reset)" />
-        <param name="task_mode"     value="$(arg task_mode)"/>
-        <param name="delta"         value="$(arg delta)"/>
-        <param name="timeout"       value="$(arg timeout)"/>
-        <param name="world"         value="$(arg world)"/>
+        <param name="auto_reset" value="$(arg auto_reset)" />
+        <param name="task_mode" value="$(arg task_mode)"/>
+        <param name="delta" value="$(arg delta)"/>
+        <param name="timeout" value="$(arg timeout)"/>
+        <param name="world" value="$(arg world)"/>
+        <param name="actors" value="$(arg actors)"/>
     </node>
 </launch>
