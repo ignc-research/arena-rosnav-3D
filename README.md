@@ -4,93 +4,15 @@ This repository combines the 3D ROS simulator Gazebo with Pedsim to provide real
 
 The repo currently contains:
 
-- a 3D task generator with 3 modes: random, scenario and manual tasks
-- realistic 3D scenarios from AWS
-- Integration of the Pedsim-Gazebo pluggin to generate realisitc human behavior
-- Integration of model-based arena-rosnav local planners (needs further testing)
-- Partial integration of learning based arena-rosnav planners (RLCA)
-
-## Setup (test)
-
-1. install the arena-rosnav environment:
-   https://github.com/ignc-research/arena-rosnav
-2. Clone this repo into your catkin_ws/src folder:
-
-```bash
-    cd ~/catkin_ws/src
-    git clone https://github.com/ignc-research/arena-rosnav-3D.git
-```
-
-3. Run rosws update:
-
-```bash
-   cd ~/catkin_ws/src/arena-rosnav-3D
-   rosws update --delete-changed-uris .
-```
-
-4. Build and source!:
-
-```bash
-   cd ~/catkin_ws
-   catkin_make -DPYTHON_EXECUTABLE=/usr/bin/python3
-   source devel/setup.zsh
-```
-
-## Testing Gazebo simulation and Task Generator
-
-For now only [warehouse world](https://github.com/aws-robotics/aws-robomaker-small-warehouse-world) is available. To start it, use the supplied launch file and specify the following params: (Bold values -- default)
-
-- local_planner:=<**teb**, dwa, rlcl, mpc>
-- task_mode:=<**scenario**,random, manual>
-  - Example launch scenario
-
-```bash
-    roslaunch task_generator_3d test_task_node.launch local_planner:=dwa task_mode:=random
-```
-
-### Random mode
-
-- Use the Generate Task button in Rviz to randomly spawn pedsim agents, robot and set a random goal.
-
-https://user-images.githubusercontent.com/41898845/135458175-eb1634a9-f1e4-48d1-9696-b5248bcc5718.mp4
-
-
-### Arena Generated
-
-
-
-https://user-images.githubusercontent.com/41898845/135459990-dac33393-76a6-4173-8abe-fc25d0b95643.mp4
-
-
-
-### Scenario mode
-
-- Use the supplied scenario or create your own using [arena-tools](https://github.com/ignc-research/arena-tools).
-- Scenario files should be placed inside the scenarios folder, remember to change the parameter scenario_file:=<scenario_name.json>, while testing your own scenarios.
-- In scenario mode all objects will be spawned at their specified position and everything will reset back to this position once the robot reaches it's goal.
-
-
-https://user-images.githubusercontent.com/41898845/135480113-e5ae02bf-5268-45b8-be29-011be0e65c61.mp4
-
-
-## Gazebo
-
-## Examples
-
-| <img width="400" height="400" src="/img/small_warehouse.png"> | <img width="400" height="400" src="/img/outside.png"> |
-| :-----------------------------------------------------------: | :---------------------------------------------------: |
-|                        _Pre-build map_                        |                     _Random map_                      |
-
-## What is this repository for?
-
-Testing DRL agents on ROS compatible simulations for autonomous navigation in highly dynamic 3D environments. Test state of the art local and global planners in ROS environments both in simulation and on real hardware. Following features are included:
-
-- multiple detailed scenario-worlds
-- creation of random 3D-words with static and dynamic obstacles
-- different robot models
-- realistic behavior patterns and semantic states of dynamic obstacles (by including pedsim's extended social force model)
+- Task generator with 3 modes: random, scenario and manual tasks
+- Multiple detailed scenario-worlds
+- Different robot models
+- Creation of random 3D-words with static and dynamic obstacles
+- Realistic behavior patterns and semantic states of dynamic obstacles (by including pedsim's extended social force model)
 - Implementation of intermediate planner classes to combine local DRL planner with global map-based planning of ROS Navigation stack
-- Testing a variety of planners (learning based and model based) within specific scenarios in test mode
+- Testing a variety of planners (learning based and model based) within specific scenarios
+- Integration with [arena-tools](https://github.com/ignc-research/arena-tools) map generator and [LIRS-World_Construction_Tool](https://gitlab.com/LIRS_Projects/LIRS-WCT). Providing seamless conversion from randomly generated ROS maps to actual Gazebo worlds.
+- "Random world" task mode, where with each Task reset, a new Gazebo world is loaded
 - Modular structure for extension of new functionalities and approaches
 
 ## 1. Installation
@@ -99,21 +21,32 @@ Please refer to [Installation.md](docs/Installation.md) for detailed explanation
 
 ## 2. Usage
 
-### Testing
-
 Please refer to [Testing.md](docs/Testing.md) for detailed explanations about agent, policy and training setups.
 
 **Sample usage**
 
-After successful installation run the following command with your python-env activated (`workon rosnav`).
+After successful installation, run the following command with your python-env activated (`workon rosnav`).
 
 ```bash
-roslaunch arena_bringup start_arena_gazebo.launch
+roslaunch arena_bringup start_arena_gazebo.launch local_planner:=teb task_mode:=random world:=small_warehouse actors:=6 
 ```
+## 3. Examples
 
-The following output can be expected:
+### Random mode
+https://user-images.githubusercontent.com/41898845/135458175-eb1634a9-f1e4-48d1-9696-b5248bcc5718.mp4
 
-<img width="1000" height="400" src="/img/aws_house.png">
+### Arena Generated
+
+https://user-images.githubusercontent.com/41898845/135459990-dac33393-76a6-4173-8abe-fc25d0b95643.mp4
+
+
+### Scenario mode
+
+- Use the supplied scenario or create your own using [arena-tools](https://github.com/ignc-research/arena-tools).
+- In scenario mode, all objects will be spawned at their specified position and everything will reset back to this position once the robot reaches its goal.
+
+https://user-images.githubusercontent.com/41898845/135480113-e5ae02bf-5268-45b8-be29-011be0e65c61.mp4
+
 
 ### Training
 
@@ -135,3 +68,5 @@ The following output can be expected:
 - Small-warehouse world: https://github.com/aws-robotics/aws-robomaker-small-warehouse-world
 - Small-house world: https://github.com/aws-robotics/aws-robomaker-small-warehouse-world
 - Turtlebot3-robot & house-world: https://github.com/ROBOTIS-GIT/turtlebot3_simulations
+- LIRS_World_Construction_Tool https://gitlab.com/LIRS_Projects/LIRS-WCT
+- ros_maps_to_pedsim https://github.com/fverdoja/ros_maps_to_pedsim
