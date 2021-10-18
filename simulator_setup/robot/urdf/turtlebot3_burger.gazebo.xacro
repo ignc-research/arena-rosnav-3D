@@ -1,7 +1,8 @@
 <?xml version="1.0"?>
-<robot name="turtlebot3_burger_sim" xmlns:xacro="http://ros.org/wiki/xacro">
+<robot name="turtlebot3_burger_sim"
+  xmlns:xacro="http://ros.org/wiki/xacro">
   <xacro:arg name="laser_visual" default="false"/>
-  <xacro:arg name="imu_visual"   default="false"/>
+  <xacro:arg name="imu_visual" default="false"/>
 
   <gazebo reference="base_link">
     <material>Gazebo/DarkGrey</material>

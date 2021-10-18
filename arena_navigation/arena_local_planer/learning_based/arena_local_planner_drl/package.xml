@@ -73,6 +73,7 @@
   <exec_depend>tf2</exec_depend>
   <exec_depend>tf2_geometry_msgs</exec_depend>
   <exec_depend>tf2_ros</exec_depend>
+  <depend>flatland_msgs</depend>
 
 
   <!-- The export tag contains other, unspecified, tags -->

@@ -1,10 +1,9 @@
 import numpy as np
+import scipy.spatial
+
 from numpy.lib.utils import safe_eval
-import rospy
 from geometry_msgs.msg import Pose2D
 from typing import Tuple
-import scipy.spatial
-from rl_agent.utils.debug import timeit
 
 
 class RewardCalculator:
@@ -100,7 +99,9 @@ class RewardCalculator:
         *args,
         **kwargs
     ):
-        self._reward_distance_traveled(kwargs["action"], consumption_factor=0.0075)
+        self._reward_distance_traveled(
+            kwargs["action"], consumption_factor=0.0075
+        )
         self._reward_goal_reached(goal_in_robot_frame, reward=15)
         self._reward_safe_dist(laser_scan, punishment=0.25)
         self._reward_collision(laser_scan, punishment=10)
@@ -115,8 +116,12 @@ class RewardCalculator:
         *args,
         **kwargs
     ):
-        self._reward_distance_traveled(kwargs["action"], consumption_factor=0.0075)
-        self._reward_following_global_plan(kwargs["global_plan"], kwargs["robot_pose"])
+        self._reward_distance_traveled(
+            kwargs["action"], consumption_factor=0.0075
+        )
+        self._reward_following_global_plan(
+            kwargs["global_plan"], kwargs["robot_pose"]
+        )
         self._reward_goal_reached(goal_in_robot_frame, reward=15)
         self._reward_safe_dist(laser_scan, punishment=0.25)
         self._reward_collision(laser_scan, punishment=10)
@@ -239,7 +244,9 @@ class RewardCalculator:
             else:
                 self.info["crash"] = True
 
-    def _reward_safe_dist(self, laser_scan: np.ndarray, punishment: float = 0.15):
+    def _reward_safe_dist(
+        self, laser_scan: np.ndarray, punishment: float = 0.15
+    ):
         """
         Reward for undercutting safe distance.
 
@@ -252,7 +259,9 @@ class RewardCalculator:
             if self._extended_eval:
                 self.info["safe_dist"] = True
 
-    def _reward_not_moving(self, action: np.ndarray = None, punishment: float = 0.01):
+    def _reward_not_moving(
+        self, action: np.ndarray = None, punishment: float = 0.01
+    ):
         """
         Reward for not moving. Only applies half of the punishment amount
         when angular velocity is larger than zero.
@@ -261,7 +270,9 @@ class RewardCalculator:
         :param punishment (float, optional): punishment for not moving. defaults to 0.01
         """
         if action is not None and action[0] == 0.0:
-            self.curr_reward -= punishment if action[1] == 0.0 else punishment / 2
+            self.curr_reward -= (
+                punishment if action[1] == 0.0 else punishment / 2
+            )
 
     def _reward_distance_traveled(
         self,
@@ -311,7 +322,9 @@ class RewardCalculator:
                 else:
                     w = penalty_factor
 
-                self.curr_reward += w * (self.last_dist_to_path - curr_dist_to_path)
+                self.curr_reward += w * (
+                    self.last_dist_to_path - curr_dist_to_path
+                )
             self.last_dist_to_path = curr_dist_to_path
 
     def _reward_following_global_plan(
@@ -329,7 +342,11 @@ class RewardCalculator:
         :param action (np.ndarray (,2)): [0] = linear velocity, [1] = angular velocity
         :param dist_to_path (float, optional): applies reward within this distance
         """
-        if global_plan is not None and len(global_plan) != 0 and action is not None:
+        if (
+            global_plan is not None
+            and len(global_plan) != 0
+            and action is not None
+        ):
             curr_dist_to_path, idx = self.get_min_dist2global_kdtree(
                 global_plan, robot_pose
             )
@@ -337,7 +354,9 @@ class RewardCalculator:
             if curr_dist_to_path <= dist_to_path:
                 self.curr_reward += 0.1 * action[0]
 
-    def get_min_dist2global_kdtree(self, global_plan: np.array, robot_pose: Pose2D):
+    def get_min_dist2global_kdtree(
+        self, global_plan: np.array, robot_pose: Pose2D
+    ):
         """
         Calculates minimal distance to global plan using kd tree search.
 

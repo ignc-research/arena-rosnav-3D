@@ -1,9 +1,11 @@
 #!/usr/bin/env python
 
 
-import rospy, math, subprocess
+import rospy
+import math
+import subprocess
 from geometry_msgs.msg import Pose, PoseWithCovarianceStamped, PoseStamped
-from gazebo_msgs.srv import SetModelState
+from gazebo_msgs.srv import SetModelState, SpawnModelRequest, SpawnModel
 from gazebo_msgs.msg import ModelState
 from move_base_msgs.msg import MoveBaseAction, MoveBaseGoal
 from nav_msgs.msg import Path
@@ -11,6 +13,7 @@ import actionlib
 from .utils import generate_freespace_indices, get_random_pos_on_map
 
 ROBOT_RADIUS = 0.17
+
 
 class RobotManager:
     """
@@ -24,17 +27,36 @@ class RobotManager:
         Args:
             ns(namespace): if ns == '', we will use global namespace
             map_ (OccupancyGrid): the map info
-            robot_yaml_path (str): the file name of the robot yaml file.
         """
         self.ns = ns
+        self.ns_prefix = "/" if ns == "" else "/"+ns+"/"
+        self.ROBOT_NAME = 'turtlebot3'
+        self.ROBOT_DESCRIPTION = rospy.get_param("robot_description")
         self.update_map(map_)
-        self._goal_pub = rospy.Publisher('/subgoal', PoseStamped, queue_size=1, latch=True)
-        self.pub_mvb_goal =  rospy.Publisher('/move_base_simple/goal',PoseStamped,queue_size=1, latch=True)
+        self._goal_pub = rospy.Publisher(
+            '/subgoal', PoseStamped, queue_size=1, latch=True)
+        self.pub_mvb_goal = rospy.Publisher(
+            '/move_base_simple/goal', PoseStamped, queue_size=1, latch=True)
+        rospy.wait_for_service("/gazebo/spawn_urdf_model")
+        rospy.wait_for_service('/gazebo/set_model_state')
+        self._srv_spawn_model = rospy.ServiceProxy(
+            '/gazebo/spawn_urdf_model', SpawnModel)
+        self.spawn_robot()
 
     def update_map(self, new_map):
         # type (OccupancyGrid) -> None
         self.map = new_map
         self._free_space_indices = generate_freespace_indices(self.map)
+
+    def spawn_robot(self):
+        request = SpawnModelRequest()
+        request.model_name = self.ROBOT_NAME
+        request.model_xml = self.ROBOT_DESCRIPTION
+        request.robot_namespace = self.ns_prefix + self.ns
+        request.initial_pose = Pose()
+        request.initial_pose.position.z = 0.5
+        request.reference_frame = 'world'
+        self._srv_spawn_model(request)
 
     def move_robot(self, pose):
         # type: (Pose) -> None
@@ -45,19 +67,22 @@ class RobotManager:
         start_pos = ModelState()
         start_pos.model_name = 'turtlebot3'
         start_pos.pose = pose
+        start_pos.pose.position.z = 0.5
         rospy.wait_for_service('/gazebo/set_model_state')
         try:
-            set_state = rospy.ServiceProxy('/gazebo/set_model_state', SetModelState)
+            set_state = rospy.ServiceProxy(
+                '/gazebo/set_model_state', SetModelState)
             resp = set_state(start_pos)
 
         except rospy.ServiceException:
             print("Move Robot to position failed")
 
-        pub = rospy.Publisher('/initialpose', PoseWithCovarianceStamped, queue_size = 10)
+        pub = rospy.Publisher(
+            '/initialpose', PoseWithCovarianceStamped, queue_size=10)
         rospy.sleep(3)
         start_pos = PoseWithCovarianceStamped()
         start_pos.header.frame_id = 'map'
-        start_pos.pose.pose = pose 
+        start_pos.pose.pose = pose
         pub.publish(start_pos)
 
     def publish_goal(self, pose):
@@ -78,12 +103,9 @@ class RobotManager:
 
         # client.send_goal(self.goal)
         # wait = client.wait_for_result()
-        # if not wait: 
+        # if not wait:
         #     rospy.logerr("Action server not available!")
         #     rospy.signal_shutdown("Action server not available!")
-
- 
-
 
         # arena-rosnav way
         print("test")
@@ -96,15 +118,15 @@ class RobotManager:
         self._goal_pub.publish(goal)
         # added by Elias for communication with move_base
         self.pub_mvb_goal.publish(goal)
-        
 
     def set_start_pos_random(self):
         start_pos = Pose()
         start_pos = get_random_pos_on_map(
             self._free_space_indices, self.map, ROBOT_RADIUS)
         self.move_robot(start_pos)
+        return start_pos
 
-    def set_start_pos_goal_pos(self, start_pos = None, goal_pos = None, min_dist=1, forbidden_zones = None):
+    def set_start_pos_goal_pos(self, start_pos=None, goal_pos=None, min_dist=1, forbidden_zones=None):
         # type: (Union[Pose, None], Union[Pose, None], int, list) -> float
         """set up start position and the goal postion. Path validation checking will be conducted. If it failed, an
         exception will be raised.
@@ -124,11 +146,12 @@ class RobotManager:
             max_try_times = 20
         else:
             max_try_times = 1
-        if forbidden_zones == None: forbidden_zones = None # change later
+        if forbidden_zones == None:
+            forbidden_zones = None  # change later
         i_try = 0
         start_pos_ = None
         goal_pos_ = None
-      
+
         while i_try < max_try_times:
 
             if start_pos is None:
@@ -136,13 +159,13 @@ class RobotManager:
                     self._free_space_indices, self.map, ROBOT_RADIUS * 2, forbidden_zones)
             else:
                 start_pos_ = start_pos
-                
+
             if goal_pos is None:
                 goal_pos_ = get_random_pos_on_map(
                     self._free_space_indices, self.map, ROBOT_RADIUS * 2, forbidden_zones)
             else:
                 goal_pos_ = goal_pos
-                
+
             if dist(start_pos_.position.x, start_pos_.position.y, goal_pos_.position.x, goal_pos_.position.y) < min_dist:
                 i_try += 1
                 continue
