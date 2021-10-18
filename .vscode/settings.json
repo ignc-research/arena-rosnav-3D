@@ -3,5 +3,10 @@
         "/home/linh/code/navigation/3d_es/devel/lib/python3/dist-packages",
         "/home/linh/code/navigation/geometry2_ws/devel/lib/python3/dist-packages",
         "/opt/ros/melodic/lib/python2.7/dist-packages"
+    ],
+    "python.analysis.extraPaths": [
+        "/home/linh/code/navigation/3d_es/devel/lib/python3/dist-packages",
+        "/home/linh/code/navigation/geometry2_ws/devel/lib/python3/dist-packages",
+        "/opt/ros/melodic/lib/python2.7/dist-packages"
     ]
 }
