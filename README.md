@@ -21,7 +21,10 @@ Please refer to [Installation.md](docs/Installation.md) for detailed explanation
 
 ## 2. Usage
 
-Please refer to [Usage.md](docs/Usage.md) for detailed explanations about agent, policy and training setups.
+For a finer user experience we provide a Python GUI, please have a look at [GUI.md](docs/GUI.md) for more information.
+![Picture of GUI](https://i.ibb.co/3C4XZjx/Screenshot-20211020-184556.png)
+
+Otherwise please refer to [Usage.md](docs/Usage.md) for command-line use, as well as detailed explanations about agent, policy and training setups.
 
 **Sample usage**
 
