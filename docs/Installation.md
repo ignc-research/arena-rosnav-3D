@@ -133,7 +133,7 @@ workon rosnav
 
 ```
 pip install --extra-index-url https://rospypi.github.io/simple/ rospy rosbag tf tf2_ros --ignore-installed
-pip install pyyaml catkin_pkg netifaces pathlib
+pip install pyyaml catkin_pkg netifaces pathlib lxml
 ```
 
 - Install stable_baselines3 for training DRL into your venv (venv always activated!)
