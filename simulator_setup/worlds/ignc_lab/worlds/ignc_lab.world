@@ -1,7 +1,6 @@
 <?xml version='1.0'?>
 <sdf version='1.6'>
   <world name='ingc_lab'>
-    <plugin name="ActorPosesPlugin" filename="libActorPosesPlugin.so"/>
     <light name='sun' type='directional'>
       <cast_shadows>1</cast_shadows>
       <pose frame=''>0 0 10 0 -0 0</pose>

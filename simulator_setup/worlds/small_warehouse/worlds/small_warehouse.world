@@ -9,7 +9,6 @@
             <real_time_update_rate>1000</real_time_update_rate>
         </physics>
 
-
         <model name="aws_robomaker_warehouse_RoofB_01_001">
             <include>
                 <uri>model://aws_robomaker_warehouse_RoofB_01</uri>
@@ -231,6 +230,7 @@
             <cast_shadows>1</cast_shadows>
             <direction>0.1 0.1 -1</direction>
         </light>
+
 
     </world>
 </sdf>
