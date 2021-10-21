@@ -43,3 +43,6 @@
 - git:
     local-name: ../forks/navigation/map_server
     uri: https://github.com/Jacenty00/map_server
+- git:
+    local-name: ../forks/gazebo_ros_2Dmap_plugin
+    uri: https://github.com/Jacenty00/gazebo_ros_2Dmap_plugin

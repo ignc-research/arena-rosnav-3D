@@ -11,6 +11,7 @@ from nav_msgs.srv import LoadMap
 from std_srvs.srv import Empty
 from pedsim_srvs.srv import SetObstacles
 from gazebo_msgs.srv import SetModelState, SpawnModelRequest, SpawnModel, DeleteModel
+from task_generator.utils import *
 import subprocess
 
 # for clearing costmap
@@ -48,6 +49,10 @@ class TaskGenerator:
                 set_obstacles_service_name, SetObstacles)
             self.spawn_map_client = rospy.ServiceProxy(
                 '/gazebo/spawn_sdf_model', SpawnModel)
+            self.del_map_client_ = rospy.ServiceProxy(
+                'gazebo/delete_model', DeleteModel)
+            self.sim = self.rospack.get_path(
+                "simulator_setup")
             folder = pathlib.Path(self.rospack.get_path(
                 "simulator_setup") + '/maps/')
             map_folders = [p for p in folder.iterdir() if p.is_dir()]
@@ -57,18 +62,7 @@ class TaskGenerator:
             pat = re.compile(f"{prefix}\d+$", flags=re.ASCII)
             self.filtered_names = [
                 name for name in names if pat.match(name) != None]
-            new_map = self.filtered_names.pop()
-            map_yaml = folder / new_map / "map.yaml"
 
-            self.load_map_service_client(str(
-                map_yaml))
-            request = SpawnModelRequest()
-            f = open(self.rospack.get_path(
-                "simulator_setup") + "/models/" + new_map + "/model.sdf")
-            request.model_xml = f.read()
-            request.model_name = "map"
-            self.spawn_map_client(request)
-            self.pedsimMap_client_(new_map)
         # if the distance between the robot and goal_pos is smaller than this value, task will be reset
         # self.timeout_= rospy.get_param("~timeout")
         self.timeout_ = rospy.get_param("~timeout", 2.0)
@@ -121,15 +115,13 @@ class TaskGenerator:
 
     def reset_task(self):
         if self.arena_gen and len(self.filtered_names) > 0:
-            del_model_prox = rospy.ServiceProxy(
-                'gazebo/delete_model', DeleteModel)
-            del_model_prox("map")
+
+            self.del_map_client_("map")
             new_map = self.filtered_names.pop()
-            sim = self.rospack.get_path(
-                "simulator_setup")
-            self.load_map_service_client(sim + f"/maps/{new_map}/map.yaml")
+            self.load_map_service_client(
+                self.sim + f"/maps/{new_map}/map.yaml")
             request = SpawnModelRequest()
-            f = open(sim + f"/models/{new_map}/model.sdf")
+            f = open(self.sim + f"/models/{new_map}/model.sdf")
             request.model_xml = f.read()
             request.model_name = "map"
             self.spawn_map_client(request)
@@ -138,7 +130,6 @@ class TaskGenerator:
 
         self.start_time_ = time.time()
         info = self.task.reset()
-
         # set goal position
         if info is not None:
             self.curr_goal_pos_ = info['robot_goal_pos']
