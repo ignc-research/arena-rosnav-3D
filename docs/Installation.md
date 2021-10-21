@@ -1,3 +1,6 @@
+# TODO s
+- Currenly both pedsims get downloaded, only jeceks pedsim is needed
+- Jeceks pedsim relys on flatland msgs therefore flatland needs to be installed.
 # 1. Installation
 
 # For those who already have installed arena-rosnav
@@ -164,12 +167,11 @@ cd .. && catkin_make -DPYTHON_EXECUTABLE=/usr/bin/python3
 ```
 cd $HOME
 mkdir -p catkin_ws/src && cd catkin_ws/src
-git clone https://github.com/eliastreis/arena-rosnav-3D.git
-git clone https://github.com/eliastreis/pedsim_ros.git -b ros-melodic-gazebo
+git clone https://github.com/eliastreis/arena-rosnav-3D.git 
 git clone https://bitbucket.org/acl-swarm/ford_msgs/src/master/
 cd ..
 catkin_make -DCMAKE_BUILD_TYPE=Release -DPYTHON_EXECUTABLE=/usr/bin/python3
-source devel/setup.zsh
+source devel/setup.bash
 ```
 
 Note: if you use zsh replace bash with zsh in the commands or vice versa
@@ -183,7 +185,7 @@ vim ~/.bashrc
 Add these lines to your .zshrc or .bashrc
 
 ```
-source /$HOME/catkin_ws/devel/setup.zsh
+source /$HOME/catkin_ws/devel/setup.bash
 export PYTHONPATH=$HOME/catkin_ws/src/arena-rosnav-3D:${PYTHONPATH}
 ```
 
@@ -210,7 +212,7 @@ rosdep install --from-paths src --ignore-src -r -y
 
 ```bash
 cd ~/catkin_ws/src/
-git clone https://github.com/eliastreis/pedsim_ros.git -b ros-melodic-gazebo
+
 ../..
 catkin_make -DCMAKE_BUILD_TYPE=Release -DPYTHON_EXECUTABLE=/usr/bin/python3
 ```
