@@ -1,6 +1,15 @@
 # TODO s
 - Currenly both pedsims get downloaded, only jeceks pedsim is needed
 - Jeceks pedsim relys on flatland msgs therefore flatland needs to be installed.
+- install package lxml : pip install lxml
+- setup of pyhton path: first draft → into .bashrc
+```bash
+export PYTHONPATH=$HOME/catkin_ws/devel/lib/python3/dist-packages:${PYTHONPATH}
+export PYTHONPATH=$HOME/catkin_ws/src/arena-rosnav-3D:${PYTHONPATH}
+export PYTHONPATH=$HOME/rosws/devel/lib/python3/dist-packages:${PYTHONPATH}
+```
+- I needed to run this to fully install pedsim with plugin: `catkin_make --only-pkg-with-deps spencer_tracking_rviz_plugin`
+
 # 1. Installation
 
 # For those who already have installed arena-rosnav
