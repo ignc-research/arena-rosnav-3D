@@ -20,7 +20,7 @@ from rosgraph_msgs.msg import Clock
 from nav_msgs.msg import Odometry
 
 # services
-from flatland_msgs.srv import StepWorld, StepWorldRequest
+# from flatland_msgs.srv import StepWorld, StepWorldRequest     #resolve later
 
 # message filter
 import message_filters
@@ -142,9 +142,9 @@ class ObservationCollector:
         # service clients
         if self._is_train_mode:
             self._service_name_step = f"{self.ns_prefix}step_world"
-            self._sim_step_client = rospy.ServiceProxy(
-                self._service_name_step, StepWorld
-            )
+            # self._sim_step_client = rospy.ServiceProxy(               #resolve later
+            #     self._service_name_step, StepWorld                    #resolve later
+            # )                                                         #resolve later
 
     def get_observation_space(self):
         return self.observation_space
@@ -234,7 +234,7 @@ class ObservationCollector:
         return laser_scan, robot_pose
 
     def call_service_takeSimStep(self, t=None):
-        request = StepWorldRequest() if t is None else StepWorldRequest(t)
+        # request = StepWorldRequest() if t is None else StepWorldRequest(t)        #resolve later
         timeout = 12
         try:
             for i in range(timeout):

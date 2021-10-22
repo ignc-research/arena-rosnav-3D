@@ -51,7 +51,7 @@ class ObstaclesManager:
     #     del_model_prox = rospy.ServiceProxy('gazebo/delete_model', DeleteModel)
     #     del_model_prox(str(id))
 
-    def remove_all_obstacles(self, N_OBS):
+    def remove_all_obstacles(self, N_OBS = 1): # TODO @Elias find a way to read out how many obstacles are existing
         # type: (int) -> None
         self.pedsim_manager = PedsimManager()
         self.pedsim_manager.removeAllPeds()
@@ -110,10 +110,10 @@ class ObstaclesManager:
                     break
                 except rospy.ServiceException:
                     i_try += 1
-        if i_try == max_try_times:
+            if i_try == max_try_times:
             # TODO Define specific type of Exception
-            raise rospy.ServiceException(
-                "can not generate a path with the given start position and the goal position of the robot")
+                raise rospy.ServiceException(
+                    "can not generate a path with the given start position and the goal position of the robot")
         # load the peds in pedsim format
         print(s_pos,g_pos)
         self.scenario = ArenaScenario()

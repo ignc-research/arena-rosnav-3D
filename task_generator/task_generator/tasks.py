@@ -216,10 +216,10 @@ class StagedRandomTask(RandomTask):
 
         # subs for triggers
         self._sub_next = rospy.Subscriber(
-            self.ns_prefix, "next_stage", Bool, self.next_stage
+            f"{self.ns_prefix}next_stage", Bool, self.next_stage
         )
         self._sub_previous = rospy.Subscriber(
-            self.ns_prefix, "previous_stage", Bool, self.previous_stage
+            f"{self.ns_prefix}previous_stage", Bool, self.previous_stage
         )
 
         self._initiate_stage()
@@ -239,9 +239,7 @@ class StagedRandomTask(RandomTask):
                     rospy.set_param("/last_stage_reached", True)
         else:
             print(
-                "(",
-                self.ns,
-                ") INFO: Tried to trigger next stage but already reached last one",
+                f"({self.ns}) INFO: Tried to trigger next stage but already reached last one"
             )
 
     def previous_stage(self, msg):
@@ -258,10 +256,8 @@ class StagedRandomTask(RandomTask):
                     self._update_curr_stage_json()
         else:
             print(
-                "(",
-                self.ns,
-                ") INFO: Tried to trigger previous stage but already reached first one",
-            )
+                f"({self.ns}) INFO: Tried to trigger previous stage but already reached first one"
+            )   
 
     def _initiate_stage(self):
         self._remove_obstacles()
@@ -273,13 +269,7 @@ class StagedRandomTask(RandomTask):
         )
 
         print(
-            "(",
-            self.ns,
-            ") Stage ",
-            self._curr_stage,
-            ": Spawning ",
-            n_dynamic_obstacles,
-            " dynamic obstacles!",
+            f"({self.ns}) Stage {self._curr_stage}: Spawning {n_dynamic_obstacles} dynamic obstacles!"
         )
 
     def _read_stages_from_yaml(self):
@@ -303,9 +293,7 @@ class StagedRandomTask(RandomTask):
             hyperparams["curr_stage"] = self._curr_stage
         except Exception as e:
             raise Warning(
-                " ",
-                e,
-                " \n Parameter 'curr_stage' not found in 'hyperparameters.json'!",
+                f" {e} \n Parameter 'curr_stage' not found in 'hyperparameters.json'!"
             )
         else:
             with open(self.json_file, "w", encoding="utf-8") as target:
@@ -313,7 +301,8 @@ class StagedRandomTask(RandomTask):
 
     def _remove_obstacles(self):
         # idea rosservice call /pedsim_simulator/remove_all_peds true (to remove all obstacles)
-        self.obstacles_manager.remove_obstacles()
+        # self.obstacle_manager.remove_obstacles() # 22.10.2021 (old version)
+        self.obstacle_manager.remove_all_obstacles()
 
 
 class ScenarioTask(ABSTask):
@@ -395,7 +384,8 @@ def get_predefined_task(ns, mode="random", start_stage=1, PATHS=None):
         print("random tasks requested")
     if mode == "staged":
         rospy.set_param("/task_mode", "staged")
-        task = StagedRandomTask(ns, start_stage, PATHS)
+        task = StagedRandomTask(ns, pedsim_manager, obstacle_manager, robot_manager, start_stage, PATHS)
+
     if mode == "scenario":
         rospy.set_param("/task_mode", "scenario")
         forbidden_zones = obstacle_manager.register_random_static_obstacles(

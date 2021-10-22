@@ -4,8 +4,7 @@ from typing import Callable, Dict, List, Optional, Tuple, Type, Union
 import gym
 import rospkg
 import torch as th
-import yaml
-
+import xml.etree.ElementTree as ET
 from torch import nn
 from stable_baselines3.common.policies import ActorCriticPolicy
 
@@ -18,22 +17,15 @@ _L: Number of laser beams - placeholder for the laser beam data
 """
 _RS = 2  # robot state size
 
-ROBOT_SETTING_PATH = rospkg.RosPack().get_path("simulator_setup")
-yaml_ROBOT_SETTING_PATH = os.path.join(
-    ROBOT_SETTING_PATH, "robot", "myrobot.model.yaml"
+_ROBOT_SETTING_PATH = rospkg.RosPack().get_path("simulator_setup")
+_ROBOT_SETTING_PATH = os.path.join(
+    _ROBOT_SETTING_PATH, "robot/urdf", "turtlebot3_burger.gazebo.xacro" #change this for MARL scenario
 )
+tree = ET.parse(_ROBOT_SETTING_PATH)
+root = tree.getroot()
+if 'ray' in root.find(".//ray").tag:
+    _L = root.find('.//samples').text # num of laser beams
 
-with open(yaml_ROBOT_SETTING_PATH, "r") as fd:
-    robot_data = yaml.safe_load(fd)
-    for plugin in robot_data["plugins"]:
-        if plugin["type"] == "Laser":
-            laser_angle_min = plugin["angle"]["min"]
-            laser_angle_max = plugin["angle"]["max"]
-            laser_angle_increment = plugin["angle"]["increment"]
-            _L = int(
-                round((laser_angle_max - laser_angle_min) / laser_angle_increment) + 1
-            )  # num of laser beams
-            break
 
 
 class MLP_ARENA2D(nn.Module):

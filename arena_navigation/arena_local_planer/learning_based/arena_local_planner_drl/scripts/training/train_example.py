@@ -2,7 +2,7 @@ import time
 import os
 import sys
 from stable_baselines3 import A2C
-from rl_agent.envs.flatland_gym_env import FlatlandEnv
+from rl_agent.envs.gazebo_gym_env import GazeboEnv
 from task_generator.tasks import get_predefined_task
 import rospy
 import rospkg
@@ -24,7 +24,7 @@ arena_local_planner_drl_folder_path = rospkg.RosPack().get_path(
 )
 
 
-env = FlatlandEnv(
+env = GazeboEnv(
     "sim_2",
     task,
     os.path.join(models_folder_path, "robot", "myrobot.model.yaml"),

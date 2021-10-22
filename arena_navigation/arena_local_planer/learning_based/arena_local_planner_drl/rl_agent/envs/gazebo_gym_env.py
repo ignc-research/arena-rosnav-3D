@@ -11,21 +11,23 @@ from rl_agent.utils.observation_collector import ObservationCollector
 from rl_agent.utils.reward import RewardCalculator
 from rl_agent.utils.debug import timeit
 from rospy.exceptions import ROSException
-from task_generator.tasks import ABSTask
+from task_generator.task_generator.tasks import ABSTask
 import numpy as np
 import rospy
-from geometry_msgs.msg import Twist
+from geometry_msgs.msg import Twist, Pose2D
 from std_msgs.msg import String
-from flatland_msgs.srv import StepWorld, StepWorldRequest
+# from flatland_msgs.srv import StepWorld, StepWorldRequest #resolve later
 from std_msgs.msg import Bool
 import time
 import math
+import xml.etree.ElementTree as ET
 
 from rl_agent.utils.debug import timeit
-from task_generator.tasks import get_predefined_task
+from task_generator.task_generator.tasks import get_predefined_task
 
+ROBOT_RADIUS_BURGER = 0.17
 
-class FlatlandEnv(gym.Env):
+class GazeboEnv(gym.Env):
     """Custom Environment that follows gym interface"""
 
     def __init__(
@@ -45,7 +47,7 @@ class FlatlandEnv(gym.Env):
         **kwargs,
     ):
         """Default env
-        Flatland yaml node check the entries in the yaml file, therefore other robot related parameters cound only be saved in an other file.
+        Gazebo yaml node check the entries in the yaml file, therefore other robot related parameters cound only be saved in an other file.
         TODO : write an uniform yaml paser node to handel with multiple yaml files.
 
 
@@ -58,7 +60,7 @@ class FlatlandEnv(gym.Env):
             goal_radius (float, optional): [description]. Defaults to 0.1.
             extended_eval (bool): more episode info provided, no reset when crashing
         """
-        super(FlatlandEnv, self).__init__()
+        super(GazeboEnv, self).__init__()
 
         self.ns = ns
         try:
@@ -122,9 +124,9 @@ class FlatlandEnv(gym.Env):
         # service clients
         if self._is_train_mode:
             self._service_name_step = f"{self.ns_prefix}step_world"
-            self._sim_step_client = rospy.ServiceProxy(
-                self._service_name_step, StepWorld
-            )
+            # self._sim_step_client = rospy.ServiceProxy(   #resolve later
+            #     self._service_name_step, StepWorld        #resolve later
+            # )                                             #resolve later
 
         # instantiate task manager
         self.task = get_predefined_task(
@@ -145,41 +147,25 @@ class FlatlandEnv(gym.Env):
         self.demand_map_pub = rospy.Publisher("/demand", String, queue_size=1)
 
     def setup_by_configuration(
-        self, robot_yaml_path: str, settings_yaml_path: str
+        self, robot_xml_path: str, settings_yaml_path: str
     ):
-        """get the configuration from the yaml file, including robot radius, discrete action space and continuous action space.
+        """get the configuration from the xml file, including robot radius, discrete action space and continuous action space.
 
         Args:
-            robot_yaml_path (str): [description]
+            robot_xml_path (str): [description]
+            settings_yaml_path (str): [description]
         """
-        with open(robot_yaml_path, "r") as fd:
-            robot_data = yaml.safe_load(fd)
-            # get robot radius
-            for body in robot_data["bodies"]:
-                if body["name"] == "base_footprint":
-                    for footprint in body["footprints"]:
-                        if footprint["type"] == "circle":
-                            self._robot_radius = (
-                                footprint.setdefault("radius", 0.3) * 1.05
-                            )
-                        if footprint["radius"]:
-                            self._robot_radius = footprint["radius"] * 1.05
-            # get laser related information
-            for plugin in robot_data["plugins"]:
-                if plugin["type"] == "Laser":
-                    laser_angle_min = plugin["angle"]["min"]
-                    laser_angle_max = plugin["angle"]["max"]
-                    laser_angle_increment = plugin["angle"]["increment"]
-                    self._laser_num_beams = int(
-                        round(
-                            (laser_angle_max - laser_angle_min)
-                            / laser_angle_increment
-                        )
-                        + 1
-                    )
-                    self._laser_max_range = plugin["range"]
+        # get robot radius
+        self._robot_radius = ROBOT_RADIUS_BURGER
 
-        with open(settings_yaml_path, "r") as fd:
+        # get laser related information
+        tree = ET.parse(robot_xml_path) #change name
+        root = tree.getroot()
+        if 'ray' in root.find(".//ray").tag:
+            self._laser_num_beams = int(root.find('.//samples').text) # num of laser beams
+            self._laser_max_range = root.find('.//max').text
+
+        with open(settings_yaml_path, "r") as fd: #TODO Do these parameters apply to turtlebot3_burger?
             setting_data = yaml.safe_load(fd)
             if self._is_action_space_discrete:
                 # self._discrete_actions is a list, each element is a dict with the keys ["name", 'linear','angular']
@@ -282,8 +268,8 @@ class FlatlandEnv(gym.Env):
         # set task
         # regenerate start position end goal position of the robot and change the obstacles accordingly
         self.agent_action_pub.publish(Twist())
-        if self._is_train_mode:
-            self._sim_step_client()
+        # if self._is_train_mode:       #resolve later
+            # self._sim_step_client()   #resolve later
         time.sleep(0.1)  # map_pub needs some time to update map
         self.task.reset()
         self.reward_calculator.reset()
@@ -303,13 +289,13 @@ class FlatlandEnv(gym.Env):
         pass
 
     def call_service_takeSimStep(self, t: float = None):
-        request = StepWorldRequest() if t is None else StepWorldRequest(t)
-
-        try:
-            response = self._sim_step_client(request)
-            rospy.logdebug("step service=", response)
-        except rospy.ServiceException as e:
-            rospy.logdebug("step Service call failed: %s" % e)
+        # request = StepWorldRequest() if t is None else StepWorldRequest(t)    #resolve later
+        print('delet this statement')
+        # try:                                               #resolve later
+            # response = self._sim_step_client(request)     #resolve later
+            # rospy.logdebug("step service=", response)     #resolve later
+        # except rospy.ServiceException as e:                #resolve later
+            # rospy.logdebug("step Service call failed: %s" % e)     #resolve later
 
     def _wait_for_next_action_cycle(self):
         try:
@@ -328,7 +314,7 @@ class FlatlandEnv(gym.Env):
         """
         # distance travelled
         if self._last_robot_pose is not None:
-            self._distance_travelled += FlatlandEnv.get_distance(
+            self._distance_travelled += GazeboEnv.get_distance(
                 self._last_robot_pose, obs_dict["robot_pose"]
             )
 
@@ -355,21 +341,21 @@ class FlatlandEnv(gym.Env):
 
 if __name__ == "__main__":
 
-    rospy.init_node("flatland_gym_env", anonymous=True, disable_signals=False)
+    rospy.init_node("gazebo_gym_env", anonymous=True, disable_signals=False)
     print("start")
 
-    flatland_env = FlatlandEnv()
-    check_env(flatland_env, warn=True)
+    gazebo_env = GazeboEnv()
+    check_env(gazebo_env, warn=True)
 
     # init env
-    obs = flatland_env.reset()
+    obs = gazebo_env.reset()
 
     # run model
     n_steps = 200
     for _ in range(n_steps):
         # action, _states = model.predict(obs)
-        action = flatland_env.action_space.sample()
+        action = gazebo_env.action_space.sample()
 
-        obs, rewards, done, info = flatland_env.step(action)
+        obs, rewards, done, info = gazebo_env.step(action)
 
         time.sleep(0.1)

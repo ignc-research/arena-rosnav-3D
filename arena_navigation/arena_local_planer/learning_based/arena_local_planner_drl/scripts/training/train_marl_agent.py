@@ -7,7 +7,7 @@ rospy.set_param("/MARL", True)
 
 from rl_agent.training_agent_wrapper import TrainingDRLAgent
 from scripts.deployment.drl_agent_node import DeploymentDRLAgent
-from rl_agent.envs.pettingzoo_env import FlatlandPettingZooEnv
+from rl_agent.envs.pettingzoo_env import GazeboPettingZooEnv
 
 from nav_msgs.srv import GetMap
 
@@ -48,7 +48,7 @@ def main():
 
     agent_list = instantiate_drl_agents(num_robots=4, ns="sim_1")
 
-    env = FlatlandPettingZooEnv(ns="sim_1", agent_list=agent_list)
+    env = GazeboPettingZooEnv(ns="sim_1", agent_list=agent_list)
     obs = env.reset()
 
     AGENT = DeploymentDRLAgent(

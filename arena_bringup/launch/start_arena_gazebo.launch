@@ -1,7 +1,7 @@
 <launch>
   <!-- simulator arguments-->
   <arg name="train_mode" default="false"/>
-  <arg name="local_planner" default="rlca"         doc = "local_planer type [teb, dwa, mpc, rlca, cadrl]"/>
+  <arg name="local_planner" default="teb"         doc = "local_planer type [teb, dwa, mpc, rlca, cadrl]"/>
   <!--rlca are implemented but msg type not yet adjusted from 2D; dwa has a file missing (see project_task)-->
   <arg name="rviz_file" default="nav_LP"/>
   <arg name="disable_scenario" default="false"/>
@@ -9,7 +9,7 @@
   <arg name="enable_pedsim" default="true"/>
   <arg name="enable_pedvis" default="true"/>
   <arg name="outside" default="false"/>
-  <arg name="world" default="ignc_lab"   doc ="world type [turtlebot3_house, small_warehouse, aws_house, outside, ignc_lab]" unless="$(arg outside)"/>
+  <arg name="world" default="small_warehouse"   doc ="world type [turtlebot3_house, small_warehouse, aws_house, outside, ignc_lab]" unless="$(arg outside)"/>
   <arg name="world" default="outside"     if = "$(arg outside)"/>
   <arg name="model" default="burger"      doc = "model type [burger, waffle]"/>
   <arg name="scenario_file" default="$(arg world).json"/>

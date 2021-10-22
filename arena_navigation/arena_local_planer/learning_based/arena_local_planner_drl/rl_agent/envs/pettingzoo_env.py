@@ -9,7 +9,7 @@ from pettingzoo.utils import wrappers
 from rl_agent.training_agent_wrapper import TrainingDRLAgent
 from task_generator.marl_tasks import get_MARL_task
 
-from flatland_msgs.srv import StepWorld, StepWorldRequest
+# from flatland_msgs.srv import StepWorld, StepWorldRequest     #resolve later
 
 
 def env():
@@ -20,14 +20,14 @@ def env():
     to provide sane error messages. You can find full documentation for these methods
     elsewhere in the developer documentation.
     """
-    env = FlatlandPettingZooEnv()
+    env = GazeboPettingZooEnv()
     env = wrappers.CaptureStdoutWrapper(env)
     env = wrappers.AssertOutOfBoundsWrapper(env)
     env = wrappers.OrderEnforcingWrapper(env)
     return env
 
 
-class FlatlandPettingZooEnv(ParallelEnv):
+class GazeboPettingZooEnv(ParallelEnv):
     """
     The Parallel environment steps every live agent at once. If you are unsure if you
     have implemented a ParallelEnv correctly, try running the `parallel_api_test` in
@@ -93,9 +93,9 @@ class FlatlandPettingZooEnv(ParallelEnv):
         # service clients
         if self._is_train_mode:
             self._service_name_step = f"{self._ns}step_world"
-            self._sim_step_client = rospy.ServiceProxy(
-                self._service_name_step, StepWorld
-            )
+            # self._sim_step_client = rospy.ServiceProxy(       #resolve later
+            #     self._service_name_step, StepWorld            #resolve later
+            # )                                                 #resolve later
 
         self._max_num_moves = max_num_moves_per_eps
 
@@ -197,11 +197,11 @@ class FlatlandPettingZooEnv(ParallelEnv):
                 Time in seconds. When t is None, time is forwarded by 'step_size' s.
                 Defaults to None.
         """
-        request = StepWorldRequest() if t is None else StepWorldRequest(t)
+        # request = StepWorldRequest() if t is None else StepWorldRequest(t)    #resolve later
 
         try:
-            response = self._sim_step_client(request)
-            rospy.logdebug("step service=", response)
+            # response = self._sim_step_client(request)                         #resolve later
+            # rospy.logdebug("step service=", response)                         #resolve later
         except rospy.ServiceException as e:
             rospy.logdebug("step Service call failed: %s" % e)
 
