@@ -1,3 +1,12 @@
+# Todos
+- Add: pip install scipy
+- Add: stable baseline version:
+```
+
+```
+
+
+
 # 1. Installation
 
 # For those who already have installed arena-rosnav

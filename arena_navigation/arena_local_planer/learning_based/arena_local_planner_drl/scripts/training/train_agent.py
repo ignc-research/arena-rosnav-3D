@@ -5,10 +5,7 @@ import os, sys, rospy, time
 
 from stable_baselines3 import PPO
 from stable_baselines3.common.vec_env import SubprocVecEnv, DummyVecEnv
-from stable_baselines3.common.callbacks import (
-    EvalCallback,
-    StopTrainingOnRewardThreshold,
-)
+from stable_baselines3.common.callbacks import EvalCallback, StopTrainingOnRewardThreshold
 from stable_baselines3.common.policies import BasePolicy
 
 from rl_agent.model.agent_factory import AgentFactory
@@ -35,7 +32,7 @@ def main():
 
     print("________ STARTING TRAINING WITH:  %s ________\n" % AGENT_NAME)
 
-    # for training with start_arena_flatland.launch
+    # for training with start_arena_gazebo.launch
     ros_params = rospy.get_param_names()
     ns_for_nodes = "/single_env" not in ros_params
 
@@ -80,6 +77,9 @@ def main():
     )
 
     # stop training on reward threshold callback
+    # stoptraining_cb = StopTrainingOnRewardThreshold(reward_threshold=0.9, verbose=1)    
+
+    # # TODO @Elias ask Linh, warum der parameter nicht erkannt wird. 
     stoptraining_cb = StopTrainingOnRewardThreshold(
         treshhold_type="succ", threshold=0.9, verbose=1
     )
