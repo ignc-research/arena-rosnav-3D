@@ -1,9 +1,28 @@
 # Todos
 - Add: pip install scipy
 - Add: stable baseline version:
-```
 
-```
+        #### Trouble Shooting
+        While trying the Quickstart you might encouter the following error in the second terminal:
+        ```
+        Traceback (most recent call last):
+          File "scripts/training/train_agent.py", line 229, in <module>
+            treshhold_type="succ", threshold=0.9, verbose=1)
+        TypeError: __init__() got an unexpected keyword argument 'treshhold_type'
+        ```
+        This error can be resolved by updating your stable baselines and your workspace. Therefore run the following commands:
+        ```
+        cd $HOME/catkin_ws/src/forks/stable-baselines3
+        pip install -e.
+        ```
+        ```
+        cd $HOME/catkin_ws/src/arena-rosnav
+        rosws update
+        ```
+        ```
+        cd $HOME/catkin_ws
+        catkin_make -DCMAKE_BUILD_TYPE=Release -DPYTHON_EXECUTABLE=/usr/bin/python3
+        ```
 
 
 
