@@ -55,12 +55,13 @@
   <arg name="base_frame_id" value="base_footprint"/>
   <arg name="odom_ground_truth" default="/odometry/ground_truth"/>
 
-  <!-- Adding actors to world  -->
-  <node name="generate_world" pkg="task_generator" type="generate_world.py" if="$(arg enable_pedsim)">
+<!-- This starts the world creation with dynamic actor models -->
+  <!-- Adding actors to world  --> 
+  <!-- <node name="generate_world" pkg="task_generator" type="generate_world.py" if="$(arg enable_pedsim)">
     <param name="task_mode" value="$(arg task_mode)"/>
     <param name="actors" value="$(arg actors)"/>
     <param name="scenario_path" value="$(find simulator_setup)/scenarios/$(arg scenario_file)"/>
-  </node>
+  </node> -->
   <!-- map server-->
   <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_path)">
     <param name="frame_id" value="$(arg global_frame_id)"/>

@@ -53,15 +53,18 @@ class PedsimManager():
         spawn_obstacle = '/pedsim_simulator/add_obstacle'
         rospy. wait_for_service(spawn_obstacle, 6.0)
         self.spawn_obstacle = rospy.ServiceProxy(spawn_obstacle, SpawnObstacle)
+        
+        # TODO This is currenly not supported by pedsim from Elias
         # set scene obstacles based on ped_scenario file_location
-        set_obstacles = '/pedsim_simulator/set_obstacles'
-        rospy.wait_for_service(set_obstacles, 6.0)
-        self.set_obstacles_client = rospy.ServiceProxy(
-            set_obstacles, SetObstacles)
+        # set_obstacles = '/pedsim_simulator/set_obstacles'
+        # rospy.wait_for_service(set_obstacles, 6.0)
+        # self.set_obstacles_client = rospy.ServiceProxy(
+            # set_obstacles, SetObstacles)
 
     def spawnPeds(self, peds):
         # type (List[Ped])
         res = self.spawn_peds_client.call(peds)
+        subprocess.call('rosrun pedsim_gazebo_plugin spawn_pedsim_agents.py', shell = True)
         print(res)
 
     def respawnPeds(self, peds):
@@ -105,6 +108,7 @@ class PedsimManager():
         # for a, b  in zip(pos[::2], pos[1::2]):
         #     self.spawn_obstacle(LineObstacles(header = Header(), obstacle = LineObstacle(start = Point(*a, 0), end = Point(*b, 0))))
 
-    def setObstacles(self, map_name):
-        res = self.set_obstacles_client.call(map_name)
-        print(res)
+    #   TODO    this is currenly not supported by Pesim form Elias
+    # def setObstacles(self, map_name):
+    #     res = self.set_obstacles_client.call(map_name)
+    #     print(res)

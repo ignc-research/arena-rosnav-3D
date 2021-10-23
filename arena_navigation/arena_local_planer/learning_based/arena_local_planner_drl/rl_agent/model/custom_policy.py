@@ -24,7 +24,7 @@ _ROBOT_SETTING_PATH = os.path.join(
 tree = ET.parse(_ROBOT_SETTING_PATH)
 root = tree.getroot()
 if 'ray' in root.find(".//ray").tag:
-    _L = root.find('.//samples').text # num of laser beams
+    _L = int(root.find('.//samples').text) # num of laser beams
 
 
 
