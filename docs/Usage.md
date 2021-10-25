@@ -30,6 +30,10 @@ If you want to change the number of actors you can specify the amount using para
 roslaunch arena_bringup start_arena_gazebo.launch outside:=true agents:=4
 ```
 
+## World generation with arena-tools and LIRS
+By combining the random 2d map generation feature from our own **arena-tools** with the seamless image to Gazebo world conversion of **LIRS_World_Construction_Tools** we can test our navigation approaches on magnitude of 3D worlds, varying in layout, complexity.
+For more information on how to use this feature please refer to [arena-tools](https://github.com/Jacenty00/arena-tools). Otherwise, if you already have your own map image in mind, visit [LIRS_World_Construction_Tools](https://gitlab.com/LIRS_Projects/LIRS-WCT) to gain information on how to convert it into a Gazebo world.
+
 ---
 # Task-Mode
 We currently support a random, scenario or manual task mode.
