@@ -22,7 +22,7 @@ from filelock import FileLock
 
 STANDART_ORIENTATION = quaternion_from_euler(0.0, 0.0, 0.0)
 ROBOT_RADIUS = 0.17
-N_OBS = {"static": 0, "dynamic": 3}
+N_OBS = {"static": 4, "dynamic": 3}
 
 
 class StopReset(Exception):
@@ -63,9 +63,9 @@ class RandomTask(ABSTask):
     def __init__(self, pedsim_manager, obstacle_manager, robot_manager):
         # type: (ObstaclesManager, RobotManager, list) -> None
         super(RandomTask, self).__init__(
-            pedsim_manager, obstacle_manager, robot_manager
-        )
-        self.num_of_actors = rospy.get_param("~actors", 3)
+            pedsim_manager, obstacle_manager, robot_manager)
+            
+        self.num_of_actors = rospy.get_param("~actors", N_OBS["dynamic"])
 
     def reset(self):
         """[summary]"""
@@ -81,7 +81,7 @@ class RandomTask(ABSTask):
                         start_pos,
                         goal_pos,
                     ) = self.robot_manager.set_start_pos_goal_pos()
-                    self.obstacle_manager.remove_all_obstacles(N_OBS["static"])
+                    self.obstacle_manager.remove_all_obstacles()
                     self.obstacle_manager.register_random_dynamic_obstacles(
                         self.num_of_actors,
                         forbidden_zones=[
@@ -260,7 +260,7 @@ class StagedRandomTask(RandomTask):
             )   
 
     def _initiate_stage(self):
-        self._remove_obstacles()
+        self.obstacle_manager.remove_all_obstacles()
 
         n_dynamic_obstacles = self._stages[self._curr_stage]["dynamic"]
 
@@ -298,11 +298,6 @@ class StagedRandomTask(RandomTask):
         else:
             with open(self.json_file, "w", encoding="utf-8") as target:
                 json.dump(hyperparams, target, ensure_ascii=False, indent=4)
-
-    def _remove_obstacles(self):
-        # idea rosservice call /pedsim_simulator/remove_all_peds true (to remove all obstacles)
-        # self.obstacle_manager.remove_obstacles() # 22.10.2021 (old version)
-        self.obstacle_manager.remove_all_obstacles()
 
 
 class ScenarioTask(ABSTask):
