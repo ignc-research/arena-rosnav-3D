@@ -10,6 +10,7 @@
 sudo apt-get update && sudo apt-get install -y \
 ros-melodic-turtlebot3-description \
 ros-melodic-turtlebot3-navigation \
+ros-melodic-octomap \
 ```
 
 - create a new catkin_workspace
