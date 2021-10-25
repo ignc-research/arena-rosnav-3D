@@ -26,6 +26,6 @@ Please refer our guide on how to create a "layered" occupancy map [here](https:/
 
 - Actor height: As the pedsim agents are simulated in a 2D environment, we have to specify a fixed actor height to be used by our Gazebo plugin. As such you may have to change the default value of 1.1, depending on your Gazebo world.
 
-- Pedsim scene: xml file, which determines the position of obstacles to be considered by pedsim during the simulation. On how to convert Gazebo worlds to scene filse, please refer to (link).
+- Pedsim scene: xml file, which determines the position of obstacles to be considered by pedsim during the simulation. On how to convert 2d maps to scene files, please refer to [ros_maps_to_pedsim](https://github.com/fverdoja/ros_maps_to_pedsim).
 
 For a further explanation on all of the available parameters, please refer to [Usage.md](docs/Usage.md)
