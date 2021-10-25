@@ -68,6 +68,10 @@ You can further customize the simulation altering the following parameters:
 
 | Name  | Options   | Description   |
 |:--:   | :--:      | :--:          |  
+| actors | Integer | Specify the amount of actors to be inserted into a Gazebo world. All of the actors position are then managed by the pedsim simulator |
+| actor_height | Double | A fixed actor height on a per world basis needs to be set, default value of 1.1 is already set and should be appropriate for most of the worlds, if not experimentation for proper value will be needed |
+| additional_map | true, **false** | Set to true, if you wish to use an additional, more detailed occupancy map for obstacles/pedsim manager |
+| add_map_path | String | Specify the path to the yaml file of the additional map |
 | train_mode | true, **false** | Since training mode is not yet implemented `false` should stay selected. (This would deactivate e.g. the task_generator) |
 | disable_scenario | true, **false** | This parameter would e.g. disable the task generator and other selected notes. This should only be changed with caution |
 | reset | **true**, false | Determines whether the scenario should be reset (or terminated) after reaching its objective (Robot has reached navigation goal) |
