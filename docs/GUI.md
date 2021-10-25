@@ -28,4 +28,4 @@ Please refer our guide on how to create a "layered" occupancy map [here](https:/
 
 - Pedsim scene: xml file, which determines the position of obstacles to be considered by pedsim during the simulation. On how to convert 2d maps to scene files, please refer to [ros_maps_to_pedsim](https://github.com/fverdoja/ros_maps_to_pedsim).
 
-For a further explanation on all of the available parameters, please refer to [Usage.md](docs/Usage.md)
+For a further explanation on all of the available parameters, please refer to [Usage.md](Usage.md)
