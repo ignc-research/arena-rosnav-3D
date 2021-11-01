@@ -5,7 +5,7 @@
             "id": 0,
             "pos": [
                 1.0,
-                6.03
+                -3.03
             ],
             "type": "adult",
             "yaml_file": "/home/daniel/catkin_ws/src/arena-rosnav-3D/simulator_setup/dynamic_obstacles/person_two_legged.model.yaml",
@@ -36,7 +36,7 @@
             "waypoints": [
                 [
                     1.0,
-                    6.03
+                    -3.03
                 ],
                 [
                     1.0,

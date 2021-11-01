@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
-<sdf version='1.4'>
-  <world name='default'>
-    <plugin name="ActorPosesPlugin" filename="libActorPosesPlugin.so"/>
+<?xml version='1.0' encoding='UTF-8'?>
+<sdf version="1.4">
+  <world name="default">
+    <!-- <plugin name="ActorPosesPlugin" filename="libActorPosesPlugin.so"/> -->
     
     <!-- A global light source -->
     <include>
@@ -45,11 +45,13 @@
       <shadows>true</shadows>
     </scene>
 
-    <gui fullscreen='0'>
-      <camera name='user_camera'>
+    <gui fullscreen="0">
+      <camera name="user_camera">
         <pose>0.0 0.0 17.0 0 1.5708 0</pose>
         <view_controller>orbit</view_controller>
       </camera>
     </gui>
-  </world>
+
+
+    </world>
 </sdf>

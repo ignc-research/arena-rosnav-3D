@@ -22,7 +22,7 @@ from filelock import FileLock
 
 STANDART_ORIENTATION = quaternion_from_euler(0.0, 0.0, 0.0)
 ROBOT_RADIUS = 0.17
-N_OBS = {"static": 4, "dynamic": 3}
+N_OBS = {"static": 10, "dynamic": 3}
 
 
 class StopReset(Exception):
@@ -369,9 +369,9 @@ def get_predefined_task(ns, mode="random", start_stage=1, PATHS=None):
     task = None
     if mode == "random":
         rospy.set_param("/task_mode", "random")
-        # forbidden_zones = obstacle_manager.register_random_static_obstacles(
-        #     N_OBS["static"]
-        # )
+        forbidden_zones = obstacle_manager.register_random_static_obstacles(
+            N_OBS["static"]
+        )
         # forbidden_zones = obstacle_manager.register_random_dynamic_obstacles(
         #     N_OBS["dynamic"], forbidden_zones=forbidden_zones
         # )

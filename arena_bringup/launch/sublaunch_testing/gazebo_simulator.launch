@@ -19,7 +19,7 @@
     <arg name="headless" value="false"/>
     <!-- change here to run only the server (gzserver) (to true)-->
     <arg name="debug" value="false"/>
-    <arg name="verbose" value="true"/>
+    <arg name="verbose" value="true"/> <!-- true to see gazebo error msgs-->
 
 
   </include>

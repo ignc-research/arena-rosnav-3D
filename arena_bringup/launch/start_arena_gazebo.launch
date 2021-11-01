@@ -9,7 +9,7 @@
   <arg name="enable_pedsim" default="true"/>
   <arg name="enable_pedvis" default="true"/>
   <arg name="outside" default="false"/>
-  <arg name="world" default="small_warehouse"   doc ="world type [turtlebot3_house, small_warehouse, aws_house, outside, ignc_lab]" unless="$(arg outside)"/>
+  <arg name="world" default="ignc_lab"   doc ="world type [turtlebot3_house, small_warehouse, aws_house, outside, ignc_lab]" unless="$(arg outside)"/>
   <arg name="world" default="outside"     if = "$(arg outside)"/>
   <arg name="model" default="burger"      doc = "model type [burger]"/>
   <arg name="scenario_file" default="$(arg world).json"/>
@@ -20,7 +20,7 @@
   <arg name="use_rviz" default="true"/>
   <arg name="map_path" default="$(find simulator_setup)/maps/$(arg world)/map.yaml" />
   <arg name="task_mode" default="random" doc="task_mode type [scenario, random, manual]"/>
-  <arg name="actors" default="4"/>
+  <arg name="actors" default="0"/>
 
   <param name="use_sim_time" value="true"/>
   <param name="train_mode" value="$(arg train_mode)" />
@@ -57,11 +57,12 @@
 
 <!-- This starts the world creation with dynamic actor models -->
   <!-- Adding actors to world  --> 
-  <!-- <node name="generate_world" pkg="task_generator" type="generate_world.py" if="$(arg enable_pedsim)">
+  <node name="generate_world" pkg="task_generator" type="generate_world.py" if="$(arg enable_pedsim)">
     <param name="task_mode" value="$(arg task_mode)"/>
     <param name="actors" value="$(arg actors)"/>
     <param name="scenario_path" value="$(find simulator_setup)/scenarios/$(arg scenario_file)"/>
-  </node> -->
+  </node>
+
   <!-- map server-->
   <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_path)">
     <param name="frame_id" value="$(arg global_frame_id)"/>

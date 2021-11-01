@@ -64,7 +64,7 @@ class PedsimManager():
     def spawnPeds(self, peds):
         # type (List[Ped])
         res = self.spawn_peds_client.call(peds)
-        subprocess.call('rosrun pedsim_gazebo_plugin spawn_pedsim_agents.py', shell = True)
+        # subprocess.call('rosrun pedsim_gazebo_plugin spawn_pedsim_agents.py', shell = True)
         print(res)
 
     def respawnPeds(self, peds):
