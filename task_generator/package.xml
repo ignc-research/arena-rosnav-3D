@@ -3,8 +3,8 @@
   <name>task_generator</name>
   <version>0.0.0</version>
   <description>The task_generator package</description>
-  <maintainer email="elias@TODO.TODO">elias</maintainer>
-  <license>TODO</license>
+  <maintainer email="elias@.">elias</maintainer>
+  <license></license>
   <buildtool_depend>catkin</buildtool_depend>
   <build_depend>geometry_msgs</build_depend>
   <build_depend>message_generation</build_depend>

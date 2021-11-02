@@ -3,8 +3,8 @@
   <name>arena_bringup</name>
   <version>0.0.0</version>
   <description>The arena_bringup package</description>
-  <maintainer email="root@todo.todo">root</maintainer>
-  <license>TODO</license>
+  <maintainer email="">root</maintainer>
+  <license></license>
   <buildtool_depend>catkin</buildtool_depend>
   <export>
   </export>

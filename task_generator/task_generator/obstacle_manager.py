@@ -60,11 +60,12 @@ class ObstaclesManager:
         self.pedsim_manager = PedsimManager()
         self.pedsim_manager.removeAllPeds()
 
+        # this is only needed in outside mode for now to remove the static obstacles
         # to find all dynamic obs in gazebo
-        dyn_obs_list = [i for i in self._get_world_properties().model_names if i.isdecimal()]
+        # dyn_obs_list = [i for i in self._get_world_properties().model_names if i.isdecimal()]
 
-        for obstale in dyn_obs_list:
-            self._delete_gazebo_model(obstale)
+        # for obstale in dyn_obs_list:
+        #     self._delete_gazebo_model(obstale)
 
 
     def spawn_static_obstacle(self, number, pos, radius):

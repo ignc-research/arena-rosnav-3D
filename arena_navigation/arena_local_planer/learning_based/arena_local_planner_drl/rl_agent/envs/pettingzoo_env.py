@@ -197,7 +197,7 @@ class GazeboPettingZooEnv(ParallelEnv):
                 Time in seconds. When t is None, time is forwarded by 'step_size' s.
                 Defaults to None.
         """
-        # request = StepWorldRequest() if t is None else StepWorldRequest(t)    #resolve later
+        # request = StepWorldRequest() if t is None else StepWorldRequest(t)    #resolve later TODO
 
         try:
             # response = self._sim_step_client(request)                         #resolve later

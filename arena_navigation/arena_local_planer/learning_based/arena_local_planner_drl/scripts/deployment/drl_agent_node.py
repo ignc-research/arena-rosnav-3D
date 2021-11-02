@@ -22,7 +22,7 @@ TRAINED_MODELS_DIR = os.path.join(
 DEFAULT_ACTION_SPACE = os.path.join(
     rospkg.RosPack().get_path("arena_local_planner_drl"),
     "configs",
-    "default_settings.yaml",
+    "default_burger_settings.yaml",
 )
 
 
@@ -134,7 +134,7 @@ class DeploymentDRLAgent(BaseDRLAgent):
                 Time in seconds. When t is None, time is forwarded by 'step_size' s.
                 Defaults to None.
         """
-        # request = StepWorldRequest() if t is None else StepWorldRequest(t)        #resolve later
+        # request = StepWorldRequest() if t is None else StepWorldRequest(t)        #resolve later TODO
 
         try:
             # response = self._sim_step_client(request)                             #resolve later

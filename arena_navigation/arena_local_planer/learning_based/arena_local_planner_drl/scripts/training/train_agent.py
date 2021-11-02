@@ -79,7 +79,6 @@ def main():
     # stop training on reward threshold callback
     # stoptraining_cb = StopTrainingOnRewardThreshold(reward_threshold=0.9, verbose=1)    
 
-    # # TODO @Elias ask Linh, warum der parameter nicht erkannt wird. 
     stoptraining_cb = StopTrainingOnRewardThreshold(
         treshhold_type="succ", threshold=0.9, verbose=1
     )

@@ -1,9 +1,6 @@
 <launch>
   <arg name="world" default="turtlebot3_house"  doc = "world type [turtlebot3_house, small_warehouse, aws_house, outside]" />
   <arg name="model" default="burger"            doc = "model type [burger, waffle]"/>
-  <arg name="show_viz" default="true"/>
-  <arg name="use_rviz" default="true"/>
-  <arg name="rviz_file" default="nav_LP"/>
   <arg name="x_pos" default="0.0"/>
   <arg name="y_pos" default="0.0"/>
   <arg name="z_pos" default="0.0"/>
@@ -14,18 +11,10 @@
     <arg name="world_name" value="$(find simulator_setup)/worlds/$(arg world)/worlds/$(arg world).world"/>
     <arg name="paused" value="false"/>
     <arg name="use_sim_time" value="true"/>
-    <arg name="gui" value="true"/>
-    <!-- change here to run only the server (gzserver) (to false)-->
-    <arg name="headless" value="false"/>
-    <!-- change here to run only the server (gzserver) (to true)-->
+    <arg name="gui" value="true"/> <!-- change here to run only the server (gzserver) (to false)-->
+    <arg name="headless" value="false"/> <!-- change here to run only the server (gzserver) (to true)-->
     <arg name="debug" value="false"/>
     <arg name="verbose" value="true"/> <!-- true to see gazebo error msgs-->
-
-
   </include>
 
-  <!-- start_rviz -->
-  <group if="$(arg use_rviz)">
-    <node name="gazebo_rviz" pkg="rviz" type="rviz" args="-d $(find arena_bringup)/rviz/$(arg rviz_file).rviz"/>
-  </group>
 </launch>

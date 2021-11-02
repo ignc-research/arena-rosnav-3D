@@ -313,7 +313,7 @@ def get_paths(agent_name: str, args: argparse.Namespace) -> dict:
             "turtlebot3_burger.gazebo.xacro",
         ),
         "hyperparams": os.path.join(dir, "configs", "hyperparameters"),
-        "robot_as": os.path.join(dir, "configs", "default_settings.yaml"), # TODO @Elias That might need to be changed because of turtlebot 3
+        "robot_as": os.path.join(dir, "configs", "default_burger_settings.yaml"),
         "curriculum": os.path.join(dir, "configs", "training_curriculum.yaml"),
     }
     # check for mode

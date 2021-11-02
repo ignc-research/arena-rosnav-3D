@@ -29,7 +29,7 @@ env = GazeboEnv(
     task,
     os.path.join(models_folder_path, "robot", "myrobot.model.yaml"),
     os.path.join(
-        arena_local_planner_drl_folder_path, "configs", "default_settings.yaml"
+        arena_local_planner_drl_folder_path, "configs", "default_burger_settings.yaml"
     ),
     "rule_00",
     True,

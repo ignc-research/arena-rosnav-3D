@@ -16,7 +16,7 @@ rospack = rospkg.RosPack()
 rospy.init_node('generate_world')
 
 sim_setup_path = rospack.get_path("simulator_setup")
-mode = rospy.get_param("~task_mode")
+mode = rospy.get_param("task_mode")
 world_name = rospy.get_param("world")
 world_file = sim_setup_path+'/worlds/' + \
     world_name + '/worlds/' + world_name + '.world'
@@ -36,7 +36,7 @@ if mode == "scenario":
     for ped in scenario.pedsimAgents:
         num_of_actors += ped.number_of_peds
 else:
-    num_of_actors = rospy.get_param("~actors", 3)
+    num_of_actors = rospy.get_param("actors", 3) # @Elias maybe do "~actors" again
 
 
 for item in range(num_of_actors):

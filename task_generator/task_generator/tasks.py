@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 
-import json
+import json, subprocess
 import six
 import abc
 import rospy
@@ -195,6 +195,8 @@ class StagedRandomTask(RandomTask):
         self._PATHS = PATHS
         self._read_stages_from_yaml()
 
+        rospy.set_param("/task_mode", 'staged')
+        
         # check start stage format
         if not isinstance(start_stage, int):
             raise ValueError("Given start_stage not an Integer!")
@@ -248,7 +250,7 @@ class StagedRandomTask(RandomTask):
             rospy.set_param("/last_stage_reached", False)
 
             self._curr_stage = self._curr_stage - 1
-            self._initiate_stage()
+            self._initiate_stage()  
 
             if self.ns == "eval_sim":
                 rospy.set_param("/curr_stage", self._curr_stage)
@@ -261,12 +263,24 @@ class StagedRandomTask(RandomTask):
 
     def _initiate_stage(self):
         self.obstacle_manager.remove_all_obstacles()
-
         n_dynamic_obstacles = self._stages[self._curr_stage]["dynamic"]
-
-        self.obstacle_manager.register_random_dynamic_obstacles(
-            n_dynamic_obstacles
-        )
+        
+        print(f'num_dynamic obs {n_dynamic_obstacles}')
+        print(f'num_dynamic obs {self._stages[self._curr_stage]["static"]}')
+        
+        # When additional actors need to be loaded into the simulation, a new world file is created & gazebo restarted
+        if self._curr_stage is 1 or n_dynamic_obstacles != self._stages[self._curr_stage-1]["dynamic"]:
+            rospy.set_param("/actors", n_dynamic_obstacles)
+            subprocess.call("killall -q gzclient & killall -q gzserver", shell=True)
+            subprocess.call('rosrun task_generator generate_world.py', shell = True)
+            subprocess.Popen("roslaunch arena_bringup gazebo_simulator.launch", shell=True)
+            rospy.wait_for_service("/gazebo/spawn_urdf_model")
+            self.robot_manager.spawn_robot()
+            rospy.sleep(10)
+            
+        else:
+            self.obstacle_manager.register_random_dynamic_obstacles(
+                n_dynamic_obstacles)
 
         print(
             f"({self.ns}) Stage {self._curr_stage}: Spawning {n_dynamic_obstacles} dynamic obstacles!"
