@@ -165,7 +165,7 @@ class GazeboEnv(gym.Env):
             self._laser_num_beams = int(root.find('.//samples').text) # num of laser beams
             self._laser_max_range = root.find('.//max').text
 
-        with open(settings_yaml_path, "r") as fd: #TODO Do these parameters apply to turtlebot3_burger?
+        with open(settings_yaml_path, "r") as fd: 
             setting_data = yaml.safe_load(fd)
             if self._is_action_space_discrete:
                 # self._discrete_actions is a list, each element is a dict with the keys ["name", 'linear','angular']
@@ -289,7 +289,7 @@ class GazeboEnv(gym.Env):
         pass
 
     def call_service_takeSimStep(self, t: float = None):
-        # request = StepWorldRequest() if t is None else StepWorldRequest(t)    #resolve later
+        # request = StepWorldRequest() if t is None else StepWorldRequest(t)    #resolve later TODO
         print('delet this statement')
         # try:                                               #resolve later
             # response = self._sim_step_client(request)     #resolve later
