@@ -8,7 +8,7 @@ import rospy
 import yaml
 from lxml import etree
 from lxml.etree import Element
-from task_generator.task_generator.ped_manager.ArenaScenario import \
+from task_generator.ped_manager.ArenaScenario import \
     ArenaScenario
 
 rospack = rospkg.RosPack()
