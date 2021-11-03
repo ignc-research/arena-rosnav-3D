@@ -23,7 +23,7 @@ import math
 import xml.etree.ElementTree as ET
 
 from rl_agent.utils.debug import timeit
-from task_generator.task_generator.tasks import get_predefined_task
+from task_generator.task_generator.tasks import *
 
 ROBOT_RADIUS_BURGER = 0.17
 
@@ -34,7 +34,7 @@ class GazeboEnv(gym.Env):
         self,
         ns: str,
         reward_fnc: str,
-        is_action_space_discrete: bool,
+        is_action_space_discrete,
         safe_dist: float = None,
         goal_radius: float = 0.1,
         max_steps_per_episode=100,
@@ -85,15 +85,15 @@ class GazeboEnv(gym.Env):
         self._extended_eval = extended_eval
         self._is_train_mode = rospy.get_param("/train_mode")
         self._is_action_space_discrete = is_action_space_discrete
-        self._action_frequency = 1 / rospy.get_param(
-            "/robot_action_rate"
-        )  # for time controlling in train mode
 
         self.setup_by_configuration(PATHS["robot_setting"], PATHS["robot_as"])
 
         # observation collector
         self.observation_collector = ObservationCollector(
-            self.ns, self._laser_num_beams, self._laser_max_range
+            self.ns,
+            self._laser_num_beams,
+            self._laser_max_range,
+            external_time_sync=True,        
         )
         self.observation_space = (
             self.observation_collector.get_observation_space()
@@ -124,7 +124,7 @@ class GazeboEnv(gym.Env):
         # service clients
         if self._is_train_mode:
             self._service_name_step = f"{self.ns_prefix}step_world"
-            # self._sim_step_client = rospy.ServiceProxy(   #resolve later
+            # self._sim_step_client = rospy.ServiceProxy(   #resolve later TODO
             #     self._service_name_step, StepWorld        #resolve later
             # )                                             #resolve later
 
@@ -137,14 +137,12 @@ class GazeboEnv(gym.Env):
         self._max_steps_per_episode = max_steps_per_episode
 
         # for extended eval
+        self._action_frequency = 1 / rospy.get_param("/robot_action_rate")
         self._last_robot_pose = None
         self._distance_travelled = 0
         self._safe_dist_counter = 0
         self._collisions = 0
         self._in_crash = False
-
-        # publisher for random map training
-        self.demand_map_pub = rospy.Publisher("/demand", String, queue_size=1)
 
     def setup_by_configuration(
         self, robot_xml_path: str, settings_yaml_path: str
@@ -186,13 +184,13 @@ class GazeboEnv(gym.Env):
                     dtype=np.float,
                 )
 
-    def _pub_action(self, action: np.ndarray):
+    def _pub_action(self, action):
         action_msg = Twist()
         action_msg.linear.x = action[0]
         action_msg.angular.z = action[1]
         self.agent_action_pub.publish(action_msg)
 
-    def _translate_disc_action(self, action: np.ndarray):
+    def _translate_disc_action(self, action):
         new_action = np.array([])
         new_action = np.append(
             new_action, self._discrete_acitons[action]["linear"]
@@ -203,25 +201,17 @@ class GazeboEnv(gym.Env):
 
         return new_action
 
-    def step(self, action: np.ndarray):
+    def step(self, action):
         """
         done_reasons:   0   -   exceeded max steps
                         1   -   collision with obstacle
                         2   -   goal reached
         """
+        if self._is_action_space_discrete:
+            action = self._translate_disc_action(action)
+        self._pub_action(action)
+        # print(f"Linear: {action[0]}, Angular: {action[1]}")
         self._steps_curr_episode += 1
-
-        (
-            self._pub_action(action)
-            if not self._is_action_space_discrete
-            else self._pub_action(self._translate_disc_action(action))
-        )
-
-        # apply action time horizon
-        if self._is_train_mode:
-            self.call_service_takeSimStep(self._action_frequency)
-        else:
-            self._wait_for_next_action_cycle()
 
         # wait for new observations
         merged_obs, obs_dict = self.observation_collector.get_observations()
@@ -264,13 +254,11 @@ class GazeboEnv(gym.Env):
         return merged_obs, reward, done, info
 
     def reset(self):
-        self.demand_map_pub.publish("")  # publisher to demand a map update
         # set task
         # regenerate start position end goal position of the robot and change the obstacles accordingly
         self.agent_action_pub.publish(Twist())
-        # if self._is_train_mode:       #resolve later
+        # if self._is_train_mode:       #resolve later TODO
             # self._sim_step_client()   #resolve later
-        time.sleep(0.1)  # map_pub needs some time to update map
         self.task.reset()
         self.reward_calculator.reset()
         self._steps_curr_episode = 0
@@ -287,21 +275,6 @@ class GazeboEnv(gym.Env):
 
     def close(self):
         pass
-
-    def call_service_takeSimStep(self, t: float = None):
-        # request = StepWorldRequest() if t is None else StepWorldRequest(t)    #resolve later TODO
-        print('delet this statement')
-        # try:                                               #resolve later
-            # response = self._sim_step_client(request)     #resolve later
-            # rospy.logdebug("step service=", response)     #resolve later
-        # except rospy.ServiceException as e:                #resolve later
-            # rospy.logdebug("step Service call failed: %s" % e)     #resolve later
-
-    def _wait_for_next_action_cycle(self):
-        try:
-            rospy.wait_for_message(f"{self.ns_prefix}next_cycle", Bool)
-        except ROSException:
-            pass
 
     def _update_eval_statistics(self, obs_dict: dict, reward_info: dict):
         """
