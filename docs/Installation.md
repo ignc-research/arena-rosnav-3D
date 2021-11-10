@@ -140,6 +140,24 @@ cd ActorCollisionsPlugin && mkdir build && cd build && cmake .. && make
 echo "export GAZEBO_PLUGIN_PATH=/home/ActorCollisionsPlugin/build" >> ~/.bashrc
 ```
 
+# Add arena-rosnav next to arena-rosnav-3D
+- Create a catkin_ws and clone this repo with its dependencies into your catkin_ws
+
+```bash
+sudo apt-get update
+cd $HOME && mkdir -p arena_ws/src && cd arena_ws/src
+git clone https://github.com/eliastreis/arena-rosnav.git
+cd arena-rosnav && rosws update
+```
+
+- Add the changes to your .bashrc file
+> Note: to use arena-rosnav next to its 3D counterpart make sure to source only workspace at the time
+
+
+```
+echo "source $HOME/arena_ws/devel/setup.bash
+export PYTHONPATH=$HOME/arena_ws/src/arena-rosnav:${PYTHONPATH}" >> ~/.bashrc
+```
 
 # Training with GPU RTX 3090
 **_NOTE: This section has not been tested on arena-rosnav-3D_**
