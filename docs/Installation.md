@@ -73,51 +73,37 @@ sudo apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31
 
 ```
 sudo apt update
-sudo apt install ros-melodic-desktop-full
+sudo apt install ros-noetic-desktop-full
 ```
 
 - Environment Setup
 
 ```
-echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
+echo "source /opt/ros/noetic/setup.bash" >> ~/.bashrc
 source ~/.bashrc
 ```
 
-- Dependencies for building packages
+#- Dependencies for building packages
 
-```
-sudo apt install python-rosdep python-rosinstall python-rosinstall-generator python-wstool build-essential
-```
+#```
+#sudo apt install python-rosdep python-rosinstall python-rosinstall-generator python-wstool build-essential
+#```
 
 - Initialize rosdep
 
 ```
-sudo rosdep init
-rosdep update
-```
-
-- Install additional pkgs
-
-```
 sudo apt-get update && sudo apt-get install -y \
-libqt4-dev \
 libopencv-dev \
 liblua5.2-dev \
 screen \
-python3.6 \
-python3.6-dev \
-libpython3.6-dev \
-python3-catkin-pkg-modules \
 python3-rospkg-modules \
-python3-empy \
-python3-setuptools \
-ros-melodic-navigation \
-ros-melodic-teb-local-planner \
-ros-melodic-mpc-local-planner \
+ros-noetic-navigation \
+ros-noetic-teb-local-planner \
+ros-noetic-mpc-local-planner \
 libarmadillo-dev \
-ros-melodic-nlopt \
-ros-melodic-turtlebot3-description \
-ros-melodic-turtlebot3-navigation \
+ros-noetic-nlopt \
+ros-noetic-turtlebot3-description \
+ros-noetic-turtlebot3-navigation \
 ```
 
 #### 1.2. Prepare virtual environment & install python packages
@@ -127,6 +113,7 @@ To be able to use python3 with ROS, you need an virtual environment. We recommen
 - Install virtual environment and wrapper (as root or admin! with sudo) on your local pc (without conda activated. Deactivate conda env, if you have one active)
 
 ```
+sudo apt install pip
 sudo pip3 install --upgrade pip
 sudo pip3 install virtualenv
 sudo pip3 install virtualenvwrapper
@@ -136,8 +123,7 @@ which virtualenv   # should output /usr/local/bin/virtualenv
 - Create venv folder inside your home directory
 
 ```
-cd $HOME
-mkdir python_env   # create a venv folder in your home directory
+cd $HOME && mkdir python_env   # create a venv folder in your home directory
 ```
 
 - Add exports into your .bashrc or .zshrc:
@@ -154,48 +140,30 @@ source /usr/local/bin/virtualenvwrapper.sh" >> ~/.bashrc
 Note: You might need to restart your terminal at this point.
 
 ```
-mkvirtualenv --python=python3.6 rosnav
+mkvirtualenv --python=python3.8 rosnav
 workon rosnav
 ```
 
 - Install packages inside your venv (venv always activated!):
 
 ```
-pip install --extra-index-url https://rospypi.github.io/simple/ rospy rosbag tf tf2_ros --ignore-installed
-pip install pyyaml catkin_pkg netifaces pathlib
+pip3 install --extra-index-url https://rospypi.github.io/simple/ rospy rosbag tf tf2_ros --ignore-installed
+pip3 install pyyaml catkin_pkg netifaces pathlib filelock pyqt5 mpi4py torch lxml
 ```
 
-- Install stable_baselines3 for training DRL into your venv (venv always activated!)
+#- Install stable_baselines3 for training DRL into your venv (venv always activated!)
 
-```
-pip install stable-baselines3
-```
-
-- Install ros geometry and geometry2 from source (compiled with python3)
-
-The official ros only support tf2 with python2. In order to make the _tf_ work in python3, its necessary to compile it with python3. Run the following commands in the terminal:
-
-```
-mkdir -p ~/rosws/src
-cd rosws && catkin_make -DPYTHON_EXECUTABLE=/usr/bin/python3
-echo "source ~/rosws/devel/setup.bash" >> ~/.bashrc
-source ~/.bashrc
-cd ~/rosws/src
-git clone https://github.com/ros/geometry2.git -b melodic-devel
-git clone https://github.com/ros/geometry.git -b melodic-devel
-cd .. && catkin_make -DPYTHON_EXECUTABLE=/usr/bin/python3
-```
+#```
+#pip install stable-baselines3
+#```
 
 # 1.3 Install arena-rosnav-3D and pedsim repo
 
 - Create a catkin_ws and clone this repo into your catkin_ws
 
 ```
-cd $HOME
-mkdir -p catkin_ws/src && cd catkin_ws/src
-git clone https://github.com/eliastreis/arena-rosnav-3D.git
-# git clone https://github.com/eliastreis/pedsim_ros.git -b ros-melodic-gazebo
-# git clone https://bitbucket.org/acl-swarm/ford_msgs/src/master/
+cd $HOME && mkdir -p catkin_ws/src && cd catkin_ws/src
+git clone https://github.com/eliastreis/arena-rosnav-3D.git -b training-actors
 cd ..
 catkin_make -DCMAKE_BUILD_TYPE=Release -DPYTHON_EXECUTABLE=/usr/bin/python3
 source devel/setup.zsh
@@ -244,28 +212,6 @@ cd ~/catkin_ws/src/
 catkin_make -DCMAKE_BUILD_TYPE=Release -DPYTHON_EXECUTABLE=/usr/bin/python3
 ```
 
-- Install additional pip packages
-
-```bash
-pip install tensorflow==1.15 filelock pyqt5 mpi4py
-```
-
-- Setup gazebo_ros for python3 compatibility
-  To ensure python3 compatibility the `gazebo_ros` package must be changed: (we recomend the following steps):
-
-1. run this command in the terminal to receive writing rights for the package:
-
-```bash
-sudo chown -R $USER:$USER /opt/ros
-```
-
-go to `/opt/ros/melodic/lib/gazebo_ros/spawn_model`
-
-```
-vim /opt/ros/melodic/lib/gazebo_ros/spawn_model
-```
-
-and change _#!/usr/bin/env python2.7_ to _#!/usr/bin/env python_. Safe and close. Now you should be able to use gazebo9 with python3
 
 # Note: Install Gazebo from source
 
@@ -286,16 +232,6 @@ Subsequently, go to the forks/stable_baselines3 folder and do:
 pip install -e .
 ```
 
-## TF2 ERROR
-
-Errors with tf2 (transform2) are due to the fact that ROS melodic only supports python2 and the tf1 package. However, our repository contains a lot of packages from python3 that require tf2. As a workaround we installed the geometry2 package (that contains tf2) from source and every operation that is looking for tf2 should look into that geometry 2 path instead of the /ros path. Thus, in your Pythonpath variable, you need to check that the geometry2 path **is in front** of the /opt/ros/melodic path!
-An example echo $PYTHONPATH could look like this:
-
-```
-/home/username/arena_ws/src/arena-rosnav/:/home/username/arena_3d/src/arena-rosnav-3D/:/home/username/geometry2_ws/devel/lib/python3/dist-#packages:/ opt/ros/melodic/lib/python2.7/dist-packages
-```
-
-Note that geometry2 is in front of /opt/ros/melodic. Thus, the python interpreter will look into that folder first and use the correct tf2 package required for this project.
 
 # Training with GPU RTX 3090
 
