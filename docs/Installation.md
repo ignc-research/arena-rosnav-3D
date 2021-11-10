@@ -1,52 +1,9 @@
-# Todos
-- Add: pip install scipy
-- Add: stable baseline version:
-- Add: pip install roslibpy
-
-        #### Trouble Shooting
-        While trying the Quickstart you might encouter the following error in the second terminal:
-        ```
-        Traceback (most recent call last):
-          File "scripts/training/train_agent.py", line 229, in <module>
-            treshhold_type="succ", threshold=0.9, verbose=1)
-        TypeError: __init__() got an unexpected keyword argument 'treshhold_type'
-        ```
-        This error can be resolved by updating your stable baselines and your workspace. Therefore run the following commands:
-        ```
-        cd $HOME/catkin_ws/src/forks/stable-baselines3
-        pip install -e.
-        ```
-        ```
-        cd $HOME/catkin_ws/src/arena-rosnav
-        rosws update
-        ```
-        ```
-        cd $HOME/catkin_ws
-        catkin_make -DCMAKE_BUILD_TYPE=Release -DPYTHON_EXECUTABLE=/usr/bin/python3
-        ```
-
-
-
 # 1. Installation
 
-# For those who already have installed arena-rosnav
-
-**For those who already installed arena-rosnav, please follow the following instructions**
-
-- Install additional turtlebot packages
-
-```
-sudo apt-get update && sudo apt-get install -y \
-ros-melodic-turtlebot3-description \
-ros-melodic-turtlebot3-navigation \
-```
-
-- create a new catkin_workspace
-- start from point 1.3: arena-rosnav-3D
 
 ## 1.1. Standard ROS setup
 
-(Code has been tested with ROS-melodic on Ubuntu 18.04 and Python 3.6)
+(Code has been tested with ROS-noetic on Ubuntu 20.04 and Python 3.8)
 
 - Configure your Ubuntu repositories
 
@@ -83,12 +40,8 @@ echo "source /opt/ros/noetic/setup.bash" >> ~/.bashrc
 source ~/.bashrc
 ```
 
-#- Dependencies for building packages
 
-#```
-#sudo apt install python-rosdep python-rosinstall python-rosinstall-generator python-wstool build-essential
-#```
-
+## 1.2. Prepare virtual environment & install python packages
 - Initialize rosdep
 
 ```
@@ -96,6 +49,10 @@ sudo apt-get update && sudo apt-get install -y \
 libopencv-dev \
 liblua5.2-dev \
 screen \
+python3-rosdep \
+python3-rosinstall \
+python3-rosinstall-generator \
+build-essential \
 python3-rospkg-modules \
 ros-noetic-navigation \
 ros-noetic-teb-local-planner \
@@ -103,10 +60,8 @@ ros-noetic-mpc-local-planner \
 libarmadillo-dev \
 ros-noetic-nlopt \
 ros-noetic-turtlebot3-description \
-ros-noetic-turtlebot3-navigation \
+ros-noetic-turtlebot3-navigation 
 ```
-
-#### 1.2. Prepare virtual environment & install python packages
 
 To be able to use python3 with ROS, you need an virtual environment. We recommend using virtualenv & virtualenvwrapper.
 
@@ -148,95 +103,74 @@ workon rosnav
 
 ```
 pip3 install --extra-index-url https://rospypi.github.io/simple/ rospy rosbag tf tf2_ros --ignore-installed
-pip3 install pyyaml catkin_pkg netifaces pathlib filelock pyqt5 mpi4py torch lxml
-```
+pip3 install pyyaml catkin_pkg netifaces pathlib filelock pyqt5 mpi4py torch lxml scipy 
 
-#- Install stable_baselines3 for training DRL into your venv (venv always activated!)
-
-#```
-#pip install stable-baselines3
-#```
-
-# 1.3 Install arena-rosnav-3D and pedsim repo
-
-- Create a catkin_ws and clone this repo into your catkin_ws
 
 ```
+
+## 1.3 Install arena-rosnav-3D and pedsim repo
+
+- Create a catkin_ws and clone this repo with its dependencies into your catkin_ws
+
+```
+sudo apt-get update
 cd $HOME && mkdir -p catkin_ws/src && cd catkin_ws/src
 git clone https://github.com/eliastreis/arena-rosnav-3D.git -b training-actors
-cd ..
-catkin_make -DCMAKE_BUILD_TYPE=Release -DPYTHON_EXECUTABLE=/usr/bin/python3
-source devel/setup.zsh
+cd arena-rosnav-3D && rosws update
+cd .. && cd forks/stable-baselines3 && pip install -e .
+cd ../../.. && catkin_make
+source devel/setup.bash
 ```
 
-Note: if you use zsh replace bash with zsh in the commands or vice versa
+- Add the changes to your .bashrc file
+> Note: if you use zsh replace bash with zsh in the commands or vice versa
 
-- (Optional) Set python path in .zshrc (or .bashrc if you use that)
-
-```
-vim ~/.bashrc
-```
-
-Add these lines to your .zshrc or .bashrc
 
 ```
-source /$HOME/catkin_ws/devel/setup.zsh
-export PYTHONPATH=$HOME/catkin_ws/src/arena-rosnav-3D:${PYTHONPATH}
+echo "source $HOME/catkin_ws/devel/setup.bash
+export PYTHONPATH=$HOME/catkin_ws/src/arena-rosnav-3D:${PYTHONPATH}" >> ~/.bashrc
 ```
 
-Add this line above to the beginning of .zshrc or .bashrc
-
-```
-export PYTHONPATH=""
-```
-
-Note: if you dont add these lines, you have to manually set the Pythonpath with every new terminal.
-
-### Gazbebo and Pedsim part
-
-- Install additional packages using `rosdep`
+## 1.3 Include the actor-collsion pluging
+This makes the actor model in gazebo visible for the laser scan
 
 ```bash
-sudo apt install python-rosdep python-rospkg
-sudo rosdep init
-cd ~/catkin_ws
-rosdep install --from-paths src --ignore-src -r -y
-```
-
-- Install pedsim (for obstacle management):
-
-```bash
-cd ~/catkin_ws/src/
-# git clone https://github.com/eliastreis/pedsim_ros.git -b ros-melodic-gazebo
-../..
-catkin_make -DCMAKE_BUILD_TYPE=Release -DPYTHON_EXECUTABLE=/usr/bin/python3
-```
-
-
-# Note: Install Gazebo from source
-
-Normally, the gazebo package should be included in the ros-full-desktop version. In case you dont have it, you can install it from source by executing the script provided (install_gazebo.sh). Please see [install_gazebo.md](docs/install_gazebo.md).
-
-# Error Handling
-
-if you encounter the error "world path not given", it is probably because you havent updated the forks repository or working on an old branch.
-In that case go to the arena-rosnav folder and do
-
-```
-rosws update
-```
-
-Subsequently, go to the forks/stable_baselines3 folder and do:
-
-```
-pip install -e .
+cd && git clone https://github.com/eliastreis/ActorCollisionsPlugin.git
+cd ActorCollisionsPlugin && mkdir build && cd build && cmake .. && make
+echo "export GAZEBO_PLUGIN_PATH=/home/ActorCollisionsPlugin/build" >> ~/.bashrc
 ```
 
 
 # Training with GPU RTX 3090
+**_NOTE: This section has not been tested on arena-rosnav-3D_**
 
 in order to train with an NVIDIA GPU RTX3090 you need the latest version of pytorch. Inside your venv, do:
 
 ```
 pip3 install torch==1.9.0+cu111 torchvision==0.10.0+cu111 torchaudio==0.9.0 -f https://download.pytorch.org/whl/torch_stable.html
 ```
+
+# Trouble shooting
+- Follow this steps if you encounter the following stable-baseline related error:
+
+        #### Trouble Shooting
+        While trying the Quickstart you might encouter the following error in the second terminal:
+        ```
+        Traceback (most recent call last):
+          File "scripts/training/train_agent.py", line 229, in <module>
+            treshhold_type="succ", threshold=0.9, verbose=1)
+        TypeError: __init__() got an unexpected keyword argument 'treshhold_type'
+        ```
+        This error can be resolved by updating your stable baselines and your workspace. Therefore run the following commands:
+        ```
+        cd $HOME/catkin_ws/src/forks/stable-baselines3
+        pip install -e.
+        ```
+        ```
+        cd $HOME/catkin_ws/src/arena-rosnav
+        rosws update
+        ```
+        ```
+        cd $HOME/catkin_ws
+        catkin_make -DCMAKE_BUILD_TYPE=Release -DPYTHON_EXECUTABLE=/usr/bin/python3
+        ```
