@@ -258,7 +258,7 @@ class GazeboEnv(gym.Env):
         # regenerate start position end goal position of the robot and change the obstacles accordingly
         self.agent_action_pub.publish(Twist())
         # if self._is_train_mode:       #resolve later TODO
-            # self._sim_step_client()   #resolve later
+            # self._sim_step_client()   #resolve later - This starts the simulation when reset. Where is it stopped?
         self.task.reset()
         self.reward_calculator.reset()
         self._steps_curr_episode = 0

@@ -2,7 +2,6 @@
   <!-- simulator arguments-->
   <arg name="train_mode" default="false"/>
   <arg name="local_planner" default="rlca"         doc = "local_planer type [teb, dwa, mpc, rlca, cadrl]"/>
-  <!--rlca are implemented but msg type not yet adjusted from 2D; dwa has a file missing (see project_task)-->
   <arg name="rviz_file" default="nav_LP"/>
   <arg name="disable_scenario" default="false"/>
   <arg name="reset" default="true"/>
@@ -24,8 +23,9 @@
   <!-- <arg name="actors" default="3" unless="$(arg task_mode) == 'staged'" /> -->
   <arg name="actors" default="3" unless="$(arg train_mode)" />
   <arg name="actor_height" default="1.03"/>
+  <arg name="use_recorder" default="false"/>
 
-
+  <param name="actors" value="$(arg actors)" unless="$(arg train_mode)" />
   <param name="use_sim_time" value="true"/>
   <param name="train_mode" value="$(arg train_mode)" />
   <param name="world" value="$(arg world)" />
@@ -75,6 +75,13 @@
   <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_path)">
     <param name="frame_id" value="$(arg global_frame_id)"/>
   </node>
+
+    <!-- data recorder -->
+  <group if="$(eval arg('use_recorder') == true)">
+    <node pkg="arena_evaluation" name="data_recorder_node" type="data_recorder_node.py" />
+      <param name="local_planner"  value="$(arg local_planner)"/>
+      <param name="scenario_file"  value="$(arg scenario_file)"/>
+  </group>
 
   <!-- use simulator-->
   <include file="$(find arena_bringup)/launch/sublaunch_testing/gazebo_simulator.launch">
