@@ -44,10 +44,15 @@
       <arg name="ns"                value="$(arg ns)"/>
     </include> -->
   
-    
+    <!-- This is not needed with gazebo, started in task-generator.tasks.py in method _initiate_stage -->
     <!-- use simulator and rviz-->
-    <include file="$(find arena_bringup)/launch/sublaunch_training/flatland_simulator.launch">
+    <!-- <include file="$(find arena_bringup)/launch/sublaunch_training/gazebo_simulator.launch">
         <arg name="ns" value="$(arg ns)"/>
-    </include>
+    </include> -->
+
+
+  <!-- start_rviz -->
+  <node name="gazebo_rviz" pkg="rviz" type="rviz" args="-d $(find arena_bringup)/rviz/$(arg rviz_file).rviz" if="$(arg use_rviz)"/>
+
 
   </launch>

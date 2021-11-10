@@ -171,8 +171,6 @@ class ManualTask(ABSTask):
             self._new_goal_received = True
             self._manual_goal_con.notify()
 
-
-# This class is not yet tested
 class StagedRandomTask(RandomTask):
     def __init__(
         self,

@@ -72,7 +72,7 @@ class ObservationCollector:
 
         self._laser_num_beams = num_lidar_beams
         # for frequency controlling
-        self._action_frequency = 1 / rospy.get_param("/robot_action_rate")
+        self._action_frequency = 1 / rospy.get_param("/robot_action_rate") #CHECK: TODO defined in start_arena_gazebo = 10 correct?
 
         self._clock = Clock()
         self._scan = LaserScan()
@@ -152,7 +152,7 @@ class ObservationCollector:
     def get_observations(self):
         # apply action time horizon
         if self._is_train_mode:
-            self.call_service_takeSimStep(self._action_frequency)
+            self.call_service_takeSimStep(self._action_frequency) #CHECK: Does this mean running flatland for x=action_frequency seconds (https://github.com/ignc-research/flatland/blob/sim_to_real/flatland_msgs/srv/StepWorld.srv)
         else:
             try:
                 rospy.wait_for_message(f"{self.ns_prefix}next_cycle", Bool)
