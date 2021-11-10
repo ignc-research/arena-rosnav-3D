@@ -2234,7 +2234,7 @@
       </camera>
     </gui>
 
-    <model name="ARENA_GEN_person_1_collision_model"/><actor name="person_1"><pose> -0.46 20.8 0.0 0.0 0.0 1.18 </pose><skin><filename>model://actor/meshes/SKIN_man_green_shirt.dae</filename></skin><animation name="animation"><filename>model://actor/meshes/ANIMATION_walking.dae</filename><interpolate_x>true</interpolate_x></animation><plugin name="None" filename="libActorPosePlugin.so"/><plugin name="actor_collisions_plugin" filename="libActorCollisionsPlugin.so">
+    <model name="ARENA_GEN_person_1_collision_model"/><actor name="person_1"><pose> -0.46 20.8 0.0 0.0 0.0 1.18 </pose><skin><filename>model://actor/meshes/SKIN_man_green_shirt.dae</filename></skin><animation name="animation"><filename>model://actor/meshes/ANIMATION_walking.dae</filename><interpolate_x>true</interpolate_x></animation><plugin name="None" filename="libActorCollisionsPlugin.so"/><plugin name="actor_collisions_plugin" filename="libActorCollisionsPlugin.so">
       <scaling collision="LHipJoint_LeftUpLeg_collision" scale="           0.01           0.001           0.001       "/>
       <scaling collision="LeftUpLeg_LeftLeg_collision" scale="           8.0           8.0           1.0       "/>
       <scaling collision="LeftLeg_LeftFoot_collision" scale="           8.0           8.0           1.0       "/>
@@ -2255,7 +2255,7 @@
       <scaling collision="RightArm_RightForeArm_collision" scale="           5.0           5.0           1.0       "/>
       <scaling collision="RightForeArm_RightHand_collision" scale="           5.0           5.0           1.0       "/>
       <scaling collision="RightFingerBase_RightHandIndex1_collision" scale="           4.0           4.0           3.0       "/>
-      </plugin></actor><model name="ARENA_GEN_person_2_collision_model"/><actor name="person_2"><pose> -0.46 20.8 0.0 0.0 0.0 1.18 </pose><skin><filename>model://actor/meshes/SKIN_man_green_shirt.dae</filename></skin><animation name="animation"><filename>model://actor/meshes/ANIMATION_walking.dae</filename><interpolate_x>true</interpolate_x></animation><plugin name="None" filename="libActorPosePlugin.so"/><plugin name="actor_collisions_plugin" filename="libActorCollisionsPlugin.so">
+      </plugin></actor><model name="ARENA_GEN_person_2_collision_model"/><actor name="person_2"><pose> -0.46 20.8 0.0 0.0 0.0 1.18 </pose><skin><filename>model://actor/meshes/SKIN_man_green_shirt.dae</filename></skin><animation name="animation"><filename>model://actor/meshes/ANIMATION_walking.dae</filename><interpolate_x>true</interpolate_x></animation><plugin name="None" filename="libActorCollisionsPlugin.so"/><plugin name="actor_collisions_plugin" filename="libActorCollisionsPlugin.so">
       <scaling collision="LHipJoint_LeftUpLeg_collision" scale="           0.01           0.001           0.001       "/>
       <scaling collision="LeftUpLeg_LeftLeg_collision" scale="           8.0           8.0           1.0       "/>
       <scaling collision="LeftLeg_LeftFoot_collision" scale="           8.0           8.0           1.0       "/>
@@ -2276,7 +2276,7 @@
       <scaling collision="RightArm_RightForeArm_collision" scale="           5.0           5.0           1.0       "/>
       <scaling collision="RightForeArm_RightHand_collision" scale="           5.0           5.0           1.0       "/>
       <scaling collision="RightFingerBase_RightHandIndex1_collision" scale="           4.0           4.0           3.0       "/>
-      </plugin></actor><model name="ARENA_GEN_person_3_collision_model"/><actor name="person_3"><pose> -0.46 20.8 0.0 0.0 0.0 1.18 </pose><skin><filename>model://actor/meshes/SKIN_man_green_shirt.dae</filename></skin><animation name="animation"><filename>model://actor/meshes/ANIMATION_walking.dae</filename><interpolate_x>true</interpolate_x></animation><plugin name="None" filename="libActorPosePlugin.so"/><plugin name="actor_collisions_plugin" filename="libActorCollisionsPlugin.so">
+      </plugin></actor><model name="ARENA_GEN_person_3_collision_model"/><actor name="person_3"><pose> -0.46 20.8 0.0 0.0 0.0 1.18 </pose><skin><filename>model://actor/meshes/SKIN_man_green_shirt.dae</filename></skin><animation name="animation"><filename>model://actor/meshes/ANIMATION_walking.dae</filename><interpolate_x>true</interpolate_x></animation><plugin name="None" filename="libActorCollisionsPlugin.so"/><plugin name="actor_collisions_plugin" filename="libActorCollisionsPlugin.so">
       <scaling collision="LHipJoint_LeftUpLeg_collision" scale="           0.01           0.001           0.001       "/>
       <scaling collision="LeftUpLeg_LeftLeg_collision" scale="           8.0           8.0           1.0       "/>
       <scaling collision="LeftLeg_LeftFoot_collision" scale="           8.0           8.0           1.0       "/>

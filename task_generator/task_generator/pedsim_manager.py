@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 
 import rospy
@@ -8,7 +8,7 @@ from std_msgs.msg import Header
 import subprocess
 from .ped_manager.ArenaScenario import *
 from std_srvs.srv import Trigger, SetBool
-from pedsim_srvs.srv import SpawnPeds, SpawnInteractiveObstacles, MovePeds, SpawnObstacle, SetObstacles
+from pedsim_srvs.srv import SpawnPeds, SpawnInteractiveObstacles, MovePeds, SpawnObstacle
 from geometry_msgs.msg import Point
 from pedsim_msgs.msg import LineObstacles, LineObstacle
 
