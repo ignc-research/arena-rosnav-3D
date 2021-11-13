@@ -3,14 +3,15 @@
   <name>simulator_setup</name>
   <version>0.0.0</version>
   <description>The simulator_setup package</description>
-  <maintainer email="root@todo.todo">root</maintainer>
-  <license>TODO</license>
+  <maintainer email="root@open.open">root</maintainer>
+  <license>open</license>
 
   <buildtool_depend>catkin</buildtool_depend>
   <build_depend>roscpp</build_depend>
   <build_depend>rospy</build_depend>
   <build_depend>std_msgs</build_depend>
   <build_depend>gazebo_ros</build_depend>
+  <build_depend>geometry_msgs</build_depend>
   <build_export_depend>roscpp</build_export_depend>
   <build_export_depend>rospy</build_export_depend>
   <build_export_depend>gazebo_ros</build_export_depend>
@@ -22,6 +23,7 @@
   <exec_depend>gazebo</exec_depend>
   <exec_depend>gazebo_plugins</exec_depend>
   <exec_depend>turtlebot3_description</exec_depend>
+  <exec_depend>geometry_msgs</exec_depend>
 
   <export>
     <gazebo_ros plugin_path="${prefix}/worlds/aws_house/lib" gazebo_media_path="${prefix}/worlds/aws_house" gazebo_model_path="${prefix}/worlds/aws_house/models"/>

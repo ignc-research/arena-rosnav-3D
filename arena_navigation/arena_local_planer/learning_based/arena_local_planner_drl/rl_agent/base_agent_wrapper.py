@@ -22,7 +22,7 @@ ROOT_ROBOT_PATH = os.path.join(
 DEFAULT_ACTION_SPACE = os.path.join(
     rospkg.RosPack().get_path("arena_local_planner_drl"),
     "configs",
-    "default_settings.yaml",
+    "default_burger_settings.yaml",
 )
 DEFAULT_HYPERPARAMETER = os.path.join(
     rospkg.RosPack().get_path("arena_local_planner_drl"),

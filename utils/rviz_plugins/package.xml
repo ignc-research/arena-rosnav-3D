@@ -6,7 +6,7 @@
     Additional plugins for RViz
 
   </description>
-  <maintainer email="eeshaojie@todo.todo">Shaojie Shen</maintainer>
+  <maintainer email="eeshaojie@todo.todo"></maintainer>
   <license>BSD</license>
   <url>http://ros.org/wiki/rviz_plugins</url>
 

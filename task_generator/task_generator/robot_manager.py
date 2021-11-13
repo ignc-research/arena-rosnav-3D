@@ -1,15 +1,11 @@
 #!/usr/bin/env python
 
 
-import rospy
-import math
-import subprocess
+import rospy, math
 from geometry_msgs.msg import Pose, PoseWithCovarianceStamped, PoseStamped
 from gazebo_msgs.srv import SetModelState, SpawnModelRequest, SpawnModel
 from gazebo_msgs.msg import ModelState
-from move_base_msgs.msg import MoveBaseAction, MoveBaseGoal
 from nav_msgs.msg import Path
-import actionlib
 from .utils import generate_freespace_indices, get_random_pos_on_map
 
 ROBOT_RADIUS = 0.17
@@ -33,14 +29,17 @@ class RobotManager:
         self.ROBOT_NAME = 'turtlebot3'
         self.ROBOT_DESCRIPTION = rospy.get_param("robot_description")
         self.update_map(map_)
+
+        rospy.wait_for_service("/gazebo/spawn_urdf_model")
+        rospy.wait_for_service('/gazebo/set_model_state')
+
+        self._srv_spawn_model = rospy.ServiceProxy(
+            '/gazebo/spawn_urdf_model', SpawnModel)
         self._goal_pub = rospy.Publisher(
             '/subgoal', PoseStamped, queue_size=1, latch=True)
         self.pub_mvb_goal = rospy.Publisher(
             '/move_base_simple/goal', PoseStamped, queue_size=1, latch=True)
-        rospy.wait_for_service("/gazebo/spawn_urdf_model")
-        rospy.wait_for_service('/gazebo/set_model_state')
-        self._srv_spawn_model = rospy.ServiceProxy(
-            '/gazebo/spawn_urdf_model', SpawnModel)
+
         self.spawn_robot()
 
     def update_map(self, new_map):
@@ -72,7 +71,7 @@ class RobotManager:
         try:
             set_state = rospy.ServiceProxy(
                 '/gazebo/set_model_state', SetModelState)
-            resp = set_state(start_pos)
+            set_state(start_pos)
 
         except rospy.ServiceException:
             print("Move Robot to position failed")
@@ -80,6 +79,7 @@ class RobotManager:
         pub = rospy.Publisher(
             '/initialpose', PoseWithCovarianceStamped, queue_size=10)
         rospy.sleep(3)
+        
         start_pos = PoseWithCovarianceStamped()
         start_pos.header.frame_id = 'map'
         start_pos.pose.pose = pose
@@ -93,22 +93,6 @@ class RobotManager:
         :param y y-position of the goal
         :param theta theta-position of the goal
         """
-        # Elias way
-        # client = actionlib.SimpleActionClient('move_base', MoveBaseAction)
-        # client.wait_for_server()
-        # self.goal = MoveBaseGoal()
-        # self.goal.target_pose.header.frame_id = "map"
-        # self.goal.target_pose.header.stamp = rospy.Time.now()
-        # self.goal.target_pose.pose = pose
-
-        # client.send_goal(self.goal)
-        # wait = client.wait_for_result()
-        # if not wait:
-        #     rospy.logerr("Action server not available!")
-        #     rospy.signal_shutdown("Action server not available!")
-
-        # arena-rosnav way
-        print("test")
         self._global_path = Path()
         self._old_global_path_timestamp = self._global_path.header.stamp
         goal = PoseStamped()
@@ -116,7 +100,8 @@ class RobotManager:
         goal.header.frame_id = "map"
         goal.pose = pose
         self._goal_pub.publish(goal)
-        # added by Elias for communication with move_base
+
+        # for communication with move_base
         self.pub_mvb_goal.publish(goal)
 
     def set_start_pos_random(self):
