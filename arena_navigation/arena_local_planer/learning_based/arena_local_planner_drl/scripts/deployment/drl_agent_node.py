@@ -7,7 +7,7 @@ import sys
 
 from stable_baselines3 import PPO
 
-from flatland_msgs.srv import StepWorld, StepWorldRequest
+# from flatland_msgs.srv import StepWorld, StepWorldRequest     #resolve later
 from rospy.exceptions import ROSException
 from std_msgs.msg import Bool
 
@@ -22,7 +22,7 @@ TRAINED_MODELS_DIR = os.path.join(
 DEFAULT_ACTION_SPACE = os.path.join(
     rospkg.RosPack().get_path("arena_local_planner_drl"),
     "configs",
-    "default_settings.yaml",
+    "default_burger_settings.yaml",
 )
 
 
@@ -69,9 +69,9 @@ class DeploymentDRLAgent(BaseDRLAgent):
         if self._is_train_mode:
             # step world to fast forward simulation time
             self._service_name_step = f"{self._ns}step_world"
-            self._sim_step_client = rospy.ServiceProxy(
-                self._service_name_step, StepWorld
-            )
+            # self._sim_step_client = rospy.ServiceProxy(               #resolve later
+            #     self._service_name_step, StepWorld                    #resolve later
+            # )                                                         #resolve later
 
     def setup_agent(self) -> None:
         """Loads the trained policy and when required the VecNormalize object."""
@@ -134,11 +134,11 @@ class DeploymentDRLAgent(BaseDRLAgent):
                 Time in seconds. When t is None, time is forwarded by 'step_size' s.
                 Defaults to None.
         """
-        request = StepWorldRequest() if t is None else StepWorldRequest(t)
+        # request = StepWorldRequest() if t is None else StepWorldRequest(t)        #resolve later TODO
 
         try:
-            response = self._sim_step_client(request)
-            rospy.logdebug("step service=", response)
+            # response = self._sim_step_client(request)                             #resolve later
+            # rospy.logdebug("step service=", response)                             #resolve later
         except rospy.ServiceException as e:
             rospy.logdebug("step Service call failed: %s" % e)
 

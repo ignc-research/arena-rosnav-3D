@@ -6,7 +6,7 @@ import math
 import rospkg
 from random import randint, uniform, choice
 from .utils import generate_freespace_indices, get_random_pos_on_map
-from gazebo_msgs.srv import DeleteModel, SpawnModel
+from gazebo_msgs.srv import DeleteModel, SpawnModel, GetWorldProperties
 from geometry_msgs.msg import Pose, Point, Quaternion
 from tf.transformations import quaternion_from_euler
 from .ped_manager.ArenaScenario import *
@@ -42,6 +42,14 @@ class ObstaclesManager:
         # remove all existing obstacles generated before create an instance of this class
         # self.remove_obstacles()
 
+        rospy.wait_for_service('/gazebo/get_world_properties')
+        rospy.wait_for_service('/gazebo/delete_model')
+
+        self._get_world_properties = rospy.ServiceProxy(
+            'gazebo/get_world_properties', GetWorldProperties, persistent=True)
+        self._delete_gazebo_model = rospy.ServiceProxy(
+            '/gazebo/delete_model', DeleteModel)
+
         self.OBSTACLE_RADIUS = 0.15
 
     def update_map(self, new_map):
@@ -54,19 +62,16 @@ class ObstaclesManager:
         # a tuple stores the indices of the non-occupied spaces. format ((y,....),(x,...)
         self._free_space_indices = generate_freespace_indices(self.map)
 
-    # def remove_obstacle(self, id):
-    #     # type: (int) -> None
-    #     del_model_prox = rospy.ServiceProxy('gazebo/delete_model', DeleteModel)
-    #     del_model_prox(str(id))
-
-    def remove_all_obstacles(self, N_OBS):
-        # type: (int) -> None
+    def remove_all_obstacles(self):
         self.pedsim_manager = PedsimManager()
         self.pedsim_manager.removeAllPeds()
-        for obstale in range(N_OBS):
-            del_model_prox = rospy.ServiceProxy(
-                'gazebo/delete_model', DeleteModel)
-            del_model_prox(str(obstale + 1))
+
+        # this is only needed in outside mode for now to remove the static obstacles
+        # to find all dynamic obs in gazebo
+        # dyn_obs_list = [i for i in self._get_world_properties().model_names if i.isdecimal()]
+
+        # for obstale in dyn_obs_list:
+        #     self._delete_gazebo_model(obstale)
 
     def spawn_static_obstacle(self, number, pos, radius):
         # type: (list, list, list) -> None
@@ -124,10 +129,10 @@ class ObstaclesManager:
                     break
                 except rospy.ServiceException:
                     i_try += 1
-        if i_try == max_try_times:
-            # TODO Define specific type of Exception
-            raise rospy.ServiceException(
-                "can not generate a path with the given start position and the goal position of the robot")
+            if i_try == max_try_times:
+                # TODO Define specific type of Exception
+                raise rospy.ServiceException(
+                    "can not generate a path with the given start position and the goal position of the robot")
         # load the peds in pedsim format
         print(s_pos, g_pos)
         self.scenario = ArenaScenario()
@@ -149,7 +154,7 @@ class ObstaclesManager:
 
         """
         status = rospy.get_param('~world')
-        # status='no'
+
         if not status == 'outside':
             forbidden_zones = None
             return forbidden_zones
@@ -181,13 +186,10 @@ class ObstaclesManager:
         self.spawn_static_obstacle(ids, pos, radius)
         return forbidden_zones
 
-    def reset_pos_obstacles_random(self, forbidden_zones=None):
-        # type: (list) -> None
-        elements = rospy.ServiceProxy(
-            "/gazebo/get_world_properties", GetWorldPropertis)
-        for ped in range(elements - 3):  # TODO how to get the current Agents?
-            start_pos = get_random_pos_on_map(
-                self._free_space_indices, self.map, 0.2, forbidden_zones)
-            goal_pos = get_random_pos_on_map(
-                self._free_space_indices, self.map, 0.2, forbidden_zones)
-        # IDEA: 1. find all obstacles; 2.  for every obstacle call the move ped service
+    # def reset_pos_obstacles_random(self, forbidden_zones = None):
+    #         # type: (list) -> None
+    #         elements = rospy.ServiceProxy("/gazebo/get_world_properties", GetWorldPropertis)
+    #         for ped in range(elements - 3): # TODO how to get the current Agents?
+    #             start_pos = get_random_pos_on_map(self._free_space_indices, self.map, 0.2, forbidden_zones)
+    #             goal_pos = get_random_pos_on_map(self._free_space_indices, self.map, 0.2, forbidden_zones)
+    #         # IDEA: 1. find all obstacles; 2.  for every obstacle call the move ped service

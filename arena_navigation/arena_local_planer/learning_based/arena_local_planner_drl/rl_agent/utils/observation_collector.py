@@ -20,7 +20,7 @@ from rosgraph_msgs.msg import Clock
 from nav_msgs.msg import Odometry
 
 # services
-from flatland_msgs.srv import StepWorld, StepWorldRequest
+# from flatland_msgs.srv import StepWorld, StepWorldRequest     #resolve later
 
 # message filter
 import message_filters
@@ -72,7 +72,7 @@ class ObservationCollector:
 
         self._laser_num_beams = num_lidar_beams
         # for frequency controlling
-        self._action_frequency = 1 / rospy.get_param("/robot_action_rate")
+        self._action_frequency = 1 / rospy.get_param("/robot_action_rate") #CHECK: TODO defined in start_arena_gazebo = 10 correct?
 
         self._clock = Clock()
         self._scan = LaserScan()
@@ -142,9 +142,9 @@ class ObservationCollector:
         # service clients
         if self._is_train_mode:
             self._service_name_step = f"{self.ns_prefix}step_world"
-            self._sim_step_client = rospy.ServiceProxy(
-                self._service_name_step, StepWorld
-            )
+            # self._sim_step_client = rospy.ServiceProxy(               #resolve later
+            #     self._service_name_step, StepWorld                    #resolve later
+            # )                                                         #resolve later
 
     def get_observation_space(self):
         return self.observation_space
@@ -152,7 +152,7 @@ class ObservationCollector:
     def get_observations(self):
         # apply action time horizon
         if self._is_train_mode:
-            self.call_service_takeSimStep(self._action_frequency)
+            self.call_service_takeSimStep(self._action_frequency) #CHECK: Does this mean running flatland for x=action_frequency seconds (https://github.com/ignc-research/flatland/blob/sim_to_real/flatland_msgs/srv/StepWorld.srv)
         else:
             try:
                 rospy.wait_for_message(f"{self.ns_prefix}next_cycle", Bool)
@@ -233,24 +233,25 @@ class ObservationCollector:
         # print(f"Laser_stamp: {laser_stamp}, Robot_stamp: {robot_stamp}")
         return laser_scan, robot_pose
 
+    # TODO resolve later
     def call_service_takeSimStep(self, t=None):
-        request = StepWorldRequest() if t is None else StepWorldRequest(t)
+        # request = StepWorldRequest() if t is None else StepWorldRequest(t)        #resolve later
         timeout = 12
-        try:
-            for i in range(timeout):
-                response = self._sim_step_client(request)
-                rospy.logdebug("step service=", response)
+        # try:
+        #     for i in range(timeout):
+        #         response = self._sim_step_client(request)
+        #         rospy.logdebug("step service=", response)
 
-                if response.success:
-                    break
-                if i == timeout - 1:
-                    raise TimeoutError(
-                        f"Timeout while trying to call '{self.ns_prefix}step_world'"
-                    )
-                time.sleep(0.33)
+        #         if response.success:
+        #             break
+        #         if i == timeout - 1:
+        #             raise TimeoutError(
+        #                 f"Timeout while trying to call '{self.ns_prefix}step_world'"
+        #             )
+        #         time.sleep(0.33)
 
-        except rospy.ServiceException as e:
-            rospy.logdebug("step Service call failed: %s" % e)
+        # except rospy.ServiceException as e:
+        #     rospy.logdebug("step Service call failed: %s" % e)
 
     def callback_odom_scan(self, scan, odom):
         self._scan = self.process_scan_msg(scan)

@@ -15,11 +15,8 @@ from stable_baselines3.common.monitor import Monitor
 from stable_baselines3.common.utils import set_random_seed
 
 
-from arena_navigation.arena_local_planner.learning_based.arena_local_planner_drl.rl_agent.envs.flatland_gym_env import (
-    FlatlandEnv,
-)
-from arena_navigation.arena_local_planner.learning_based.arena_local_planner_drl.rl_agent.envs.flatland_gym_env import (
-    FlatlandEnv,
+from rl_agent.envs.gazebo_gym_env import (
+    GazeboEnv,
 )
 
 
@@ -312,11 +309,11 @@ def get_paths(agent_name: str, args: argparse.Namespace) -> dict:
         ),
         "robot_setting": os.path.join(
             rospkg.RosPack().get_path("simulator_setup"),
-            "robot",
-            "myrobot" + ".model.yaml",
+            "robot/urdf",
+            "turtlebot3_burger.gazebo.xacro",
         ),
         "hyperparams": os.path.join(dir, "configs", "hyperparameters"),
-        "robot_as": os.path.join(dir, "configs", "default_settings.yaml"),
+        "robot_as": os.path.join(dir, "configs", "default_burger_settings.yaml"),
         "curriculum": os.path.join(dir, "configs", "training_curriculum.yaml"),
     }
     # check for mode
@@ -373,7 +370,7 @@ def make_envs(
 
         if train:
             # train env
-            env = FlatlandEnv(
+            env = GazeboEnv(
                 train_ns,
                 params["reward_fnc"],
                 params["discrete_action_space"],
@@ -387,7 +384,7 @@ def make_envs(
         else:
             # eval env
             env = Monitor(
-                FlatlandEnv(
+                GazeboEnv(
                     eval_ns,
                     params["reward_fnc"],
                     params["discrete_action_space"],
