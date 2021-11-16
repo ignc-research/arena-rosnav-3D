@@ -1,6 +1,5 @@
 # 1. Installation
 
-
 ## 1.1. Standard ROS setup
 
 (Code has been tested with ROS-noetic on Ubuntu 20.04 and Python 3.8)
@@ -40,8 +39,8 @@ echo "source /opt/ros/noetic/setup.bash" >> ~/.bashrc
 source ~/.bashrc
 ```
 
-
 ## 1.2. Prepare virtual environment & install python packages
+
 - Initialize rosdep
 
 ```
@@ -60,7 +59,7 @@ ros-noetic-mpc-local-planner \
 libarmadillo-dev \
 ros-noetic-nlopt \
 ros-noetic-turtlebot3-description \
-ros-noetic-turtlebot3-navigation 
+ros-noetic-turtlebot3-navigation
 ```
 
 To be able to use python3 with ROS, you need an virtual environment. We recommend using virtualenv & virtualenvwrapper.
@@ -103,7 +102,7 @@ workon rosnav
 
 ```
 pip3 install --extra-index-url https://rospypi.github.io/simple/ rospy rosbag tf tf2_ros --ignore-installed
-pip3 install pyyaml catkin_pkg netifaces pathlib filelock pyqt5 mpi4py torch lxml scipy 
+pip3 install pyyaml catkin_pkg netifaces pathlib filelock pyqt5 mpi4py torch lxml scipy
 
 
 ```
@@ -123,8 +122,7 @@ source devel/setup.bash
 ```
 
 - Add the changes to your .bashrc file
-> Note: if you use zsh replace bash with zsh in the commands or vice versa
-
+  > Note: if you use zsh replace bash with zsh in the commands or vice versa
 
 ```
 echo "source $HOME/catkin_ws/devel/setup.bash
@@ -132,6 +130,7 @@ export PYTHONPATH=$HOME/catkin_ws/src/arena-rosnav-3D:${PYTHONPATH}" >> ~/.bashr
 ```
 
 ## 1.3 Include the actor-collsion pluging
+
 This makes the actor model in gazebo visible for the laser scan
 
 ```bash
@@ -141,6 +140,7 @@ echo "export GAZEBO_PLUGIN_PATH=/home/ActorCollisionsPlugin/build" >> ~/.bashrc
 ```
 
 # Add arena-rosnav next to arena-rosnav-3D
+
 - Create a catkin_ws and clone this repo with its dependencies into your catkin_ws
 
 ```bash
@@ -151,8 +151,7 @@ cd arena-rosnav && rosws update
 ```
 
 - Add the changes to your .bashrc file
-> Note: to use arena-rosnav next to its 3D counterpart make sure to source only workspace at the time
-
+  > Note: to use arena-rosnav next to its 3D counterpart make sure to source only workspace at the time
 
 ```
 echo "source $HOME/arena_ws/devel/setup.bash
@@ -160,6 +159,7 @@ export PYTHONPATH=$HOME/arena_ws/src/arena-rosnav:${PYTHONPATH}" >> ~/.bashrc
 ```
 
 # Training with GPU RTX 3090
+
 **_NOTE: This section has not been tested on arena-rosnav-3D_**
 
 in order to train with an NVIDIA GPU RTX3090 you need the latest version of pytorch. Inside your venv, do:
@@ -169,6 +169,7 @@ pip3 install torch==1.9.0+cu111 torchvision==0.10.0+cu111 torchaudio==0.9.0 -f h
 ```
 
 # Trouble shooting
+
 - Follow this steps if you encounter the following stable-baseline related error:
 
         #### Trouble Shooting

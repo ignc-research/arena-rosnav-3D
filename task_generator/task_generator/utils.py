@@ -1,9 +1,12 @@
 #!/usr/bin/env python
 
-import math, random
+import math
+import random
 import numpy as np
 from tf.transformations import quaternion_from_euler
 from geometry_msgs.msg import Pose, Point, Quaternion
+from std_srvs.srv import Empty
+import rospy
 
 
 def generate_freespace_indices(map_):
@@ -17,7 +20,8 @@ def generate_freespace_indices(map_):
     indices_y_x = np.where(map_2d == 0)
     return indices_y_x
 
-def get_random_pos_on_map(free_space_indices, map_, safe_dist, forbidden_zones = None, ):
+
+def get_random_pos_on_map(free_space_indices, map_, safe_dist, forbidden_zones=None, ):
     # type: (OccupancyGrid, list, float, list) -> bool
     """
     Args:
@@ -36,8 +40,10 @@ def get_random_pos_on_map(free_space_indices, map_, safe_dist, forbidden_zones =
 
         # converts distance from meter in pixel
         cell_radius = int((safe_dist) / map_.info.resolution)
-        x_index = int((x_in_meters - map_.info.origin.position.x) // map_.info.resolution)
-        y_index = int((y_in_meters - map_.info.origin.position.y) // map_.info.resolution)
+        x_index = int((x_in_meters - map_.info.origin.position.x) //
+                      map_.info.resolution)
+        y_index = int((y_in_meters - map_.info.origin.position.y) //
+                      map_.info.resolution)
 
         for i in range(x_index - cell_radius, x_index + cell_radius, 1):
             for j in range(y_index - cell_radius, y_index + cell_radius, 1):
@@ -48,7 +54,7 @@ def get_random_pos_on_map(free_space_indices, map_, safe_dist, forbidden_zones =
                     value = map_.data[index]
                 except IndexError:
                     print("IndexError: index: %d, map_length: %d" %
-                        (index, len(map_.data)))
+                          (index, len(map_.data)))
                     return False
                 if value != 0:
 
@@ -79,10 +85,30 @@ def get_random_pos_on_map(free_space_indices, map_, safe_dist, forbidden_zones =
                     "cann't find any no-occupied space please check the map information")
         # in radius
 
-    q = quaternion_from_euler(0.0, 0.0, 1, axes='sxyz')    
-    #q = quaternion_from_euler(0.0, 0.0, random.uniform(-math.pi, math.pi), axes='sxyz')
+    q = quaternion_from_euler(0.0, 0.0, 1, axes='sxyz')
+    # q = quaternion_from_euler(0.0, 0.0, random.uniform(-math.pi, math.pi), axes='sxyz')
 
     p = Pose()
     p.position = Point(*[x_in_meters, y_in_meters, 0])
     p.orientation = Quaternion(*q)
     return p
+
+
+def pause_gazebo():
+    pause = rospy.ServiceProxy('/gazebo/pause_physics', Empty)
+    pause()
+
+
+def unpause_gazebo():
+    unpause = rospy.ServiceProxy('/gazebo/unpause_physics', Empty)
+    unpause()
+
+
+def pause_pedsim():
+    pause = rospy.ServiceProxy('/pedsim_simulator/pause_simulation', Empty)
+    pause()
+
+
+def unpause_pedsim():
+    unpause = rospy.ServiceProxy('/pedsim_simulator/unpause_simulation', Empty)
+    unpause()
