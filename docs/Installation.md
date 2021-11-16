@@ -131,7 +131,7 @@ echo "source $HOME/catkin_ws/devel/setup.bash
 export PYTHONPATH=$HOME/catkin_ws/src/arena-rosnav-3D:${PYTHONPATH}" >> ~/.bashrc
 ```
 
-## 1.3 Include the actor-collsion pluging
+## 1.4 Include the actor-collsion pluging
 This makes the actor model in gazebo visible for the laser scan
 
 ```bash
@@ -158,6 +158,18 @@ cd arena-rosnav && rosws update
 echo "source $HOME/arena_ws/devel/setup.bash
 export PYTHONPATH=$HOME/arena_ws/src/arena-rosnav:${PYTHONPATH}" >> ~/.bashrc
 ```
+<details>
+  <summary markdown="span">in your `.bashrc` this should look like this: </summary>
+
+```bash
+source /home/elias/arena_ws/devel/setup.bash
+export PYTHONPATH=/home/elias/arena_ws/src/arena-rosnav:/home/elias/arena_ws/devel/lib/python3/dist-packages:/opt/ros/noetic/lib/python3/dist-packages
+
+```
+</details>
+
+
+
 
 # Training with GPU RTX 3090
 **_NOTE: This section has not been tested on arena-rosnav-3D_**
