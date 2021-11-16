@@ -61,9 +61,9 @@
   <arg name="base_frame_id" value="base_footprint"/>
   <arg name="odom_ground_truth" default="/odometry/ground_truth"/>
 
-<!-- This starts the world creation with dynamic actor models -->
-  <!-- Adding actors to world  --> 
-  <group if="$(eval arg('train_mode') == false)"> 
+  <!-- This starts the world creation with dynamic actor models -->
+  <!-- Adding actors to world  -->
+  <group if="$(eval arg('train_mode') == false)">
     <node name="generate_world" pkg="task_generator" type="generate_world.py" if="$(arg enable_pedsim)">
       <param name="task_mode" value="$(arg task_mode)"/>
       <param name="actors" value="$(arg actors)"/>
@@ -76,11 +76,15 @@
     <param name="frame_id" value="$(arg global_frame_id)"/>
   </node>
 
-    <!-- data recorder -->
+  <!-- additional map server, for obstacles  -->
+  <node name="map_server" pkg="map_server" type="map_server" ns="additional_map" args="$(arg add_map_path)" if="$(arg additional_map)">
+    <param name="additional_map/frame_id" value="$(arg global_frame_id)"/>
+  </node>
+  <!-- data recorder -->
   <group if="$(eval arg('use_recorder') == true)">
     <node pkg="arena_evaluation" name="data_recorder_node" type="data_recorder_node.py" />
-      <param name="local_planner"  value="$(arg local_planner)"/>
-      <param name="scenario_file"  value="$(arg scenario_file)"/>
+    <param name="local_planner" value="$(arg local_planner)"/>
+    <param name="scenario_file" value="$(arg scenario_file)"/>
   </group>
 
   <!-- use simulator-->
