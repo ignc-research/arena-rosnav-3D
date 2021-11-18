@@ -63,163 +63,6 @@ class Ui_MainWindow(object):
         self.pedvisCheckBox.setObjectName("pedvisCheckBox")
         self.gridLayout.addWidget(self.pedvisCheckBox, 12, 2, 1, 1)
         self.plannerLabel = QtWidgets.QLabel(self.layoutWidget)
-        palette = QtGui.QPalette()
-        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Active,
-                         QtGui.QPalette.WindowText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(36, 41, 51))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Button, brush)
-        brush = QtGui.QBrush(QtGui.QColor(54, 61, 76))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Light, brush)
-        brush = QtGui.QBrush(QtGui.QColor(45, 51, 63))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Midlight, brush)
-        brush = QtGui.QBrush(QtGui.QColor(18, 20, 25))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Dark, brush)
-        brush = QtGui.QBrush(QtGui.QColor(24, 27, 34))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Mid, brush)
-        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Text, brush)
-        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Active,
-                         QtGui.QPalette.BrightText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Active,
-                         QtGui.QPalette.ButtonText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Base, brush)
-        brush = QtGui.QBrush(QtGui.QColor(36, 41, 51))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Window, brush)
-        brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Shadow, brush)
-        brush = QtGui.QBrush(QtGui.QColor(18, 20, 25))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Active,
-                         QtGui.QPalette.AlternateBase, brush)
-        brush = QtGui.QBrush(QtGui.QColor(255, 255, 220))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Active,
-                         QtGui.QPalette.ToolTipBase, brush)
-        brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Active,
-                         QtGui.QPalette.ToolTipText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Inactive,
-                         QtGui.QPalette.WindowText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(36, 41, 51))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Button, brush)
-        brush = QtGui.QBrush(QtGui.QColor(54, 61, 76))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Light, brush)
-        brush = QtGui.QBrush(QtGui.QColor(45, 51, 63))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Inactive,
-                         QtGui.QPalette.Midlight, brush)
-        brush = QtGui.QBrush(QtGui.QColor(18, 20, 25))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Dark, brush)
-        brush = QtGui.QBrush(QtGui.QColor(24, 27, 34))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Mid, brush)
-        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Text, brush)
-        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Inactive,
-                         QtGui.QPalette.BrightText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Inactive,
-                         QtGui.QPalette.ButtonText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Base, brush)
-        brush = QtGui.QBrush(QtGui.QColor(36, 41, 51))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Window, brush)
-        brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Shadow, brush)
-        brush = QtGui.QBrush(QtGui.QColor(18, 20, 25))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Inactive,
-                         QtGui.QPalette.AlternateBase, brush)
-        brush = QtGui.QBrush(QtGui.QColor(255, 255, 220))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Inactive,
-                         QtGui.QPalette.ToolTipBase, brush)
-        brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Inactive,
-                         QtGui.QPalette.ToolTipText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(18, 20, 25))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Disabled,
-                         QtGui.QPalette.WindowText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(36, 41, 51))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Button, brush)
-        brush = QtGui.QBrush(QtGui.QColor(54, 61, 76))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Light, brush)
-        brush = QtGui.QBrush(QtGui.QColor(45, 51, 63))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Disabled,
-                         QtGui.QPalette.Midlight, brush)
-        brush = QtGui.QBrush(QtGui.QColor(18, 20, 25))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Dark, brush)
-        brush = QtGui.QBrush(QtGui.QColor(24, 27, 34))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Mid, brush)
-        brush = QtGui.QBrush(QtGui.QColor(18, 20, 25))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Text, brush)
-        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Disabled,
-                         QtGui.QPalette.BrightText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(18, 20, 25))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Disabled,
-                         QtGui.QPalette.ButtonText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(36, 41, 51))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Base, brush)
-        brush = QtGui.QBrush(QtGui.QColor(36, 41, 51))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Window, brush)
-        brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Shadow, brush)
-        brush = QtGui.QBrush(QtGui.QColor(36, 41, 51))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Disabled,
-                         QtGui.QPalette.AlternateBase, brush)
-        brush = QtGui.QBrush(QtGui.QColor(255, 255, 220))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Disabled,
-                         QtGui.QPalette.ToolTipBase, brush)
-        brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Disabled,
-                         QtGui.QPalette.ToolTipText, brush)
-        self.plannerLabel.setPalette(palette)
         font = QtGui.QFont()
         font.setPointSize(12)
         self.plannerLabel.setFont(font)
@@ -355,33 +198,46 @@ class Ui_MainWindow(object):
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
-        self.empty_scene = get_ros_package_path(
-            "simulator_setup") + "/scenarios/ped_scenarios/empty.xml"
+        self.empty_scene = (
+            get_ros_package_path("simulator_setup")
+            + "/scenarios/ped_scenarios/empty.xml"
+        )
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        self.pedsimSceneLabel.setStatusTip(_translate(
-            "MainWindow", "Specify path to a ped scene file in xml format. Used only for obstacles"))
+        self.pedsimSceneLabel.setStatusTip(
+            _translate(
+                "MainWindow",
+                "Specify path to a ped scene file in xml format. Used only for obstacles",
+            )
+        )
         self.pedsimSceneLabel.setText(_translate("MainWindow", "Pedsim scene"))
-        self.actorHeightLabel.setStatusTip(_translate(
-            "MainWindow", "Specify fixed actor height/Z-position."))
+        self.actorHeightLabel.setStatusTip(
+            _translate("MainWindow", "Specify fixed actor height/Z-position.")
+        )
         self.actorHeightLabel.setText(_translate("MainWindow", "Actor height"))
         self.label.setText(_translate("MainWindow", "Task mode"))
         self.plannerLabel.setText(_translate("MainWindow", "Local planner"))
-        self.mapLabel.setStatusTip(_translate(
-            "MainWindow", "Specify extra map to use for obstacle management. Leave empty to use robot\'s map"))
+        self.mapLabel.setStatusTip(
+            _translate(
+                "MainWindow",
+                "Specify extra map to use for obstacle management. Leave empty to use robot's map",
+            )
+        )
         self.mapLabel.setText(_translate("MainWindow", "Additional map"))
         self.WorldLabel.setText(_translate("MainWindow", "World"))
         self.TaskBox.setItemText(1, _translate("MainWindow", "random"))
         self.TaskBox.setItemText(0, _translate("MainWindow", "scenario"))
         self.TaskBox.setItemText(2, _translate("MainWindow", "manual"))
-        self.actorHeightBox.setStatusTip(_translate(
-            "MainWindow", "Specify fixed actor height/Z-position."))
+        self.actorHeightBox.setStatusTip(
+            _translate("MainWindow", "Specify fixed actor height/Z-position.")
+        )
         self.label_2.setText(_translate("MainWindow", "Robot model"))
-        self.actorsLabel.setStatusTip(_translate(
-            "MainWindow", "Set the amount of pedsim actors"))
+        self.actorsLabel.setStatusTip(
+            _translate("MainWindow", "Set the amount of pedsim actors")
+        )
         self.actorsLabel.setText(_translate("MainWindow", "Actors"))
         self.pedsimLabel.setText(_translate("MainWindow", "Enable pedsim"))
         self.plannerBox.setItemText(0, _translate("MainWindow", "teb"))
@@ -389,25 +245,37 @@ class Ui_MainWindow(object):
         self.plannerBox.setItemText(2, _translate("MainWindow", "mpc"))
         self.plannerBox.setItemText(3, _translate("MainWindow", "rlca"))
         self.plannerBox.setItemText(4, _translate("MainWindow", "cadrl"))
-        self.mapLine.setToolTip(_translate(
-            "MainWindow", "Specify extra map to use for obstacle management"))
-        self.mapLine.setStatusTip(_translate(
-            "MainWindow", "Specify extra map to use for obstacle management. Leave empty to use robot\'s map"))
-        self.mapLine.setPlaceholderText(_translate(
-            "MainWindow", "Path to map.yaml file"))
+        self.mapLine.setToolTip(
+            _translate("MainWindow", "Specify extra map to use for obstacle management")
+        )
+        self.mapLine.setStatusTip(
+            _translate(
+                "MainWindow",
+                "Specify extra map to use for obstacle management. Leave empty to use robot's map",
+            )
+        )
+        self.mapLine.setPlaceholderText(
+            _translate("MainWindow", "Path to map.yaml file")
+        )
         self.label_3.setText(_translate("MainWindow", "Enable pedvis"))
         self.comboBox.setItemText(0, _translate("MainWindow", "burger"))
         self.comboBox.setItemText(1, _translate("MainWindow", "waffle_pi"))
         self.comboBox.setItemText(2, _translate("MainWindow", "waffle"))
         self.mapBrowseButton.setText(_translate("MainWindow", "Browse"))
-        self.pedsimSceneLine.setStatusTip(_translate(
-            "MainWindow", "Specify path to a ped scene file in xml format. Used only for obstacles"))
+        self.pedsimSceneLine.setStatusTip(
+            _translate(
+                "MainWindow",
+                "Specify path to a ped scene file in xml format. Used only for obstacles",
+            )
+        )
         self.pedsimSceneButton.setText(_translate("MainWindow", "Browse"))
-        self.scenarioLabel.setStatusTip(_translate(
-            "MainWindow", "Path to a scenario in json format"))
+        self.scenarioLabel.setStatusTip(
+            _translate("MainWindow", "Path to a scenario in json format")
+        )
         self.scenarioLabel.setText(_translate("MainWindow", "Scenario file"))
-        self.scenarioLine.setStatusTip(_translate(
-            "MainWindow", "Path to a scenario in json format"))
+        self.scenarioLine.setStatusTip(
+            _translate("MainWindow", "Path to a scenario in json format")
+        )
         self.scenarioButton.setText(_translate("MainWindow", "Browse"))
         self.startButton.setText(_translate("MainWindow", "Start arena"))
         self.stopButton.setText(_translate("MainWindow", "Stop simulation"))
@@ -421,19 +289,31 @@ class Ui_MainWindow(object):
 
     def onMapBrowseClicked(self):
         f = QtWidgets.QFileDialog.getOpenFileName(
-            MainWindow, "Select Map yaml", get_ros_package_path("simulator_setup") + "/maps", filter="yaml(*.yaml)")
+            MainWindow,
+            "Select Map yaml",
+            get_ros_package_path("simulator_setup") + "/maps",
+            filter="yaml(*.yaml)",
+        )
         if os.path.isfile(f[0]):
             self.mapLine.setText(f[0])
 
     def onScenarioBrowseClicked(self):
         f = QtWidgets.QFileDialog.getOpenFileName(
-            MainWindow, "Select Scenario json", get_ros_package_path("simulator_setup") + "/scenarios", filter="json(*.json)")
+            MainWindow,
+            "Select Scenario json",
+            get_ros_package_path("simulator_setup") + "/scenarios",
+            filter="json(*.json)",
+        )
         if os.path.isfile(f[0]):
             self.scenarioLine.setText(f[0])
 
     def onSceneBrowseClicked(self):
         f = QtWidgets.QFileDialog.getOpenFileName(
-            MainWindow, "Select Pedsim scene", get_ros_package_path("simulator_setup") + "/scenarios/ped_scenarios", filter="xml(*.xml)")
+            MainWindow,
+            "Select Pedsim scene",
+            get_ros_package_path("simulator_setup") + "/scenarios/ped_scenarios",
+            filter="xml(*.xml)",
+        )
         if os.path.isfile(f[0]):
             self.pedsimSceneLine.setText(f[0])
 
@@ -441,6 +321,7 @@ class Ui_MainWindow(object):
         import subprocess
         import shlex
         import os
+
         world = f"world:={self.worldBox.currentText()}"
         model = f"model:={self.comboBox.currentText()}"
         planner = f"local_planner:={self.plannerBox.currentText()}"
@@ -455,13 +336,14 @@ class Ui_MainWindow(object):
             scene = f"scene_file:={self.empty_scene}"
         scenario_file = self.scenarioLine.text()
         if scenario_file != "":
-            scenario_file = f"scenario_file:={os.path.basename(self.scenarioLine.text())}"
+            scenario_file = (
+                f"scenario_file:={os.path.basename(self.scenarioLine.text())}"
+            )
         else:
             if self.TaskBox.currentText() == "scenario":  # no scenario file selected
                 msg = QMessageBox()
                 msg.setWindowTitle("Error")
-                msg.setText(
-                    "No scenario file specified, can not start the simulation.")
+                msg.setText("No scenario file specified, can not start the simulation.")
                 x = msg.exec()
                 return
         obs_map = self.mapLine.text()
@@ -475,13 +357,16 @@ class Ui_MainWindow(object):
 
         if self.p != None:
             subprocess.Popen(
-                "killall -9 gazebo & killall -9 gzserver  & killall -9 gzclient", shell=True)
+                "killall -9 gazebo & killall -9 gzserver  & killall -9 gzclient",
+                shell=True,
+            )
             subprocess.Popen("rosnode kill --all", shell=True)
             self.p.kill()
             msg = QMessageBox()
             msg.setWindowTitle("Warning")
             msg.setText(
-                "Please wait a bit before starting new simulation, as it may take some time for the sim to gracefully terminate.")
+                "Please wait a bit before starting new simulation, as it may take some time for the sim to gracefully terminate."
+            )
             x = msg.exec()
 
     def taskChanged(self, index):
@@ -496,6 +381,7 @@ class Ui_MainWindow(object):
 
     def worldChanged(self, world):
         import os.path
+
         # Setting default scenario for this world if it exists
         sim_path = get_ros_package_path("simulator_setup")
         scenario_file = sim_path + f"/scenarios/{world}.json"
@@ -514,6 +400,7 @@ class Ui_MainWindow(object):
 
 if __name__ == "__main__":
     import sys
+
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()
