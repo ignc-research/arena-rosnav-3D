@@ -5,7 +5,7 @@ sudo apt-get install ros-$(rosversion -d)-
 killall -q gzclient & killall -q gzserver
 
 # start training
-
+roslaunch arena_bringup start_arena_gazebo.launch  train_mode:=true use_viz:=true  task_mode:=random
 roscd arena_local_planner_drl
 python scripts/training/train_agent.py --agent MLP_ARENA2D
 
