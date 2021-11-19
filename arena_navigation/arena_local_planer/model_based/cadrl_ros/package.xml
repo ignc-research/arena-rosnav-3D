@@ -18,7 +18,6 @@
   <exec_depend>rospy</exec_depend>
   <exec_depend>std_msgs</exec_depend>
   <exec_depend>visualization_msgs</exec_depend>
-  <exec_depend>python-tensorflow</exec_depend>
   <export>
   </export>
 </package>

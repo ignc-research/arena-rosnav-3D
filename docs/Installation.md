@@ -1,3 +1,15 @@
+# TODO s
+- Currenly both pedsims get downloaded, only jeceks pedsim is needed
+- Jeceks pedsim relys on flatland msgs therefore flatland needs to be installed.
+- install package lxml : pip install lxml
+- setup of pyhton path: first draft → into .bashrc
+```bash
+export PYTHONPATH=$HOME/catkin_ws/devel/lib/python3/dist-packages:${PYTHONPATH}
+export PYTHONPATH=$HOME/catkin_ws/src/arena-rosnav-3D:${PYTHONPATH}
+export PYTHONPATH=$HOME/rosws/devel/lib/python3/dist-packages:${PYTHONPATH}
+```
+- I needed to run this to fully install pedsim with plugin: `catkin_make --only-pkg-with-deps spencer_tracking_rviz_plugin`
+
 # 1. Installation
 
 ## 1.1. Standard ROS setup
@@ -114,12 +126,12 @@ pip3 install pyyaml catkin_pkg netifaces pathlib filelock pyqt5 mpi4py torch lxm
 - Create a catkin_ws and clone this repo with its dependencies into your catkin_ws
 
 ```
-sudo apt-get update
-cd $HOME && mkdir -p catkin_ws/src && cd catkin_ws/src
-git clone https://github.com/eliastreis/arena-rosnav-3D.git -b training-actors
-cd arena-rosnav-3D && rosws update
-cd .. && cd forks/stable-baselines3 && pip install -e .
-cd ../../.. && catkin_make
+cd $HOME
+mkdir -p catkin_ws/src && cd catkin_ws/src
+git clone https://github.com/eliastreis/arena-rosnav-3D.git 
+git clone https://bitbucket.org/acl-swarm/ford_msgs/src/master/
+cd ..
+catkin_make -DCMAKE_BUILD_TYPE=Release -DPYTHON_EXECUTABLE=/usr/bin/python3
 source devel/setup.bash
 ```
 
@@ -133,12 +145,37 @@ export PYTHONPATH=$HOME/catkin_ws/src/arena-rosnav-3D:${PYTHONPATH}" >> ~/.bashr
 
 ## 1.3 Include the actor-collsion pluging
 
-This makes the actor model in gazebo visible for the laser scan
+```
+source /$HOME/catkin_ws/devel/setup.bash
+export PYTHONPATH=$HOME/catkin_ws/src/arena-rosnav-3D:${PYTHONPATH}
+```
+
+Add this line above to the beginning of .zshrc or .bashrc
+
+```
+export PYTHONPATH=""
+```
+
+Note: if you dont add these lines, you have to manually set the Pythonpath with every new terminal.
+
+### Gazbebo and Pedsim part
+
+- Install additional packages using `rosdep`
 
 ```bash
-cd && git clone https://github.com/eliastreis/ActorCollisionsPlugin.git
-cd ActorCollisionsPlugin && mkdir build && cd build && cmake .. && make
-echo "export GAZEBO_PLUGIN_PATH=/home/ActorCollisionsPlugin/build" >> ~/.bashrc
+sudo apt install python-rosdep python-rospkg
+sudo rosdep init
+cd ~/catkin_ws
+rosdep install --from-paths src --ignore-src -r -y
+```
+
+- Install pedsim (for obstacle management):
+
+```bash
+cd ~/catkin_ws/src/
+
+../..
+catkin_make -DCMAKE_BUILD_TYPE=Release -DPYTHON_EXECUTABLE=/usr/bin/python3
 ```
 
 # Add arena-rosnav next to arena-rosnav-3D
