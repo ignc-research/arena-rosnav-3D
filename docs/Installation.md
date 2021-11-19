@@ -59,7 +59,9 @@ ros-noetic-mpc-local-planner \
 libarmadillo-dev \
 ros-noetic-nlopt \
 ros-noetic-turtlebot3-description \
-ros-noetic-turtlebot3-navigation
+ros-noetic-turtlebot3-navigation \
+ros-noetic-lms1xx \
+ros-noetic-velodyne-description \
 ```
 
 To be able to use python3 with ROS, you need an virtual environment. We recommend using virtualenv & virtualenvwrapper.
@@ -129,12 +131,8 @@ echo "source $HOME/catkin_ws/devel/setup.bash
 export PYTHONPATH=$HOME/catkin_ws/src/arena-rosnav-3D:${PYTHONPATH}" >> ~/.bashrc
 ```
 
-<<<<<<< HEAD
-## 1.4 Include the actor-collsion pluging
-=======
 ## 1.3 Include the actor-collsion pluging
 
->>>>>>> 4ed8090ba143d8e8428ca02952cc71bdaaf99218
 This makes the actor model in gazebo visible for the laser scan
 
 ```bash
