@@ -1,3 +1,20 @@
+# Often used commands
+```bash
+sudo apt-get install python-
+sudo apt-get install ros-$(rosversion -d)-
+killall -q gzclient & killall -q gzserver
+
+# start training
+
+roscd arena_local_planner_drl
+python scripts/training/train_agent.py --agent MLP_ARENA2D
+
+#build single package
+catkin_make --only-pkg-with-deps <target_package>
+# to switch back after
+catkin_make -DCATKIN_WHITELIST_PACKAGES=""
+```
+
 # arena-rosnav-3D
 
 This repository combines the 3D ROS simulator Gazebo with Pedsim to provide realistic dyanmic 3D scenarios and tasks to evaluate and and benchmark ROS navigation approaches. It is fully compatible with the planning algorithms trained and developed with arena-rosnav (2D). This presents an essential step in deploying the navigation approaches from arena-rosnav towards real robots.
