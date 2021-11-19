@@ -3,8 +3,8 @@
   <name>cadrl_ros</name>
   <version>0.0.0</version>
   <description>The cadrl_ros package</description>
-  <maintainer email="teham@todo.todo">teham</maintainer>
-  <license>TODO</license>
+  <maintainer email="teham@to.to">teham</maintainer>
+  <license>to</license>
   <buildtool_depend>catkin</buildtool_depend>
   <build_depend>geometry_msgs</build_depend>
   <build_depend>rospy</build_depend>

@@ -1,11 +1,10 @@
-<?xml version="1.0" ?> 
-<sdf version='1.6'>
-  <world name='default'>
-    <plugin name="ActorPosesPlugin" filename="libActorPosesPlugin.so"/>
-    <model name='ground_plane'>
+<?xml version='1.0' encoding='UTF-8'?>
+<sdf version="1.6">
+  <world name="default">
+    <model name="ground_plane">
       <static>1</static>
-      <link name='link'>
-        <collision name='collision'>
+      <link name="link">
+        <collision name="collision">
           <geometry>
             <plane>
               <normal>0 0 1</normal>
@@ -30,7 +29,7 @@
           </surface>
           <max_contacts>10</max_contacts>
         </collision>
-        <visual name='visual'>
+        <visual name="visual">
           <cast_shadows>0</cast_shadows>
           <geometry>
             <plane>
@@ -50,9 +49,9 @@
         <kinematic>0</kinematic>
       </link>
     </model>
-    <light name='sun' type='directional'>
+    <light name="sun" type="directional">
       <cast_shadows>1</cast_shadows>
-      <pose frame=''>0 0 10 0 -0 0</pose>
+      <pose frame="">0 0 10 0 -0 0</pose>
       <diffuse>0.8 0.8 0.8 1</diffuse>
       <specular>0.2 0.2 0.2 1</specular>
       <attenuation>
@@ -63,11 +62,11 @@
       </attenuation>
       <direction>-0.5 0.1 -0.9</direction>
     </light>
-    <model name='grey_wall_1'>
+    <model name="grey_wall_1">
       <static>1</static>
-      <link name='link'>
-        <pose frame=''>14.5 -0.5 1.4 0 -0 0</pose>
-        <collision name='collision'>
+      <link name="link">
+        <pose frame="">14.5 -0.5 1.4 0 -0 0</pose>
+        <collision name="collision">
           <geometry>
             <box>
               <size>30 0.2 2.8</size>
@@ -87,7 +86,7 @@
             </friction>
           </surface>
         </collision>
-        <visual name='visual'>
+        <visual name="visual">
           <cast_shadows>0</cast_shadows>
           <geometry>
             <box>
@@ -107,11 +106,11 @@
         <kinematic>0</kinematic>
       </link>
     </model>
-    <model name='grey_wall_2'>
+    <model name="grey_wall_2">
       <static>1</static>
-      <link name='link'>
-        <pose frame=''>-0.5 14.5 1.4 0 -0 1.57</pose>
-        <collision name='collision'>
+      <link name="link">
+        <pose frame="">-0.5 14.5 1.4 0 -0 1.57</pose>
+        <collision name="collision">
           <geometry>
             <box>
               <size>30 0.2 2.8</size>
@@ -131,7 +130,7 @@
             </friction>
           </surface>
         </collision>
-        <visual name='visual'>
+        <visual name="visual">
           <cast_shadows>0</cast_shadows>
           <geometry>
             <box>
@@ -151,11 +150,11 @@
         <kinematic>0</kinematic>
       </link>
     </model>
-    <model name='grey_wall_3'>
+    <model name="grey_wall_3">
       <static>1</static>
-      <link name='link'>
-        <pose frame=''>14.5 29.5 1.4 0 -0 0</pose>
-        <collision name='collision'>
+      <link name="link">
+        <pose frame="">14.5 29.5 1.4 0 -0 0</pose>
+        <collision name="collision">
           <geometry>
             <box>
               <size>30 0.2 2.8</size>
@@ -175,7 +174,7 @@
             </friction>
           </surface>
         </collision>
-        <visual name='visual'>
+        <visual name="visual">
           <cast_shadows>0</cast_shadows>
           <geometry>
             <box>
@@ -195,11 +194,11 @@
         <kinematic>0</kinematic>
       </link>
     </model>
-    <model name='grey_wall_4'>
+    <model name="grey_wall_4">
       <static>1</static>
-      <link name='link'>
-        <pose frame=''>29.5 14.5 1.4 0 -0 1.57</pose>
-        <collision name='collision'>
+      <link name="link">
+        <pose frame="">29.5 14.5 1.4 0 -0 1.57</pose>
+        <collision name="collision">
           <geometry>
             <box>
               <size>30 0.2 2.8</size>
@@ -219,7 +218,7 @@
             </friction>
           </surface>
         </collision>
-        <visual name='visual'>
+        <visual name="visual">
           <cast_shadows>0</cast_shadows>
           <geometry>
             <box>
@@ -241,8 +240,8 @@
     </model>
     <gravity>0 0 -9.8</gravity>
     <magnetic_field>6e-06 2.3e-05 -4.2e-05</magnetic_field>
-    <atmosphere type='adiabatic'/>
-    <physics name='default_physics' default='0' type='ode'>
+    <atmosphere type="adiabatic"/>
+    <physics name="default_physics" default="0" type="ode">
       <max_step_size>0.001</max_step_size>
       <real_time_factor>1</real_time_factor>
       <real_time_update_rate>1000</real_time_update_rate>
@@ -263,71 +262,72 @@
       <elevation>0</elevation>
       <heading_deg>0</heading_deg>
     </spherical_coordinates>
-    <state world_name='default'>
+    <state world_name="default">
       <sim_time>213 895000000</sim_time>
       <real_time>260 413822924</real_time>
       <wall_time>1629388800 339091565</wall_time>
       <iterations>213895</iterations>
-      <model name='grey_wall_1'>
-        <pose frame=''>-15.2259 -14.3091 0 0 -0 0</pose>
+      <model name="grey_wall_1">
+        <pose frame="">-15.2259 -14.3091 0 0 -0 0</pose>
         <scale>1 1 1</scale>
-        <link name='link'>
-          <pose frame=''>-0.725864 -14.8091 1.4 0 -0 0</pose>
+        <link name="link">
+          <pose frame="">-0.725864 -14.8091 1.4 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
-      <model name='grey_wall_2'>
-        <pose frame=''>-15.0916 -14.2723 0 0 -0 0</pose>
+      <model name="grey_wall_2">
+        <pose frame="">-15.0916 -14.2723 0 0 -0 0</pose>
         <scale>1 1 1</scale>
-        <link name='link'>
-          <pose frame=''>-15.5916 0.227694 1.4 0 -0 1.57</pose>
+        <link name="link">
+          <pose frame="">-15.5916 0.227694 1.4 0 -0 1.57</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
-      <model name='grey_wall_3'>
-        <pose frame=''>-15.0294 -14.3759 0 0 -0 0</pose>
+      <model name="grey_wall_3">
+        <pose frame="">-15.0294 -14.3759 0 0 -0 0</pose>
         <scale>1 1 1</scale>
-        <link name='link'>
-          <pose frame=''>-0.529418 15.1241 1.4 0 -0 0</pose>
+        <link name="link">
+          <pose frame="">-0.529418 15.1241 1.4 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
-      <model name='grey_wall_4'>
-        <pose frame=''>-15.1447 -14.4099 0 0 -0 0</pose>
+      <model name="grey_wall_4">
+        <pose frame="">-15.1447 -14.4099 0 0 -0 0</pose>
         <scale>1 1 1</scale>
-        <link name='link'>
-          <pose frame=''>14.3553 0.090057 1.4 0 -0 1.57</pose>
+        <link name="link">
+          <pose frame="">14.3553 0.090057 1.4 0 -0 1.57</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
-      <model name='ground_plane'>
-        <pose frame=''>0 0 0 0 -0 0</pose>
+      <model name="ground_plane">
+        <pose frame="">0 0 0 0 -0 0</pose>
         <scale>1 1 1</scale>
-        <link name='link'>
-          <pose frame=''>0 0 0 0 -0 0</pose>
+        <link name="link">
+          <pose frame="">0 0 0 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
-      <light name='sun'>
-        <pose frame=''>0 0 10 0 -0 0</pose>
+      <light name="sun">
+        <pose frame="">0 0 10 0 -0 0</pose>
       </light>
     </state>
-    <gui fullscreen='0'>
-      <camera name='user_camera'>
-        <pose frame=''>-14.3209 2.14323 29.657 3.14159 1.57079 3.14159</pose>
+    <gui fullscreen="0">
+      <camera name="user_camera">
+        <pose frame="">-14.3209 2.14323 29.657 3.14159 1.57079 3.14159</pose>
         <view_controller>orbit</view_controller>
         <projection_type>perspective</projection_type>
       </camera>
     </gui>
+
   </world>
 </sdf>

@@ -16,7 +16,7 @@ from stable_baselines3.common.vec_env import (
 from stable_baselines3.common.monitor import Monitor
 from stable_baselines3.common.evaluation import evaluate_policy
 
-from rl_agent.envs.flatland_gym_env import FlatlandEnv
+from rl_agent.envs.gazebo_gym_env import GazeboEnv
 from task_generator.task_generator.tasks import StopReset
 from tools.argsparser import parse_run_agent_args
 from tools.train_agent_utils import (
@@ -58,7 +58,7 @@ def get_paths(args: dict, AGENT: str):
             "robot",
             "myrobot.model.yaml",
         ),
-        "robot_as": os.path.join(dir, "configs", "default_settings.yaml"),
+        "robot_as": os.path.join(dir, "configs", "default_burger_settings.yaml"),
         "scenario": os.path.join(
             rospkg.RosPack().get_path("simulator_setup"),
             "scenarios",
@@ -94,7 +94,7 @@ def make_env(
     def _init():
         ns = f"eval_sim" if with_ns else ""
 
-        env = FlatlandEnv(
+        env = GazeboEnv(
             ns,
             PARAMS["reward_fnc"],
             PARAMS["discrete_action_space"],

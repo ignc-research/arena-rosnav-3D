@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version='1.0' encoding='utf-8'?>
 <sdf version="1.6">
 
     <world name="default">
@@ -8,7 +8,6 @@
             <real_time_factor>1</real_time_factor>
             <real_time_update_rate>1000</real_time_update_rate>
         </physics>
-
 
         <model name="aws_robomaker_warehouse_RoofB_01_001">
             <include>
@@ -79,14 +78,12 @@
         </include>
         <pose frame="">-0.061684 6.135864 0 0 0 0</pose>
 	</model>
-
         <model name="aws_robomaker_warehouse_DeskC_01_002">
         <include>
             <uri>model://aws_robomaker_warehouse_DeskC_01</uri>
         </include>
         <pose frame="">-0.061684 3.039 0 0 0 0</pose>
 	</model>
-
         <model name="aws_robomaker_warehouse_DeskC_01_003">
         <include>
             <uri>model://aws_robomaker_warehouse_DeskC_01</uri>
@@ -131,25 +128,25 @@
             <pose frame="">0.433449 8.59 0 0 0 -1.563161</pose>
         </model>
 
-        <model name="aws_robomaker_warehouse_ClutteringA_01_016">
+        <model name='aws_robomaker_warehouse_ClutteringA_01_016'>
             <include>
                 <uri>model://aws_robomaker_warehouse_ClutteringA_01</uri>
             </include>
-            <pose frame="">5.708138 8.616844 -0.017477 0 0 0</pose>
+            <pose frame=''>5.708138 8.616844 -0.017477 0 0 0</pose>
         </model>
 
-        <model name="aws_robomaker_warehouse_ClutteringA_01_017">
+        <model name='aws_robomaker_warehouse_ClutteringA_01_017'>
             <include>
                 <uri>model://aws_robomaker_warehouse_ClutteringA_01</uri>
             </include>
-            <pose frame="">3.408638 8.616844 -0.017477 0 0 0</pose>
+            <pose frame=''>3.408638 8.616844 -0.017477 0 0 0</pose>
         </model>
 
-        <model name="aws_robomaker_warehouse_ClutteringA_01_018">
+        <model name='aws_robomaker_warehouse_ClutteringA_01_018'>
             <include>
                 <uri>model://aws_robomaker_warehouse_ClutteringA_01</uri>
             </include>
-            <pose frame="">-1.491287 5.222435 -0.017477 0 0 -1.583185</pose>
+            <pose frame=''>-1.491287 5.222435 -0.017477 0 0 -1.583185</pose>
         </model>
 
 
@@ -195,26 +192,26 @@
             <pose frame="">-1.2196 9.407 -0.015663 0 0 1.563871</pose>
         </model>
 
-        <model name="aws_robomaker_warehouse_ClutteringD_01_005">
+        <model name='aws_robomaker_warehouse_ClutteringD_01_005'>
             <include>
                 <uri>model://aws_robomaker_warehouse_ClutteringD_01</uri>
             </include>
-            <pose frame="">-1.634682 -7.811813 -0.319559 0 0 0</pose>
+            <pose frame=''>-1.634682 -7.811813 -0.319559 0 0 0</pose>
         </model>
 
-        <model name="aws_robomaker_warehouse_TrashCanC_01_002">
+        <model name='aws_robomaker_warehouse_TrashCanC_01_002'>
             <include>
                 <uri>model://aws_robomaker_warehouse_TrashCanC_01</uri>
             </include>
-            <pose frame="">-1.592441 7.715420 0 0 0 0</pose>
+            <pose frame=''>-1.592441 7.715420 0 0 0 0</pose>
         </model>
 
 
-        <model name="aws_robomaker_warehouse_PalletJackB_01_001">
+        <model name='aws_robomaker_warehouse_PalletJackB_01_001'>
             <include>
                 <uri>model://aws_robomaker_warehouse_PalletJackB_01</uri>
             </include>
-            <pose frame="">-0.276098 -9.481944 0.023266 0 0 0</pose>
+            <pose frame=''>-0.276098 -9.481944 0.023266 0 0 0</pose>
         </model>
 
 <!-- ↓↓THIS HAS BEEN MANUALLY ADDED (10/2021)↓↓ These are the moving actors with their respective plugins-->

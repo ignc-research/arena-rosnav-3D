@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 
-import json
+import json, subprocess
 import six
 import abc
 import rospy
@@ -22,7 +22,7 @@ from filelock import FileLock
 
 STANDART_ORIENTATION = quaternion_from_euler(0.0, 0.0, 0.0)
 ROBOT_RADIUS = 0.17
-N_OBS = {"static": 0, "dynamic": 3}
+N_OBS = {"static": 10, "dynamic": 3}
 
 
 class StopReset(Exception):
@@ -63,9 +63,9 @@ class RandomTask(ABSTask):
     def __init__(self, pedsim_manager, obstacle_manager, robot_manager):
         # type: (ObstaclesManager, RobotManager, list) -> None
         super(RandomTask, self).__init__(
-            pedsim_manager, obstacle_manager, robot_manager
-        )
-        self.num_of_actors = rospy.get_param("~actors", 3)
+            pedsim_manager, obstacle_manager, robot_manager)
+            
+        self.num_of_actors = rospy.get_param("~actors", N_OBS["dynamic"])
 
     def reset(self):
         """[summary]"""
@@ -81,7 +81,7 @@ class RandomTask(ABSTask):
                         start_pos,
                         goal_pos,
                     ) = self.robot_manager.set_start_pos_goal_pos()
-                    self.obstacle_manager.remove_all_obstacles(N_OBS["static"])
+                    self.obstacle_manager.remove_all_obstacles()
                     self.obstacle_manager.register_random_dynamic_obstacles(
                         self.num_of_actors,
                         forbidden_zones=[
@@ -171,8 +171,6 @@ class ManualTask(ABSTask):
             self._new_goal_received = True
             self._manual_goal_con.notify()
 
-
-# This class is not yet tested
 class StagedRandomTask(RandomTask):
     def __init__(
         self,
@@ -195,6 +193,8 @@ class StagedRandomTask(RandomTask):
         self._PATHS = PATHS
         self._read_stages_from_yaml()
 
+        rospy.set_param("/task_mode", 'staged')
+        
         # check start stage format
         if not isinstance(start_stage, int):
             raise ValueError("Given start_stage not an Integer!")
@@ -216,10 +216,10 @@ class StagedRandomTask(RandomTask):
 
         # subs for triggers
         self._sub_next = rospy.Subscriber(
-            self.ns_prefix, "next_stage", Bool, self.next_stage
+            f"{self.ns_prefix}next_stage", Bool, self.next_stage
         )
         self._sub_previous = rospy.Subscriber(
-            self.ns_prefix, "previous_stage", Bool, self.previous_stage
+            f"{self.ns_prefix}previous_stage", Bool, self.previous_stage
         )
 
         self._initiate_stage()
@@ -239,9 +239,7 @@ class StagedRandomTask(RandomTask):
                     rospy.set_param("/last_stage_reached", True)
         else:
             print(
-                "(",
-                self.ns,
-                ") INFO: Tried to trigger next stage but already reached last one",
+                f"({self.ns}) INFO: Tried to trigger next stage but already reached last one"
             )
 
     def previous_stage(self, msg):
@@ -250,7 +248,7 @@ class StagedRandomTask(RandomTask):
             rospy.set_param("/last_stage_reached", False)
 
             self._curr_stage = self._curr_stage - 1
-            self._initiate_stage()
+            self._initiate_stage()  
 
             if self.ns == "eval_sim":
                 rospy.set_param("/curr_stage", self._curr_stage)
@@ -258,28 +256,32 @@ class StagedRandomTask(RandomTask):
                     self._update_curr_stage_json()
         else:
             print(
-                "(",
-                self.ns,
-                ") INFO: Tried to trigger previous stage but already reached first one",
-            )
+                f"({self.ns}) INFO: Tried to trigger previous stage but already reached first one"
+            )   
 
     def _initiate_stage(self):
-        self._remove_obstacles()
-
+        self.obstacle_manager.remove_all_obstacles()
         n_dynamic_obstacles = self._stages[self._curr_stage]["dynamic"]
-
-        self.obstacle_manager.register_random_dynamic_obstacles(
-            n_dynamic_obstacles
-        )
+        
+        print(f'num_dynamic obs {n_dynamic_obstacles}')
+        print(f'num_dynamic obs {self._stages[self._curr_stage]["static"]}')
+        
+        # When additional actors need to be loaded into the simulation, a new world file is created & gazebo restarted
+        if self._curr_stage is 1 or n_dynamic_obstacles != self._stages[self._curr_stage-1]["dynamic"]:
+            rospy.set_param("/actors", n_dynamic_obstacles)
+            subprocess.call("killall -q gzclient & killall -q gzserver", shell=True)
+            subprocess.call('rosrun task_generator generate_world.py', shell = True)
+            subprocess.Popen("roslaunch arena_bringup gazebo_simulator.launch", shell=True)
+            rospy.wait_for_service("/gazebo/spawn_urdf_model")
+            self.robot_manager.spawn_robot()
+            rospy.sleep(10)
+            
+        else:
+            self.obstacle_manager.register_random_dynamic_obstacles(
+                n_dynamic_obstacles)
 
         print(
-            "(",
-            self.ns,
-            ") Stage ",
-            self._curr_stage,
-            ": Spawning ",
-            n_dynamic_obstacles,
-            " dynamic obstacles!",
+            f"({self.ns}) Stage {self._curr_stage}: Spawning {n_dynamic_obstacles} dynamic obstacles!"
         )
 
     def _read_stages_from_yaml(self):
@@ -303,17 +305,11 @@ class StagedRandomTask(RandomTask):
             hyperparams["curr_stage"] = self._curr_stage
         except Exception as e:
             raise Warning(
-                " ",
-                e,
-                " \n Parameter 'curr_stage' not found in 'hyperparameters.json'!",
+                f" {e} \n Parameter 'curr_stage' not found in 'hyperparameters.json'!"
             )
         else:
             with open(self.json_file, "w", encoding="utf-8") as target:
                 json.dump(hyperparams, target, ensure_ascii=False, indent=4)
-
-    def _remove_obstacles(self):
-        # idea rosservice call /pedsim_simulator/remove_all_peds true (to remove all obstacles)
-        self.obstacles_manager.remove_obstacles()
 
 
 class ScenarioTask(ABSTask):
@@ -385,9 +381,9 @@ def get_predefined_task(ns, mode="random", start_stage=1, PATHS=None):
     task = None
     if mode == "random":
         rospy.set_param("/task_mode", "random")
-        # forbidden_zones = obstacle_manager.register_random_static_obstacles(
-        #     N_OBS["static"]
-        # )
+        forbidden_zones = obstacle_manager.register_random_static_obstacles(
+            N_OBS["static"]
+        )
         # forbidden_zones = obstacle_manager.register_random_dynamic_obstacles(
         #     N_OBS["dynamic"], forbidden_zones=forbidden_zones
         # )
@@ -395,7 +391,8 @@ def get_predefined_task(ns, mode="random", start_stage=1, PATHS=None):
         print("random tasks requested")
     if mode == "staged":
         rospy.set_param("/task_mode", "staged")
-        task = StagedRandomTask(ns, start_stage, PATHS)
+        task = StagedRandomTask(ns, pedsim_manager, obstacle_manager, robot_manager, start_stage, PATHS)
+
     if mode == "scenario":
         rospy.set_param("/task_mode", "scenario")
         forbidden_zones = obstacle_manager.register_random_static_obstacles(

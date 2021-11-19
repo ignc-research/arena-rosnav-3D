@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 
 import rospy
@@ -8,7 +8,7 @@ from std_msgs.msg import Header
 import subprocess
 from .ped_manager.ArenaScenario import *
 from std_srvs.srv import Trigger, SetBool
-from pedsim_srvs.srv import SpawnPeds, SpawnInteractiveObstacles, MovePeds, SpawnObstacle, SetObstacles
+from pedsim_srvs.srv import SpawnPeds, SpawnInteractiveObstacles, MovePeds, SpawnObstacle
 from geometry_msgs.msg import Point
 from pedsim_msgs.msg import LineObstacles, LineObstacle
 
@@ -26,15 +26,15 @@ class PedsimManager():
         self.respawn_peds_client = rospy.ServiceProxy(
             respawn_peds_service_name, SpawnPeds)
         # spawn interactive obstacles
-        pawn_interactive_obstacles_service_name = "pedsim_simulator/spawn_interactive_obstacles"
-        rospy.wait_for_service(pawn_interactive_obstacles_service_name, 6.0)
-        self.spawn_interactive_obstacles_client = rospy.ServiceProxy(
-            pawn_interactive_obstacles_service_name, SpawnInteractiveObstacles)
+        # pawn_interactive_obstacles_service_name = "pedsim_simulator/spawn_interactive_obstacles"
+        # rospy.wait_for_service(pawn_interactive_obstacles_service_name, 6.0)
+        # self.spawn_interactive_obstacles_client = rospy.ServiceProxy(
+        #     pawn_interactive_obstacles_service_name, SpawnInteractiveObstacles)
         # respawn interactive obstacles
-        respawn_interactive_obstacles_service_name = "pedsim_simulator/respawn_interactive_obstacles"
-        rospy.wait_for_service(respawn_interactive_obstacles_service_name, 6.0)
-        self.respawn_interactive_obstacles_client = rospy.ServiceProxy(
-            respawn_interactive_obstacles_service_name, SpawnInteractiveObstacles)
+        # respawn_interactive_obstacles_service_name = "pedsim_simulator/respawn_interactive_obstacles"
+        # rospy.wait_for_service(respawn_interactive_obstacles_service_name, 6.0)
+        # self.respawn_interactive_obstacles_client = rospy.ServiceProxy(
+        #     respawn_interactive_obstacles_service_name, SpawnInteractiveObstacles)
         # respawn interactive obstacles
         reset_all_peds_service_name = "pedsim_simulator/reset_all_peds"
         rospy.wait_for_service(reset_all_peds_service_name, 6.0)
@@ -53,15 +53,18 @@ class PedsimManager():
         spawn_obstacle = '/pedsim_simulator/add_obstacle'
         rospy. wait_for_service(spawn_obstacle, 6.0)
         self.spawn_obstacle = rospy.ServiceProxy(spawn_obstacle, SpawnObstacle)
+        
+        # TODO This is currenly not supported by pedsim from Elias
         # set scene obstacles based on ped_scenario file_location
-        set_obstacles = '/pedsim_simulator/set_obstacles'
-        rospy.wait_for_service(set_obstacles, 6.0)
-        self.set_obstacles_client = rospy.ServiceProxy(
-            set_obstacles, SetObstacles)
+        # set_obstacles = '/pedsim_simulator/set_obstacles'
+        # rospy.wait_for_service(set_obstacles, 6.0)
+        # self.set_obstacles_client = rospy.ServiceProxy(
+            # set_obstacles, SetObstacles)
 
     def spawnPeds(self, peds):
         # type (List[Ped])
         res = self.spawn_peds_client.call(peds)
+        # subprocess.call('rosrun pedsim_gazebo_plugin spawn_pedsim_agents.py', shell = True)
         print(res)
 
     def respawnPeds(self, peds):
@@ -69,15 +72,15 @@ class PedsimManager():
         res = self.respawn_peds_client.call(peds)
         print(res)
 
-    def spawnInteractiveObstacles(self, obstacles):
-        # type (List[InteractiveObstacle])
-        res = self.spawn_interactive_obstacles_client.call(obstacles)
-        print(res)
+        # def spawnInteractiveObstacles(self, obstacles):
+        #     # type (List[InteractiveObstacle])
+        #     res = self.spawn_interactive_obstacles_client.call(obstacles)
+        #     print(res)
 
-    def respawnInteractiveObstacles(self, obstacles):
-        # type (List[InteractiveObstacle])
-        res = self.respawn_interactive_obstacles_client.call(obstacles)
-        print(res)
+        # def respawnInteractiveObstacles(self, obstacles):
+        #     # type (List[InteractiveObstacle])
+        #     res = self.respawn_interactive_obstacles_client.call(obstacles)
+        #     print(res)
 
         # setting peds in initial position
     def resetAllPeds(self):
@@ -105,6 +108,7 @@ class PedsimManager():
         # for a, b  in zip(pos[::2], pos[1::2]):
         #     self.spawn_obstacle(LineObstacles(header = Header(), obstacle = LineObstacle(start = Point(*a, 0), end = Point(*b, 0))))
 
-    def setObstacles(self, map_name):
-        res = self.set_obstacles_client.call(map_name)
-        print(res)
+    #   TODO    this is currenly not supported by Pesim form Elias
+    # def setObstacles(self, map_name):
+    #     res = self.set_obstacles_client.call(map_name)
+    #     print(res)

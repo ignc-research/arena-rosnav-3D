@@ -1,5 +1,5 @@
 <launch>
-    <arg name="max_vel"         value="0.22" /> <!--changed by elias form 3 since burger is not that fast-->
+    <arg name="max_vel"         value="0.22" /> <!--changed by Elias form 3.0 since burger is not that fast-->
     <arg name="max_acc"         value="2.0" />
     <arg name="max_jerk"        value="4.0" />
     <arg name="lambda_heu"      value="0.1" />
