@@ -94,7 +94,8 @@ class ObstaclesManager:
 
     def register_random_dynamic_obstacles(self, num_obstacles, forbidden_zones=None, min_dist=1):
         # type: (int, list, int) -> None
-        """register dynamic obstacles (humans) with random start positions
+        
+        """register random start and goal position of dynamic obstacles (humans)
         Args:
             num_obstacles (int): number of the obstacles.
 
