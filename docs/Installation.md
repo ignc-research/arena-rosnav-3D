@@ -8,7 +8,6 @@ export PYTHONPATH=$HOME/catkin_ws/devel/lib/python3/dist-packages:${PYTHONPATH}
 export PYTHONPATH=$HOME/catkin_ws/src/arena-rosnav-3D:${PYTHONPATH}
 export PYTHONPATH=$HOME/rosws/devel/lib/python3/dist-packages:${PYTHONPATH}
 ```
-- I needed to run this to fully install pedsim with plugin: `catkin_make --only-pkg-with-deps spencer_tracking_rviz_plugin`
 sudo apt-get install ros-noetic-hector-gazebo-plugins
 sudo apt install ros-noetic-libhector-gazebo-ros-imu
 
@@ -145,21 +144,21 @@ echo "source $HOME/catkin_ws/devel/setup.bash
 export PYTHONPATH=$HOME/catkin_ws/src/arena-rosnav-3D:${PYTHONPATH}" >> ~/.bashrc
 ```
 
-## 1.3 Include the actor-collsion pluging
-
-```
-source /$HOME/catkin_ws/devel/setup.bash
-export PYTHONPATH=$HOME/catkin_ws/src/arena-rosnav-3D:${PYTHONPATH}
+> By now it would be advisable to check your python for your catkin_ws folder. Run `gedit ~/.bashrc` it should like this: 
+```bash
+export PYTHONPATH=/home/usr/catkin_ws/src/arena-rosnav-3D:/home/usr/catkin_ws/devel/lib/python3/dist-packages:/opt/ros/noetic/lib/python3/dist-packages
 ```
 
-Add this line above to the beginning of .zshrc or .bashrc
+## 1.4 Include the actor-collsion plugin
+
+- To install the plugin that allows collision with our dynamic _actor_ model run the follwoing lines:
+
+```bash
+cd $HOME &&  git clone https://github.com/eliastreis/ActorCollisionsPlugin.git
+cd ActorCollisionsPlugin && mkdir build && cd build && cmake ..
+make && echo "export GAZEBO_PLUGIN_PATH=$HOME/ActorCollisionsPlugin/build " >> ~/.bashrc
 
 ```
-export PYTHONPATH=""
-```
-
-Note: if you dont add these lines, you have to manually set the Pythonpath with every new terminal.
-
 ### Gazbebo and Pedsim part
 
 - Install additional packages using `rosdep`
@@ -167,17 +166,14 @@ Note: if you dont add these lines, you have to manually set the Pythonpath with 
 ```bash
 sudo apt install python-rosdep python-rospkg
 sudo rosdep init
+cd ~/catkin_ws/src/arena-rosnav-3D && rosws update
 cd ~/catkin_ws
 rosdep install --from-paths src --ignore-src -r -y
 ```
-
-- Install pedsim (for obstacle management):
-
+- install submodules of pedsim
 ```bash
-cd ~/catkin_ws/src/
-
-../..
-catkin_make -DCMAKE_BUILD_TYPE=Release -DPYTHON_EXECUTABLE=/usr/bin/python3
+cd ~/catkin_ws/src/forks/pedsim_ros && git submodule update --init --recursive
+cd ../../.. && catkin_make --only-pkg-with-deps spencer_tracking_rviz_plugin
 ```
 
 # Add arena-rosnav next to arena-rosnav-3D

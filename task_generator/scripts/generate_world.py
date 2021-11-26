@@ -35,7 +35,7 @@ if mode == "scenario":
     for ped in scenario.pedsimAgents:
         num_of_actors += ped.number_of_peds
 else:
-    num_of_actors = rospy.get_param("~actors", 3)  # @Elias maybe do "~actors" again
+    num_of_actors = rospy.get_param("~actors", 3)
 
 
 for item in range(num_of_actors):
@@ -80,8 +80,4 @@ for item in range(num_of_actors):
     world_.append(actor)
 
 
-<<<<<<< HEAD
 tree_.write(world_file, pretty_print=True, xml_declaration=True, encoding="utf-8")
-=======
-tree_.write(world_file, pretty_print=True, xml_declaration=True, encoding="utf-8")
->>>>>>> 1eec0eace3c1c200f068c3f9fd12c85a92ba272b
