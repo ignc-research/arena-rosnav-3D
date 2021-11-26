@@ -31,11 +31,10 @@
     uri: https://bitbucket.org/acl-swarm/ford_msgs/src/master/
     version: master
 
-
-# - git:
-#     local-name: ../forks/pedsim_ros
-#     uri: https://github.com/Jacenty00/pedsim_ros
-#     version: master
+- git:
+    local-name: ../forks/pedsim_ros
+    uri: https://github.com/Jacenty00/pedsim_ros
+    version: master
 
 - git:
     local-name: ../forks/arena-tools
@@ -44,3 +43,9 @@
 - git:
     local-name: ../forks/gazebo_ros_2Dmap_plugin
     uri: https://github.com/Jacenty00/gazebo_ros_2Dmap_plugin
+- git:
+    local-name: ../forks/jackal
+    uri: https://github.com/jackal/jackal.git
+# - git:
+#     local-name: ../forks/localization
+#     uri: https://github.com/cra-ros-pkg/robot_localization.git

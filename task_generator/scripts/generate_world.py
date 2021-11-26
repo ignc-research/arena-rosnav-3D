@@ -61,7 +61,7 @@ for item in range(num_of_actors):
     # animation.append(animate_scale)
     animation.append(interpolate_x)
     actor.append(animation)
-    plugin = Element("plugin", name="None", filename="libActorPosesPlugin.so")
+    plugin = Element("plugin", name="None", filename="libActorPosePlugin.so")
     # model = etree.fromstring(
     #     f'<model name="ARENA_GEN_person_{str(item+1)}_collision_model"/>'
     # )
@@ -80,4 +80,8 @@ for item in range(num_of_actors):
     world_.append(actor)
 
 
+<<<<<<< HEAD
 tree_.write(world_file, pretty_print=True, xml_declaration=True, encoding="utf-8")
+=======
+tree_.write(world_file, pretty_print=True, xml_declaration=True, encoding="utf-8")
+>>>>>>> 1eec0eace3c1c200f068c3f9fd12c85a92ba272b
