@@ -86,7 +86,7 @@ You can further customize the simulation altering the following parameters:
   <arg name="outside"           default="false"/>
   <arg name="world"             default="aws_house"   unless="$(arg outside)"/>
   <arg name="world"             default="outside"     if="$(arg outside)"/>
-  <arg name="model"             default="burger" 
+  <arg name="model"             default="turtlebot3_burger" 
   <arg name="scenario_file"     default="$(arg world).json"/>
   <arg name="step_size"         default="0.01"/>
   <arg name="update_rate"       default="250"/>

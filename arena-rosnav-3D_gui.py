@@ -258,7 +258,7 @@ class Ui_MainWindow(object):
             _translate("MainWindow", "Path to map.yaml file")
         )
         self.label_3.setText(_translate("MainWindow", "Enable pedvis"))
-        self.comboBox.setItemText(0, _translate("MainWindow", "burger"))
+        self.comboBox.setItemText(0, _translate("MainWindow", "turtlebot3_burger"))
         self.comboBox.setItemText(1, _translate("MainWindow", "waffle_pi"))
         self.comboBox.setItemText(2, _translate("MainWindow", "waffle"))
         self.mapBrowseButton.setText(_translate("MainWindow", "Browse"))

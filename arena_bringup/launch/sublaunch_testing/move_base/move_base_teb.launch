@@ -1,42 +1,21 @@
-<!--Achtung in Vergleich zu turtlebot gibt es hier folgende Änderungen:
-
-in costmap_common_params_burger
-  robot_radius: 0.3
-  inflation_radius: 0.8
-  cost_scaling_factor: 3.0 
-(anstell von:
-  footprint: [[-0.105, -0.105], [-0.105, 0.105], [0.041, 0.105], [0.041, -0.105]]
-  #robot_radius: 0.105)
-
-in local_costmap_params:
-  update_frequency: 5.0
-  publish_frequency: 5.0
-(anstelle von:
-  update_frequency: 10.0
-  publish_frequency: 10.0)
-
--> in global_costmap_params selbe Frequenzänderung
--> ich bleibe hier bei den tb3 konfigurationen!
-
-  -->
   <launch>
     <!-- Arguments -->
-    <arg name="model"         default="burger"  doc="model type [burger, waffle, waffle_pi]"/>
+    <arg name="model"         default="turtlebot3_burger"/>
     <arg name="cmd_vel_topic" default="/cmd_vel" />
     <arg name="odom_topic"    default="odom" />
   
    
     <!-- move_base -->
     <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
-      <rosparam file="$(find conventional)/config/tb3/costmap_common_params_$(arg model).yaml" command="load" ns="global_costmap" />
-      <rosparam file="$(find conventional)/config/tb3/costmap_common_params_$(arg model).yaml" command="load" ns="local_costmap" />   
-      <rosparam file="$(find conventional)/config/tb3/local_costmap_params.yaml" command="load" />
-      <rosparam file="$(find conventional)/config/tb3/global_costmap_params.yaml" command="load" />
+    <rosparam file="$(find conventional)/config/$(arg model)/costmap_common_params.yaml" command="load" ns="local_costmap" />   
+    <rosparam file="$(find conventional)/config/$(arg model)/costmap_common_params.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find conventional)/config/$(arg model)/local_costmap_params.yaml" command="load" />
+    <rosparam file="$(find conventional)/config/$(arg model)/global_costmap_params.yaml" command="load" />
    
       <!-- planner params --> 
-      <rosparam file="$(find conventional)/config/tb3/teb_local_planner_params.yaml" command="load" />
-      <remap from="cmd_vel" to="$(arg cmd_vel_topic)"/>
-      <remap from="odom" to="$(arg odom_topic)"/>
+    <rosparam file="$(find conventional)/config/$(arg model)/base_local_planner_params.yaml" command="load" />
+    <remap from="cmd_vel" to="$(arg cmd_vel_topic)"/>
+    <remap from="odom" to="$(arg odom_topic)"/>
   
   
       <!-- teb -->
@@ -44,13 +23,13 @@ in local_costmap_params:
       <param name="controller_frequency" value="5.0" />
       <param name="controller_patience" value="15.0" />
       <param name="planner_frequency" value="1.0" />
-      <!-- <param name="TebLocalPlannerROS/max_vel_x" value="0.22" />
-      <param name="TebLocalPlannerROS/max_vel_y" value="0" />
-      <param name="TebLocalPlannerROS/max_vel_theta" value="2.84" />
-      <param name="TebLocalPlannerROS/acc_lim_x" value="0.5" />
-      <param name="TebLocalPlannerROS/acc_lim_y" value="0.5" />
+      <param name="TebLocalPlannerROS/max_vel_x" value="2.0" />
+      <param name="TebLocalPlannerROS/max_vel_y" value="2.0" />
+      <param name="TebLocalPlannerROS/max_vel_theta" value="0.52" />
+      <param name="TebLocalPlannerROS/acc_lim_x" value="2.0" />
+      <param name="TebLocalPlannerROS/acc_lim_y" value="2.0" />
       <param name="TebLocalPlannerROS/acc_lim_theta" value="0.8" />
-      <param name="TebLocalPlannerROS/max_vel_x_backwards" value="0.2" /> -->
+      <param name="TebLocalPlannerROS/max_vel_x_backwards" value="1.0" />
   
     </node>
   </launch>

@@ -9,6 +9,7 @@
   <buildtool_depend>catkin</buildtool_depend>
   <build_depend>roscpp</build_depend>
   <build_depend>rospy</build_depend>
+  <build_depend>roslaunch</build_depend>
   <build_depend>std_msgs</build_depend>
   <build_depend>gazebo_ros</build_depend>
   <build_depend>geometry_msgs</build_depend>
@@ -23,7 +24,11 @@
   <exec_depend>gazebo</exec_depend>
   <exec_depend>gazebo_plugins</exec_depend>
   <exec_depend>turtlebot3_description</exec_depend>
-  <exec_depend>geometry_msgs</exec_depend>
+  <exec_depend>lms1xx</exec_depend>
+  <exec_depend>xacro</exec_depend>
+  <exec_depend>urdf</exec_depend>
+  <exec_depend>robot_state_publisher</exec_depend>
+  <exec_depend>pointgrey_camera_description</exec_depend>
 
   <export>
     <gazebo_ros plugin_path="${prefix}/worlds/aws_house/lib" gazebo_media_path="${prefix}/worlds/aws_house" gazebo_model_path="${prefix}/worlds/aws_house/models"/>

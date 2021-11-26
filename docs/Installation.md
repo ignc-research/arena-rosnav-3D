@@ -9,6 +9,8 @@ export PYTHONPATH=$HOME/catkin_ws/src/arena-rosnav-3D:${PYTHONPATH}
 export PYTHONPATH=$HOME/rosws/devel/lib/python3/dist-packages:${PYTHONPATH}
 ```
 - I needed to run this to fully install pedsim with plugin: `catkin_make --only-pkg-with-deps spencer_tracking_rviz_plugin`
+sudo apt-get install ros-noetic-hector-gazebo-plugins
+sudo apt install ros-noetic-libhector-gazebo-ros-imu
 
 # 1. Installation
 

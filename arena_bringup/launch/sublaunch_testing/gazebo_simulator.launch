@@ -1,6 +1,6 @@
 <launch>
   <arg name="world" default="turtlebot3_house"  doc = "world type [turtlebot3_house, small_warehouse, aws_house, outside]" />
-  <arg name="model" default="burger"            doc = "model type [burger, waffle]"/>
+  <arg name="model" default="turtlebot3_burger"            doc = "model type [turtlebot3_burger, waffle]"/>
   <arg name="x_pos" default="0.0"/>
   <arg name="y_pos" default="0.0"/>
   <arg name="z_pos" default="0.0"/>
