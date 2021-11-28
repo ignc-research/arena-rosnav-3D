@@ -45,7 +45,7 @@
     <material>Gazebo/DarkGrey</material>
     <turnGravityOff>false</turnGravityOff>
   </gazebo>
-    <gazebo reference="imu_link">
+  <gazebo reference="imu_link">
     <turnGravityOff>false</turnGravityOff>
   </gazebo>
 
