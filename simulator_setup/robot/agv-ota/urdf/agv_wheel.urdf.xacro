@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">  
+  <xacro:macro name="agv_wheel" params="xyz_hub rpy_hub side">    
+
+    <link name='wheel_${side}_link'>
+      <visual>
+        <origin xyz="0 0 0" rpy=" 0 0 1.570796"/>
+        <geometry>
+          <mesh filename="package://simulator_setup/robot/agv-ota/meshes/OTAv07_meshes/AnaTeker.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+      </visual>	 
+      
+      <collision>
+        <origin xyz="0 0 0" rpy="0 1.570796 1.570796"/>
+        <geometry>
+          <cylinder radius="0.1" length="0.05"/>	  			  
+        </geometry>
+      </collision>
+
+      <xacro:cylinder_inertial radius="0.15" length="0.02" mass="0.1"/>
+    </link>
+
+    <joint name="wheel_${side}_base" type="continuous">
+      <origin xyz="${xyz_hub}" rpy="${rpy_hub}"/>
+      <parent link="base_link"/>
+      <child link="wheel_${side}_link"/>
+      <axis xyz="0 1 0"/>    
+    </joint> 
+
+    <gazebo reference="wheel_${side}_link">
+      <material value="Gazebo/Green"/>
+    </gazebo>     
+
+  </xacro:macro>
+ </robot>
