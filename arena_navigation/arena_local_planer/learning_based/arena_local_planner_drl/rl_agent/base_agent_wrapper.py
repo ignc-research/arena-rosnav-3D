@@ -126,52 +126,33 @@ class BaseDRLAgent(ABC):
             the action space from respective yaml file.
 
         Args:
-            robot_setting_yaml (str): 
-                Yaml file containing the robot specific settings. 
-            action_space_yaml (str): 
-                Yaml file containing the action space configuration. 
+            robot_setting_yaml (str):
+                Yaml file containing the robot specific settings.
+            action_space_yaml (str):
+                Yaml file containing the action space configuration.
         """
         self._num_laser_beams = None
         self._laser_range = None
 
-        with open(robot_setting_yaml, "r") as fd:
-            robot_data = yaml.safe_load(fd)
-
-            # get robot radius
-            for body in robot_data["bodies"]:
-                if body["name"] == "base_footprint":
-                    for footprint in body["footprints"]:
-                        if footprint["type"] == "circle":
-                            self._robot_radius = (
-                                footprint.setdefault("radius", 0.3) * 1.05
-                            )
-                        if footprint["radius"]:
-                            self._robot_radius = footprint["radius"] * 1.05
-
-            # get laser related information
-            for plugin in robot_data["plugins"]:
-                if plugin["type"] == "Laser":
-                    laser_angle_min = plugin["angle"]["min"]
-                    laser_angle_max = plugin["angle"]["max"]
-                    laser_angle_increment = plugin["angle"]["increment"]
-                    self._num_laser_beams = int(
+        self._robot_radius = rospy.get_param('radius') * 1.05
+        self._num_laser_beams = int(
                         round(
-                            (laser_angle_max - laser_angle_min)
-                            / laser_angle_increment
+                            (rospy.get_param('laser_min') - rospy.get_param('laser_min') / rospy.get_param('laser_increment')
                         )
                         + 1
-                    )
-                    self._laser_range = plugin["range"]
+                    ))
+        self._laser_range=rospy.get_param('laser_range')
+
 
         if self._num_laser_beams is None:
-            self._num_laser_beams = DEFAULT_NUM_LASER_BEAMS
+            self._num_laser_beams=DEFAULT_NUM_LASER_BEAMS
             print(
                 f"{self._robot_sim_ns}:"
                 "Wasn't able to read the number of laser beams."
                 "Set to default: {DEFAULT_NUM_LASER_BEAMS}"
             )
         if self._laser_range is None:
-            self._laser_range = DEFAULT_LASER_RANGE
+            self._laser_range=DEFAULT_LASER_RANGE
             print(
                 f"{self._robot_sim_ns}:"
                 "Wasn't able to read the laser range."
@@ -179,10 +160,10 @@ class BaseDRLAgent(ABC):
             )
 
         with open(action_space_yaml, "r") as fd:
-            setting_data = yaml.safe_load(fd)
+            setting_data=yaml.safe_load(fd)
 
-            self._discrete_actions = setting_data["robot"]["discrete_actions"]
-            self._cont_actions = {
+            self._discrete_actions=setting_data["robot"]["discrete_actions"]
+            self._cont_actions={
                 "linear_range": setting_data["robot"]["continuous_actions"][
                     "linear_range"
                 ],
@@ -193,10 +174,10 @@ class BaseDRLAgent(ABC):
 
     def _get_robot_name_from_params(self):
         """Retrives the agent-specific robot name from the dictionary loaded\
-            from respective 'hyperparameter.json'.    
+            from respective 'hyperparameter.json'.
         """
         assert self._agent_params and self._agent_params["robot"]
-        self.robot_config_name = self._agent_params["robot"]
+        self.robot_config_name=self._agent_params["robot"]
 
     def setup_action_space(self) -> None:
         """Sets up the action space. (spaces.Box)"""
@@ -205,7 +186,7 @@ class BaseDRLAgent(ABC):
             self._agent_params and "discrete_action_space" in self._agent_params
         )
 
-        self._action_space = (
+        self._action_space=(
             spaces.Discrete(len(self._discrete_actions))
             if self._agent_params["discrete_action_space"]
             else spaces.Box(
@@ -228,7 +209,7 @@ class BaseDRLAgent(ABC):
     def setup_reward_calculator(self) -> None:
         """Sets up the reward calculator."""
         assert self._agent_params and "reward_fnc" in self._agent_params
-        self.reward_calculator = RewardCalculator(
+        self.reward_calculator=RewardCalculator(
             robot_radius=self._robot_radius,
             safe_dist=1.6 * self._robot_radius,
             goal_radius=GOAL_RADIUS,
@@ -236,7 +217,7 @@ class BaseDRLAgent(ABC):
             extended_eval=False,
         )
 
-    @property
+    @ property
     def action_space(self) -> spaces.Box:
         """Returns the DRL agent's action space.
 
@@ -245,7 +226,7 @@ class BaseDRLAgent(ABC):
         """
         return self._action_space
 
-    @property
+    @ property
     def observation_space(self) -> spaces.Box:
         """Returns the DRL agent's observation space.
 
@@ -258,11 +239,11 @@ class BaseDRLAgent(ABC):
         """Retrieves the latest synchronized observation.
 
         Returns:
-            Tuple[np.ndarray, dict]: 
+            Tuple[np.ndarray, dict]:
                 Tuple, where first entry depicts the observation data concatenated \
                 into one array. Second entry represents the observation dictionary.
         """
-        merged_obs, obs_dict = self.observation_collector.get_observations()
+        merged_obs, obs_dict=self.observation_collector.get_observations()
         if self._agent_params["normalize"]:
             self.normalize_observations(merged_obs)
         return merged_obs, obs_dict
@@ -297,12 +278,12 @@ class BaseDRLAgent(ABC):
                 Action in [linear velocity, angular velocity]
         """
         assert self._agent, "Agent model not initialized!"
-        action = self._agent.predict(obs, deterministic=True)[0]
+        action=self._agent.predict(obs, deterministic=True)[0]
         if self._agent_params["discrete_action_space"]:
-            action = self._get_disc_action(action)
+            action=self._get_disc_action(action)
         else:
             # clip action
-            action = np.maximum(
+            action=np.maximum(
                 np.minimum(self._action_space.high, action),
                 self._action_space.low,
             )
@@ -330,9 +311,9 @@ class BaseDRLAgent(ABC):
             action (np.ndarray):
                 Action in [linear velocity, angular velocity]
         """
-        action_msg = Twist()
-        action_msg.linear.x = action[0]
-        action_msg.angular.z = action[1]
+        action_msg=Twist()
+        action_msg.linear.x=action[0]
+        action_msg.angular.z=action[1]
         self._action_pub.publish(action_msg)
 
     def _get_disc_action(self, action: int) -> np.ndarray:

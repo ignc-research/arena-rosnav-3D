@@ -8,7 +8,7 @@ from gazebo_msgs.msg import ModelState
 from nav_msgs.msg import Path
 from .utils import generate_freespace_indices, get_random_pos_on_map
 
-ROBOT_RADIUS = 0.17
+ROBOT_RADIUS = rospy.get_param('radius')
 
 
 class RobotManager:

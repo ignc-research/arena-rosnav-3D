@@ -1,7 +1,7 @@
 <launch>
   <!-- simulator arguments-->
   <arg name="train_mode" default="false"/>
-  <arg name="local_planner" default="teb"         doc = "local_planer type [teb, dwa, mpc, rlca, cadrl]"/>
+  <arg name="local_planner" default="teb"         doc = "local_planer type [teb, dwa, mpc, rlca, cadrl, arena]"/>
   <!--rlca are implemented but msg type not yet adjusted from 2D; dwa has a file missing (see project_task)-->
   <arg name="rviz_file" default="nav_LP"/>
   <arg name="disable_scenario" default="false"/>
@@ -11,7 +11,7 @@
   <arg name="outside" default="false"/>
   <arg name="world" default="small_warehouse"   doc ="world type [turtlebot3_house, small_warehouse, aws_house, outside, ignc_lab]" unless="$(arg outside)"/>
   <arg name="world" default="outside"     if = "$(arg outside)"/>
-  <arg name="model" default="turtlebot3_burger"      doc = "model type [turtlebot3_burger, jackal, ridgeback, agv-ota]"/>
+  <arg name="model" default="jackal"      doc = "model type [turtlebot3_burger, jackal, ridgeback, agv-ota]"/>
   <arg name="scenario_file" default="$(arg world).json"/>
   <arg name="step_size" default="0.01"/>
   <arg name="update_rate" default="250"/>
@@ -21,7 +21,6 @@
   <arg name="map_path" default="$(find simulator_setup)/maps/$(arg world)/map.yaml" />
   <arg name="task_mode" default="random" unless="$(eval arg('train_mode'))" doc="task_mode type [scenario, random, manual, staged]"/>
   <arg name="task_mode" default="staged" if="$(eval arg('train_mode'))"/>
-  <!-- <arg name="actors" default="3" unless="$(arg task_mode) == 'staged'" /> -->
   <arg name="actors" default="4" unless="$(arg train_mode)" />
   <arg name="actor_height" default="1.1"/>
   <arg name="use_recorder" default="false"/>
@@ -50,12 +49,6 @@
   <arg name="obs_vel" default="0.3" />
   <param name="obs_vel" value="$(arg obs_vel)" />
 
-
-  <!--  PARAMS DON'T CHANGE THEM  -->
-  <param name="robot_action_rate" value="10"/>
-  <param name="laser_update_rate" value="10"/>
-
-
   <!-- DRL action frequency -->
   <arg name="action_frequency" default="10"/>
   <param name="action_frequency" value="$(arg action_frequency)"/>
@@ -65,6 +58,9 @@
   <arg name="odom_frame_id" value="odom"/>
   <arg name="base_frame_id" value="base_footprint"/>
   <arg name="odom_ground_truth" default="/odometry/ground_truth"/>
+
+  <!-- Robot specific parameter -->
+  <rosparam file="$(find arena_bringup)/launch/sublaunch_testing/robot_params/$(arg model)_params.yaml" />
 
   <!-- This starts the world creation with dynamic actor models -->
   <!-- Adding actors to world  -->
@@ -135,6 +131,7 @@
   <!-- move_base plan manager: which provide basic global planner and cost map -->
   <include file="$(find arena_bringup)/launch/sublaunch_testing/move_base/move_base_$(arg local_planner).launch">
     <arg name="model" value="$(arg model)"/>
+    <arg name="speed" value="$(arg speed)"/>
   </include>
 
   <include file="$(find arena_bringup)/launch/sublaunch_testing/plan_manager.launch">
@@ -176,5 +173,4 @@
 
   <!-- start_rviz -->
   <node name="gazebo_rviz" pkg="rviz" type="rviz" args="-d $(find arena_bringup)/rviz/$(arg rviz_file).rviz" if="$(arg use_rviz)"/>
-
 </launch>

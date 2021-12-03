@@ -1,0 +1,9 @@
+radius: 0.625
+speed: 1.1
+robot_action_rate: 10
+laser_update_rate: 10
+# the following 4 params are from the .gazebo.axro model
+laser_min: -2.35619 # angel
+laser_max: 2.35619 # angel
+laser_increment: 0.01
+laser_range: 10.0

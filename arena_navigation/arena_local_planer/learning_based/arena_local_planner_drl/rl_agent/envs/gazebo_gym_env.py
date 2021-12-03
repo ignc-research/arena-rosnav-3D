@@ -25,7 +25,6 @@ import xml.etree.ElementTree as ET
 from rl_agent.utils.debug import timeit
 from task_generator.task_generator.tasks import *
 
-ROBOT_RADIUS_BURGER = 0.17
 
 class GazeboEnv(gym.Env):
     """Custom Environment that follows gym interface"""
@@ -154,7 +153,7 @@ class GazeboEnv(gym.Env):
             settings_yaml_path (str): [description]
         """
         # get robot radius
-        self._robot_radius = ROBOT_RADIUS_BURGER
+        self._robot_radius = rospy.get_param('radius')
 
         # get laser related information
         tree = ET.parse(robot_xml_path) #change name

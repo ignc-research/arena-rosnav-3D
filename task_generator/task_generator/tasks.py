@@ -21,7 +21,7 @@ from threading import Condition, Lock
 from filelock import FileLock
 
 STANDART_ORIENTATION = quaternion_from_euler(0.0, 0.0, 0.0)
-ROBOT_RADIUS = 0.17
+ROBOT_RADIUS = rospy.get_param('radius')
 N_OBS = {"static": 10, "dynamic": 3}
 
 
