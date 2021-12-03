@@ -15,9 +15,9 @@
   <xacro:include filename="$(find simulator_setup)/robot/ridgeback/urdf/accessories/hokuyo_ust-10lx_mount.urdf.xacro" />
 
   <!-- If enabled, generate the front HOKUYO UST-10LX LASER payload. -->
-  <xacro:if value="$(optenv RIDGEBACK_FRONT_HOKUYO_LASER 0)">
+  <xacro:if value="$(optenv RIDGEBACK_FRONT_HOKUYO_LASER 1)">
     <xacro:hokuyo_ust-10lx_mount prefix="front"
-                                 topic="front/scan"
+                                 topic="scan"
                                  location="1" />
   </xacro:if>
 

@@ -36,7 +36,7 @@
 
     <gazebo reference="${prefix}_laser">
       <turnGravityOff>false</turnGravityOff>
-      <sensor type="ray" name="${prefix}_laser">
+      <sensor type="gpu_ray" name="${prefix}_laser">
         <pose>0 0 0 0 0 0</pose>
         <visualize>false</visualize>
         <update_rate>50</update_rate>
@@ -60,7 +60,7 @@
             <stddev>0.001</stddev>
           </noise>
         </ray>
-        <plugin name="gazebo_ros_laser" filename="libgazebo_ros_laser.so">
+        <plugin name="gazebo_ros_laser" filename="libgazebo_ros_gpu_laser.so">
           <topicName>${topic}</topicName>
           <frameName>${prefix}_laser</frameName>
           <hokuyoMinIntensity>101</hokuyoMinIntensity>

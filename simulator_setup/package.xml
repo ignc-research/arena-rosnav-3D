@@ -6,6 +6,16 @@
   <maintainer email="root@open.open">root</maintainer>
   <license>open</license>
 
+
+  <depend>controller_interface</depend>
+  <depend>controller_manager</depend>
+  <depend>realtime_tools</depend>
+
+
+  <exec_depend>interactive_marker_twist_server</exec_depend>
+  <exec_depend>joint_state_controller</exec_depend>
+  <exec_depend>topic_tools</exec_depend>
+
   <buildtool_depend>catkin</buildtool_depend>
   <build_depend>roscpp</build_depend>
   <build_depend>rospy</build_depend>
@@ -13,6 +23,10 @@
   <build_depend>std_msgs</build_depend>
   <build_depend>gazebo_ros</build_depend>
   <build_depend>geometry_msgs</build_depend>
+  <build_depend>libgazebo11-dev</build_depend>
+  <build_depend>std_srvs</build_depend>
+  <build_depend>nav_msgs</build_depend>
+  <build_depend>tf</build_depend>
   <build_export_depend>roscpp</build_export_depend>
   <build_export_depend>rospy</build_export_depend>
   <build_export_depend>gazebo_ros</build_export_depend>
@@ -30,11 +44,16 @@
   <exec_depend>urdf</exec_depend>
   <exec_depend>robot_state_publisher</exec_depend>
   <exec_depend>pointgrey_camera_description</exec_depend>
+  <exec_depend>nav_msgs</exec_depend>
+  <exec_depend>tf</exec_depend>
+  <exec_depend>message_runtime</exec_depend>
+
 
   <export>
     <gazebo_ros plugin_path="${prefix}/worlds/aws_house/lib" gazebo_media_path="${prefix}/worlds/aws_house" gazebo_model_path="${prefix}/worlds/aws_house/models"/>
     <gazebo_ros plugin_path="${prefix}/worlds/small_warehouse/lib" gazebo_media_path="${prefix}worlds/small_warehouse" gazebo_model_path="${prefix}/worlds/small_warehouse/models"/>
     <gazebo_ros gazebo_model_path="${prefix}/models"/>
+    <controller_interface plugin="${prefix}/robot/ridgeback/control/mecanum_drive_controller_plugins.xml"/>
 
   </export>
 </package>

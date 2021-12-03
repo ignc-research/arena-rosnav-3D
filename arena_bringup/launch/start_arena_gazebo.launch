@@ -82,6 +82,10 @@
     <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
   </group>
 
+   <!-- Launching additional nodes/scripts needed for ridgeback to work -->
+   <group if="$(eval arg('model') == 'ridgeback')">
+    <include file="$(find simulator_setup)/robot/ridgeback/control/launch/control.launch"/>
+  </group>
 
   <!-- map server-->
   <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_path)">
