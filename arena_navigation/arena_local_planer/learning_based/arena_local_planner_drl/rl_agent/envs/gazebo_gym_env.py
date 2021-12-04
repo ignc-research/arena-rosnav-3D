@@ -156,11 +156,13 @@ class GazeboEnv(gym.Env):
         self._robot_radius = rospy.get_param('radius')
 
         # get laser related information
-        tree = ET.parse(robot_xml_path) #change name
-        root = tree.getroot()
-        if 'ray' in root.find(".//ray").tag:
-            self._laser_num_beams = int(root.find('.//samples').text) # num of laser beams
-            self._laser_max_range = root.find('.//max').text
+        # tree = ET.parse(robot_xml_path) #change name
+        # root = tree.getroot()
+        # if 'ray' in root.find(".//ray").tag:
+        #     self._laser_num_beams = int(root.find('.//samples').text) # num of laser beams
+        #     self._laser_max_range = root.find('.//max').text
+        self._laser_num_beams = rospy.get_param('laser_beams')
+        self._laser_max_range = rospy.get_param('laser_range')
 
         with open(settings_yaml_path, "r") as fd: 
             setting_data = yaml.safe_load(fd)

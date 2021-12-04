@@ -264,14 +264,15 @@ class StagedRandomTask(RandomTask):
         n_dynamic_obstacles = self._stages[self._curr_stage]["dynamic"]
         
         print(f'num_dynamic obs {n_dynamic_obstacles}')
-        print(f'num_dynamic obs {self._stages[self._curr_stage]["static"]}')
+        print(f'num_static obs {self._stages[self._curr_stage]["static"]}')
         
         # When additional actors need to be loaded into the simulation, a new world file is created & gazebo restarted
-        if self._curr_stage is 1 or n_dynamic_obstacles != self._stages[self._curr_stage-1]["dynamic"]:
-            rospy.set_param("/actors", n_dynamic_obstacles)
+        if self._curr_stage == 1 or n_dynamic_obstacles != self._stages[self._curr_stage-1]["dynamic"]:
+            rospy.set_param("actors", n_dynamic_obstacles)
             subprocess.call("killall -q gzclient & killall -q gzserver", shell=True)
             subprocess.call('rosrun task_generator generate_world.py', shell = True)
-            subprocess.Popen("roslaunch arena_bringup gazebo_simulator.launch", shell=True)
+            world, model = rospy.get_param('world'), rospy.get_param('model')
+            subprocess.Popen(f'roslaunch arena_bringup gazebo_simulator.launch world:={world} model:={model}', shell=True)
             rospy.wait_for_service("/gazebo/spawn_urdf_model")
             self.robot_manager.spawn_robot()
             rospy.sleep(10)

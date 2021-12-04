@@ -14,6 +14,7 @@ from geometry_msgs.msg import Twist
 
 from rl_agent.utils.observation_collector import ObservationCollector
 from rl_agent.utils.reward import RewardCalculator
+from rospy.client import get_param
 
 
 ROOT_ROBOT_PATH = os.path.join(
@@ -135,12 +136,7 @@ class BaseDRLAgent(ABC):
         self._laser_range = None
 
         self._robot_radius = rospy.get_param('radius') * 1.05
-        self._num_laser_beams = int(
-                        round(
-                            (rospy.get_param('laser_min') - rospy.get_param('laser_min') / rospy.get_param('laser_increment')
-                        )
-                        + 1
-                    ))
+        self._num_laser_beams = get_param('laser_beams')
         self._laser_range=rospy.get_param('laser_range')
 
 

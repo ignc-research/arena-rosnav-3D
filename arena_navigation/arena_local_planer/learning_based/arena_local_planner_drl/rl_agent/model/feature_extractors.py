@@ -1,6 +1,6 @@
 from typing import Tuple
 
-import gym
+import gym, rospy
 import os
 import rospkg
 import torch as th
@@ -10,6 +10,8 @@ from torch import nn
 from stable_baselines3.common.torch_layers import BaseFeaturesExtractor
 import xml.etree.ElementTree as ET
 
+from rospy.client import get_param
+
 """ 
 _RS: Robot state size - placeholder for robot related inputs to the NN
 _L: Number of laser beams - placeholder for the laser beam data 
@@ -17,14 +19,14 @@ _L: Number of laser beams - placeholder for the laser beam data
 _RS = 2  # robot state size
 
 _ROBOT_SETTING_PATH = rospkg.RosPack().get_path("simulator_setup")
-_ROBOT_SETTING_PATH = os.path.join(
-    _ROBOT_SETTING_PATH, "robot/urdf", "turtlebot3_burger.gazebo.xacro" #change this for MARL scenario
-)
-tree = ET.parse(_ROBOT_SETTING_PATH)
-root = tree.getroot()
-if 'ray' in root.find(".//ray").tag:
-    _L = root.find('.//samples').text # num of laser beams
-
+# _ROBOT_SETTING_PATH = os.path.join(
+#     _ROBOT_SETTING_PATH, "robot/urdf", "turtlebot3_burger.gazebo.xacro" #change this for MARL scenario
+# )
+# tree = ET.parse(_ROBOT_SETTING_PATH)
+# root = tree.getroot()
+# if 'ray' in root.find(".//ray").tag:
+#     _L = root.find('.//samples').text # num of laser beams
+_L = rospy.get_param('laser_beams')
 
 
 class MLP_ARENA2D(nn.Module):

@@ -151,9 +151,9 @@ def process_training_args(parsed_args):
         setattr(parsed_args, "net_arch", get_net_arch(parsed_args))
     else:
         if (
-            parsed_args.body is not ""
-            or parsed_args.pi is not ""
-            or parsed_args.vf is not ""
+            parsed_args.body != ""
+            or parsed_args.pi != ""
+            or parsed_args.vf != ""
         ):
             print("[custom mlp] arguments will be ignored..")
         delattr(parsed_args, "body")

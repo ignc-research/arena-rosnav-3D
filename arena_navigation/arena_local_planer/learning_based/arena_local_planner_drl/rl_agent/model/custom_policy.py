@@ -9,6 +9,8 @@ from torch import nn
 from stable_baselines3.common.policies import ActorCriticPolicy
 
 from rl_agent.model.agent_factory import AgentFactory
+import rospy
+from rospy.client import get_param
 
 
 """ 
@@ -17,15 +19,15 @@ _L: Number of laser beams - placeholder for the laser beam data
 """
 _RS = 2  # robot state size
 
-_ROBOT_SETTING_PATH = rospkg.RosPack().get_path("simulator_setup")
-_ROBOT_SETTING_PATH = os.path.join(
-    _ROBOT_SETTING_PATH, "robot/urdf", "turtlebot3_burger.gazebo.xacro" #change this for MARL scenario
-)
-tree = ET.parse(_ROBOT_SETTING_PATH)
-root = tree.getroot()
-if 'ray' in root.find(".//ray").tag:
-    _L = int(root.find('.//samples').text) # num of laser beams
-
+# _ROBOT_SETTING_PATH = rospkg.RosPack().get_path("simulator_setup")
+# _ROBOT_SETTING_PATH = os.path.join(
+#     _ROBOT_SETTING_PATH, "robot/urdf", "turtlebot3_burger.gazebo.xacro" #change this for MARL scenario
+# )
+# tree = ET.parse(_ROBOT_SETTING_PATH)
+# root = tree.getroot()
+# if 'ray' in root.find(".//ray").tag:
+#     _L = int(root.find('.//samples').text) # num of laser beams
+_L = rospy.get_param('laser_beams')
 
 
 class MLP_ARENA2D(nn.Module):

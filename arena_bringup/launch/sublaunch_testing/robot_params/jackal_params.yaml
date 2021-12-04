@@ -7,3 +7,4 @@ laser_min: -2.35619 # angel
 laser_max: 2.35619 # angel
 laser_increment: 0.01
 laser_range: 30.0
+laser_beams: 720  # this param is from the <samples>720</samples> from the .urdf.axro model

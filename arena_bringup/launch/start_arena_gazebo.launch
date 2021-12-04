@@ -11,7 +11,7 @@
   <arg name="outside" default="false"/>
   <arg name="world" default="small_warehouse"   doc ="world type [turtlebot3_house, small_warehouse, aws_house, outside, ignc_lab]" unless="$(arg outside)"/>
   <arg name="world" default="outside"     if = "$(arg outside)"/>
-  <arg name="model" default="jackal"      doc = "model type [turtlebot3_burger, jackal, ridgeback, agv-ota]"/>
+  <arg name="model" default="turtlebot3_burger"      doc = "model type [turtlebot3_burger, jackal, ridgeback, agv-ota]"/>
   <arg name="scenario_file" default="$(arg world).json"/>
   <arg name="step_size" default="0.01"/>
   <arg name="update_rate" default="250"/>
@@ -19,8 +19,7 @@
   <arg name="viz_pub_rate" default="30" />
   <arg name="use_rviz" default="true"/>
   <arg name="map_path" default="$(find simulator_setup)/maps/$(arg world)/map.yaml" />
-  <arg name="task_mode" default="random" unless="$(eval arg('train_mode'))" doc="task_mode type [scenario, random, manual, staged]"/>
-  <arg name="task_mode" default="staged" if="$(eval arg('train_mode'))"/>
+  <arg name="task_mode" default="random" doc="task_mode type [scenario, random, manual, staged]"/>
   <arg name="actors" default="4" unless="$(arg train_mode)" />
   <arg name="actor_height" default="1.1"/>
   <arg name="use_recorder" default="false"/>
@@ -135,7 +134,7 @@
   <!-- move_base plan manager: which provide basic global planner and cost map -->
   <include file="$(find arena_bringup)/launch/sublaunch_testing/move_base/move_base_$(arg local_planner).launch">
     <arg name="model" value="$(arg model)"/>
-    <arg name="speed" value="$(arg speed)"/>
+    <!-- <arg name="speed" value="$(param speed)"/> -->
   </include>
 
   <include file="$(find arena_bringup)/launch/sublaunch_testing/plan_manager.launch">

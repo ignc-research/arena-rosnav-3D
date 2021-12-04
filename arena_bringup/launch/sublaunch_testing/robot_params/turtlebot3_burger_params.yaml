@@ -5,5 +5,6 @@ laser_update_rate: 10 # TODO: Note in .gazebo.urdf ist das so definiert: <update
 # the following 4 params are from the .gazebo.axro model
 laser_min: 0.0
 laser_max: 6.283
-laser_increment: 0.015
+laser_increment: 0.0175019223243
 laser_range: 3.5
+laser_beams: 360  # this param is from the <samples>720</samples> from the .urdf.axro model

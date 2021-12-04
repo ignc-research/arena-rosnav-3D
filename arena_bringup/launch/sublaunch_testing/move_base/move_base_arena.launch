@@ -1,5 +1,5 @@
 <launch>
-	<arg name="speed" default="0.22"/>
+	<!-- <arg name="speed" default="0.22"/> -->
     <arg name="model" default="turtlebo3_burger"/>
     <param name="bool_goal_reached" value="true" />
 
@@ -43,7 +43,7 @@
         <remap from="~peds" to="ped_manager/ped_recent"/> -->
         
         <!-- Parameters -->
-        <param name="~speed" value="$(arg speed)"/>
+        <!-- <param name="~speed" value="$(arg speed)"/> -->
 
     </node>
 
