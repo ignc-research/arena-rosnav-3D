@@ -16,14 +16,14 @@ from rl_agent.utils.observation_collector import ObservationCollector
 from rl_agent.utils.reward import RewardCalculator
 from rospy.client import get_param
 
-
+robot_model = rospy.get_param("model")
 ROOT_ROBOT_PATH = os.path.join(
     rospkg.RosPack().get_path("simulator_setup"), "robot"
 )
 DEFAULT_ACTION_SPACE = os.path.join(
     rospkg.RosPack().get_path("arena_local_planner_drl"),
     "configs",
-    "default_burger_settings.yaml",
+    f"default_settings_{robot_model}.yaml"
 )
 DEFAULT_HYPERPARAMETER = os.path.join(
     rospkg.RosPack().get_path("arena_local_planner_drl"),

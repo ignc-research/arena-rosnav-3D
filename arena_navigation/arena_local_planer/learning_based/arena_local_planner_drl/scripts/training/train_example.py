@@ -22,14 +22,14 @@ models_folder_path = rospkg.RosPack().get_path("simulator_setup")
 arena_local_planner_drl_folder_path = rospkg.RosPack().get_path(
     "arena_local_planner_drl"
 )
-
+robot_model = rospy.get_param("model")
 
 env = GazeboEnv(
     "sim_2",
     task,
     os.path.join(models_folder_path, "robot", "myrobot.model.yaml"),
     os.path.join(
-        arena_local_planner_drl_folder_path, "configs", "default_burger_settings.yaml"
+        arena_local_planner_drl_folder_path, "configs", f"default_settings_{robot_model}.yaml"
     ),
     "rule_00",
     True,

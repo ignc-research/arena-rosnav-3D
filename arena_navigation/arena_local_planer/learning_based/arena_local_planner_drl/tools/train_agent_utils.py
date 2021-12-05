@@ -3,7 +3,7 @@ from typing import Union
 import argparse
 from datetime import datetime as dt
 import gym
-import json
+import json, rospy
 import os
 import rosnode
 import rospkg
@@ -300,7 +300,7 @@ def get_paths(agent_name: str, args: argparse.Namespace) -> dict:
     :param args (argparse.Namespace): Object containing the program arguments
     """
     dir = rospkg.RosPack().get_path("arena_local_planner_drl")
-
+    robot_model = rospy.get_param("model")
     PATHS = {
         "model": os.path.join(dir, "agents", agent_name),
         "tb": os.path.join(dir, "training_logs", "tensorboard", agent_name),
@@ -313,7 +313,7 @@ def get_paths(agent_name: str, args: argparse.Namespace) -> dict:
             "turtlebot3_burger.gazebo.xacro",
         ),
         "hyperparams": os.path.join(dir, "configs", "hyperparameters"),
-        "robot_as": os.path.join(dir, "configs", "default_burger_settings.yaml"),
+        "robot_as": os.path.join(dir, "configs", f"default_settings_{robot_model}.yaml"),
         "curriculum": os.path.join(dir, "configs", "training_curriculum.yaml"),
     }
     # check for mode

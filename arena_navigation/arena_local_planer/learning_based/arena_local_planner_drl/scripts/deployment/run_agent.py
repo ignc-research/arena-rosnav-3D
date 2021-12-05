@@ -50,6 +50,7 @@ AGENTS = [
 
 def get_paths(args: dict, AGENT: str):
     dir = rospkg.RosPack().get_path("arena_local_planner_drl")
+    robot_model = rospy.get_param("model")
     PATHS = {
         "model": os.path.join(dir, "agents", AGENT),
         "vecnorm": os.path.join(dir, "agents", AGENT, "vec_normalize.pkl"),
@@ -58,7 +59,7 @@ def get_paths(args: dict, AGENT: str):
             "robot",
             "myrobot.model.yaml",
         ),
-        "robot_as": os.path.join(dir, "configs", "default_burger_settings.yaml"),
+        "robot_as": os.path.join(dir, "configs", f"default_settings_{robot_model}.yaml",
         "scenario": os.path.join(
             rospkg.RosPack().get_path("simulator_setup"),
             "scenarios",

@@ -1,10 +1,6 @@
 #! /usr/bin/env python
-import threading
 from typing import Tuple
-
-from numpy.core.numeric import normalize_axis_tuple
 import rospy
-import random
 import numpy as np
 from collections import deque
 
@@ -29,8 +25,7 @@ import message_filters
 from tf.transformations import *
 
 from gym import spaces
-import numpy as np
-
+from std_srvs.srv import Empty
 from std_msgs.msg import Bool
 
 
@@ -146,6 +141,11 @@ class ObservationCollector:
             #     self._service_name_step, StepWorld                    #resolve later
             # )                                                         #resolve later
 
+            # Added to step through the gazebo simulation
+            self.unpause = rospy.ServiceProxy('/gazebo/unpause_physics', Empty)
+            self.pause = rospy.ServiceProxy('/gazebo/pause_physics', Empty)
+
+
     def get_observation_space(self):
         return self.observation_space
 
@@ -235,8 +235,14 @@ class ObservationCollector:
 
     # TODO resolve later
     def call_service_takeSimStep(self, t=None):
-        # request = StepWorldRequest() if t is None else StepWorldRequest(t)        #resolve later
-        timeout = 12
+        '''This method unpauses the the simulation for the duration of one action step.
+
+        Keyword arguments:
+        t -- action duration (1/action_frequency)
+        '''
+
+        # request = StepWorldRequest() if t is None else StepWorldRequest(t)        # TODO: @Linh: why is this not redundant (didnt we ask in gazebo-gmy env already for sim-step?)
+        # timeout = 12
         # try:
         #     for i in range(timeout):
         #         response = self._sim_step_client(request)
@@ -252,6 +258,30 @@ class ObservationCollector:
 
         # except rospy.ServiceException as e:
         #     rospy.logdebug("step Service call failed: %s" % e)
+
+
+        # IDEA: pausing & unpausing gazebo will set the simulation 1 step ahead
+        if t == None: raise ValueError('The action frequency has not been set')
+
+            # unpause gazebo to collect data
+        rospy.wait_for_service('/gazebo/unpause_physics')
+        try:
+            self.unpause()
+        except (rospy.ServiceException) as e:
+            print ("/gazebo/unpause_physics service call failed")
+
+        # unpause the simulation for the duration of one action frequency time window
+        rospy.sleep(t)
+        print('took step', t)
+
+        # pause simualtion to compute reward
+        rospy.wait_for_service('/gazebo/pause_physics')
+        try:
+            #resp_pause = pause.call()
+            self.pause()
+        except (rospy.ServiceException) as e:
+            print ("/gazebo/pause_physics service call failed")
+
 
     def callback_odom_scan(self, scan, odom):
         self._scan = self.process_scan_msg(scan)

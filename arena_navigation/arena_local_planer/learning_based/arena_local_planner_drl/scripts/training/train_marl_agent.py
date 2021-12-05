@@ -17,10 +17,11 @@ DEFAULT_HYPERPARAMETER = os.path.join(
     "hyperparameters",
     "default.json",
 )
+robot_model = rospy.get_param("model")
 DEFAULT_ACTION_SPACE = os.path.join(
     rospkg.RosPack().get_path("arena_local_planner_drl"),
     "configs",
-    "default_burger_settings.yaml",
+    f"default_settings_{robot_model}.yaml"
 )
 
 
