@@ -64,7 +64,7 @@ roslaunch arena_bringup start_arena_gazebo.launch local_planner:=teb
 
 # Robots
 We support four different robots. 
-|<img width="250" height="240" src="/img/robots/turtlebot3-burger.jpg">|<img width="250" height="240" src="/img/robots/jackal.jpg">|<img width="250" height="240" src="/img/robots/ridgeback.jpg">|<img width="250" height="240" src="/img/robots/outside.png">|
+|<img width="250" height="240" src="/img/robots/turtlebot3-burger.jpg">|<img width="250" height="240" src="/img/robots/jackal.jpg">|<img width="250" height="240" src="/img/robots/ridgeback.jpg">|<img width="250" height="240" src="/img/robots/agv-ota.png">|
 |:--:       |              :--:|             :--:|          :--:| 
 | *turtlebot3-burger* | *jackal* | *ridgeback* | *agv-ota* |
 
@@ -85,9 +85,9 @@ For additional / more detailed information about each robot:
 
 + [See the parameters needed for the **Navigation stack**](https://github.com/eliastreis/arena-rosnav-3D/tree/main/arena_navigation/arena_local_planer/model_based/conventional/config)
 + [See additional robot parameters like laser min/max [_rad_]](https://github.com/eliastreis/arena-rosnav-3D/tree/main/arena_bringup/launch/sublaunch_testing/robot_params)
-+ See [_HERE_](https://github.com/eliastreis/arena-rosnav-3D/tree/main/arena_navigation/arena_local_planer/learning_based/arena_local_planner_drl/configs) for the definition of the robts action_spaces (needed for rl-training)
++ See [_HERE_](https://github.com/eliastreis/arena-rosnav-3D/tree/main/arena_navigation/arena_local_planer/learning_based/arena_local_planner_drl/configs) for the definition of the robts action_spaces (needed for rl-based-training)
 
-> ___NOTE___: The _emergency-stop_ capability is currently still being development, will however be available on all robots.
+> ___NOTE___: The _emergency-stop_ capability is currently still being development, it will however be available on all robots.
 
 To select a robot model for your simulation run (in this case _ridgeback_):
 ```bash
