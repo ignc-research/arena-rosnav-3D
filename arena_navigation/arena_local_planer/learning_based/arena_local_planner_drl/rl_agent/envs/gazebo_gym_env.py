@@ -7,7 +7,7 @@ from gym.spaces import space
 from typing import Union
 from stable_baselines3.common.env_checker import check_env
 import yaml
-from rl_agent.utils.observation_collector import ObservationCollector
+from arena_navigation.arena_local_planer.learning_based.arena_local_planner_drl.rl_agent.utils.observation_collector import ObservationCollector
 from rl_agent.utils.reward import RewardCalculator
 from rl_agent.utils.debug import timeit
 from rospy.exceptions import ROSException

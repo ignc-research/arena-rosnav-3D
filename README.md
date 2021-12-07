@@ -80,6 +80,7 @@ https://user-images.githubusercontent.com/41898845/135480113-e5ae02bf-5268-45b8-
 - [How to include further scenarios](docs/Miscellaneous.md#How-to-include-further-scenarios)
 - [Further improvement ideas](docs/project_report.md#Open-topics)
 - [Detailed description of changes to arena-rosnav](docs/project_report.md) (currently in progress)
+- [Link to project report](https://www.overleaf.com/9421739154ccngtqpdcvjj)
 
 # Used third party repos:
 

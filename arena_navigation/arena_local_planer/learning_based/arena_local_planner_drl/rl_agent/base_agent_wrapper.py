@@ -12,7 +12,7 @@ from gym import spaces
 
 from geometry_msgs.msg import Twist
 
-from rl_agent.utils.observation_collector import ObservationCollector
+from arena_navigation.arena_local_planer.learning_based.arena_local_planner_drl.rl_agent.utils.observation_collector import ObservationCollector
 from rl_agent.utils.reward import RewardCalculator
 from rospy.client import get_param
 

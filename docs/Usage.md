@@ -56,13 +56,46 @@ roslaunch arena_bringup start_arena_gazebo.launch task_mode:=scenario
 
 ---
 # Local Planners 
-We offer the following local planners [teb, dwa, mpc, rlca, cadrl], which can be used by setting the local planner argument like this:
+We offer the following local planners [teb, dwa, mpc, rlca, arena], which can be used by setting the local planner argument like this:
 
 ```bash
 roslaunch arena_bringup start_arena_gazebo.launch local_planner:=teb
 ```
 
+# Robots
+We support four different robots. 
+|<img width="250" height="240" src="/img/robots/turtlebot3-burger.jpg">|<img width="250" height="240" src="/img/robots/jackal.jpg">|<img width="250" height="240" src="/img/robots/ridgeback.jpg">|<img width="250" height="240" src="/img/robots/outside.png">|
+|:--:       |              :--:|             :--:|          :--:| 
+| *turtlebot3-burger* | *jackal* | *ridgeback* | *agv-ota* |
 
+
+
+All robots are equipt with a laser scanner. The robots differ in size, laser-range etc. See below tabel for more detailed information on each robot:
+
+
+| Name  | Max Speed [_m/s_]   | Radius [_m_] | Emergency-Stop¹ | Laser-range [_m_] | Holonomic² |
+| :---  | :---:      |   :---:  |        :---:  |           :---:  |             :---:  | 
+| *turtlebot3-burger* | 0.22 | 0.113 | False | 3.5  | True  |
+| *jackal*            | 2.0  | 0.267 | False | 30.0 | False |
+| *ridgeback*         | 1.1  | 0.625 | False | 10.0 | True  |
+| *agv-ota*           | 0.5  | 0.629 | False | 5.0  | False |
+
+
+For additional / more detailed information about each robot:
+
++ [See the parameters needed for the **Navigation stack**](https://github.com/eliastreis/arena-rosnav-3D/tree/main/arena_navigation/arena_local_planer/model_based/conventional/config)
++ [See additional robot parameters like laser min/max [_rad_]](https://github.com/eliastreis/arena-rosnav-3D/tree/main/arena_bringup/launch/sublaunch_testing/robot_params)
++ See [_HERE_](https://github.com/eliastreis/arena-rosnav-3D/tree/main/arena_navigation/arena_local_planer/learning_based/arena_local_planner_drl/configs) for the definition of the robts action_spaces (needed for rl-training)
+
+> ___NOTE___: The _emergency-stop_ capability is currently still being development, will however be available on all robots.
+
+To select a robot model for your simulation run (in this case _ridgeback_):
+```bash
+roslaunch arena_bringup start_arena_gazebo.launch model:=ridgeback
+```
+¹ *Stops moving when an object has been detected in the safety zone of the robot*
+
+² *For _holonomic_ robots `vel_y = 0`; they are not able to drive directly to their left or right, but have to drive on a circular trejectory to their reach navigation goal*   
 # Advanced Parameters
 You can further customize the simulation altering the following parameters:
 
