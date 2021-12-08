@@ -16,7 +16,6 @@ import numpy as np
 import rospy
 from geometry_msgs.msg import Twist, Pose2D
 from std_msgs.msg import String
-# from flatland_msgs.srv import StepWorld, StepWorldRequest #resolve later
 from std_msgs.msg import Bool
 import time
 import math
@@ -128,9 +127,9 @@ class GazeboEnv(gym.Env):
         # service clients
         if self._is_train_mode:
             self._service_name_step = f"{self.ns_prefix}step_world"
-            # self._sim_step_client = rospy.ServiceProxy(   #resolve later TODO
-            #     self._service_name_step, StepWorld        #resolve later
-            # )                                             #resolve later
+            # self._sim_step_client = rospy.ServiceProxy( 
+            #     self._service_name_step, StepWorld
+            # )
 
         # instantiate task manager
         self.task = get_predefined_task(
@@ -289,8 +288,8 @@ class GazeboEnv(gym.Env):
         # set task
         # regenerate start position end goal position of the robot and change the obstacles accordingly
         self.agent_action_pub.publish(Twist())
-        # if self._is_train_mode:       #resolve later TODO
-            # self._sim_step_client()   #resolve later - This starts the simulation when reset. Where is it stopped?
+        # if self._is_train_mode:       
+            # self._sim_step_client() 
         self.task.reset()
         self.reward_calculator.reset()
         self._steps_curr_episode = 0

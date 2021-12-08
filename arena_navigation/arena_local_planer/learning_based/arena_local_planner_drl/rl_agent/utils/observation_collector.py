@@ -15,9 +15,6 @@ from nav_msgs.msg import Path
 from rosgraph_msgs.msg import Clock
 from nav_msgs.msg import Odometry
 
-# services
-# from flatland_msgs.srv import StepWorld, StepWorldRequest     #resolve later
-
 # message filter
 import message_filters
 
@@ -137,9 +134,9 @@ class ObservationCollector:
         # service clients
         if self._is_train_mode:
             self._service_name_step = f"{self.ns_prefix}step_world"
-            # self._sim_step_client = rospy.ServiceProxy(               #resolve later
-            #     self._service_name_step, StepWorld                    #resolve later
-            # )                                                         #resolve later
+            # self._sim_step_client = rospy.ServiceProxy(
+            #     self._service_name_step, StepWorld
+            # )
 
             # Added to step through the gazebo simulation
             self.unpause = rospy.ServiceProxy('/gazebo/unpause_physics', Empty)
@@ -233,7 +230,7 @@ class ObservationCollector:
         # print(f"Laser_stamp: {laser_stamp}, Robot_stamp: {robot_stamp}")
         return laser_scan, robot_pose
 
-    # TODO resolve later
+    # TODO 
     def call_service_takeSimStep(self, t=None):
         '''This method unpauses the the simulation for the duration of one action step.
 
@@ -263,7 +260,7 @@ class ObservationCollector:
         # IDEA: pausing & unpausing gazebo will set the simulation 1 step ahead
         if t == None: raise ValueError('The action frequency has not been set')
 
-            # unpause gazebo to collect data
+        # unpause gazebo to collect data
         rospy.wait_for_service('/gazebo/unpause_physics')
         try:
             self.unpause()
@@ -326,6 +323,7 @@ class ObservationCollector:
         # remove_nans_from_scan
         self._scan_stamp = msg_LaserScan.header.stamp.to_sec()
         scan = np.array(msg_LaserScan.ranges)
+        scan[np.isinf(scan)] = msg_LaserScan.range_max
         scan[np.isnan(scan)] = msg_LaserScan.range_max
         msg_LaserScan.ranges = scan
         return msg_LaserScan
