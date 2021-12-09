@@ -7,6 +7,7 @@ We provide the following four worlds for your use:
 |:--:       |              :--:|             :--:|          :--:| 
 | *aws_house* | *turtlebot3_house* | *small_warehouse* | *random world* |
 ## Pre-build world
+
 To select one of our pre-build worlds, specify your scenario by selecting **aws_house**,  turtlebot3_house, small_warehouse *(bold is your default world)* in your startup file:
 ```bash
 roslaunch arena_bringup start_arena_gazebo.launch world:=turtlebot3_house
@@ -56,7 +57,7 @@ roslaunch arena_bringup start_arena_gazebo.launch task_mode:=scenario
 
 ---
 # Local Planners 
-We offer the following local planners [teb, dwa, mpc, rlca, arena], which can be used by setting the local planner argument like this:
+We offer the following local planners [teb, dwa, mpc, rlca, cadrl, arena], which can be used by setting the local planner argument like this:
 
 ```bash
 roslaunch arena_bringup start_arena_gazebo.launch local_planner:=teb
@@ -70,22 +71,22 @@ We support four different robots.
 
 
 
-All robots are equipt with a laser scanner. The robots differ in size, laser-range etc. See below tabel for more detailed information on each robot:
+All robots are equipped with a laser scanner. The robots differ in size, laser-range etc. See below table for more detailed information on each robot:
 
 
-| Name  | Max Speed [_m/s_]   | Radius [_m_] | Emergency-Stop¹ | Laser-range [_m_] | Holonomic² |
-| :---  | :---:      |   :---:  |        :---:  |           :---:  |             :---:  | 
-| *turtlebot3-burger* | 0.22 | 0.113 | False | 3.5  | True  |
-| *jackal*            | 2.0  | 0.267 | False | 30.0 | False |
-| *ridgeback*         | 1.1  | 0.625 | False | 10.0 | True  |
-| *agv-ota*           | 0.5  | 0.629 | False | 5.0  | False |
+| Name  | Max Speed (v_x) [_m/s_]  | Max Speed (v_y) [_m/s_]  | Max Rotational Speed (θ_y) [_rad/s_]  | Radius [_m_] | Emergency-Stop¹ | Laser-range [_m_] | Holonomic² |
+| :--- | :---:|  :---: |:---: |:---: |:---:|   :---:| :---:| 
+| *turtlebot3-burger* | 0.22 | 0.0  | 2.84  | 0.113 | False | 3.5  | False |
+| *jackal*            | 2.0  | 0.0  | 4.0  | 0.267 | False | 30.0 | False |
+| *ridgeback*         | 1.1  | 0.5  | 2.0  | 0.625 | False | 10.0 | True  |
+| *agv-ota*           | 0.5  | 0.0  | 0.4  | 0.629 | False | 5.0  | False |
 
 
 For additional / more detailed information about each robot:
 
 + [See the parameters needed for the **Navigation stack**](https://github.com/eliastreis/arena-rosnav-3D/tree/main/arena_navigation/arena_local_planer/model_based/conventional/config)
 + [See additional robot parameters like laser min/max [_rad_]](https://github.com/eliastreis/arena-rosnav-3D/tree/main/arena_bringup/launch/sublaunch_testing/robot_params)
-+ See [_HERE_](https://github.com/eliastreis/arena-rosnav-3D/tree/main/arena_navigation/arena_local_planer/learning_based/arena_local_planner_drl/configs) for the definition of the robts action_spaces (needed for rl-based-training)
++ See [_HERE_](https://github.com/eliastreis/arena-rosnav-3D/tree/main/arena_navigation/arena_local_planer/learning_based/arena_local_planner_drl/configs) for the definition of the robots action_spaces (needed for rl-based-training)
 
 > ___NOTE___: The _emergency-stop_ capability is currently still being development, it will however be available on all robots.
 
@@ -95,7 +96,7 @@ roslaunch arena_bringup start_arena_gazebo.launch model:=ridgeback
 ```
 ¹ *Stops moving when an object has been detected in the safety zone of the robot*
 
-² *For _holonomic_ robots `vel_y = 0`; they are not able to drive directly to their left or right, but have to drive on a circular trejectory to their reach navigation goal*   
+² *For _holonomic_ robots `vel_y = 0`; they are not able to drive directly to their left or right, but have to drive on a circular trajectory to their reach navigation goal*   
 # Advanced Parameters
 You can further customize the simulation altering the following parameters:
 
