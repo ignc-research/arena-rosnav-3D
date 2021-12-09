@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+<sdf version="1.5">
+  <model name="dishwasher">
+    <static>true</static>
+    <link name="link">
+      <collision name="collision">
+        <pose>-0.002041 0.002974 0.423381 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.614240 0.639467 0.872373</size>
+          </box>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <geometry>
+          <mesh>
+            <uri>model://dishwasher/meshes/dishwasher.obj</uri>
+            <scale>0.01 0.01 0.01</scale>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+  </model>
+</sdf>

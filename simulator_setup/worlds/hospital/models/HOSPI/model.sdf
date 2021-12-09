@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+
+<sdf version="1.6">
+  <model name='HOSPI'>
+    <static>false</static>
+    <plugin name="slotcar" filename="libslotcar.so" />
+    <link name="body">
+      <pose>0 0 0 0 0 0</pose>
+
+        <collision name="collision">
+          <pose>0 0 0.7 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>0.7 0.7 1.4</size>
+            </box>
+          </geometry>
+        </collision>
+
+        <visual name="visual">
+          <geometry>
+            <mesh><uri>model://HOSPI/meshes/HOSPI.obj</uri></mesh>
+          </geometry>
+        </visual>
+        <visual name="front_wheel_left">
+        <pose>.17 -.21 .03 0 0 0</pose>
+          <geometry>
+            <mesh><uri>model://HOSPI/meshes/SmallWheel.obj</uri></mesh>
+          </geometry>
+        </visual>
+        <visual name="back_wheel_left">
+        <pose>-.24 -.21 .03 0 0 0</pose>
+          <geometry>
+            <mesh><uri>model://HOSPI/meshes/SmallWheel.obj</uri></mesh>
+          </geometry>
+        </visual>
+        <visual name="front_wheel_right">
+        <pose>.17 .21 .03 0 0 0</pose>
+          <geometry>
+            <mesh><uri>model://HOSPI/meshes/SmallWheel.obj</uri></mesh>
+          </geometry>
+        </visual>
+        <visual name="back_wheel_right">
+        <pose>-.24 .21 .03 0 0 0</pose>
+          <geometry>
+            <mesh><uri>model://HOSPI/meshes/SmallWheel.obj</uri></mesh>
+          </geometry>
+        </visual>
+        <visual name="fat_wheel_left">
+        <pose>-.03 -.21 .06 0 0 0</pose>
+          <geometry>
+            <mesh><uri>model://HOSPI/meshes/FatWheel.obj</uri></mesh>
+          </geometry>
+        </visual>
+        <visual name="fat_wheel_right">
+        <pose>-.03 .22 .06 0 0 0</pose>
+          <geometry>
+            <mesh><uri>model://HOSPI/meshes/FatWheel.obj</uri></mesh>
+          </geometry>
+        </visual>
+
+    </link>
+  </model>
+</sdf>

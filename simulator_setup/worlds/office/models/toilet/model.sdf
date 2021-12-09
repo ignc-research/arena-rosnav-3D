@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+<sdf version="1.5">
+  <model name="toilet">
+    <static>true</static>
+    <link name="link">
+      <collision name="collision">
+        <pose>-0.003873 0.134001 0.582097 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.551631 1.094060 1.182180</size>
+          </box>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <geometry>
+          <mesh>
+            <uri>model://toilet/meshes/toilet.dae</uri>
+            <scale>1.4 1.4 1.4</scale>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+  </model>
+</sdf>

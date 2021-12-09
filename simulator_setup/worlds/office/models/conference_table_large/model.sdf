@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+<sdf version="1.5">
+  <model name="conference_table_large">
+    <static>true</static>
+    <link name="link">
+     <collision name="collision">
+        <pose>-0.000328 -0.000776 0.367474 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>4.520320 1.217630 0.742359</size>
+          </box>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <geometry>
+          <mesh>
+            <uri>model://conference_table_large/meshes/conference_table_large.obj</uri>
+            <scale>0.01 0.01 0.01</scale>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+  </model>
+</sdf>

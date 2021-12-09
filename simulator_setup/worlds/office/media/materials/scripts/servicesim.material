@@ -1,0 +1,115 @@
+material ServiceSim/Ceiling
+{
+  technique
+  {
+    pass
+    {
+      ambient 1.0 1.0 1.0 1.0
+      diffuse 1.0 1.0 1.0 1.0
+      specular 0.2 0.2 0.2 1.0 12.5
+
+      texture_unit
+      {
+        scale 0.025 0.025
+        texture ceiling.png
+        filtering trilinear
+      }
+    }
+  }
+}
+
+material ServiceSim/Hallway
+{
+  technique
+  {
+    pass
+    {
+      ambient 1.0 1.0 1.0 1.0
+      diffuse 1.0 1.0 1.0 1.0
+      specular 0.2 0.2 0.2 1.0 12.5
+
+      texture_unit
+      {
+        scale 0.025 0.025
+        texture hallway.png
+        filtering trilinear
+      }
+    }
+  }
+}
+
+material ServiceSim/Elevator
+{
+  technique
+  {
+    pass
+    {
+      ambient 1.0 1.0 1.0 1.0
+      diffuse 1.0 1.0 1.0 1.0
+      specular 0.2 0.2 0.2 1.0 12.5
+
+      texture_unit
+      {
+        texture elevator.png
+        filtering trilinear
+      }
+    }
+  }
+}
+
+material ServiceSim/Door
+{
+  technique
+  {
+    pass
+    {
+      ambient 1.0 1.0 1.0 1.0
+      diffuse 1.0 1.0 1.0 1.0
+      specular 0.2 0.2 0.2 1.0 12.5
+
+      texture_unit
+      {
+        texture door_wall.png
+        filtering trilinear
+      }
+    }
+  }
+}
+
+material ServiceSim/Window
+{
+  technique
+  {
+    pass
+    {
+      ambient 1.0 1.0 1.0 1.0
+      diffuse 1.0 1.0 1.0 1.0
+      specular 0.2 0.2 0.2 1.0 12.5
+
+      texture_unit
+      {
+        texture window.png
+        filtering trilinear
+      }
+    }
+  }
+}
+
+material ServiceSim/PlainWall
+{
+  technique
+  {
+    pass
+    {
+      ambient 1.0 1.0 1.0 1.0
+      diffuse 1.0 1.0 1.0 1.0
+      specular 0.2 0.2 0.2 1.0 12.5
+
+      texture_unit
+      {
+        texture plain.png
+        filtering trilinear
+      }
+    }
+  }
+}
