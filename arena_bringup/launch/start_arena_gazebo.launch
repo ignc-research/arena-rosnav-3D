@@ -28,6 +28,7 @@
 
 
   <param name="additional_map" value="$(arg additional_map)"/>
+  <param name="local_planner" value="$(arg local_planner)"/>
   <param name="actors" value="$(arg actors)" unless="$(arg train_mode)" />
   <param name="use_sim_time" value="true"/>
   <param name="train_mode" value="$(arg train_mode)" />

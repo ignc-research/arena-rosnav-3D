@@ -39,6 +39,7 @@ class RobotManager:
             '/subgoal', PoseStamped, queue_size=1, latch=True)
         self.pub_mvb_goal = rospy.Publisher(
             '/move_base_simple/goal', PoseStamped, queue_size=1, latch=True)
+        self.planer = rospy.get_param('local_planner')
 
         self.spawn_robot()
 
@@ -101,8 +102,9 @@ class RobotManager:
         goal.pose = pose
         self._goal_pub.publish(goal)
 
-        # for communication with move_base
-        self.pub_mvb_goal.publish(goal)
+        # these planer need the nav-goal pulished to the /move_base_simple/goal topic
+        if self.planer in ['teb', 'dwa', 'mpc']:
+            self.pub_mvb_goal.publish(goal)
 
     def set_start_pos_random(self):
         start_pos = Pose()
