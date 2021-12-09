@@ -19,10 +19,10 @@ catkin_make -DCATKIN_WHITELIST_PACKAGES=""
 
 This repository combines the 3D ROS simulator Gazebo with Pedsim to provide realistic dynamic 3D scenarios and tasks to evaluate and and benchmark ROS navigation approaches. It is fully compatible with the planning algorithms trained and developed with arena-rosnav (2D). This presents an essential step in deploying the navigation approaches from arena-rosnav towards real robots.
 
-The repo currently contains:
-- Task generator with modes: `random`, `scenario`, `manual`, `staged`
+> The repo currently contains: 
+- Task generator with modes: `random`, `scenario`, `manual`, `staged` 
 - Multiple detailed scenario-worlds
-- Robot models: `turtlebot3_burger`, `ridgeback`, `jackal`, `agv-ota`, 
+- Robot models: `turtlebot3_burger`, `ridgeback`, `jackal`, `agv-ota`
 - Creation of random 3D-words with static and dynamic obstacles
 - Realistic behavior patterns and semantic states of dynamic obstacles (by including pedsim's extended social force model)
 - Implementation of intermediate planner classes to combine local DRL planner with global map-based planning of ROS Navigation stack: `teb`, `dwa`, `mpc`, `cadrl`, `rlca`, `arena`
@@ -53,7 +53,8 @@ roslaunch arena_bringup start_arena_gazebo.launch local_planner:=teb task_mode:=
 ```
 ## 3. Examples
 Here you can see some examples using our different world generating modes
-|<img width="340" height="320" src="https://user-images.githubusercontent.com/41898845/135458175-eb1634a9-f1e4-48d1-9696-b5248bcc5718.mp4">|<img width="340" height="320" src="https://user-images.githubusercontent.com/41898845/135459990-dac33393-76a6-4173-8abe-fc25d0b95643.mp4">|
+
+|<img width="360" height="220" src="img/demo-gifs/random-mode-warehouse.gif">|<img width="360" height="220" src="img/demo-gifs/arena-tools-world.gif">|
 |:--:       |              :--:|
 | *Random mode* | *Arena Generated* |
 <!-- #### Random mode
@@ -69,7 +70,7 @@ https://user-images.githubusercontent.com/41898845/135459990-dac33393-76a6-4173-
 - Use the supplied scenario or create your own using [arena-tools](https://github.com/ignc-research/arena-tools).
 - In scenario mode, all objects will be spawned at their specified position and everything will reset back to this position once the robot reaches its goal.
 
-https://user-images.githubusercontent.com/41898845/135480113-e5ae02bf-5268-45b8-be29-011be0e65c61.mp4
+<img width='700' hight='300' src="img/demo-gifs/scenario-mode-world.gif">
 
 
 ## Training
