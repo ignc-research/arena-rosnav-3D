@@ -1,8 +1,0 @@
-{
-    "pedsim_agents": [],
-    "static_obstacles": [],
-    "robot_position": [1,2],
-    "robot_goal": [3,3],
-    "map_path": "/home/daniel/catkin_ws/src/arena-rosnav-3D/simulator_setup/maps/map3/map.yaml",
-    "format": "arena-tools"
-}
