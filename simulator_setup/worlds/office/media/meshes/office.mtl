@@ -1,0 +1,100 @@
+# 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
+# File Created: 06.02.2018 18:24:18
+
+newmtl wall_plain_and_door
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000
+	illum 2
+	Ka 1.0 1.0 1.0
+	Kd 1.0 1.0 1.0
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka file://media/materials/textures/wall_plain_and_door.png
+	map_Kd file://media/materials/textures/wall_plain_and_door.png
+
+newmtl wall_window_and_elevator
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000
+	illum 2
+	Ka 1.0 1.0 1.0
+	Kd 1.0 1.0 1.0
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka file://media/materials/textures/wall_window_and_elevator.png
+	map_Kd file://media/materials/textures/wall_window_and_elevator.png
+
+newmtl ceiling
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000
+	illum 2
+	Ka 0.5882 0.5882 0.5882
+	Kd 0.5882 0.5882 0.5882
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka file://media/materials/textures/ceiling.png
+	map_Kd file://media/materials/textures/ceiling.png
+
+newmtl wall_color
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000
+	illum 2
+	Ka 1.0 1.0 1.0
+	Kd 1.0 1.0 1.0
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka file://media/materials/textures/wall_color.png
+	map_Kd file://media/materials/textures/wall_color.png
+
+newmtl floors
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000
+	illum 2
+	Ka 0.5882 0.5882 0.5882
+	Kd 0.5882 0.5882 0.5882
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka file://media/materials/textures/floors.png
+	map_Kd file://media/materials/textures/floors.png
+
+newmtl bathroom
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000
+	illum 2
+	Ka 1.0 1.0 1.0
+	Kd 1.0 1.0 1.0
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka file://media/materials/textures/bathroom.png
+	map_Kd file://media/materials/textures/bathroom.png
+
+newmtl sink
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000
+	illum 2
+	Ka 1.0 1.0 1.0
+	Kd 1.0 1.0 1.0
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka file://media/materials/textures/sink.png
+	map_Kd file://media/materials/textures/sink.png

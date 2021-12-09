@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">  
+  <xacro:macro name="agv_ir" params="base_link link_name xyz_ir rpy_ir">
+
+	<link name="${link_name}_link">
+		<inertial>
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+			<mass value="0.001"/>
+			<inertia ixx="0.001666" ixy="0" ixz="0" iyy="0.001666" iyz="0" izz="0.001666"/>
+		</inertial>	
+
+		<visual>
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+			<geometry>
+				<mesh filename="package://simulator_setup/robot/agv-ota/meshes/OTAv07_meshes/FotoelektrikSensor.stl" scale="0.0015 0.0015 0.0015"/>
+			</geometry>
+		</visual>
+
+		<collision>
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+			<geometry>
+				<box size="0.01 0.01 0.01" />
+			</geometry>
+		</collision>
+	</link>
+     
+	<joint name="${link_name}_joint" type="fixed">
+		<origin xyz="${xyz_ir}" rpy="${rpy_ir}"/>
+		<parent link="${base_link}"/>
+		<child link="${link_name}_link"/>
+	</joint>
+    
+	<gazebo reference="${link_name}_link">
+		<sensor type="ray" name="${link_name}">
+			<pose>0 0 0 0 0 0</pose>
+			<ray>
+				<scan>
+					<horizontal>
+						<samples>320</samples>
+						<resolution>1</resolution>
+						<min_angle>-0.001</min_angle>
+						<max_angle>0.001</max_angle>
+					</horizontal>
+				</scan>
+				<range>
+					<min>0.02</min>
+					<max>5.0</max>
+					<resolution>0.01</resolution>
+				</range>
+			</ray>
+			
+			<plugin name="gazebo_ros_range" filename="libgazebo_ros_range.so">
+				<topicName>${link_name}</topicName>
+				<frameName>${link_name}_link</frameName>
+				<frameId>${link_name}_link</frameId>
+				<radiation>ultrasound</radiation>
+				<fov>0.7</fov>
+				<gaussianNoise>0</gaussianNoise>
+			</plugin>
+
+			<always_on>1</always_on>
+			<update_rate>4</update_rate>
+			<visualize>false</visualize>
+		</sensor>
+    </gazebo>
+
+  </xacro:macro>	  
+</robot>

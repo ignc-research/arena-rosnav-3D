@@ -1,0 +1,26 @@
+<?xml version="1.0" ?>
+<sdf version="1.5">
+  <model name="mini_fridge">
+    <static>true</static>
+    <link name="link">
+      <!-- face +X -->
+      <pose>0 0 0 0 0 1.57079632679</pose>
+      <collision name="collision">
+        <pose>-0.002041 0.002974 0.524481 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.6997290 0.708116 1.067160</size>
+          </box>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <geometry>
+          <mesh>
+            <uri>model://mini_fridge/meshes/mini_fridge.obj</uri>
+            <scale>0.02 0.02 0.02</scale>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+  </model>
+</sdf>

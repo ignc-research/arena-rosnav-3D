@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+<sdf version="1.5">
+  <model name="office_couch">
+    <static>true</static>
+    <link name="link">
+      <collision name="collision">
+        <pose>0.000893 0.384169 0.704321 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>2.914350 0.976328 1.417680</size>
+          </box>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <geometry>
+          <mesh>
+            <uri>model://office_couch/meshes/office_couch.dae</uri>
+            <scale>1.4 1.4 1.4</scale>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+  </model>
+</sdf>

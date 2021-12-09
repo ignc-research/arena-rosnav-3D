@@ -1,0 +1,27 @@
+<?xml version="1.0" ?>
+<sdf version="1.5">
+  <model name="wastebasket">
+    <static>true</static>
+    <link name="link">
+      <!-- face +X -->
+      <pose>0 0 0 0 0 1.57079632679</pose>
+      <collision name="collision">
+        <pose>0.001581 0.000308 0.312969 0 0 0</pose>
+        <geometry>
+          <cylinder>
+            <radius>0.27</radius>
+            <length>0.63</length>
+          </cylinder>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <geometry>
+          <mesh>
+            <uri>model://wastebasket/meshes/wastebasket.dae</uri>
+            <scale>1.4 1.4 1.4</scale>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+  </model>
+</sdf>

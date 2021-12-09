@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+<sdf version="1.5">
+  <model name="tv_stand">
+    <static>true</static>
+    <link name="link">
+      <collision name="collision">
+        <pose>0.001230 -0.018095 1.053145 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>1.802040 0.803547 2.112920</size>
+          </box>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <geometry>
+          <mesh>
+            <uri>model://tv_stand/meshes/tv_stand.dae</uri>
+            <scale>1.4 1.4 1.4</scale>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+  </model>
+</sdf>
