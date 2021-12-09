@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+<sdf version="1.5">
+  <model name="refrigerator">
+    <static>true</static>
+    <link name="link">
+      <collision name="collision">
+        <pose>-0.007078 0.009991 0.837838 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.781084 0.825312 1.660790</size>
+          </box>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <geometry>
+          <mesh>
+            <uri>model://refrigerator/meshes/refrigerator.obj</uri>
+            <scale>0.01 0.01 0.01</scale>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+  </model>
+</sdf>

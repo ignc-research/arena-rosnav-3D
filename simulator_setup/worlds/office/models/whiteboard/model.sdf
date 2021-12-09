@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+<sdf version="1.5">
+  <model name="whiteboard">
+    <static>true</static>
+    <link name="link">
+      <collision name="collision">
+        <pose>-0.010992 -0.000776 0.998212 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>1.973720 0.696820 2.025070</size>
+          </box>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <geometry>
+          <mesh>
+            <uri>model://whiteboard/meshes/whiteboard.obj</uri>
+            <scale>0.01 0.01 0.01</scale>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+  </model>
+</sdf>
