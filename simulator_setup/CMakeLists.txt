@@ -9,7 +9,6 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   gazebo_msgs
-  pedsim_msgs
   controller_interface
   realtime_tools
   tf
