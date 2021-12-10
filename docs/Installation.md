@@ -130,7 +130,6 @@ pip3 install pyyaml catkin_pkg netifaces pathlib filelock pyqt5 mpi4py torch lxm
 cd $HOME
 mkdir -p catkin_ws/src && cd catkin_ws/src
 git clone https://github.com/ignc-research/arena-rosnav-3D.git
-git clone https://bitbucket.org/acl-swarm/ford_msgs/src/master/
 cd ..
 catkin_make -DCMAKE_BUILD_TYPE=Release -DPYTHON_EXECUTABLE=/usr/bin/python3
 source devel/setup.bash
