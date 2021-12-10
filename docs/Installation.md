@@ -134,6 +134,10 @@ cd ..
 catkin_make -DCMAKE_BUILD_TYPE=Release -DPYTHON_EXECUTABLE=/usr/bin/python3
 source devel/setup.bash
 ```
+- Extract the mesh of agv-ota robot
+```
+tar -xf $HOME/catkin_ws/src/arena-rosnav-3D/simulator_setup/robot/agv-ota/meshes/OTAv07_meshes/OTA-v0.7.tar.xz -C $HOME/catkin_ws/src/arena-rosnav-3D/simulator_setup/robot/agv-ota/meshes/OTAv07_meshes/
+```
 
 - Add the changes to your .bashrc file
   > Note: if you use zsh replace bash with zsh in the commands or vice versa
