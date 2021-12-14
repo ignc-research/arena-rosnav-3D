@@ -23,8 +23,10 @@
   <arg name="actors" default="4" unless="$(arg train_mode)" />
   <arg name="actor_height" default="1.1"/>
   <arg name="use_recorder" default="false"/>
+  <arg name="record_only_planner"       default="true"/>
   <arg name="add_map_path" default=""/>
   <arg name="additional_map" default="false"/>
+  <arg name="waypoint_generator"   default="classic"/>
 
 
   <param name="additional_map" value="$(arg additional_map)"/>
@@ -96,12 +98,16 @@
   <node name="map_server" pkg="map_server" type="map_server" ns="additional_map" args="$(arg add_map_path)" if="$(arg additional_map)">
     <param name="additional_map/frame_id" value="$(arg global_frame_id)"/>
   </node>
+
   <!-- data recorder -->
   <group if="$(eval arg('use_recorder') == true)">
     <node pkg="arena_evaluation" name="data_recorder_node" type="data_recorder_node.py" />
-    <param name="local_planner" value="$(arg local_planner)"/>
-    <param name="scenario_file" value="$(arg scenario_file)"/>
+      <param name="local_planner"  value="$(arg local_planner)"/>
+      <param name="waypoint_generator"  value="$(arg waypoint_generator)"/>
+      <param name="record_only_planner"  value="$(arg record_only_planner)"/>
+      <param name="scenario_file"  value="$(arg scenario_file)"/>
   </group>
+
 
   <!-- use simulator-->
   <include file="$(find arena_bringup)/launch/sublaunch_testing/gazebo_simulator.launch">
