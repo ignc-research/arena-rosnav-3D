@@ -160,5 +160,5 @@ def main(agent_name: str) -> None:
 
 
 if __name__ == "__main__":
-    AGENT_NAME = "rule_04"
+    AGENT_NAME = "pretrained_nonorm_tb3"
     main(agent_name=AGENT_NAME)
