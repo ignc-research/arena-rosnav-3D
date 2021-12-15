@@ -1,7 +1,7 @@
 <launch>
   <!-- simulator arguments-->
   <arg name="train_mode" default="false"/>
-  <arg name="local_planner" default="teb"         doc = "local_planer type [teb, dwa, mpc, rlca, cadrl, arena]"/>
+  <arg name="local_planner" default="teb"         doc = "local_planer type [teb, dwa, mpc, rlca, cadrl, arena, rosnav]"/>
   <!--rlca are implemented but msg type not yet adjusted from 2D; dwa has a file missing (see project_task)-->
   <arg name="rviz_file" default="nav_LP"/>
   <arg name="disable_scenario" default="false"/>
@@ -158,9 +158,6 @@
     <!--sec, double -->
   </include>
   <include file="$(find arena_bringup)/launch/sublaunch_testing/intermediate_planner.launch"/>
-
-  <!-- makes sure that drl actions will be published according to sim time in eval mode-->
-  <node name="action_publisher" pkg="arena_local_planner_drl" type="action_publisher.py" if="$(eval arg('train_mode') == false)"/>
 
   <!-- start Pedsim -->
   <arg name="simulation_factor" default="1"/>
