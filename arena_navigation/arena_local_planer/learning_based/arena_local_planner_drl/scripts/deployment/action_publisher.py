@@ -76,8 +76,57 @@ class ActionPublisher:
         self._clock = msg_clock.clock.to_sec()
 
 
+# Action publisher with rospy.Timer
+class ActionPublisher_2:
+    def __init__(self):
+        if rospy.get_param("train_mode"):
+            raise Exception("This node should be used solely in eval mode!")
+
+        rospy.init_node("action_publisher", anonymous=True)
+
+        self._action_publish_rate = rospy.get_param("/robot_action_rate")
+        rate = rospy.Duration(
+            1 / self._action_publish_rate
+        )  # seconds in sim time
+
+        self._pub_cmd_vel = rospy.Publisher("cmd_vel", Twist, queue_size=1)
+        self._pub_cycle_trigger = rospy.Publisher(
+            "next_cycle", Bool, queue_size=1
+        )
+        self._sub = rospy.Subscriber(
+            "cmd_vel_pub",
+            Twist,
+            self.callback_receive_cmd_vel,
+            queue_size=1,
+        )
+
+        self._action = Twist()
+        self._signal = Bool()
+
+        self.last_action = self._action
+
+        while self._sub.get_num_connections() < 1:
+            print("ActionPublisher: No publisher to cmd_vel_pub yet.. ")
+            time.sleep(1)
+
+        rospy.Timer(rate, self.callback_publish_action)
+
+    def callback_publish_action(self, event: rospy.TimerEvent):
+        self._pub_cmd_vel.publish(self._action)
+        self._pub_cycle_trigger.publish(self._signal)
+
+        print(f"Published same action: {self.last_action==self._action}")
+        self.last_action = self._action
+
+    def callback_receive_cmd_vel(self, msg_cmd_vel: Twist):
+        self._action = msg_cmd_vel
+
+    def callback_clock(self, msg_clock: Clock):
+        self._clock = msg_clock.clock.to_sec()
+
+
 if __name__ == "__main__":
     try:
-        ActionPublisher()
+        ActionPublisher_2()
     except rospy.ROSInterruptException:
         pass
