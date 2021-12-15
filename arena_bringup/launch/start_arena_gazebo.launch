@@ -82,6 +82,7 @@
   <!-- Launching additional nodes/scripts needed for agv-ota to work -->
   <group if="$(eval arg('model') == 'agv-ota')">
     <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
+    <node name="emergency_brake" pkg="task_generator" type="emergency_brake_node.py"/>
   </group>
 
    <!-- Launching additional nodes/scripts needed for ridgeback to work -->
@@ -141,6 +142,7 @@
   <!-- move_base plan manager: which provide basic global planner and cost map -->
   <include file="$(find arena_bringup)/launch/sublaunch_testing/move_base/move_base_$(arg local_planner).launch">
     <arg name="model" value="$(arg model)"/>
+    <arg name="cmd_vel_topic" value="/nav_vel" if="$(eval arg('model') == 'agv-ota')" />
     <!-- <arg name="speed" value="$(param speed)"/> -->
   </include>
 
