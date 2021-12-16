@@ -87,6 +87,7 @@ class DeploymentDRLAgent(BaseDRLAgent):
             model_file
         ), f"Compressed model cannot be found at {model_file}!"
         self._agent = PPO.load(model_file).policy
+
         if self._agent_params["normalize"]:
             assert os.path.isfile(
                 vecnorm_file
@@ -107,11 +108,11 @@ class DeploymentDRLAgent(BaseDRLAgent):
             action publishing rate.
         """
         while not rospy.is_shutdown():
-        # while True:
-            if self._is_train_mode:
-                self.call_service_takeSimStep(self._action_frequency)
-            else:
-                self._wait_for_next_action_cycle()
+            # while True:
+            # if self._is_train_mode:
+            #     self.call_service_takeSimStep(self._action_frequency)
+            # else:
+            #     self._wait_for_next_action_cycle()
 
             # print("in run")
             goal_reached = rospy.get_param("/bool_goal_reached", default=False)

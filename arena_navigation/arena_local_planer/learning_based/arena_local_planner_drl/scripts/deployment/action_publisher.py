@@ -103,7 +103,13 @@ class ActionPublisher_2:
         self._action = Twist()
         self._signal = Bool()
 
-        self.last_action = self._action
+        self.STAND_STILL_ACTION = Twist()
+        self.STAND_STILL_ACTION.linear.x, self.STAND_STILL_ACTION.angular.z = (
+            0,
+            0,
+        )
+
+        self._cmd_received = False
 
         while self._sub.get_num_connections() < 1:
             print("ActionPublisher: No publisher to cmd_vel_pub yet.. ")
@@ -113,14 +119,19 @@ class ActionPublisher_2:
         rospy.spin()
 
     def callback_publish_action(self, event):
-        self._pub_cmd_vel.publish(self._action)
+        if self._cmd_received:
+            self._pub_cmd_vel.publish(self._action)
+            # reset flag
+            self._cmd_received = False
+        else:
+            rospy.logdebug("No action received during recent action horizon.")
+            self._pub_cmd_vel.publish(self.STAND_STILL_ACTION)
         self._pub_cycle_trigger.publish(self._signal)
 
-        print(f"Published same action: {self.last_action==self._action}")
-        self.last_action = self._action
-
     def callback_receive_cmd_vel(self, msg_cmd_vel: Twist):
+        self._cmd_received = True
         self._action = msg_cmd_vel
+
 
 if __name__ == "__main__":
     try:
