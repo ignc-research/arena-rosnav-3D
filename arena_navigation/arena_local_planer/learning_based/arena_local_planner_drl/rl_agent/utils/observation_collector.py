@@ -157,11 +157,11 @@ class ObservationCollector:
             self.call_service_takeSimStep(
                 self._action_frequency
             )  # CHECK: Does this mean running flatland for x=action_frequency seconds (https://github.com/ignc-research/flatland/blob/sim_to_real/flatland_msgs/srv/StepWorld.srv)
-        else:
-            try:
-                rospy.wait_for_message(f"{self.ns_prefix}next_cycle", Bool)
-            except Exception:
-                pass
+        # else:
+            # try:
+            #     rospy.wait_for_message(f"{self.ns_prefix}next_cycle", Bool)
+            # except Exception:
+            #     pass
 
         if not self._ext_time_sync:
             # try to retrieve sync'ed obs
@@ -289,25 +289,25 @@ class ObservationCollector:
     def callback_odom_scan(self, scan, odom):
         self._scan = self.process_scan_msg(scan)
         # odom
-        # self._robot_pose, self._robot_vel = self.process_robot_state_msg(odom)
+        self._robot_pose, self._robot_vel = self.process_robot_state_msg(odom)
 
         # map -> base_footprint tf = robot pose
-        try:
-            tf = self.tfBuffer.lookup_transform(
-                "map", "base_footprint", rospy.Time()
-            )
-        except (
-            tf2_ros.LookupException,
-            tf2_ros.ConnectivityException,
-            tf2_ros.ExtrapolationException,
-        ):
-            # self.rate.sleep()
-            print("No map to base_footprint transform!")
-            return
+        # try:
+        #     tf = self.tfBuffer.lookup_transform(
+        #         "map", "base_footprint", rospy.Time()
+        #     )
+        # except (
+        #     tf2_ros.LookupException,
+        #     tf2_ros.ConnectivityException,
+        #     tf2_ros.ExtrapolationException,
+        # ):
+        #     # self.rate.sleep()
+        #     print("No map to base_footprint transform!")
+        #     return
 
-        self._robot_pose, self._robot_vel = self.process_robot_state_tf(
-            tf, odom
-        )
+        # self._robot_pose, self._robot_vel = self.process_robot_state_tf(
+        #     tf, odom
+        # )
 
     def callback_clock(self, msg_Clock):
         self._clock = msg_Clock.clock.to_sec()

@@ -107,16 +107,19 @@ class DeploymentDRLAgent(BaseDRLAgent):
             action publishing rate.
         """
         while not rospy.is_shutdown():
-            if self._is_train_mode:
-                self.call_service_takeSimStep(self._action_frequency)
-            else:
-                self._wait_for_next_action_cycle()
+        # while True:
+            # if self._is_train_mode:
+            #     self.call_service_takeSimStep(self._action_frequency)
+            # else:
+            #     self._wait_for_next_action_cycle()
 
+            # print("in run")
             goal_reached = rospy.get_param("/bool_goal_reached", default=False)
             if not goal_reached:
                 obs = self.get_observations()[0]
                 # obs = np.where(obs == np.inf, 3.5, obs)
                 action = self.get_action(obs)
+                print("ready to publish")
                 self.publish_action(action)
             else:
                 self.publish_action(self.STAND_STILL_ACTION)
