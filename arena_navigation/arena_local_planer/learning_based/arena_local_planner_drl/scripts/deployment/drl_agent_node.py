@@ -108,10 +108,10 @@ class DeploymentDRLAgent(BaseDRLAgent):
         """
         while not rospy.is_shutdown():
         # while True:
-            # if self._is_train_mode:
-            #     self.call_service_takeSimStep(self._action_frequency)
-            # else:
-            #     self._wait_for_next_action_cycle()
+            if self._is_train_mode:
+                self.call_service_takeSimStep(self._action_frequency)
+            else:
+                self._wait_for_next_action_cycle()
 
             # print("in run")
             goal_reached = rospy.get_param("/bool_goal_reached", default=False)
@@ -119,7 +119,6 @@ class DeploymentDRLAgent(BaseDRLAgent):
                 obs = self.get_observations()[0]
                 # obs = np.where(obs == np.inf, 3.5, obs)
                 action = self.get_action(obs)
-                print("ready to publish")
                 self.publish_action(action)
             else:
                 self.publish_action(self.STAND_STILL_ACTION)
@@ -163,5 +162,6 @@ def main(agent_name: str) -> None:
 
 
 if __name__ == "__main__":
-    AGENT_NAME = "pretrained_nonorm_tb3"
+    # AGENT_NAME = "pretrained_nonorm_tb3"
+    AGENT_NAME = "AGENT_21_2021_12_02__22_56"
     main(agent_name=AGENT_NAME)

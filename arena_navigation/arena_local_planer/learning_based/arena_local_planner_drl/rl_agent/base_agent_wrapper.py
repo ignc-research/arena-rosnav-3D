@@ -91,8 +91,7 @@ class BaseDRLAgent(ABC):
             # w/ action publisher node
             # (controls action rate being published on '../cmd_vel')
             self._action_pub = rospy.Publisher(
-                # f"{self._ns_robot}cmd_vel_pub", Twist, queue_size=1
-                f"{self._ns_robot}cmd_vel", Twist, queue_size=1
+                f"{self._ns_robot}cmd_vel_pub", Twist, queue_size=1
             )
 
     @abstractmethod

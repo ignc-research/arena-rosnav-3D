@@ -84,7 +84,7 @@ class ActionPublisher_2:
 
         rospy.init_node("action_publisher", anonymous=True)
 
-        self._action_publish_rate = rospy.get_param("/robot_action_rate")
+        self._action_publish_rate = rospy.get_param("/action_frequency")
         rate = rospy.Duration(
             1 / self._action_publish_rate
         )  # seconds in sim time
@@ -110,6 +110,7 @@ class ActionPublisher_2:
             time.sleep(1)
 
         rospy.Timer(rate, self.callback_publish_action)
+        rospy.spin()
 
     def callback_publish_action(self, event):
         self._pub_cmd_vel.publish(self._action)
@@ -120,10 +121,6 @@ class ActionPublisher_2:
 
     def callback_receive_cmd_vel(self, msg_cmd_vel: Twist):
         self._action = msg_cmd_vel
-
-    def callback_clock(self, msg_clock: Clock):
-        self._clock = msg_clock.clock.to_sec()
-
 
 if __name__ == "__main__":
     try:
