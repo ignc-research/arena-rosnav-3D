@@ -33,7 +33,7 @@ class ObservationCollector:
         ns: str,
         num_lidar_beams: int,
         lidar_range: float,
-        external_time_sync: bool = False,
+        external_time_sync: bool = True,
     ):
         """a class to collect and merge observations
 
@@ -157,11 +157,11 @@ class ObservationCollector:
             self.call_service_takeSimStep(
                 self._action_frequency
             )  # CHECK: Does this mean running flatland for x=action_frequency seconds (https://github.com/ignc-research/flatland/blob/sim_to_real/flatland_msgs/srv/StepWorld.srv)
-        else:
-            try:
-                rospy.wait_for_message(f"{self.ns_prefix}next_cycle", Bool)
-            except Exception:
-                pass
+        # else:
+        #     try:
+        #         rospy.wait_for_message(f"{self.ns_prefix}next_cycle", Bool)
+        #     except Exception:
+        #         pass
 
         if not self._ext_time_sync:
             # try to retrieve sync'ed obs

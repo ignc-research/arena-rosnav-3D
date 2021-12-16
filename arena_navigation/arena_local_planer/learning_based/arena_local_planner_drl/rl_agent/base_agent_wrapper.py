@@ -12,7 +12,9 @@ from gym import spaces
 
 from geometry_msgs.msg import Twist
 
-from arena_navigation.arena_local_planer.learning_based.arena_local_planner_drl.rl_agent.utils.observation_collector import ObservationCollector
+from arena_navigation.arena_local_planer.learning_based.arena_local_planner_drl.rl_agent.utils.observation_collector import (
+    ObservationCollector,
+)
 from rl_agent.utils.reward import RewardCalculator
 from rospy.client import get_param
 
@@ -23,7 +25,7 @@ ROOT_ROBOT_PATH = os.path.join(
 DEFAULT_ACTION_SPACE = os.path.join(
     rospkg.RosPack().get_path("arena_local_planner_drl"),
     "configs",
-    f"default_settings_{robot_model}.yaml"
+    f"default_settings_{robot_model}.yaml",
 )
 DEFAULT_HYPERPARAMETER = os.path.join(
     rospkg.RosPack().get_path("arena_local_planner_drl"),
@@ -91,7 +93,10 @@ class BaseDRLAgent(ABC):
             # w/ action publisher node
             # (controls action rate being published on '../cmd_vel')
             self._action_pub = rospy.Publisher(
-                f"{self._ns_robot}cmd_vel_pub", Twist, queue_size=1
+                # f"{self._ns_robot}cmd_vel_pub", Twist, queue_size=1
+                f"{self._ns_robot}cmd_vel",
+                Twist,
+                queue_size=1,
             )
 
     @abstractmethod
@@ -135,20 +140,19 @@ class BaseDRLAgent(ABC):
         self._num_laser_beams = None
         self._laser_range = None
 
-        self._robot_radius = rospy.get_param('radius') * 1.05
-        self._num_laser_beams = get_param('laser_beams')
-        self._laser_range=rospy.get_param('laser_range')
-
+        self._robot_radius = rospy.get_param("radius") * 1.05
+        self._num_laser_beams = get_param("laser_beams")
+        self._laser_range = rospy.get_param("laser_range")
 
         if self._num_laser_beams is None:
-            self._num_laser_beams=DEFAULT_NUM_LASER_BEAMS
+            self._num_laser_beams = DEFAULT_NUM_LASER_BEAMS
             print(
                 f"{self._robot_sim_ns}:"
                 "Wasn't able to read the number of laser beams."
                 "Set to default: {DEFAULT_NUM_LASER_BEAMS}"
             )
         if self._laser_range is None:
-            self._laser_range=DEFAULT_LASER_RANGE
+            self._laser_range = DEFAULT_LASER_RANGE
             print(
                 f"{self._robot_sim_ns}:"
                 "Wasn't able to read the laser range."
@@ -156,10 +160,10 @@ class BaseDRLAgent(ABC):
             )
 
         with open(action_space_yaml, "r") as fd:
-            setting_data=yaml.safe_load(fd)
+            setting_data = yaml.safe_load(fd)
 
-            self._discrete_actions=setting_data["robot"]["discrete_actions"]
-            self._cont_actions={
+            self._discrete_actions = setting_data["robot"]["discrete_actions"]
+            self._cont_actions = {
                 "linear_range": setting_data["robot"]["continuous_actions"][
                     "linear_range"
                 ],
@@ -173,7 +177,7 @@ class BaseDRLAgent(ABC):
             from respective 'hyperparameter.json'.
         """
         assert self._agent_params and self._agent_params["robot"]
-        self.robot_config_name=self._agent_params["robot"]
+        self.robot_config_name = self._agent_params["robot"]
 
     def setup_action_space(self) -> None:
         """Sets up the action space. (spaces.Box)"""
@@ -182,7 +186,7 @@ class BaseDRLAgent(ABC):
             self._agent_params and "discrete_action_space" in self._agent_params
         )
 
-        self._action_space=(
+        self._action_space = (
             spaces.Discrete(len(self._discrete_actions))
             if self._agent_params["discrete_action_space"]
             else spaces.Box(
@@ -205,7 +209,7 @@ class BaseDRLAgent(ABC):
     def setup_reward_calculator(self) -> None:
         """Sets up the reward calculator."""
         assert self._agent_params and "reward_fnc" in self._agent_params
-        self.reward_calculator=RewardCalculator(
+        self.reward_calculator = RewardCalculator(
             robot_radius=self._robot_radius,
             safe_dist=1.6 * self._robot_radius,
             goal_radius=GOAL_RADIUS,
@@ -213,7 +217,7 @@ class BaseDRLAgent(ABC):
             extended_eval=False,
         )
 
-    @ property
+    @property
     def action_space(self) -> spaces.Box:
         """Returns the DRL agent's action space.
 
@@ -222,7 +226,7 @@ class BaseDRLAgent(ABC):
         """
         return self._action_space
 
-    @ property
+    @property
     def observation_space(self) -> spaces.Box:
         """Returns the DRL agent's observation space.
 
@@ -239,7 +243,7 @@ class BaseDRLAgent(ABC):
                 Tuple, where first entry depicts the observation data concatenated \
                 into one array. Second entry represents the observation dictionary.
         """
-        merged_obs, obs_dict=self.observation_collector.get_observations()
+        merged_obs, obs_dict = self.observation_collector.get_observations()
         if self._agent_params["normalize"]:
             self.normalize_observations(merged_obs)
         return merged_obs, obs_dict
@@ -274,12 +278,12 @@ class BaseDRLAgent(ABC):
                 Action in [linear velocity, angular velocity]
         """
         assert self._agent, "Agent model not initialized!"
-        action=self._agent.predict(obs, deterministic=True)[0]
+        action = self._agent.predict(obs, deterministic=True)[0]
         if self._agent_params["discrete_action_space"]:
-            action=self._get_disc_action(action)
+            action = self._get_disc_action(action)
         else:
             # clip action
-            action=np.maximum(
+            action = np.maximum(
                 np.minimum(self._action_space.high, action),
                 self._action_space.low,
             )
@@ -307,9 +311,9 @@ class BaseDRLAgent(ABC):
             action (np.ndarray):
                 Action in [linear velocity, angular velocity]
         """
-        action_msg=Twist()
-        action_msg.linear.x=action[0]
-        action_msg.angular.z=action[1]
+        action_msg = Twist()
+        action_msg.linear.x = action[0]
+        action_msg.angular.z = action[1]
         self._action_pub.publish(action_msg)
 
     def _get_disc_action(self, action: int) -> np.ndarray:

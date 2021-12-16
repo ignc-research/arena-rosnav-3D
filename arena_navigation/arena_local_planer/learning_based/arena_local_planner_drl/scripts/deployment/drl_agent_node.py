@@ -72,7 +72,14 @@ class DeploymentDRLAgent(BaseDRLAgent):
         #     #     self._service_name_step, StepWorld
         #     # )
 
-        self.STAND_STILL_ACTION = [0, 0]
+        # time period for a valid action
+        self._action_period = rospy.Duration(
+            1 / rospy.get_param("/action_frequency", default=10)
+        )  # in seconds
+        self._action_infered = False
+        self._last_action = np.array([0, 0])
+
+        self.STAND_STILL_ACTION = np.array([0, 0])
 
     def setup_agent(self) -> None:
         """Loads the trained policy and when required the VecNormalize object."""
@@ -107,34 +114,35 @@ class DeploymentDRLAgent(BaseDRLAgent):
             the ActionPublisher node in order to comply with the specified \
             action publishing rate.
         """
+        rospy.Timer(self._action_period, self.callback_publish_action)
         while not rospy.is_shutdown():
-            # while True:
-            # if self._is_train_mode:
-            #     self.call_service_takeSimStep(self._action_frequency)
-            # else:
-            #     self._wait_for_next_action_cycle()
-
-            # print("in run")
             goal_reached = rospy.get_param("/bool_goal_reached", default=False)
             if not goal_reached:
                 obs = self.get_observations()[0]
                 # obs = np.where(obs == np.inf, 3.5, obs)
-                action = self.get_action(obs)
-                self.publish_action(action)
-            else:
-                self.publish_action(self.STAND_STILL_ACTION)
+                self._last_action = self.get_action(obs)
+                self._action_infered = True
 
-    def _wait_for_next_action_cycle(self) -> None:
-        """Stops the loop until a trigger message is sent by the ActionPublisher
+    def callback_publish_action(self, event):
+        if self._action_infered:
+            self.publish_action(self._last_action)
+            # reset flag
+            self._action_infered = False
+        else:
+            rospy.logdebug("No action received during recent action horizon.")
+            self.publish_action(self.STAND_STILL_ACTION)
 
-        Note:
-            Only use this method in combination with the ActionPublisher node!
-            That node is only booted when training mode is off.
-        """
-        try:
-            rospy.wait_for_message(f"{self._ns_robot}next_cycle", Bool)
-        except ROSException:
-            pass
+    # def _wait_for_next_action_cycle(self) -> None:
+    #     """Stops the loop until a trigger message is sent by the ActionPublisher
+
+    #     Note:
+    #         Only use this method in combination with the ActionPublisher node!
+    #         That node is only booted when training mode is off.
+    #     """
+    #     try:
+    #         rospy.wait_for_message(f"{self._ns_robot}next_cycle", Bool)
+    #     except ROSException:
+    #         pass
 
     # def call_service_takeSimStep(self, t: float = None) -> None:
     #     """Fast-forwards the simulation time.
