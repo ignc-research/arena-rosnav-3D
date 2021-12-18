@@ -57,11 +57,12 @@ roslaunch arena_bringup start_arena_gazebo.launch task_mode:=scenario
 
 ---
 # Local Planners 
-We offer the following local planners [teb, dwa, mpc, rlca, cadrl, arena], which can be used by setting the local planner argument like this:
+We offer the following local planners [teb, dwa, mpc, rlca, cadrl, arena, rosnav], which can be used by setting the local planner argument like this:
 
 ```bash
 roslaunch arena_bringup start_arena_gazebo.launch local_planner:=teb
 ```
+The rosnav planner hereby is our DRL agent. To extend the training and depoyment package(s) please refer to the [DRL_Pipeline.md](/docs/Miscellaneous.md#How-to-include-further-scenarios).
 
 # Robots
 We support four different robots. 
@@ -96,7 +97,7 @@ roslaunch arena_bringup start_arena_gazebo.launch model:=ridgeback
 ```
 ¹ *Stops moving when an object has been detected in the safety zone of the robot*
 
-² *For _holonomic_ robots `vel_y = 0`; they are not able to drive directly to their left or right, but have to drive on a circular trajectory to their reach navigation goal*   
+² *For _non-holonomic_ robots `vel_y = 0`; they are not able to drive directly to their left or right, but have to drive on a circular trajectory to their reach navigation goal*   
 # Advanced Parameters
 You can further customize the simulation altering the following parameters:
 
@@ -112,7 +113,7 @@ You can further customize the simulation altering the following parameters:
   # List of all Parameters
   ```xml
   <arg name="train_mode"        default="false"/>
-  <arg name="local_planner"     default="dwa"         doc = "local_planer type [tep, dwa, rlca]"/>
+  <arg name="local_planner"     default="dwa"         doc = "local_planer type [tep, dwa, mpc, rlca, cadrl, arena, rosnav]"/>
   <arg name="rviz_file"         default="nav_LP"/>
   <arg name="disable_scenario"  default="false"/>
   <arg name="reset"             default="true"/>
