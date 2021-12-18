@@ -56,7 +56,7 @@
     
     <gazebo reference="scan_link">
       <material value="Gazebo/DarkGray"/>
-      <sensor type="gpu_ray" name="laser_scan">
+      <sensor type="ray" name="laser_scan">
       	<tf_prefix></tf_prefix>
         <pose>0 0 0 0 0 0</pose>
         <visualize>false</visualize>
@@ -83,7 +83,7 @@
           </noise>
         </ray>
         
-        <plugin name="laser_scan_plugin" filename="libgazebo_ros_gpu_laser.so">
+        <plugin name="laser_scan_plugin" filename="libgazebo_ros_laser.so">
             <topicName>scan</topicName>
             <frameName>scan_link</frameName>
             <tf_prefix>/</tf_prefix>
