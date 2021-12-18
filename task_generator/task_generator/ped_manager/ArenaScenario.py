@@ -6,7 +6,8 @@ from .PedsimAgent import *
 from .FlatlandModel import *
 from .HelperFunctions import *
 
-class ArenaScenario():
+
+class ArenaScenario:
     def __init__(self):
         self.pedsimAgents = []  # list of PedsimAgent objects
         self.interactiveObstacles = []  # list of InteractiveObstacle messages
@@ -40,19 +41,21 @@ class ArenaScenario():
     def loadFromDict(self, d):
         # type: (dict) -> None
         self.pedsimAgents = [PedsimAgent.fromDict(a) for a in d["pedsim_agents"]]
-        self.staticObstacles = [FlatlandObject.fromDict(o) for o in d["static_obstacles"]]
+        self.staticObstacles = [
+            FlatlandObject.fromDict(o) for o in d["static_obstacles"]
+        ]
         # self.interactiveObstacles = ...TODO
         self.robotPosition = np.array([d["robot_position"][0], d["robot_position"][1]])
         self.robotGoal = np.array([d["robot_goal"][0], d["robot_goal"][1]])
         self.mapPath = get_current_user_path(d["map_path"])
 
-    def saveToFile(self, path_in = ""):
+    def saveToFile(self, path_in=""):
         # type: (str) -> bool
-        '''
+        """
         Save Scenario in file.
         - path_in: path to save file
         - format: format of save file, can be "json" or "yaml"
-        '''
+        """
         if os.path.exists(path_in):
             self.path = path_in
 
@@ -67,7 +70,9 @@ class ArenaScenario():
             elif file_extension == ".yaml":
                 yaml.dump(data, file, default_flow_style=None)
             else:
-                raise Exception("wrong format. file needs to have 'json' or 'yaml' file ending.")
+                raise Exception(
+                    "wrong format. file needs to have 'json' or 'yaml' file ending."
+                )
 
         return True
 
@@ -82,7 +87,9 @@ class ArenaScenario():
                 elif file_extension == ".yaml":
                     data = yaml.safe_load(f)
                 else:
-                    raise Exception("wrong format. file needs to have 'json' or 'yaml' file ending.")
+                    raise Exception(
+                        "wrong format. file needs to have 'json' or 'yaml' file ending."
+                    )
 
                 self.loadFromDict(data)
                 self.path = path_in
@@ -96,16 +103,48 @@ class ArenaScenario():
         # creates pedsim-agents
         peds = []
         for id, spos, wpos in zip(ids, s_pos, w_pos):
-            peds.append({"name": "Pedestrian", "id": id, "pos": [*spos], "type": "adult", "yaml_file": "/home/daniel/catkin_ws/src/arena-rosnav-3D/simulator_setup/dynamic_obstacles/person_two_legged.model.yaml",
-            "number_of_peds": 1, "vmax": 0.3, "start_up_mode": "default", "wait_time": 0.0, "trigger_zone_radius": 0.0, "chatting_probability": 0.01, "tell_story_probability": 0, "group_talking_probability": 0.01, "talking_and_walking_probability": 0.01,
-            "requesting_service_probability": 0.01, "requesting_guide_probability": 0.01, "requesting_follower_probability": 0.01, "max_talking_distance": 5, "max_servicing_radius": 5, "talking_base_time": 10,
-            "tell_story_base_time": 0, "group_talking_base_time": 10, "talking_and_walking_base_time": 6, "receiving_service_base_time": 20, "requesting_service_base_time": 30, "force_factor_desired": 1,
-            "force_factor_obstacle": 1, "force_factor_social": 5, "force_factor_robot": 0,
-            "waypoints": [ [*spos], [*wpos] ], "waypoint_mode": 0})
+            peds.append(
+                {
+                    "name": "Pedestrian",
+                    "id": id,
+                    "pos": [*spos],
+                    "type": "adult",
+                    "yaml_file": "/home/daniel/catkin_ws/src/arena-rosnav-3D/simulator_setup/dynamic_obstacles/person_two_legged.model.yaml",
+                    "number_of_peds": 1,
+                    "vmax": 0.3,
+                    "start_up_mode": "default",
+                    "wait_time": 0.0,
+                    "trigger_zone_radius": 0.0,
+                    "chatting_probability": 0.01,
+                    "tell_story_probability": 0,
+                    "group_talking_probability": 0.01,
+                    "talking_and_walking_probability": 0.01,
+                    "requesting_service_probability": 0.01,
+                    "requesting_guide_probability": 0.01,
+                    "requesting_follower_probability": 0.01,
+                    "max_talking_distance": 5,
+                    "max_servicing_radius": 5,
+                    "talking_base_time": 10,
+                    "tell_story_base_time": 0,
+                    "group_talking_base_time": 10,
+                    "talking_and_walking_base_time": 6,
+                    "receiving_service_base_time": 20,
+                    "requesting_service_base_time": 30,
+                    "force_factor_desired": 1,
+                    "force_factor_obstacle": 1,
+                    "force_factor_social": 5,
+                    "force_factor_robot": 1,
+                    "waypoints": [[*spos], [*wpos]],
+                    "waypoint_mode": 0,
+                }
+            )
 
         # loading the an empty pedsim-scenario file and inserting peds
-        path = rospkg.RosPack().get_path('simulator_setup') + '/scenarios/utils/empty_ped_scenario.json'
-        
+        path = (
+            rospkg.RosPack().get_path("simulator_setup")
+            + "/scenarios/utils/empty_ped_scenario.json"
+        )
+
         if os.path.exists(path):
             _, file_extension = os.path.splitext(path)
             with open(path, "r") as f:
