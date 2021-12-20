@@ -120,6 +120,7 @@ class DeploymentDRLAgent(BaseDRLAgent):
             if not goal_reached:
                 obs = self.get_observations()[0]
                 # obs = np.where(obs == np.inf, 3.5, obs)
+                print(obs[360:])
                 self._last_action = self.get_action(obs)
                 self._action_infered = True
 

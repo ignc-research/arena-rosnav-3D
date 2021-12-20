@@ -485,7 +485,7 @@ Visualization Manager:
           Marker Topic: /vis_goal
           Name: goal
           Namespaces:
-            "": true
+            {}
           Queue Size: 100
           Value: true
         - Class: rviz/Marker
@@ -683,7 +683,7 @@ Visualization Manager:
       Marker Topic: /planning_vis/goal
       Name: Marker
       Namespaces:
-        "": true
+        {}
       Queue Size: 100
       Value: true
     - Alpha: 1
@@ -882,7 +882,7 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Scale: 70.9201431274414
+      Scale: 42.72700500488281
       Target Frame: <Fixed Frame>
       X: 0.3356345295906067
       Y: -0.2600730061531067
