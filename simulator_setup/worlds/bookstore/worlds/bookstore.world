@@ -1,6 +1,14 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <sdf version="1.6">
   <world name="default">
+  <plugin name="gazebo_occupancy_map" filename="libgazebo_2Dmap_plugin.so">
+        <map_resolution>0.1</map_resolution> <!-- in meters, optional, default 0.1 -->
+        <map_height>0.3</map_height>         <!-- in meters, optional, default 0.3 -->
+        <map_size_x>30</map_size_x>          <!-- in meters, optional, default 10 -->
+        <map_size_y>30</map_size_y>          <!-- in meters, optional, default 10 -->
+        <init_robot_x>0</init_robot_x>          <!-- x coordinate in meters, optional, default 0 -->
+        <init_robot_y>0</init_robot_y>          <!-- y coordinate in meters, optional, default 0 -->
+    </plugin>
     <!-- override the default position of the camera -->
     <gui>
       <camera name="gzclient_camera">
@@ -1135,10 +1143,10 @@
       <cast_shadows>0</cast_shadows>
       <direction>0 0 -1</direction>
     </light>
-    <include>
+   <!--  <include>
       <pose>-2.3 6.2 0.0 0.0 0.0 -1.72</pose>
       <uri>model://turtlebot3_waffle_pi</uri>
-    </include>
+    </include> -->
   <actor name="person_1"><pose> -0.46 20.8 0.0 0.0 0.0 1.18 </pose><skin><filename>model://actor/meshes/SKIN_man_green_shirt.dae</filename></skin><animation name="animation"><filename>model://actor/meshes/ANIMATION_walking.dae</filename><interpolate_x>true</interpolate_x></animation><plugin name="None" filename="libActorPosePlugin.so"/><plugin name="actor_collisions_plugin" filename="libActorCollisionsPlugin.so">
       <scaling collision="LHipJoint_LeftUpLeg_collision" scale="           0.01           0.001           0.001       "/>
       <scaling collision="LeftUpLeg_LeftLeg_collision" scale="           8.0           8.0           1.0       "/>

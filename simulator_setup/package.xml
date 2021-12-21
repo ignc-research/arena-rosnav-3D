@@ -60,7 +60,10 @@
     <gazebo_ros plugin_path="${prefix}/worlds/experiment_room_2/lib" gazebo_media_path="${prefix}/worlds/experiment_room_2" gazebo_model_path="${prefix}/worlds/experiment_room_2/models"/>
     <gazebo_ros plugin_path="${prefix}/worlds/experiment_room_3/lib" gazebo_media_path="${prefix}/worlds/experiment_room_3" gazebo_model_path="${prefix}/worlds/experiment_room_3/models"/>
     <gazebo_ros plugin_path="${prefix}/worlds/experiment_room_4/lib" gazebo_media_path="${prefix}/worlds/experiment_room_4" gazebo_model_path="${prefix}/worlds/experiment_room_4/models"/>
-    <gazebo_ros plugin_path="${prefix}/worlds/office/lib" gazebo_media_path="${prefix}/worlds/office/media/meshes" gazebo_model_path="${prefix}/worlds/office/models"/>
+    <gazebo_ros plugin_path="${prefix}/worlds/office_env_large/lib" gazebo_media_path="${prefix}/worlds/office_env_large/media/meshes" gazebo_model_path="${prefix}/worlds/office_env_large/models"/>
+    <gazebo_ros plugin_path="${prefix}/worlds/small_city/lib" gazebo_media_path="${prefix}/worlds/small_city/media/meshes" gazebo_model_path="${prefix}/worlds/small_city/models"/>
+    <gazebo_ros plugin_path="${prefix}/worlds/office_earthquake/lib" gazebo_media_path="${prefix}/worlds/office_earthquake/media/meshes" gazebo_model_path="${prefix}/worlds/office_earthquake/models"/>
+    <gazebo_ros plugin_path="${prefix}/worlds/office_cpr_construction/lib" gazebo_media_path="${prefix}/worlds/office_cpr_construction/media/meshes" gazebo_model_path="${prefix}/worlds/office_cpr_construction/models"/>
     <gazebo_ros gazebo_model_path="${prefix}/models"/>
     <controller_interface plugin="${prefix}/robot/ridgeback/control/mecanum_drive_controller_plugins.xml"/>
 
