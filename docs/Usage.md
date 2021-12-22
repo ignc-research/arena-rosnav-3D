@@ -2,10 +2,15 @@
 Arena-rosnav-3D is structurally very similar to arena-rosnav to allow easy switching between 2D and 3D environments. Currently, three custom worlds and a random world generator are supported. In our detailed custom worlds you can generate dynamic obstacles either in a scenario mode or in a random mode where the obstacle trajectories are determined randomly. 
 
 # Worlds
-We provide the following four worlds for your use: 
-|<img width="250" height="240" src="/img/aws_house-2.png">|<img width="250" height="240" src="/img/turtlebot3_house.png">|<img width="250" height="240" src="/img/small_warehouse-2.png">|<img width="250" height="240" src="/img/outside.png">|
-|:--:       |              :--:|             :--:|          :--:| 
-| *aws_house* | *turtlebot3_house* | *small_warehouse* | *random world* |
+We provide the following worlds for your use: 
+|<img width="150" height="140" src="/img/aws_house-2.png">|<img width="150" height="140" src="/img/turtlebot3_house.png">|<img width="150" height="140" src="/img/small_warehouse-2.png">|<img width="150" height="140" src="/img/outside.png">|<img width="150" height="140" src="/img/factory.png">|<img width="150" height="140" src="/img/hospital.jpg">|
+|:--:       |              :--:|             :--:|          :--:|             :--:|          :--:|
+| *aws_house* | *turtlebot3_house* | *small_warehouse* | *random world* | *factory* | *hospital* | 
+
+|<img width="150" height="140" src="/img/experiment_rooms.jpg">|
+|:--:|        
+| *experiment_rooms* | 
+
 ## Pre-build world
 
 To select one of our pre-build worlds, specify your scenario by selecting **aws_house**,  turtlebot3_house, small_warehouse *(bold is your default world)* in your startup file:
