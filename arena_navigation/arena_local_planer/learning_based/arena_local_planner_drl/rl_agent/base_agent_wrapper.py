@@ -186,25 +186,53 @@ class BaseDRLAgent(ABC):
             self._agent_params and "discrete_action_space" in self._agent_params
         )
 
-        self._action_space = (
-            spaces.Discrete(len(self._discrete_actions))
-            if self._agent_params["discrete_action_space"]
-            else spaces.Box(
-                low=np.array(
-                    [
-                        self._cont_actions["linear_range"][0],
-                        self._cont_actions["angular_range"][0],
-                    ]
-                ),
-                high=np.array(
-                    [
-                        self._cont_actions["linear_range"][1],
-                        self._cont_actions["angular_range"][1],
-                    ]
-                ),
-                dtype=np.float,
-            )
-        )
+        self._holonomic = self._agent_params["robot"]["holonomic"]
+
+        if self._agent_params["discrete_action_space"]:
+            # self._discrete_actions is a list, each element is a dict with the keys ["name", 'linear','angular']
+            assert (
+                not self._holonomic
+            ), "Discrete action space currently not supported for holonomic robots"
+            self._discrete_acitons = self._agent_params["robot"][
+                "discrete_actions"
+            ]
+            self.action_space = spaces.Discrete(len(self._discrete_acitons))
+        else:
+            linear_range = self._agent_params["robot"]["continuous_actions"][
+                "linear_range"
+            ]
+            angular_range = self._agent_params["robot"]["continuous_actions"][
+                "angular_range"
+            ]
+
+            if not self._holonomic:
+                self.action_space = spaces.Box(
+                    low=np.array([linear_range[0], angular_range[0]]),
+                    high=np.array([linear_range[1], angular_range[1]]),
+                    dtype=np.float,
+                )
+            else:
+                linear_range_x, linear_range_y = (
+                    linear_range["x"],
+                    linear_range["y"],
+                )
+                self.action_space = spaces.Box(
+                    low=np.array(
+                        [
+                            linear_range_x[0],
+                            linear_range_y[0],
+                            angular_range[0],
+                        ]
+                    ),
+                    high=np.array(
+                        [
+                            linear_range_x[1],
+                            linear_range_y[1],
+                            angular_range[1],
+                        ]
+                    ),
+                    dtype=np.float,
+                )
 
     def setup_reward_calculator(self) -> None:
         """Sets up the reward calculator."""
@@ -311,10 +339,31 @@ class BaseDRLAgent(ABC):
             action (np.ndarray):
                 Action in [linear velocity, angular velocity]
         """
+        action_msg = (
+            self._get_hol_action_msg(action)
+            if self._holonomic
+            else self._get_nonhol_action_msg(action)
+        )
+        self._action_pub.publish(action_msg)
+
+    def _get_hol_action_msg(self, action: np.ndarray):
+        assert (
+            len(action) == 3
+        ), "Holonomic robots require action arrays to have 3 entries."
+        action_msg = Twist()
+        action_msg.linear.x = action[0]
+        action_msg.linear.y = action[1]
+        action_msg.angular.z = action[2]
+        return action_msg
+
+    def _get_nonhol_action_msg(self, action: np.ndarray):
+        assert (
+            len(action) == 2
+        ), "Non-holonomic robots require action arrays to have 2 entries."
         action_msg = Twist()
         action_msg.linear.x = action[0]
         action_msg.angular.z = action[1]
-        self._action_pub.publish(action_msg)
+        return action_msg
 
     def _get_disc_action(self, action: int) -> np.ndarray:
         """Returns defined velocity commands for parsed action index.\
