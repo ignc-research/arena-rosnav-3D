@@ -7,9 +7,9 @@ We provide the following worlds for your use:
 |:--:       |              :--:|             :--:|          :--:|             :--:|          :--:|
 | *aws_house* | *turtlebot3_house* | *small_warehouse* | *random world* | *factory* | *hospital* | 
 
-|<img width="150" height="140" src="/img/experiment_rooms.jpg">|<img width="150" height="140" src="/img/bookstore.jpeg">|
-|:--:|        :--:|     
-| *experiment_rooms* | *bookstore* |
+|<img width="150" height="140" src="/img/experiment_rooms.jpg">|<img width="150" height="140" src="/img/bookstore.jpeg">|<img width="150" height="140" src="/img/tb_world.jpg">|
+|:--:|        :--:|      :--:|     
+| *experiment_rooms* | *bookstore* | *turtlebot3_world* |
 
 ## Pre-build world
 
