@@ -82,7 +82,7 @@ To be able to use python3 with ROS, you need an virtual environment. We recommen
 - Install virtual environment and wrapper (as root or admin! with sudo) on your local pc (without conda activated. Deactivate conda env, if you have one active)
 
 ```
-sudo apt install pip
+sudo apt install python3-pip
 sudo pip3 install --upgrade pip
 sudo pip3 install virtualenv
 sudo pip3 install virtualenvwrapper
