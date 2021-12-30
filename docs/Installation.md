@@ -109,6 +109,7 @@ source /usr/local/bin/virtualenvwrapper.sh" >> ~/.bashrc
 Note: You might need to restart your terminal at this point.
 
 ```
+source ~/.bashrc
 mkvirtualenv --python=python3.8 rosnav
 workon rosnav
 ```
