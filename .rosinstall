@@ -17,3 +17,11 @@
 - git:
     local-name: ../forks/gazebo_ros_2Dmap_plugin
     uri: https://github.com/Jacenty00/gazebo_ros_2Dmap_plugin
+- git:
+    local-name: ../forks/navigation/local_planner/mpc
+    uri: https://github.com/rst-tu-dortmund/mpc_local_planner
+    version: master
+# - git:
+#     local-name: ../forks/navigation/local_planner/teb
+#     uri: https://github.com/rst-tu-dortmund/teb_local_planner
+#     version: master
