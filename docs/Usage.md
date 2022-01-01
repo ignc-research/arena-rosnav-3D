@@ -33,7 +33,10 @@ roslaunch arena_bringup start_arena_gazebo.launch outside:=true
 ```
 The custom world generator creates a map with a set number of static and dynamic obstacles of a randomly determined size (and shape).
 
-If you want to change the number of static obstacles you do this [here](https://github.com/eliastreis/arena-rosnav-3D/blob/18ed507bfbf31015002c5727f2ab9aef3a05ca9b/task_generator/task_generator/tasks.py#L304)
+If you want to change the number of static obstacles you can also do that via the terminal (the shape is randomly determined by the task-generator node):
+```bash
+roslaunch arena_bringup start_arena_gazebo.launch outside:=true num_static_obs:=10
+```
 
 If you want to change the number of actors you can specify the amount using parameters like this:
 
