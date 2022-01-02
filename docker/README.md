@@ -62,9 +62,9 @@ Using Docker, you can run this repo on any operating system. Please follow these
 
 
 #### Install latest version of docker
-https://docs.docker.com/get-docker/
 
-- For Ubuntu 20.04
+
+- For Ubuntu 20.04 (src: https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-20-04)
 ```bash
 sudo apt update
 sudo apt install apt-transport-https ca-certificates curl gnupg-agent software-properties-common
@@ -72,8 +72,8 @@ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
 sudo apt update
 sudo apt install docker-ce docker-ce-cli containerd.io
-docker -v
-Docker version 20.10.7, build f0df350
+docker -v 
+# Docker version 20.10.7, build f0df350
 ```
 - For Windows
 https://docs.docker.com/desktop/windows/install/
