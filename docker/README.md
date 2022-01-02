@@ -1,5 +1,7 @@
+
+<!-- 
 # Start training with docker
-<!-- 0. install docker (optional)
+0. install docker (optional)
 https://docs.docker.com/get-docker/
 
 Ubuntu 20.04: latest version of Docker
@@ -59,9 +61,10 @@ sudo docker run -v "/yourhome/arena-rosnav/docker:/root/catkin_ws/src/arena-rosn
 Using Docker, you can run this repo on any operating system. Please follow these steps to install arena-rosnav-3D via Docker:
 
 
-0. install latest version of docker
-https://docs.docker.com/get-docker/
+#### Install latest version of docker
 
+
+- For Ubuntu 20.04 (src: https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-20-04)
 ```bash
 sudo apt update
 sudo apt install apt-transport-https ca-certificates curl gnupg-agent software-properties-common
@@ -69,10 +72,17 @@ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
 sudo apt update
 sudo apt install docker-ce docker-ce-cli containerd.io
-docker -v
-Docker version 20.10.7, build f0df350
+docker -v 
+# Docker version 20.10.7, build f0df350
 ```
+- For Windows
+https://docs.docker.com/desktop/windows/install/
 
+- For Mac
+https://docs.docker.com/desktop/mac/install/
+
+
+### Steps after Docker Installation
 1. clone this repro
 ```
 sudo git clone -b docker_new --depth 1 https://github.com/ignc-research/arena-rosnav-3D /the/folder/you/want
