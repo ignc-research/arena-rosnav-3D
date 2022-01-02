@@ -93,9 +93,9 @@ RUN . /usr/local/bin/virtualenvwrapper.sh \
 ## 4.1. Install base arena-rosnav-3d
 RUN mkdir -p catkin_ws/src && cd catkin_ws/src \
 && git clone https://github.com/ignc-research/arena-rosnav-3D.git \
-&& cd .. 
-&& catkin_make -DCMAKE_BUILD_TYPE=Release -DPYTHON_EXECUTABLE=/usr/bin/python3
-&& source devel/setup.zsh
+&& cd .. \
+&& catkin_make -DCMAKE_BUILD_TYPE=Release -DPYTHON_EXECUTABLE=/usr/bin/python3 \
+&& source devel/setup.zsh \
 && echo \
 "source $HOME/catkin_ws/devel/setup.zsh export PYTHONPATH=$HOME/catkin_ws/src/arena-rosnav-3D:${PYTHONPATH}" \
 >> ~/.zshrc \
