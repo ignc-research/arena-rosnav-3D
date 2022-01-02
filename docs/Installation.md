@@ -109,6 +109,7 @@ source /usr/local/bin/virtualenvwrapper.sh" >> ~/.bashrc
 Note: You might need to restart your terminal at this point.
 
 ```
+source ~/.bashrc
 mkvirtualenv --python=python3.8 rosnav
 workon rosnav
 ```
@@ -177,6 +178,7 @@ rosdep install --from-paths src --ignore-src -r -y
 ```bash
 cd ~/catkin_ws/src/forks/pedsim_ros && git submodule update --init --recursive
 cd ../../.. && catkin_make --only-pkg-with-deps spencer_tracking_rviz_plugin
+catkin_make -DCATKIN_WHITELIST_PACKAGES=""
 ```
 
 # Add arena-rosnav next to arena-rosnav-3D

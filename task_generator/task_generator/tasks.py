@@ -22,7 +22,7 @@ from filelock import FileLock
 
 STANDART_ORIENTATION = quaternion_from_euler(0.0, 0.0, 0.0)
 ROBOT_RADIUS = rospy.get_param('radius')
-N_OBS = {"static": 10, "dynamic": rospy.get_param('actors',3)}
+N_OBS = {"static": rospy.get_param('num_static_obs',3), "dynamic": rospy.get_param('actors',3)}
 
 
 class StopReset(Exception):
