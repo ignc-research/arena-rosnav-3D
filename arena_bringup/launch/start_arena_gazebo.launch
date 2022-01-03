@@ -13,7 +13,7 @@
   <arg name="world" default="outside"     if = "$(arg outside)"/>
   <arg name="num_static_obs" default="3"/> <!-- Number of static obstacles in outside mode-->
   <arg name="model" default="turtlebot3_burger"      doc = "model type [turtlebot3_burger, jackal, ridgeback, agv-ota]"/>
-  <arg name="scenario_file" default="$(arg world).json"/>
+  <arg name="scenario_file" default="$(arg world).json"/> <!-- You can also specify your custom scenario file here-->
   <arg name="step_size" default="0.01"/>
   <arg name="update_rate" default="250"/>
   <arg name="show_viz" default="true"/>

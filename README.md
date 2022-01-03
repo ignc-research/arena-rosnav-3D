@@ -64,7 +64,6 @@ python scripts/training/train_agent.py --agent MLP_ARENA2D
 - [How to include further world files](docs/Miscellaneous.md#How-to-include-further-world-files)
 - [How to create more world files](docs/Miscellaneous.md#How-to-create-more-world-files)
 - [How to speed-up gazebo simulation speed](docs/Miscellaneous.md#How-to-speed-up-gazebo-simulation-speed)
-- [How to create worlds and scenarios using arena-tools](https://github.com/Jacenty00/arena-tools)
 - [How to include further scenarios](docs/Miscellaneous.md#How-to-include-further-scenarios)
 - [Link to project report](https://www.overleaf.com/9421739154ccngtqpdcvjj)
 

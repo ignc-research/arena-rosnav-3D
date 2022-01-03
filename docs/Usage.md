@@ -70,6 +70,10 @@ In scenario mode, the robot's starting/end position and the amount of actors, as
 ```bash
 roslaunch arena_bringup start_arena_gazebo.launch task_mode:=scenario
 ```
+If you want to select your custom scenario, run:
+```bash
+roslaunch arena_bringup start_arena_gazebo.launch task_mode:=scenario scenario_file:={Name of your scenario}
+```
 
 ---
 # Local Planners 
