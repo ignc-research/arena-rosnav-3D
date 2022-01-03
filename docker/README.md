@@ -103,7 +103,7 @@ sudo docker build --no-cache -t v1 .
 ```
 4. start without rviz
 ```
-sudo docker run -it --rm --net=host arena_rosnav-3D
+sudo docker run -it --rm --net=host v1
 ```
 5. with rviz: close container and go back to ../arena-rosnav-3D in host machine
 ```
@@ -117,7 +117,7 @@ docker-compose start \
 ```
 7. enter the contaier
 ```
-docker exec -it arena-rosnav-3D zsh
+docker exec -it arena-rosnav-3D bash
 ```
 8. quickstart
 ```
