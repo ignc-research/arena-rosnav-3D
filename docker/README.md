@@ -82,6 +82,12 @@ https://docs.docker.com/desktop/windows/install/
 https://docs.docker.com/desktop/mac/install/
 
 
+#### Executing Docker without sudo (optional but recommended)
+```bash
+sudo usermod -aG docker ${USER}
+su - ${USER}
+```
+
 ### Steps after Docker Installation
 1. clone this repro
 ```
@@ -93,7 +99,7 @@ cd arena-rosnav-3D/docker
 ```
 3. build the docker images 
 ```
-sudo docker build --no-cache -t arena_rosnav . -f Dockerfile_w
+sudo docker build --no-cache -t v1 .
 ```
 4. start without rviz
 ```
