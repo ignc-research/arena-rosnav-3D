@@ -27,7 +27,6 @@ RUN apt-get -y update && apt-get install -y \
         screen \
         libopencv-dev \
         liblua5.2-dev \
-
         && add-apt-repository ppa:rock-core/qt4 \
         && apt-get install -y libqtcore4
 
@@ -135,7 +134,8 @@ RUN cd $HOME \
 >> ~/.bashrc 
 
 ## 4.3. Install Pedsim
-RUN sudo apt install python3-rosdep python3-rospkg \
+RUN . /opt/ros/noetic/setup.sh \
+&& sudo apt install python3-rosdep python3-rospkg \
 #&& sudo rosdep init \
 && cd ~/catkin_ws/src/arena-rosnav-3D \
 && rosws update \
@@ -150,7 +150,7 @@ RUN sudo apt install python3-rosdep python3-rospkg \
 && catkin_make -DCATKIN_WHITELIST_PACKAGES="" 
 
 
-# 7. Entrypoint
+# 7. Entrypoint x
 # RUN ["chmod", "+x", "/root/catkin_ws/src/arena-rosnav/docker/entrypoint_train.sh"]
 # WORKDIR /root/catkin_ws/src/arena-rosnav/
 # ARG ROS_START="train_mode:=true use_viz:=false task_mode:=random map_file:=map_small num_envs:=4"
@@ -158,3 +158,14 @@ RUN sudo apt install python3-rosdep python3-rospkg \
 # ENV roslaunchParams="$ROS_START"
 # ENV pythonParams="$PYTHON_START"
 # ENTRYPOINT docker/entrypoint_train.sh "$roslaunchParams" "$pythonParams"
+
+
+#Set up Oh-my-zsh
+# RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/v1.1.2/zsh-in-docker.sh)" -- \
+#     -t https://github.com/denysdovhan/spaceship-prompt \
+#     -a 'SPACESHIP_PROMPT_ADD_NEWLINE="false"' \
+#     -a 'SPACESHIP_PROMPT_SEPARATE_LINE="false"' \
+#     -p git \
+#     -p ssh-agent \
+#     -p https://github.com/zsh-users/zsh-autosuggestions \
+#     -p https://github.com/zsh-users/zsh-completions
