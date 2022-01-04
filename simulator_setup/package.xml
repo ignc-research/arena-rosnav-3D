@@ -51,11 +51,12 @@
 
   <export>
     <gazebo_ros plugin_path="${prefix}/worlds/aws_house/lib" gazebo_media_path="${prefix}/worlds/aws_house" gazebo_model_path="${prefix}/worlds/aws_house/models"/>
+    <gazebo_ros plugin_path="${prefix}/worlds/turtlebot3_house/lib" gazebo_media_path="${prefix}/worlds/turtlebot3_house" gazebo_model_path="${prefix}/worlds/turtlebot3_house/models"/>
     <gazebo_ros plugin_path="${prefix}/worlds/small_warehouse/lib" gazebo_media_path="${prefix}/worlds/small_warehouse" gazebo_model_path="${prefix}/worlds/small_warehouse/models"/>
     <gazebo_ros plugin_path="${prefix}/worlds/factory/lib" gazebo_media_path="${prefix}/worlds/factory" gazebo_model_path="${prefix}/worlds/factory/models"/>
     <gazebo_ros plugin_path="${prefix}/worlds/bookstore/lib" gazebo_media_path="${prefix}/worlds/bookstore" gazebo_model_path="${prefix}/worlds/bookstore/models"/>
     <gazebo_ros plugin_path="${prefix}/worlds/hospital/lib" gazebo_media_path="${prefix}/worlds/hospital" gazebo_model_path="${prefix}/worlds/hospital/models"/>
-    <gazebo_ros plugin_path="${prefix}/worlds/dynamic_world/lib" gazebo_media_path="${prefix}/dynamic_world/hospital" gazebo_model_path="${prefix}/worlds/dynamic_world/models"/>
+    <gazebo_ros plugin_path="${prefix}/worlds/dynamic_world/lib" gazebo_media_path="${prefix}/worlds/dynamic_world" gazebo_model_path="${prefix}/worlds/dynamic_world/models"/>
     <gazebo_ros plugin_path="${prefix}/worlds/experiment_room_1/lib" gazebo_media_path="${prefix}/worlds/experiment_room_1" gazebo_model_path="${prefix}/worlds/experiment_room_1/models"/>
     <gazebo_ros plugin_path="${prefix}/worlds/experiment_room_2/lib" gazebo_media_path="${prefix}/worlds/experiment_room_2" gazebo_model_path="${prefix}/worlds/experiment_room_2/models"/>
     <gazebo_ros plugin_path="${prefix}/worlds/experiment_room_3/lib" gazebo_media_path="${prefix}/worlds/experiment_room_3" gazebo_model_path="${prefix}/worlds/experiment_room_3/models"/>

@@ -47,12 +47,12 @@ We currently provide one scenario per world. To you can extent this by
 
 To create a new scenario for a specific world
 
-1. Find the current scenario under `simulator_setup/scenarios/{NAME_OF_YOUR_WORLD}.json`
-2. Create your own scenario on basis of the current scenario. (You can also look into other scenario files to find other predefined dynamic obstacles). (Keep in mind the inverted oriented orientation of X and Y axis at Gazebo-startup)
-3. Save the file under the above path. In case you create multiple scenarios per world you will have to specify your scenario at startup like this:
+
+1. Create your own scenario using [arena-tools](https://github.com/Jacenty00/arena-tools#scenario-editor)
+2. Save the file under the path `simulator_setup/scenarios/{NAME_OF_YOUR_SCENARIO}.json`. In case you create multiple scenarios per world you will have to specify your scenario at startup like this:
    
 ```bash
-roslaunch arena_bringup start_arena_gazebo.launch scenario_file:=simulator_setup/scenarios/prefix_{NAME_OF_YOUR_WORLD}.json
+roslaunch arena_bringup start_arena_gazebo.launch scenario_file:=simulator_setup/scenarios/{NAME_OF_YOUR_SCENARIO}.json
 ```
 
 <ins>NOTE:</ins> The number of indoor dynamic obstacles should be chosen wisely. In confined environments such as the turtlebot3_house, too many obstacles will result in uneven trajectories (like obstacles getting stuck etc).
