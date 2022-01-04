@@ -59,6 +59,15 @@ Do the quickstart
 roslaunch arena_bringup start_arena_gazebo.launch local_planner:=teb task_mode:=random world:=small_warehouse actors:=6 
 ```
 ### On Windows and Mac using docker-compose 
+Install docker-compose
+
+```
+sudo curl -L "https://github.com/docker/compose/releases/download/1.27.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose \
+sudo chmod +x /usr/local/bin/docker-compose \
+docker-compose --version
+
+```
+Using docker-compose, you can set up a configuration.yml file where you have to setup display variables. A [docker-compose.yml](https://github.com/ignc-research/arena-rosnav-3D/docker/docker-compose.yml)configuration file is already given in this repo. You might have to modify it.
 
 ```
 docker-compose up -d \
