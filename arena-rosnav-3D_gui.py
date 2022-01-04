@@ -261,6 +261,9 @@ class Ui_MainWindow(object):
         self.comboBox.setItemText(0, _translate("MainWindow", "turtlebot3_burger"))
         self.comboBox.setItemText(1, _translate("MainWindow", "waffle_pi"))
         self.comboBox.setItemText(2, _translate("MainWindow", "waffle"))
+        self.comboBox.addItem("jackal")
+        self.comboBox.addItem("ridgeback")
+        self.comboBox.addItem("agv-ota")
         self.mapBrowseButton.setText(_translate("MainWindow", "Browse"))
         self.pedsimSceneLine.setStatusTip(
             _translate(

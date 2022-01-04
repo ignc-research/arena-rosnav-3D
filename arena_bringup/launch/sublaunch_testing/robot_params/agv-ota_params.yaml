@@ -1,5 +1,5 @@
 radius: 0.629
-speed: 0.5
+speed: 1.5
 robot_action_rate: 10
 laser_update_rate: 10
 # the following 4 params are from the .gazebo.axro model

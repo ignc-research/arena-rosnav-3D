@@ -186,7 +186,7 @@ cd ../../.. && catkin_make --only-pkg-with-deps spencer_tracking_rviz_plugin
 ```bash
 sudo apt-get update
 cd $HOME && mkdir -p arena_ws/src && cd arena_ws/src
-git clone https://github.com/eliastreis/arena-rosnav.git
+git clone https://github.com/ignc-research/arena-rosnav.git -b noetic-devel
 cd arena-rosnav && rosws update
 ```
 
