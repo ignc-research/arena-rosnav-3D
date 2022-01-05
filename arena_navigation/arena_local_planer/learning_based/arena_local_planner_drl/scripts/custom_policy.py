@@ -1,5 +1,6 @@
 import os
 from typing import Callable, Dict, List, Optional, Tuple, Type, Union
+from arena_navigation.arena_local_planer.learning_based.arena_local_planner_drl.rl_agent.base_agent_wrapper import BaseDRLAgent
 
 import gym
 import rospkg
@@ -16,26 +17,27 @@ _L: Number of laser beams - placeholder for the laser beam data
 """
 _RS = 2  # robot state size
 
-ROBOT_SETTING_PATH = rospkg.RosPack().get_path("simulator_setup")
-yaml_ROBOT_SETTING_PATH = os.path.join(
-    ROBOT_SETTING_PATH, "robot", "myrobot.model.yaml"
-)
+# ROBOT_SETTING_PATH = rospkg.RosPack().get_path("arena_bringup")
+# yaml_ROBOT_SETTING_PATH = os.path.join(
+#     ROBOT_SETTING_PATH, "launch", "sublaunch_testing", "robot_params", "turtlebot3_burger_params.model.yaml"
+# )
 
-with open(yaml_ROBOT_SETTING_PATH, "r") as fd:
-    robot_data = yaml.safe_load(fd)
-    for plugin in robot_data["plugins"]:
-        if plugin["type"] == "Laser":
-            laser_angle_min = plugin["angle"]["min"]
-            laser_angle_max = plugin["angle"]["max"]
-            laser_angle_increment = plugin["angle"]["increment"]
-            _L = int(
-                round(
-                    (laser_angle_max - laser_angle_min) / laser_angle_increment
-                )
-                + 1
-            )  # num of laser beams
-            break
+# with open(yaml_ROBOT_SETTING_PATH, "r") as fd:
+#     robot_data = yaml.safe_load(fd)
+#     for plugin in robot_data["plugins"]:
+#         if plugin["type"] == "Laser":
+#             laser_angle_min = plugin["angle"]["min"]
+#             laser_angle_max = plugin["angle"]["max"]
+#             laser_angle_increment = plugin["angle"]["increment"]
+#             _L = int(
+#                 round(
+#                     (laser_angle_max - laser_angle_min) / laser_angle_increment
+#                 )
+#                 + 1
+#             )  # num of laser beams
+#             break
 
+_L, _, _ = BaseDRLAgent._get_robot_settings("model")
 
 class MLP_ARENA2D(nn.Module):
     """

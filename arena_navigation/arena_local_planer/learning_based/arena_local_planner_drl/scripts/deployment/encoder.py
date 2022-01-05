@@ -6,20 +6,6 @@ import rospy
 import rospkg
 import sys
 
-from stable_baselines3 import PPO
-
-from rospy.exceptions import ROSException
-from std_msgs.msg import Bool
-
-from rl_agent.base_agent_wrapper import BaseDRLAgent
-#!/usr/bin/env python
-import os
-import numpy as np
-import pickle
-import rospy
-import rospkg
-import sys
-
 from rospy.exceptions import ROSException
 from std_msgs.msg import Bool
 
@@ -43,7 +29,6 @@ DEFAULT_ACTION_SPACE = os.path.join(
 class DeploymentDRLAgent(BaseDRLAgent):
     def __init__(
         self,
-        encoder,
         agent_name: str,
         ns: str = None,
         robot_name: str = None,
@@ -67,8 +52,6 @@ class DeploymentDRLAgent(BaseDRLAgent):
                     Path to yaml file containing action space settings.
                     Defaults to DEFAULT_ACTION_SPACE.
         """
-        self.encoder = encoder
-        
         self._is_train_mode = rospy.get_param("/train_mode")
         if not self._is_train_mode:
             rospy.init_node("DRL_local_planner", anonymous=True)
@@ -136,20 +119,16 @@ class DeploymentDRLAgent(BaseDRLAgent):
             action publishing rate.
         """
         rospy.Timer(self._action_period, self.callback_publish_action)
-
         while not rospy.is_shutdown():
             goal_reached = rospy.get_param("/bool_goal_reached", default=False)
             if not goal_reached:
                 obs = self.get_observations()[0]
-
-                encoded_obs = self.encoder.get_observation(obs)
-
                 # obs = np.where(obs == np.inf, 3.5, obs)
                 # print(obs[360:])
                 self._last_action = self.get_action(obs)
                 self._action_infered = True
 
-    def callback_publish_action(self):
+    def callback_publish_action(self, event):
         if self._action_infered:
             self.publish_action(self._last_action)
             # reset flag
@@ -157,6 +136,34 @@ class DeploymentDRLAgent(BaseDRLAgent):
         else:
             rospy.logdebug("No action received during recent action horizon.")
             self.publish_action(self.STAND_STILL_ACTION)
+
+    # def _wait_for_next_action_cycle(self) -> None:
+    #     """Stops the loop until a trigger message is sent by the ActionPublisher
+
+    #     Note:
+    #         Only use this method in combination with the ActionPublisher node!
+    #         That node is only booted when training mode is off.
+    #     """
+    #     try:
+    #         rospy.wait_for_message(f"{self._ns_robot}next_cycle", Bool)
+    #     except ROSException:
+    #         pass
+
+    # def call_service_takeSimStep(self, t: float = None) -> None:
+    #     """Fast-forwards the simulation time.
+
+    #     Args:
+    #         t (float, optional):
+    #             Time in seconds. When t is None, time is forwarded by 'step_size' s.
+    #             Defaults to None.
+    #     """
+    #     # request = StepWorldRequest() if t is None else StepWorldRequest(t) TODO
+
+    #     # try:
+    #     #     # response = self._sim_step_client(request)
+    #     #     # rospy.logdebug("step service=", response)
+    #     # except rospy.ServiceException as e:
+    #     #     rospy.logdebug("step Service call failed: %s" % e)
 
 def main(agent_name: str) -> None:
     AGENT = DeploymentDRLAgent(agent_name=agent_name, ns=NS_PREFIX)
