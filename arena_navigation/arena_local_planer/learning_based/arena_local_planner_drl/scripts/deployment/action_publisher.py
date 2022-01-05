@@ -84,7 +84,9 @@ class ActionPublisher_2:
 
         rospy.init_node("action_publisher", anonymous=True)
 
-        self._action_publish_rate = rospy.get_param("/action_frequency")
+        self._action_publish_rate = rospy.get_param(
+            "/action_frequency", default=10
+        )
         rate = rospy.Duration(
             1 / self._action_publish_rate
         )  # seconds in sim time

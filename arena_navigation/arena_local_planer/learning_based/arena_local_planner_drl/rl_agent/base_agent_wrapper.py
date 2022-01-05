@@ -162,6 +162,7 @@ class BaseDRLAgent(ABC):
         with open(action_space_yaml, "r") as fd:
             setting_data = yaml.safe_load(fd)
 
+            self._holonomic = setting_data["robot"]["holonomic"]
             self._discrete_actions = setting_data["robot"]["discrete_actions"]
             self._cont_actions = {
                 "linear_range": setting_data["robot"]["continuous_actions"][
@@ -186,37 +187,29 @@ class BaseDRLAgent(ABC):
             self._agent_params and "discrete_action_space" in self._agent_params
         )
 
-        self._holonomic = self._agent_params["robot"]["holonomic"]
-
         if self._agent_params["discrete_action_space"]:
             # self._discrete_actions is a list, each element is a dict with the keys ["name", 'linear','angular']
             assert (
                 not self._holonomic
             ), "Discrete action space currently not supported for holonomic robots"
-            self._discrete_acitons = self._agent_params["robot"][
-                "discrete_actions"
-            ]
-            self.action_space = spaces.Discrete(len(self._discrete_acitons))
+
+            self.action_space = spaces.Discrete(len(self._discrete_actions))
         else:
-            linear_range = self._agent_params["robot"]["continuous_actions"][
-                "linear_range"
-            ]
-            angular_range = self._agent_params["robot"]["continuous_actions"][
-                "angular_range"
-            ]
+            linear_range = self._cont_actions["linear_range"].copy()
+            angular_range = self._cont_actions["angular_range"].copy()
 
             if not self._holonomic:
-                self.action_space = spaces.Box(
+                self._action_space = spaces.Box(
                     low=np.array([linear_range[0], angular_range[0]]),
                     high=np.array([linear_range[1], angular_range[1]]),
-                    dtype=np.float,
+                    dtype=np.float32,
                 )
             else:
                 linear_range_x, linear_range_y = (
                     linear_range["x"],
                     linear_range["y"],
                 )
-                self.action_space = spaces.Box(
+                self._action_space = spaces.Box(
                     low=np.array(
                         [
                             linear_range_x[0],

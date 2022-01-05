@@ -76,8 +76,10 @@ class DeploymentDRLAgent(BaseDRLAgent):
         self._action_period = rospy.Duration(
             1 / rospy.get_param("/action_frequency", default=10)
         )  # in seconds
-        self._action_infered = False
-        self._last_action = np.array([0, 0])
+        self._action_inferred = False
+        self._curr_action, self._last_action = np.array([0, 0]), np.array(
+            [0, 0]
+        )
 
         self.STAND_STILL_ACTION = np.array([0, 0])
 
@@ -121,16 +123,23 @@ class DeploymentDRLAgent(BaseDRLAgent):
                 obs = self.get_observations()[0]
                 # obs = np.where(obs == np.inf, 3.5, obs)
                 # print(obs[360:])
-                self._last_action = self.get_action(obs)
-                self._action_infered = True
+                self._last_action = self._curr_action
+                self._curr_action = self.get_action(obs)
+
+                self._action_inferred = True
 
     def callback_publish_action(self, event):
-        if self._action_infered:
-            self.publish_action(self._last_action)
+        if self._action_inferred:
+            self.publish_action(self._curr_action)
             # reset flag
-            self._action_infered = False
+            self._action_inferred = False
         else:
-            rospy.logdebug("No action received during recent action horizon.")
+            rospy.logdebug(
+                "[DRL_NODE]: No action inferred during most recent action cycle."
+            )
+            print(
+                "[DRL_NODE]: No action inferred during most recent action cycle."
+            )
             self.publish_action(self.STAND_STILL_ACTION)
 
     # def _wait_for_next_action_cycle(self) -> None:
@@ -172,6 +181,5 @@ def main(agent_name: str) -> None:
 
 
 if __name__ == "__main__":
-    # AGENT_NAME = "pretrained_nonorm_tb3"
-    AGENT_NAME = "AGENT_21_2021_12_02__22_56"
+    AGENT_NAME = sys.argv[1]
     main(agent_name=AGENT_NAME)
