@@ -137,9 +137,9 @@ class DeploymentDRLAgent(BaseDRLAgent):
             rospy.logdebug(
                 "[DRL_NODE]: No action inferred during most recent action cycle."
             )
-            print(
-                "[DRL_NODE]: No action inferred during most recent action cycle."
-            )
+            # print(
+            #     "[DRL_NODE]: No action inferred during most recent action cycle."
+            # )
             self.publish_action(self.STAND_STILL_ACTION)
 
     # def _wait_for_next_action_cycle(self) -> None:
