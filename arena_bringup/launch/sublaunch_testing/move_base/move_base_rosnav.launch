@@ -4,14 +4,14 @@
   <arg name="model" default="burger"/>
   <arg name="cmd_vel_topic" default="cmd_vel" />
   <arg name="odom_topic" default="odom" />
-  <arg name="agent_name" default="rule_05"/>
+  <arg name="agent_name" default="burger"/>
 
   <!-- move_base -->
   <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
-    <rosparam file="$(find conventional)/config/turtlebot3_burger/costmap_common_params.yaml" command="load" ns="global_costmap" />
-    <rosparam file="$(find conventional)/config/turtlebot3_burger/costmap_common_params.yaml" command="load" ns="local_costmap" />   
-    <rosparam file="$(find conventional)/config/turtlebot3_burger/local_costmap_params.yaml" command="load" />
-    <rosparam file="$(find conventional)/config/turtlebot3_burger/global_costmap_params.yaml" command="load" />
+    <rosparam file="$(find conventional)/config/$(arg model)/costmap_common_params.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find conventional)/config/$(arg model)/costmap_common_params.yaml" command="load" ns="local_costmap" />   
+    <rosparam file="$(find conventional)/config/$(arg model)/local_costmap_params.yaml" command="load" />
+    <rosparam file="$(find conventional)/config/$(arg model)/global_costmap_params.yaml" command="load" />
   </node>
 
   <!-- AMCL -->
@@ -33,10 +33,10 @@
 
   <!-- run_agent -->
   <!-- <node name="DRL_local_planner" pkg="arena_local_planner_drl" type="drl_agent_real_node.py" args="$(arg agent_name)" output="screen"/> -->
-  <!-- <node name="DRL_local_planner" pkg="arena_local_planner_drl" type="drl_agent_node.py" args="$(arg agent_name)" output="screen"/> -->
+  <node name="DRL_local_planner" pkg="arena_local_planner_drl" type="drl_agent_node.py" args="$(arg agent_name)" output="screen"/>
 
   <!-- action_publisher -->
   <!-- makes sure that drl actions will be published according to sim time in eval mode-->
-  <node name="action_publisher" pkg="arena_local_planner_drl" type="action_publisher.py"/>
+  <!-- <node name="action_publisher" pkg="arena_local_planner_drl" type="action_publisher.py"/> -->
 
 </launch>

@@ -19,9 +19,6 @@ from rl_agent.utils.reward import RewardCalculator
 from rospy.client import get_param
 
 robot_model = rospy.get_param("model")
-ROOT_ROBOT_PATH = os.path.join(
-    rospkg.RosPack().get_path("simulator_setup"), "robot"
-)
 DEFAULT_ACTION_SPACE = os.path.join(
     rospkg.RosPack().get_path("arena_local_planner_drl"),
     "configs",
@@ -35,7 +32,6 @@ DEFAULT_HYPERPARAMETER = os.path.join(
 )
 DEFAULT_NUM_LASER_BEAMS, DEFAULT_LASER_RANGE = 360, 3.5
 GOAL_RADIUS = 0.33
-
 
 class BaseDRLAgent(ABC):
     def __init__(
@@ -103,17 +99,6 @@ class BaseDRLAgent(ABC):
                 queue_size=1,
             )
 
-    def _create_reward_calculator(self) -> None:
-        """Sets up the reward calculator."""
-        assert self._hyperparams and "reward_fnc" in self._hyperparams
-        return RewardCalculator(
-            robot_radius=self._robot_radius,
-            safe_dist=1.6 * self._robot_radius,
-            goal_radius=GOAL_RADIUS,
-            rule=self._hyperparams["reward_fnc"],
-            extended_eval=False,
-        )
-
     def get_observations(self) -> Tuple[np.ndarray, dict]:
         """
             Retrieves the latest synchronized observation.
@@ -163,23 +148,6 @@ class BaseDRLAgent(ABC):
         action_msg.linear.y = action[1]
         action_msg.angular.z = action[2]
 
-
-
-        # action_msg = Twist()
-        # action_msg.linear.x = action[0]
-
-        # if self._is_holonomic:
-        #     assert (
-        #         len(action) == 3
-        #     ), "Holonomic robots require action arrays to have 3 entries."
-        #     action_msg.linear.y = action[1]
-        #     action_msg.angular.z = action[2]
-        # else:
-        #     assert (
-        #         len(action) == 2
-        #     ), "Non-holonomic robots require action arrays to have 2 entries."
-        #     action_msg.angular.z = action[1]
-
         self._action_pub.publish(action_msg)
 
     def get_action(self, obs: np.ndarray) -> np.ndarray:
@@ -222,14 +190,15 @@ class BaseDRLAgent(ABC):
         return self._reward_calculator.get_reward(action=action, **obs_dict)
 
     def _get_disc_action(self, action: int) -> np.ndarray:
-        """Returns defined velocity commands for parsed action index.\
+        """
+            Returns defined velocity commands for parsed action index.\
             (Discrete action space)
 
-        Args:
-            action (int): Index of the desired action.
+            Args:
+                action (int): Index of the desired action.
 
-        Returns:
-            np.ndarray: Velocity commands corresponding to the index.
+            Returns:
+                np.ndarray: Velocity commands corresponding to the index.
         """
         return np.array(
             [
@@ -264,7 +233,7 @@ class BaseDRLAgent(ABC):
                 return spaces.Box(
                     low=np.array([linear_range[0], angular_range[0]]),
                     high=np.array([linear_range[1], angular_range[1]]),
-                    dtype=np.float,
+                    dtype=np.float32,
                 )
             else:
                 linear_range_x, linear_range_y = (
@@ -288,6 +257,18 @@ class BaseDRLAgent(ABC):
                     ),
                     dtype=np.float,
                 )
+
+    def _create_reward_calculator(self) -> None:
+        """Sets up the reward calculator."""
+        assert self._hyperparams and "reward_fnc" in self._hyperparams
+
+        return RewardCalculator(
+            robot_radius=self._robot_radius,
+            safe_dist=1.6 * self._robot_radius,
+            goal_radius=GOAL_RADIUS,
+            rule=self._hyperparams["reward_fnc"],
+            extended_eval=False,
+        )
 
     @property
     def action_space(self) -> spaces.Box:
@@ -322,14 +303,12 @@ class BaseDRLAgent(ABC):
             Path should point to a file containing the
             specific hyperparameters used for training
         """
-        assert os.path.isfile(
-            path
-        ), f"Hyperparameters file cannot be found at {path}!"
-
-        with open(path, "r") as file:
-            hyperparams = json.load(file)
-
-        return hyperparams
+        try:
+            with open(path, "r") as file:
+                return json.load(file)
+        except:
+            with open(DEFAULT_HYPERPARAMETER, "r") as file:
+                return json.load(file)
 
     @staticmethod
     def _get_robot_settings(ns: str):

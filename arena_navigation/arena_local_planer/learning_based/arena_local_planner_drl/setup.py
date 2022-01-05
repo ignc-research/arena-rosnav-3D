@@ -10,7 +10,7 @@ setup_args = generate_distutils_setup(
         "rl_agent.envs",
         "rl_agent.model",
         "rl_agent.utils",
-        "rl_agent.scripts",
+        "rl_agent.encoder"
     ],
 )
 setup(**setup_args)
