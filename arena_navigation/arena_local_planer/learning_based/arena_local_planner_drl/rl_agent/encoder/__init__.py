@@ -1,9 +1,6 @@
 #!/usr/bin/env python
 from abc import abstractmethod
 
-"""
-    Base encoder encodes models trained in rosnav
-"""
 class BaseEncoder:
     @abstractmethod
     def __init__(self, agent_name: str, model_dir: str, hyperparams):
