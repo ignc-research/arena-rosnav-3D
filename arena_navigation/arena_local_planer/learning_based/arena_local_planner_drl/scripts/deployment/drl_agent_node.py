@@ -29,24 +29,24 @@ encoders = {
     "rosnav_rosnav": {
         "jackal": JackalRosnavEncoder,
         "ridgeback": RidgebackRosnavEncoder,
-        "agv": AgvRosnavEncoder,
-        "tb3": TurtleBot3RosnavEncoder
+        "agv-ota": AgvRosnavEncoder,
+        "turtlebot3_burger": TurtleBot3RosnavEncoder
     },
     "navrep_rosnav": {
         "jackal": JackalNavrepEncoder,
         "ridgeback": RidgebackNavrepEncoder,
-        "agv": AgvNavrepEncoder,
-        "tb3": TurtleBot3NavrepEncoder
+        "agv-ota": AgvNavrepEncoder,
+        "turtlebot3_burger": TurtleBot3NavrepEncoder
     }
 }
 
 class DeploymentDRLAgent(BaseDRLAgent):
     def __init__(
         self,
-        encoder: str,
-        agent_name: str,
-        environment: str = "rosnav",
-        model_env: str = "rosnav",
+        trainings_environment: str,
+        model_type: str = "rosnav",
+        robot_type: str = "rosnav",
+        agent_name: str = "turtlebot3_burger",
         ns: str = None,
         robot_name: str = None,
         action_space_path: str = DEFAULT_ACTION_SPACE,
@@ -67,7 +67,9 @@ class DeploymentDRLAgent(BaseDRLAgent):
                     Path to yaml file containing action space settings.
                     Defaults to DEFAULT_ACTION_SPACE.
         """
-        assert encoders[model_env + "_" + environment][encoder], f"Encoder {encoder} not available"
+        assert encoders[
+            trainings_environment + "_" + model_type
+        ][robot_type], f"Encoder {robot_type} not available"
 
         self._is_train_mode = rospy.get_param("/train_mode")
         if not self._is_train_mode:
@@ -76,7 +78,7 @@ class DeploymentDRLAgent(BaseDRLAgent):
         self._name = agent_name
 
         hyperparameter_path = path.join(
-            TRAINED_MODELS_DIR(model_env), self._name, "hyperparameters.json"
+            TRAINED_MODELS_DIR(trainings_environment), self._name, "hyperparameters.json"
         )
 
         super().__init__(
@@ -86,17 +88,11 @@ class DeploymentDRLAgent(BaseDRLAgent):
             action_space_path,
         )
         
-        self.encoder = encoders[model_env + "_" + environment][encoder](
-            agent_name, TRAINED_MODELS_DIR(model_env), self._hyperparams
+        self.encoder = encoders[trainings_environment + "_" + model_type][robot_type](
+            agent_name, TRAINED_MODELS_DIR(trainings_environment), self._hyperparams
         )
         
         self._setup_agent()
-        # if self._is_train_mode:
-        #     # step world to fast forward simulation time
-        #     self._service_name_step = f"{self._ns}step_world"
-        #     # self._sim_step_client = rospy.ServiceProxy(
-        #     #     self._service_name_step, StepWorld
-        #     # )
 
         # time period for a valid action
         self._action_period = rospy.Duration(
@@ -107,7 +103,7 @@ class DeploymentDRLAgent(BaseDRLAgent):
             [0, 0]
         )
 
-        self.STAND_STILL_ACTION = np.array([0, 0])
+        self.STAND_STILL_ACTION = np.array([0, 0, 0])
 
     def _setup_agent(self) -> None:
         self._agent = self.encoder._agent
@@ -128,6 +124,8 @@ class DeploymentDRLAgent(BaseDRLAgent):
         while not rospy.is_shutdown():
             goal_reached = rospy.get_param("/bool_goal_reached", default=False)
             if not goal_reached:
+                # print("Running")
+
                 obs = self.get_observations()[0]
 
                 encoded_obs = self.encoder.get_observation(obs)
@@ -138,8 +136,10 @@ class DeploymentDRLAgent(BaseDRLAgent):
 
                 self._action_inferred = True
 
-    def callback_publish_action(self):
-        if self._action_infered:
+    def callback_publish_action(self, _):
+        print("Callback")
+        if self._action_inferred:
+            print("Publish action", self._last_action)
             self.publish_action(self._last_action)
             # reset flag
             self._action_inferred = False
@@ -149,12 +149,19 @@ class DeploymentDRLAgent(BaseDRLAgent):
             )
             self.publish_action(self.STAND_STILL_ACTION)
 
-def main(env: str, encoder: str, model_env: str, agent_name: str) -> None:
+def main() -> None:
+    trainings_environment = rospy.get_param("trainings_environment")
+    model_type = rospy.get_param("network_type")
+    robot_type = rospy.get_param("model")
+    agent_name = rospy.get_param("agent_name")
+
+    print(trainings_environment, model_type, robot_type, agent_name)
+
     AGENT = DeploymentDRLAgent(
-        encoder, 
+        trainings_environment=trainings_environment, 
+        model_type=model_type,
+        robot_type=robot_type, 
         agent_name=agent_name, 
-        environment=env,
-        model_env=model_env, 
         ns=NS_PREFIX
     )
 
@@ -164,8 +171,4 @@ def main(env: str, encoder: str, model_env: str, agent_name: str) -> None:
         pass
 
 if __name__ == "__main__":
-    AGENT_NAME = sys.argv[1]
-    environment = sys.argv[2]
-    encoder = sys.argv[3]
-    model_env = sys.argv[4]
-    main(environment, encoder, model_env, agent_name=AGENT_NAME)
+    main()

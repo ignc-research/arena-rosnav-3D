@@ -171,6 +171,8 @@ class BaseDRLAgent(ABC):
                 np.minimum(self._action_space.high, action),
                 self._action_space.low,
             )
+
+        print("ACTION FROM MODEL", action)
         return action
 
     def get_reward(self, action: np.ndarray, obs_dict: dict) -> float:
