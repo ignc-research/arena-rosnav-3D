@@ -9,6 +9,7 @@ from lxml import etree
 from lxml.etree import Element
 from task_generator.ped_manager.ArenaScenario import ArenaScenario
 import numpy as np
+import math
 
 rospack = rospkg.RosPack()
 
@@ -39,7 +40,7 @@ if mode == "scenario":
             init_x = ped.waypoints[0][0]
             init_y = ped.waypoints[0][1]
             init_pose = etree.fromstring(
-                f"<pose> {init_x} {init_y} 0.0 0.0 0.0 -1.57 </pose>"
+                f"<pose> {init_x} {init_y} 0.0 0.0 0.0 1.57 </pose>"
             )
             actor.append(init_pose)
             skin_fn = Element("filename")
@@ -61,29 +62,41 @@ if mode == "scenario":
             script = Element("script")
             trajectory = Element("trajectory", id=f"{j}_{agent}", type="animation")
             max_vel = ped.vmax
+            traj_time = 0.0
             for i in range(len(ped.waypoints) - 1):
                 if i == 0:
                     x = ped.waypoints[0][0]
                     y = ped.waypoints[0][1]
                     waypoint = Element("waypoint")
-                    pose = etree.fromstring(f"<pose> {x} {y} 0.0 0.0 0.0 -1.57 </pose>")
+                    pose = etree.fromstring(f"<pose> {x} {y} 0.0 0.0 0.0 1.57 </pose>")
                     t = etree.fromstring("<time>0</time>")
                     waypoint.append(t)
                     waypoint.append(pose)
                     trajectory.append(waypoint)
+                old_x = ped.waypoints[i][0]
+                old_y = ped.waypoints[i][1]
                 new_x = ped.waypoints[i + 1][0]
                 new_y = ped.waypoints[i + 1][1]
                 dist = np.linalg.norm(ped.waypoints[i + 1] - ped.waypoints[i])
                 time = dist / max_vel
+                traj_time += time
                 waypoint = Element("waypoint")
+                theta = math.atan2((new_y - old_y) / dist, (new_x - old_x) / dist)
+                yaw = 1.57 + theta
                 pose = etree.fromstring(
-                    f"<pose> {new_x} {new_y} 0.0 0.0 0.0 -1.57 </pose>"
+                    f"<pose> {new_x} {new_y} 0.0 0.0 0.0 {yaw} </pose>"
                 )
-                t = etree.fromstring(f"<time>{time}</time>")
+                t = etree.fromstring(f"<time>{traj_time}</time>")
                 waypoint.append(t)
                 waypoint.append(pose)
                 trajectory.append(waypoint)
             script.append(trajectory)
+            coll_plugin = (
+                sim_setup_path + "/obstacles/" + "utils" + "/collision-actor-plugin"
+            )
+            with open(coll_plugin) as _:
+                collision_model = etree.fromstring(_.read())
+            actor.append(collision_model)
             actor.append(script)
             world_.append(actor)
 
