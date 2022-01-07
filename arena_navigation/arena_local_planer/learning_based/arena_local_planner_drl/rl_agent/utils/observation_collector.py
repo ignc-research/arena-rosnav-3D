@@ -181,7 +181,7 @@ class ObservationCollector:
         rho, theta = ObservationCollector._get_goal_pose_in_robot_frame(
             self._subgoal, self._robot_pose
         )
-        merged_obs = np.hstack([scan, np.array([rho, theta])])
+        # merged_obs = np.hstack([scan, np.array([rho, theta])])
 
         obs_dict = {
             "laser_scan": scan,
@@ -192,7 +192,7 @@ class ObservationCollector:
 
         self._laser_deque.clear()
         self._rs_deque.clear()
-        return merged_obs, obs_dict
+        return scan, obs_dict, (rho, theta), (self._subgoal, self._robot_pose, self._robot_vel)
 
     @staticmethod
     def _get_goal_pose_in_robot_frame(goal_pos: Pose2D, robot_pos: Pose2D):

@@ -107,10 +107,10 @@ class BaseDRLAgent(ABC):
                 Tuple, where first entry depicts the observation data concatenated \
                 into one array. Second entry represents the observation dictionary.
         """
-        merged_obs, obs_dict = self._observation_collector.get_observations()
+        merged_obs, obs_dict, robot_frame, map_data = self._observation_collector.get_observations()
         if self._hyperparams["normalize"]:
             self.normalize_observations(merged_obs)
-        return merged_obs, obs_dict
+        return merged_obs, obs_dict, robot_frame, map_data
 
     def normalize_observations(self, merged_obs: np.ndarray) -> np.ndarray:
         """
@@ -163,14 +163,15 @@ class BaseDRLAgent(ABC):
         """
         assert self._agent, "Agent model not initialized!"
         action = self._agent.predict(obs, deterministic=True)[0]
+
         if self._hyperparams["discrete_action_space"]:
             action = self._get_disc_action(action)
-        else:
-            # clip action
-            action = np.maximum(
-                np.minimum(self._action_space.high, action),
-                self._action_space.low,
-            )
+        # else:
+        #     # clip action
+        #     action = np.maximum(
+        #         np.minimum(self._action_space.high, action),
+        #         self._action_space.low,
+        #     )
 
         print("ACTION FROM MODEL", action)
         return action

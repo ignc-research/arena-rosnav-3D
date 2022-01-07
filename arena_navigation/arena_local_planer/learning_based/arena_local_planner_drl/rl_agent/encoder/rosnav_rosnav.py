@@ -54,7 +54,7 @@ class RosnavEncoder(BaseEncoder):
             return pickle.load(file_handler).normalize_obs
 
     def get_observation(self, obs):
-        return obs
+        return obs[0]
 
     def get_action(self, action):
         """

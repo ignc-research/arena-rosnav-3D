@@ -27,7 +27,7 @@ class NavrepEncoder(BaseEncoder):
     def get_observation(self, obs):
         print(obs)
 
-        return obs.reshape(len(obs), 1)
+        return obs[0].reshape(len(obs[0]), 1)
 
     def get_action(self, action):
         """
