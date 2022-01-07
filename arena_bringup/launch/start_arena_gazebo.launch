@@ -1,7 +1,7 @@
 <launch>
   <!-- simulator arguments-->
   <arg name="train_mode" default="false"/>
-  <arg name="local_planner" default="rosnav"         doc = "local_planer type [teb, dwa, mpc, rlca, cadrl, arena, rosnav]"/>
+  <arg name="local_planner" default="rosnav"         doc = "local_planner type [teb, dwa, mpc, rlca, cadrl, arena, rosnav]"/>
   <!--rlca are implemented but msg type not yet adjusted from 2D; dwa has a file missing (see project_task)-->
   <arg name="rviz_file" default="nav_LP"/>
   <arg name="disable_scenario" default="false"/>
@@ -9,8 +9,10 @@
   <arg name="enable_pedsim" default="true"/>
   <arg name="enable_pedvis" default="true"/>
   <arg name="outside" default="false"/>
-  <arg name="world" default="small_warehouse"   doc ="world type [turtlebot3_house, small_warehouse, aws_house, outside, ignc_lab]" unless="$(arg outside)"/>
-  <arg name="world" default="outside"     if = "$(arg outside)"/>
+  <arg name="network_type" default="rosnav" doc="Model type that is used. Will determine the obersation and action space. Currently only rosnav is supported" />
+  <arg name="trainings_environment" default="rosnav" doc="Determines the environment in which the network is trained. How to load the network mostly differs for different environments. Currently rosnav and navrep are supported" />
+  <arg name="world" default="small_warehouse" doc ="world type [turtlebot3_house, small_warehouse, aws_house, outside, ignc_lab]" unless="$(arg outside)"/>
+  <arg name="world" default="outside" if = "$(arg outside)"/>
   <arg name="model" default="turtlebot3_burger"      doc = "model type [turtlebot3_burger, jackal, ridgeback, agv-ota]"/>
   <arg name="agent_name" default="burger"     doc = "DRL agent name to be deployed" unless="$(eval arg('local_planner') != 'rosnav')"/>
   <arg name="scenario_file" default="$(arg world).json"/>
@@ -36,8 +38,12 @@
   <param name="use_sim_time" value="true"/>
   <param name="train_mode" value="$(arg train_mode)" />
   <param name="world" value="$(arg world)" />
+  
   <param name="model" value="$(arg model)" />
   <param name="agent_name" value="$(arg agent_name)" />
+  <param name="trainings_environment" value="$(arg trainings_environment)" />
+  <param name="network_type" value="$(arg network_type)" />
+
   <param name="update_rate" value="$(arg update_rate)" />
   <param name="step_size" value="$(arg step_size)" />
   <param name="show_viz" value="$(arg show_viz)"/>
@@ -111,7 +117,6 @@
       <param name="scenario_file"  value="$(arg scenario_file)"/>
   </group>
 
-
   <!-- use simulator-->
   <include file="$(find arena_bringup)/launch/sublaunch_testing/gazebo_simulator.launch">
     <arg name="world" value="$(arg world)"/>
@@ -146,6 +151,7 @@
     <arg name="model" value="$(arg model)"/>
     <arg name="cmd_vel_topic" value="/nav_vel" if="$(eval arg('model') == 'agv-ota')" />
     <arg name="agent_name" value="$(arg agent_name)" if="$(eval arg('local_planner') == 'rosnav')" />
+    <arg name="trainings_environment" value="$(arg trainings_environment)" if="$(eval arg('local_planner') == 'rosnav')" />
     <!-- <arg name="speed" value="$(param speed)"/> -->
   </include>
 
