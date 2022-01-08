@@ -76,12 +76,20 @@ class DeploymentDRLAgent(BaseDRLAgent):
         self._action_period = rospy.Duration(
             1 / rospy.get_param("/action_frequency", default=10)
         )  # in seconds
-        self._action_inferred = False
-        self._curr_action, self._last_action = np.array([0, 0]), np.array(
-            [0, 0]
-        )
 
-        self.STAND_STILL_ACTION = np.array([0, 0])
+        self._action_inferred = False
+        if self._holonomic:
+            (
+                self._curr_action,
+                self._last_action,
+                self.STAND_STILL_ACTION,
+            ) = 3 * (np.array([0, 0, 0]),)
+        else:
+            (
+                self._curr_action,
+                self._last_action,
+                self.STAND_STILL_ACTION,
+            ) = 3 * (np.array([0, 0]),)
 
     def setup_agent(self) -> None:
         """Loads the trained policy and when required the VecNormalize object."""
@@ -134,12 +142,12 @@ class DeploymentDRLAgent(BaseDRLAgent):
             # reset flag
             self._action_inferred = False
         else:
-            rospy.logdebug(
-                "[DRL_NODE]: No action inferred during most recent action cycle."
-            )
-            # print(
+            # rospy.logdebug(
             #     "[DRL_NODE]: No action inferred during most recent action cycle."
             # )
+            print(
+                "[DRL_NODE]: No action inferred during most recent action cycle."
+            )
             self.publish_action(self.STAND_STILL_ACTION)
 
     # def _wait_for_next_action_cycle(self) -> None:
