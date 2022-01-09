@@ -2,7 +2,7 @@ global_costmap:
   global_frame: map
   robot_base_frame: base_link
 
-  update_frequency: 20
+  update_frequency: 10
   publish_frequency: 10 # changed from 5 since this works better with mpc-planer
   transform_tolerance: 0.2
   width: 40.0
