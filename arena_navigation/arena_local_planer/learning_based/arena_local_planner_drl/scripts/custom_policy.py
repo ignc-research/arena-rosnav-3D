@@ -1,6 +1,6 @@
 import os
 from typing import Callable, Dict, List, Optional, Tuple, Type, Union
-from arena_navigation.arena_local_planer.learning_based.arena_local_planner_drl.rl_agent.base_agent_wrapper import BaseDRLAgent
+from rl_agent.base_agent_wrapper import BaseDRLAgent
 
 import gym
 import rospkg

@@ -12,7 +12,7 @@ from gym import spaces
 
 from geometry_msgs.msg import Twist
 
-from arena_navigation.arena_local_planer.learning_based.arena_local_planner_drl.rl_agent.utils.observation_collector import (
+from rl_agent.utils.observation_collector import (
     ObservationCollector,
 )
 from rl_agent.utils.reward import RewardCalculator
@@ -163,16 +163,16 @@ class BaseDRLAgent(ABC):
         """
         assert self._agent, "Agent model not initialized!"
         action = self._agent.predict(obs, deterministic=True)[0]
+
         if self._hyperparams["discrete_action_space"]:
             action = self._get_disc_action(action)
-        else:
-            # clip action
-            action = np.maximum(
-                np.minimum(self._action_space.high, action),
-                self._action_space.low,
-            )
+        # else:
+        #     # clip action
+        #     action = np.maximum(
+        #         np.minimum(self._action_space.high, action),
+        #         self._action_space.low,
+        #     )
 
-        print("ACTION FROM MODEL", action)
         return action
 
     def get_reward(self, action: np.ndarray, obs_dict: dict) -> float:

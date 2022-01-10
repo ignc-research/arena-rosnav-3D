@@ -8,6 +8,8 @@ from os import path
 
 from rl_agent.encoder.rosnav_rosnav import *
 from rl_agent.encoder.navrep_rosnav import *
+from rl_agent.encoder.guldenring_guldenring import TurtleBot3GuldenringEncoder
+
 from rl_agent.base_agent_wrapper import BaseDRLAgent
 
 
@@ -37,6 +39,9 @@ encoders = {
         "ridgeback": RidgebackNavrepEncoder,
         "agv-ota": AgvNavrepEncoder,
         "turtlebot3_burger": TurtleBot3NavrepEncoder
+    },
+    "guldenring_guldenring": {
+        "turtlebot3_burger": TurtleBot3GuldenringEncoder
     }
 }
 
@@ -99,8 +104,8 @@ class DeploymentDRLAgent(BaseDRLAgent):
             1 / rospy.get_param("/action_frequency", default=10)
         )  # in seconds
         self._action_inferred = False
-        self._curr_action, self._last_action = np.array([0, 0]), np.array(
-            [0, 0]
+        self._curr_action, self._last_action = np.array([0, 0, 0]), np.array(
+            [0, 0, 0]
         )
 
         self.STAND_STILL_ACTION = np.array([0, 0, 0])
@@ -124,9 +129,7 @@ class DeploymentDRLAgent(BaseDRLAgent):
         while not rospy.is_shutdown():
             goal_reached = rospy.get_param("/bool_goal_reached", default=False)
             if not goal_reached:
-                # print("Running")
-
-                obs = self.get_observations()[0]
+                obs = self.get_observations()
 
                 encoded_obs = self.encoder.get_observation(obs)
                 encoded_action = self.encoder.get_action(self.get_action(encoded_obs))
@@ -139,7 +142,6 @@ class DeploymentDRLAgent(BaseDRLAgent):
     def callback_publish_action(self, _):
         print("Callback")
         if self._action_inferred:
-            print("Publish action", self._last_action)
             self.publish_action(self._last_action)
             # reset flag
             self._action_inferred = False
