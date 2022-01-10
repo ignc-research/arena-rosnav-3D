@@ -34,26 +34,39 @@ cd arena-rosnav-3D/docker
 ```
 3. build the docker images 
 ```
-sudo docker build --no-cache -t v1 .
+sudo docker build --no-cache -t rosnav-3d:v1 .
 ```
+
 
 # Using the Docker
 ## Without Visualization
-Run the docker image name-of-the-docker-image (here: v1)
+Run the docker image name-of-the-docker-image (here: rosnav-3d:v1,; v1 for version1)
 ```
-sudo docker run -it --rm --net=host v1
+sudo docker run -it --rm --net=host rosnav-3d:v1
 ```
 
 ## With Visualization 
 ### On Native Ubuntu
 ```
 xhost +
-docker run -it --rm -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix v1
+docker run -it --rm -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix rosnav-3d:v1 <local_planner> <task_mode> <world> <actors>
 ```
-Do the quickstart
+Optional arguments: 
+
+| Parameter                 | Default       | Description   |	
+| :------------------------ |:-------------:| :-------------|
+| <local_planner> 	       | teb           |the local planner, choose between: `teb`, `dwa`, `mpc`, `cadrl (DRL)`, `rlca(DRL)`, `arena (DRL)`, `rosnav (DRL)`
+| <task_mode>        | random          |`random`, `scenario`, `manual`, `staged` 
+| <world> 	       |	small_warehouse	            |`small_warehouse`,`aws_house`,`turtlebot3_house`,`small_warehouse`,`random world`,`factory`,`hospital`,`experiment_rooms`,`bookstore`,`turtlebot3_world`
+| <robot_model> 		       | turtlebot3_burger	           | `turtlebot3_burger`, `ridgeback`, `jackal`, `agv-ota`
+| <actors> 		           | 4             | `any integer, maximum of 40 recommended`
+
+e.g.
+
 ```
-roslaunch arena_bringup start_arena_gazebo.launch local_planner:=teb task_mode:=random world:=small_warehouse actors:=6 
-```
+ docker run -it --rm -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix rosnav-3D:v1 teb random aws_house 22    
+ ```
+
 ### On Windows and Mac using docker-compose 
 Install docker-compose
 
@@ -71,10 +84,59 @@ docker-compose start \
 ```
 Enter the contaier
 ```
-docker exec -it v1:v1 bash
+docker exec -it rosnav-3d:v1 bash
 ```
 Do the quickstart
 ```
 roslaunch arena_bringup start_arena_gazebo.launch local_planner:=teb task_mode:=random world:=small_warehouse actors:=6 
 ```
 Then, open http://localhost:8080/vnc.html you will see the rviz window in browser
+
+
+# Using Docker Shell instead of directly running as a script
+If you want to start docker in a shell and manually run the commands rather than using the Docker as a script, comment out the last two lines of the Dockerfile
+
+```
+# COPY /entrypoint_testing.sh /entrypoint_testing.sh
+# ENTRYPOINT /entrypoint_testing.sh
+``` 
+and build the Docker again:
+```
+sudo docker build -t rosnav-3d:v1 .
+```
+### On Native Ubuntu
+```
+xhost +
+docker run -it --rm -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix rosnav-3d:v1
+```
+Do the quickstart
+```
+roslaunch arena_bringup start_arena_gazebo.launch local_planner:=teb task_mode:=random world:=small_warehouse actors:=6 
+```
+
+### On Windows and Mac using docker-compose 
+Install docker-compose
+
+```
+sudo curl -L "https://github.com/docker/compose/releases/download/1.27.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose \
+sudo chmod +x /usr/local/bin/docker-compose \
+docker-compose --version
+
+```
+Using docker-compose, you can set up a configuration.yml file where you have to setup display variables. A [docker-compose.yml](https://github.com/ignc-research/arena-rosnav-3D/docker/docker-compose.yml)configuration file is already given in this repo. You might have to modify it.
+
+```
+docker-compose up -d \
+docker-compose start \
+```
+Enter the contaier
+```
+docker exec -it rosnav-3d:v1 bash
+```
+Do the quickstart
+```
+roslaunch arena_bringup start_arena_gazebo.launch local_planner:=teb task_mode:=random world:=small_warehouse actors:=6 
+```
+Then, open http://localhost:8080/vnc.html you will see the rviz window in browser
+
+
