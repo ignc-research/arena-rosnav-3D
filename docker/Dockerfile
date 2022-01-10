@@ -203,4 +203,4 @@ RUN . /opt/ros/noetic/setup.sh \
 #     ${NVIDIA_DRIVER_CAPABILITIES:+$NVIDIA_DRIVER_CAPABILITIES,}graphics
 
 COPY /entrypoint_testing.sh /entrypoint_testing.sh
-ENTRYPOINT /entrypoint_testing.sh
+ENTRYPOINT ["/entrypoint_testing.sh"]
