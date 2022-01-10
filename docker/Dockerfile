@@ -116,6 +116,7 @@ RUN . /opt/ros/noetic/setup.sh \
 && cd .. \
 && catkin_make -DCMAKE_BUILD_TYPE=Release -DPYTHON_EXECUTABLE=/usr/bin/python3 \
 && source devel/setup.bash \
+&& tar -xf $HOME/catkin_ws/src/arena-rosnav-3D/simulator_setup/robot/agv-ota/meshes/OTAv07_meshes/OTA-v0.7.tar.xz -C $HOME/catkin_ws/src/arena-rosnav-3D/simulator_setup/robot/agv-ota/meshes/OTAv07_meshes/
 && echo $'\n\
 source $HOME/catkin_ws/devel/setup.sh \n\
 export PYTHONPATH=$HOME/catkin_ws/src/arena-rosnav-3D:${PYTHONPATH}' >> ~/.bashrc 
