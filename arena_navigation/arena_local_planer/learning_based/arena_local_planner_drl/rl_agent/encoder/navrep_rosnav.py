@@ -18,15 +18,17 @@ class NavrepEncoder(BaseEncoder):
             self._obs_norm_func = self._load_vecnorm()
 
     def _load_model(self, model_path: str):
+        """Import stable baseline here because it maybe requires
+            a different python version
+        """
         from stable_baselines.ppo2 import PPO2
+
         return PPO2.load(model_path)
 
     def _load_vecnorm(self):
         return lambda obs: obs
 
     def get_observation(self, obs):
-        print(obs)
-
         return obs[0].reshape(len(obs[0]), 1)
 
     def get_action(self, action):

@@ -181,18 +181,20 @@ class ObservationCollector:
         rho, theta = ObservationCollector._get_goal_pose_in_robot_frame(
             self._subgoal, self._robot_pose
         )
-        # merged_obs = np.hstack([scan, np.array([rho, theta])])
+        rosnav_obs = np.hstack([scan, np.array([rho, theta])])
 
         obs_dict = {
             "laser_scan": scan,
             "goal_in_robot_frame": [rho, theta],
             "global_plan": self._globalplan,
             "robot_pose": self._robot_pose,
+            "subgoal": self._subgoal,
+            "robot_vel": self._robot_vel
         }
 
         self._laser_deque.clear()
         self._rs_deque.clear()
-        return scan, obs_dict, (rho, theta), (self._subgoal, self._robot_pose, self._robot_vel)
+        return rosnav_obs, obs_dict, (rho, theta)
 
     @staticmethod
     def _get_goal_pose_in_robot_frame(goal_pos: Pose2D, robot_pos: Pose2D):

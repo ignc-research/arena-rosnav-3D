@@ -2,12 +2,9 @@ from os import path
 import sys
 import numpy as np
 
-from navrep.tools.custom_policy import Custom1DPolicy
-from stable_baselines.ppo2 import PPO2
 
 from rl_agent.encoder import BaseEncoder
 
-sys.modules["custom_policy"] = sys.modules["navrep.tools.custom_policy"]
 
 class E2E1DEncoder(BaseEncoder):
     def __init__(self, agent_name: str, model_dir: str, hyperparams):
@@ -22,6 +19,11 @@ class E2E1DEncoder(BaseEncoder):
             self._obs_norm_func = self._load_vecnorm()
 
     def _load_model(self, model_path: str):
+        from stable_baselines.ppo2 import PPO2
+        from navrep.tools.custom_policy import Custom1DPolicy
+
+        sys.modules["custom_policy"] = sys.modules["navrep.tools.custom_policy"]
+
         return PPO2.load(model_path, policy=Custom1DPolicy)
 
     def _load_vecnorm(self):

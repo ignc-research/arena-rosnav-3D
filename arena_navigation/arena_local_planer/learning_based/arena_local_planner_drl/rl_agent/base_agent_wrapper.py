@@ -12,10 +12,10 @@ from gym import spaces
 
 from geometry_msgs.msg import Twist
 
-from arena_navigation.arena_local_planer.learning_based.arena_local_planner_drl.rl_agent.utils.observation_collector import (
+from arena_navigation.arena_local_planer.learning_based.arena_local_planner_drl.rosnav_rl_agent.utils.observation_collector import (
     ObservationCollector,
 )
-from rl_agent.utils.reward import RewardCalculator
+from rosnav_rl_agent.utils.reward import RewardCalculator
 from rospy.client import get_param
 
 robot_model = rospy.get_param("model")
@@ -107,10 +107,10 @@ class BaseDRLAgent(ABC):
                 Tuple, where first entry depicts the observation data concatenated \
                 into one array. Second entry represents the observation dictionary.
         """
-        merged_obs, obs_dict, robot_frame, map_data = self._observation_collector.get_observations()
+        merged_obs, obs_dict, robot_frame = self._observation_collector.get_observations()
         if self._hyperparams["normalize"]:
             self.normalize_observations(merged_obs)
-        return merged_obs, obs_dict, robot_frame, map_data
+        return merged_obs, obs_dict, robot_frame
 
     def normalize_observations(self, merged_obs: np.ndarray) -> np.ndarray:
         """
@@ -172,8 +172,7 @@ class BaseDRLAgent(ABC):
         #         np.minimum(self._action_space.high, action),
         #         self._action_space.low,
         #     )
-
-        print("ACTION FROM MODEL", action)
+        
         return action
 
     def get_reward(self, action: np.ndarray, obs_dict: dict) -> float:

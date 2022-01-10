@@ -6,10 +6,12 @@ import sys
 
 from os import path
 
-from rl_agent.encoder.rosnav_rosnav import *
-from rl_agent.encoder.navrep_rosnav import *
-from rl_agent.encoder.navrep_navrep import NavrepPepperE2E1dEncoder
-from rl_agent.base_agent_wrapper import BaseDRLAgent
+from rosnav_rl_agent.encoder.rosnav_rosnav import *
+from rosnav_rl_agent.encoder.navrep_rosnav import *
+from rosnav_rl_agent.encoder.navrep_navrep import NavrepPepperE2E1dEncoder
+from rosnav_rl_agent.encoder.guldenring_guldenring import TurtleBot3GuldenringEncoder
+
+from rosnav_rl_agent.base_agent_wrapper import BaseDRLAgent
 
 
 sys.modules["arena_navigation.arena_local_planner"] = sys.modules["arena_navigation.arena_local_planer"]
@@ -41,6 +43,9 @@ encoders = {
     },
     "navrep_navrep": {
         "navrep_pepper": NavrepPepperE2E1dEncoder
+    },
+    "guldenring_guldenring": {
+        "turtlebot3_burger": TurtleBot3GuldenringEncoder
     }
 }
 
@@ -128,8 +133,6 @@ class DeploymentDRLAgent(BaseDRLAgent):
         while not rospy.is_shutdown():
             goal_reached = rospy.get_param("/bool_goal_reached", default=False)
             if not goal_reached:
-                # print("Running")
-
                 obs = self.get_observations()
 
                 encoded_obs = self.encoder.get_observation(obs)
@@ -143,7 +146,6 @@ class DeploymentDRLAgent(BaseDRLAgent):
     def callback_publish_action(self, _):
         print("Callback")
         if self._action_inferred:
-            print("Publish action", self._last_action)
             self.publish_action(self._last_action)
             # reset flag
             self._action_inferred = False
