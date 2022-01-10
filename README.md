@@ -48,10 +48,6 @@ We provide the following worlds for your use:
 |:--:|        :--:|      :--:|     
 | *experiment_rooms* | *bookstore* | *turtlebot3_world* |
 
-Furthermore, an outside world is available using the flag "outside:=true", e.g.
-```
-roslaunch arena_bringup start_arena_gazebo.launch outside:=true
-```
 
 #### World generation with arena-tools and LIRS
 By combining the random 2d map generation feature from our own **arena-tools** with the seamless image to Gazebo world conversion of **LIRS_World_Construction_Tools** we can test our navigation approaches on magnitude of 3D worlds, varying in layout, complexity.

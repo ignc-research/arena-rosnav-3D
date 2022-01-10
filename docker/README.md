@@ -28,11 +28,7 @@ su - ${USER}
 ```
 
 ## Build the Docker
-1. clone this repro
-```
-sudo git clone -b docker_new --depth 1 https://github.com/ignc-research/arena-rosnav-3D /the/folder/you/want
-```
-2. go to the folder ../arena-rosnav-3D/docker
+1. go to the folder ../arena-rosnav-3D/docker
 ```
 cd arena-rosnav-3D/docker
 ```

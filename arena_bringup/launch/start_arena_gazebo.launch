@@ -1,7 +1,7 @@
 <launch>
   <!-- simulator arguments-->
   <arg name="train_mode" default="false"/>
-  <arg name="local_planner" default="dwa"         doc = "local_planer type [teb, dwa, mpc, rlca, cadrl, arena]"/>
+  <arg name="local_planner" default="arena"         doc = "local_planer type [teb, dwa, mpc, rlca, cadrl, arena]"/>
   <!--rlca are implemented but msg type not yet adjusted from 2D; dwa has a file missing (see project_task)-->
   <arg name="rviz_file" default="nav_LP"/>
   <arg name="disable_scenario" default="false"/>
@@ -20,7 +20,7 @@
   <arg name="viz_pub_rate" default="30" />
   <arg name="use_rviz" default="true"/>
   <arg name="map_path" default="$(find simulator_setup)/maps/$(arg world)/map.yaml" />
-  <arg name="task_mode" default="random" doc="task_mode type [scenario, random, manual, staged]"/>
+  <arg name="task_mode" default="scenario" doc="task_mode type [scenario, random, manual, staged]"/>
   <arg name="actors" default="4" unless="$(arg train_mode)" />
   <arg name="actor_height" default="1.1"/>
   <arg name="use_recorder" default="false"/>

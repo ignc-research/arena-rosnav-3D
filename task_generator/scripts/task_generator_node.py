@@ -9,7 +9,6 @@ from std_msgs.msg import Int16, String
 from nav_msgs.msg import Odometry
 from nav_msgs.srv import LoadMap
 from std_srvs.srv import Empty
-#from pedsim_srvs.srv import SetObstacles # TODO this is currenly not supported by Pedsim form Elias
 from gazebo_msgs.srv import SetModelState, SpawnModelRequest, SpawnModel, DeleteModel
 from task_generator.utils import *
 import subprocess
