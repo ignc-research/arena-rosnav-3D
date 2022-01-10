@@ -31,28 +31,6 @@ RUN apt-get -y update && apt-get install -y \
         && apt-get install -y libqtcore4
 
 
-# Set up Oh-my-zsh
-# RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/v1.1.2/zsh-in-docker.sh)" -- \
-#     -t https://github.com/denysdovhan/spaceship-prompt \
-#     -a 'SPACESHIP_PROMPT_ADD_NEWLINE="false"' \
-#     -a 'SPACESHIP_PROMPT_SEPARATE_LINE="false"' \
-#     -p git \
-#     -p ssh-agent \
-#     -p https://github.com/zsh-users/zsh-autosuggestions \
-#     -p https://github.com/zsh-users/zsh-completions
-
-
-# RUN ln -f /bin/zsh /bin/sh \
-# && chsh -s $(which zsh) \
-# && echo $'\n\
-# source ~/.profile' >> /root/.zshrc
-
-
-#ENTRYPOINT ["zsh"]
-
-# 1. Install additional pkgs
-
-
 RUN apt-get -y update && apt-get install -y \
     python3-rosdep \
     python3-rosinstall \
@@ -77,8 +55,6 @@ RUN apt-get -y update && apt-get install -y \
 source /opt/ros/noetic/setup.sh' >> /root/.bashrc
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y tzdata \
 && DEBIAN_FRONTEND=noninteractive apt-get install -y keyboard-configuration
-
-
 
 
 # 2. Prepare virtual environment
@@ -149,54 +125,6 @@ RUN . /opt/ros/noetic/setup.sh \
 && cd ../../.. && catkin_make --only-pkg-with-deps spencer_tracking_rviz_plugin \
 && catkin_make -DCATKIN_WHITELIST_PACKAGES="" 
 
-
-# 7. Entrypoint x
-# RUN ["chmod", "+x", "/root/catkin_ws/src/arena-rosnav/docker/entrypoint_train.sh"]
-# WORKDIR /root/catkin_ws/src/arena-rosnav/
-# ARG ROS_START="train_mode:=true use_viz:=false task_mode:=random map_file:=map_small num_envs:=4"
-# ARG PYTHON_START="--custom-mlp --body 256-128 --pi 256 --vf 16 --act_fn relu"
-# ENV roslaunchParams="$ROS_START"
-# ENV pythonParams="$PYTHON_START"
-# ENTRYPOINT docker/entrypoint_train.sh "$roslaunchParams" "$pythonParams"
-
-
-#Set up Oh-my-zsh
-# RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/v1.1.2/zsh-in-docker.sh)" -- \
-#     -t https://github.com/denysdovhan/spaceship-prompt \
-#     -a 'SPACESHIP_PROMPT_ADD_NEWLINE="false"' \
-#     -a 'SPACESHIP_PROMPT_SEPARATE_LINE="false"' \
-#     -p git \
-#     -p ssh-agent \
-#     -p https://github.com/zsh-users/zsh-autosuggestions \
-#     -p https://github.com/zsh-users/zsh-completions
-
-# RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/v1.1.2/zsh-in-docker.sh)" -- \
-#     -p git \
-#     -p ssh-agent \
-#     -p https://github.com/zsh-users/zsh-autosuggestions \
-#     -p https://github.com/zsh-users/zsh-completions
-
-
-# RUN usermod -s $(which zsh) $(whoami) 
-#root
-
-# ENV RUNNING_IN_DOCKER true
-# # Use the unprivileged `main` user (created without a password ith `-D`) for safety
-# RUN adduser --disabled-password main
-# RUN mkdir -p /app \
-#     && chown -R main:main /app
-# # Set up ZSH and our preferred terminal environment for containers
-# RUN mkdir -p $HOME/.antigen
-# RUN touch $HOME/.zshrc
-# RUN curl -L git.io/antigen > $HOME/.antigen/antigen.zsh
-# # Use my starter Docker ZSH config file for this, or your own ZSH configuration file (https://gist.github.com/arctic-hen7/bbfcc3021f7592d2013ee70470fee60b)
-# COPY .dockershell.sh $HOME/.zshrc
-# RUN chown -R main:main $HOME/.antigen $HOME/.zshrc
-# # Set up ZSH as the unprivileged user (we just need to start it, it'll initialise our setup itself)
-# USER main
-
-# # Switch back to root for whatever else we're doing
-# USER root
 
 # ENV NVIDIA_VISIBLE_DEVICES \
 #     ${NVIDIA_VISIBLE_DEVICES:-all}
