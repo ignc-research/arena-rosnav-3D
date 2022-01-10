@@ -18,6 +18,7 @@ roslaunch arena_bringup start_arena_gazebo.launch \
 local_planner:=$1 \
 task_mode:=$2 \
 world:=$3 \
-actors:=$4 
+model:=$4 \
+actors:=$5 
 
 
