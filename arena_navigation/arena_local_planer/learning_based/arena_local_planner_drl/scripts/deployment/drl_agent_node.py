@@ -6,12 +6,11 @@ import sys
 
 from os import path
 
-from rosnav_rl_agent.encoder.rosnav_rosnav import *
-from rosnav_rl_agent.encoder.navrep_rosnav import *
-from rosnav_rl_agent.encoder.navrep_navrep import NavrepPepperE2E1dEncoder
-from rosnav_rl_agent.encoder.guldenring_guldenring import TurtleBot3GuldenringEncoder
+from rl_agent.encoder.rosnav_rosnav import *
+from rl_agent.encoder.navrep_rosnav import *
+from rl_agent.encoder.guldenring_guldenring import TurtleBot3GuldenringEncoder
 
-from rosnav_rl_agent.base_agent_wrapper import BaseDRLAgent
+from rl_agent.base_agent_wrapper import BaseDRLAgent
 
 
 sys.modules["arena_navigation.arena_local_planner"] = sys.modules["arena_navigation.arena_local_planer"]
@@ -40,9 +39,6 @@ encoders = {
         "ridgeback": RidgebackNavrepEncoder,
         "agv-ota": AgvNavrepEncoder,
         "turtlebot3_burger": TurtleBot3NavrepEncoder
-    },
-    "navrep_navrep": {
-        "navrep_pepper": NavrepPepperE2E1dEncoder
     },
     "guldenring_guldenring": {
         "turtlebot3_burger": TurtleBot3GuldenringEncoder

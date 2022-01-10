@@ -194,7 +194,7 @@ class ObservationCollector:
 
         self._laser_deque.clear()
         self._rs_deque.clear()
-        return rosnav_obs, obs_dict, (rho, theta)
+        return rosnav_obs, obs_dict
 
     @staticmethod
     def _get_goal_pose_in_robot_frame(goal_pos: Pose2D, robot_pos: Pose2D):
