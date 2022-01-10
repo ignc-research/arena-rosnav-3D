@@ -49,13 +49,13 @@ sudo docker run -it --rm --net=host rosnav-3d:v1
 ### On Native Ubuntu
 ```
 xhost +
-docker run -it --rm -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix rosnav-3d:v1 <local_planner> <task_mode> <world> <actors>
+docker run -it --rm -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix rosnav-3d:v1 <local_planner> <task_mode> <world> <robot_model> <actors>
 ```
 Optional arguments: 
 
-| Parameter                 | Default       | Description   |	
+| Parameter                 | Default       | Options   |	
 | :------------------------ |:-------------:| :-------------|
-| <local_planner> 	       | teb           |the local planner, choose between: `teb`, `dwa`, `mpc`, `cadrl (DRL)`, `rlca(DRL)`, `arena (DRL)`, `rosnav (DRL)`
+| <local_planner> 	       | teb           |`teb`, `dwa`, `mpc`, `cadrl (DRL)`, `rlca(DRL)`, `arena (DRL)`, `rosnav (DRL)`
 | <task_mode>        | random          |`random`, `scenario`, `manual`, `staged` 
 | <world_file> 	       |	small_warehouse	            |`small_warehouse`,`aws_house`,`turtlebot3_house`,`small_warehouse`,`random world`,`factory`,`hospital`,`experiment_rooms`,`bookstore`,`turtlebot3_world`
 | <robot_model> 		       | turtlebot3_burger	           | `turtlebot3_burger`, `ridgeback`, `jackal`, `agv-ota`
