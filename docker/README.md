@@ -57,9 +57,9 @@ Optional arguments:
 | :------------------------ |:-------------:| :-------------|
 | <local_planner> 	       | teb           |the local planner, choose between: `teb`, `dwa`, `mpc`, `cadrl (DRL)`, `rlca(DRL)`, `arena (DRL)`, `rosnav (DRL)`
 | <task_mode>        | random          |`random`, `scenario`, `manual`, `staged` 
-| <world> 	       |	small_warehouse	            |`small_warehouse`,`aws_house`,`turtlebot3_house`,`small_warehouse`,`random world`,`factory`,`hospital`,`experiment_rooms`,`bookstore`,`turtlebot3_world`
+| <world_file> 	       |	small_warehouse	            |`small_warehouse`,`aws_house`,`turtlebot3_house`,`small_warehouse`,`random world`,`factory`,`hospital`,`experiment_rooms`,`bookstore`,`turtlebot3_world`
 | <robot_model> 		       | turtlebot3_burger	           | `turtlebot3_burger`, `ridgeback`, `jackal`, `agv-ota`
-| <actors> 		           | 4             | `any integer, maximum of 40 recommended`
+| <number_of_actors> 		           | 4             | `any integer, maximum of 40 recommended`
 
 e.g.
 
