@@ -138,6 +138,7 @@ class DeploymentDRLAgent(BaseDRLAgent):
 
     def callback_publish_action(self, event):
         if self._action_inferred:
+            # self._curr_action[0] = self._curr_action[0] * 0.75
             self.publish_action(self._curr_action)
             # reset flag
             self._action_inferred = False
@@ -189,5 +190,6 @@ def main(agent_name: str) -> None:
 
 
 if __name__ == "__main__":
-    AGENT_NAME = sys.argv[1]
+    os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
+    AGENT_NAME = sys.argv[1]  # "jackal_2_retrained"
     main(agent_name=AGENT_NAME)
