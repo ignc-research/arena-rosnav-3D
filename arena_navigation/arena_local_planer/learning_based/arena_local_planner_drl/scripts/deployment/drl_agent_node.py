@@ -190,6 +190,6 @@ def main(agent_name: str) -> None:
 
 
 if __name__ == "__main__":
-    os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
+    # os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
     AGENT_NAME = sys.argv[1]  # "jackal_2_retrained"
     main(agent_name=AGENT_NAME)
