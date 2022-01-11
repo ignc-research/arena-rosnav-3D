@@ -13,7 +13,7 @@ from rl_agent.encoder.guldenring_guldenring import TurtleBot3GuldenringEncoder
 from rl_agent.base_agent_wrapper import BaseDRLAgent
 
 
-sys.modules["arena_navigation.arena_local_planner"] = sys.modules["arena_navigation.arena_local_planer"]
+# sys.modules["arena_navigation.arena_local_planner"] = sys.modules["arena_navigation.arena_local_planer"]
 
 robot_model = rospy.get_param("model")
 """ TEMPORARY GLOBAL CONSTANTS """

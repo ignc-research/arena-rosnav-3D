@@ -22,7 +22,7 @@ class NavrepEncoder(BaseEncoder):
             a different python version
         """
         from stable_baselines.ppo2 import PPO2
-
+        print(model_path)
         return PPO2.load(model_path)
 
     def _load_vecnorm(self):
