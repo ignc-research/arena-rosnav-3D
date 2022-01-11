@@ -82,7 +82,7 @@ To be able to use python3 with ROS, you need an virtual environment. We recommen
 - Install virtual environment and wrapper (as root or admin! with sudo) on your local pc (without conda activated. Deactivate conda env, if you have one active)
 
 ```
-sudo apt install pip
+sudo apt install python3-pip
 sudo pip3 install --upgrade pip
 sudo pip3 install virtualenv
 sudo pip3 install virtualenvwrapper
@@ -109,6 +109,7 @@ source /usr/local/bin/virtualenvwrapper.sh" >> ~/.bashrc
 Note: You might need to restart your terminal at this point.
 
 ```
+source ~/.bashrc
 mkvirtualenv --python=python3.8 rosnav
 workon rosnav
 ```
@@ -177,6 +178,7 @@ rosdep install --from-paths src --ignore-src -r -y
 ```bash
 cd ~/catkin_ws/src/forks/pedsim_ros && git submodule update --init --recursive
 cd ../../.. && catkin_make --only-pkg-with-deps spencer_tracking_rviz_plugin
+catkin_make -DCATKIN_WHITELIST_PACKAGES=""
 ```
 
 # Add arena-rosnav next to arena-rosnav-3D

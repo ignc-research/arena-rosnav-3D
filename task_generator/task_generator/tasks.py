@@ -22,7 +22,7 @@ from filelock import FileLock
 
 STANDART_ORIENTATION = quaternion_from_euler(0.0, 0.0, 0.0)
 ROBOT_RADIUS = rospy.get_param('radius')
-N_OBS = {"static": 10, "dynamic": rospy.get_param('actors',3)}
+N_OBS = {"static": rospy.get_param('num_static_obs',3), "dynamic": rospy.get_param('actors',3)}
 
 
 class StopReset(Exception):
@@ -328,10 +328,10 @@ class ScenarioTask(ABSTask):
 
         # setup pedsim agents
         self.pedsim_manager = None
-        if len(self.scenario.pedsimAgents) > 0:
-            self.pedsim_manager = pedsim_manager
-            peds = [agent.getPedMsg() for agent in self.scenario.pedsimAgents]
-            self.pedsim_manager.spawnPeds(peds)
+        # if len(self.scenario.pedsimAgents) > 0:
+        #     self.pedsim_manager = pedsim_manager
+        #     peds = [agent.getPedMsg() for agent in self.scenario.pedsimAgents]
+        #     self.pedsim_manager.spawnPeds(peds)
         self.reset_count = 0
 
     def reset(self):
@@ -339,8 +339,8 @@ class ScenarioTask(ABSTask):
         info = {}
         with self._map_lock:
             # reset pedsim agents
-            if self.pedsim_manager != None:
-                self.pedsim_manager.resetAllPeds()
+            # if self.pedsim_manager != None:
+            #     self.pedsim_manager.resetAllPeds()
 
             # reset robot
             self.robot_manager.set_start_pos_goal_pos(
@@ -396,9 +396,9 @@ def get_predefined_task(ns, mode="random", start_stage=1, PATHS=None):
 
     if mode == "scenario":
         rospy.set_param("/task_mode", "scenario")
-        forbidden_zones = obstacle_manager.register_random_static_obstacles(
-            N_OBS["static"]
-        )
+        # forbidden_zones = obstacle_manager.register_random_static_obstacles(
+        #     N_OBS["static"]
+        # )
         task = ScenarioTask(
             pedsim_manager, obstacle_manager, robot_manager, PATHS["scenario"]
         )

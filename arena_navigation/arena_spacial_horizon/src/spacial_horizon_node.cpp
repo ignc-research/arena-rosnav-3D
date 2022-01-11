@@ -26,7 +26,7 @@ void SpacialHorizon::init(ros::NodeHandle &nh)
     goal_sub_ = public_nh.subscribe("goal", 1, &SpacialHorizon::goalCallback,this);
     odom_sub_ = public_nh.subscribe("odom", 1, &SpacialHorizon::odomCallback, this);
     // amcl_pose_sub_ = public_nh.subscribe("amcl_pose", 1, &SpacialHorizon::amcl_poseCallback, this);
-    // initialPose_sub_ = public_nh.subscribe("initialpose", 0, &SpacialHorizon::handle_initial_pose, this);
+    initialPose_sub_ = public_nh.subscribe("initialpose", 0, &SpacialHorizon::handle_initial_pose, this);
 
     subgoal_DRL_pub_  = public_nh.advertise<geometry_msgs::PoseStamped>("subgoal",10);
     globalPlan_DRL_pub_  = public_nh.advertise<nav_msgs::Path>("globalPlan",10);

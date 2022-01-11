@@ -2,10 +2,20 @@
 Arena-rosnav-3D is structurally very similar to arena-rosnav to allow easy switching between 2D and 3D environments. Currently, three custom worlds and a random world generator are supported. In our detailed custom worlds you can generate dynamic obstacles either in a scenario mode or in a random mode where the obstacle trajectories are determined randomly. 
 
 # Worlds
-We provide the following four worlds for your use: 
-|<img width="250" height="240" src="/img/aws_house-2.png">|<img width="250" height="240" src="/img/turtlebot3_house.png">|<img width="250" height="240" src="/img/small_warehouse-2.png">|<img width="250" height="240" src="/img/outside.png">|
-|:--:       |              :--:|             :--:|          :--:| 
-| *aws_house* | *turtlebot3_house* | *small_warehouse* | *random world* |
+We provide the following worlds for your use: 
+|<img width="150" height="140" src="/img/aws_house-2.png">|<img width="150" height="140" src="/img/turtlebot3_house.png">|<img width="150" height="140" src="/img/small_warehouse-2.png">|<img width="150" height="140" src="/img/outside.png">|<img width="150" height="140" src="/img/factory.png">|<img width="150" height="140" src="/img/hospital.jpg">|
+|:--:       |              :--:|             :--:|          :--:|             :--:|          :--:|
+| *aws_house* | *turtlebot3_house* | *small_warehouse* | *random world* | *factory* | *hospital* | 
+
+|<img width="150" height="140" src="/img/experiment_rooms.jpg">|<img width="150" height="140" src="/img/bookstore.jpeg">|<img width="150" height="140" src="/img/tb_world.jpg">|
+|:--:|        :--:|      :--:|     
+| *experiment_rooms* | *bookstore* | *turtlebot3_world* |
+
+Furthermore, an outside world is available using the flag "outside:=true", e.g.
+```
+roslaunch arena_bringup start_arena_gazebo.launch outside:=true
+```
+
 ## Pre-build world
 
 To select one of our pre-build worlds, specify your scenario by selecting **aws_house**,  turtlebot3_house, small_warehouse *(bold is your default world)* in your startup file:
@@ -23,7 +33,10 @@ roslaunch arena_bringup start_arena_gazebo.launch outside:=true
 ```
 The custom world generator creates a map with a set number of static and dynamic obstacles of a randomly determined size (and shape).
 
-If you want to change the number of static obstacles you do this [here](https://github.com/eliastreis/arena-rosnav-3D/blob/18ed507bfbf31015002c5727f2ab9aef3a05ca9b/task_generator/task_generator/tasks.py#L304)
+If you want to change the number of static obstacles you can also do that via the terminal (the shape is randomly determined by the task-generator node):
+```bash
+roslaunch arena_bringup start_arena_gazebo.launch outside:=true num_static_obs:=10
+```
 
 If you want to change the number of actors you can specify the amount using parameters like this:
 
@@ -56,6 +69,10 @@ In scenario mode, the robot's starting/end position and the amount of actors, as
 
 ```bash
 roslaunch arena_bringup start_arena_gazebo.launch task_mode:=scenario
+```
+If you want to select your custom scenario, run:
+```bash
+roslaunch arena_bringup start_arena_gazebo.launch task_mode:=scenario scenario_file:={Name of your scenario}
 ```
 
 ---

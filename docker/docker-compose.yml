@@ -1,0 +1,24 @@
+version: "3.4"
+
+services:
+  ros-rviz:
+    build:
+        context: .
+        dockerfile: Dockerfile
+    image: v2:v4
+    container_name: viz_test
+    network_mode: "host"
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t
+    privileged: true
+    runtime: nvidia
+    environment:
+      - DISPLAY=$DISPLAY
+      - QT_X11_NO_MITSHM=1
+      - XAUTHORITY=/tmp/.docker.xauth
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=all
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - /tmp/.docker.xauth:/tmp/.docker.xauth:rw
+
