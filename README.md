@@ -59,7 +59,7 @@ For more information on how to use this feature please refer to [arena-tools](ht
 We support four different robots. 
 |<img width="250" height="240" src="/img/robots/turtlebot3-burger.jpg">|<img width="250" height="240" src="/img/robots/jackal.jpg">|<img width="250" height="240" src="/img/robots/ridgeback.jpg">|<img width="250" height="240" src="/img/robots/agv-ota.png">|
 |:--:       |              :--:|             :--:|          :--:| 
-| *turtlebot3-burger* | *jackal* | *ridgeback* | *agv-ota* |
+| *turtlebot3_burger* | *jackal* | *ridgeback* | *agv-ota* |
 
 
 
