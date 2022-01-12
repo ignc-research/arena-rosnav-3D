@@ -49,7 +49,7 @@ sudo docker run -it --rm --net=host rosnav-3d:v1
 ### On Native Ubuntu
 ```
 xhost +
-docker run -it --rm -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix rosnav-3d:v1 <local_planner> <task_mode> <world> <model> <actors>
+docker run -it --rm -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix rosnav-3d:v1 <local_planner> <task_mode> <world> <model> <actors> <recording>
 ```
 Optional arguments: 
 
@@ -60,11 +60,12 @@ Optional arguments:
 | world 	       |	small_warehouse	            |`small_warehouse`,`aws_house`,`turtlebot3_house`,`small_warehouse`,`random world`,`factory`,`hospital`,`experiment_rooms`,`bookstore`,`turtlebot3_world`
 | model 		       | turtlebot3_burger	           | `turtlebot3_burger`, `ridgeback`, `jackal`, `agv-ota`
 | actors 		           | 4             | `any integer, maximum of 40 recommended`
+| recording 		           | false             | `bool: record a csv or not`
 
 e.g.
 
 ```
- docker run -it --rm -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix rosnav-3D:v1 teb random aws_house 22    
+ docker run -it --rm -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix rosnav-3D:v1 teb random aws_house 22 true    
  ```
 
 ### On Windows and Mac using docker-compose 
