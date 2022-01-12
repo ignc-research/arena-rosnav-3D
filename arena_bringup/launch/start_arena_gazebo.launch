@@ -1,7 +1,7 @@
 <launch>
   <!-- simulator arguments-->
   <arg name="train_mode" default="false"/>
-  <arg name="local_planner" default="teb"         doc = "local_planer type [teb, dwa, mpc, rlca, cadrl, arena]"/>
+  <arg name="local_planner" default="arena"         doc = "local_planer type [teb, dwa, mpc, rlca, cadrl, arena]"/>
   <!--rlca are implemented but msg type not yet adjusted from 2D; dwa has a file missing (see project_task)-->
   <arg name="rviz_file" default="nav_LP"/>
   <arg name="disable_scenario" default="false"/>
@@ -11,15 +11,16 @@
   <arg name="outside" default="false"/>
   <arg name="world" default="small_warehouse"   doc ="world type [turtlebot3_house, small_warehouse, aws_house, outside, ignc_lab]" unless="$(arg outside)"/>
   <arg name="world" default="outside"     if = "$(arg outside)"/>
+  <arg name="num_static_obs" default="3"/> <!-- Number of static obstacles in outside mode-->
   <arg name="model" default="turtlebot3_burger"      doc = "model type [turtlebot3_burger, jackal, ridgeback, agv-ota]"/>
-  <arg name="scenario_file" default="$(arg world).json"/>
+  <arg name="scenario_file" default="$(arg world).json"/> <!-- You can also specify your custom scenario file here-->
   <arg name="step_size" default="0.01"/>
   <arg name="update_rate" default="250"/>
   <arg name="show_viz" default="true"/>
   <arg name="viz_pub_rate" default="30" />
   <arg name="use_rviz" default="true"/>
   <arg name="map_path" default="$(find simulator_setup)/maps/$(arg world)/map.yaml" />
-  <arg name="task_mode" default="random" doc="task_mode type [scenario, random, manual, staged]"/>
+  <arg name="task_mode" default="scenario" doc="task_mode type [scenario, random, manual, staged]"/>
   <arg name="actors" default="4" unless="$(arg train_mode)" />
   <arg name="actor_height" default="1.1"/>
   <arg name="use_recorder" default="false"/>
@@ -44,6 +45,7 @@
   <param name="single_env" value="true"/>
   <param name="actor_height" value="$(arg actor_height)" unless="$(eval arg('world') == 'arena_generated')"/>
   <param name="actor_height" value="1.03" if="$(eval arg('world') == 'arena_generated')"/>
+  <param name="num_static_obs" value="$(arg num_static_obs)"/>
 
   <param name="robot_description" command="$(find xacro)/xacro $(find simulator_setup)/robot/$(arg model)/urdf/$(arg model).urdf.xacro" />
 
@@ -144,28 +146,18 @@
   <include file="$(find arena_bringup)/launch/sublaunch_testing/move_base/move_base_$(arg local_planner).launch">
     <arg name="model" value="$(arg model)"/>
     <arg name="cmd_vel_topic" value="/nav_vel" if="$(eval arg('model') == 'agv-ota')" />
-    <!-- <arg name="speed" value="$(param speed)"/> -->
   </include>
 
-  <include file="$(find arena_bringup)/launch/sublaunch_testing/plan_manager.launch">
-    <!-- only train_mode is false, otherwise subgoal is identical with global goal
-          which is not wanted for training the waypoint generator.
-    -->
+  <!-- <include file="$(find arena_bringup)/launch/sublaunch_testing/plan_manager.launch">
     <arg name="train_mode" value="$(arg train_mode)"/>
     <arg name="global_frame_id" value="$(arg global_frame_id)"/>
     <arg name="odom_frame_id" value="$(arg odom_frame_id)"/>
     <arg name="base_frame_id" value="$(arg base_frame_id)"/>
-    <!-- make use also make the modification in the file start_arena_flatland_waypoint.launch -->
-    <!-- look_ahead_distance + outer ring circle < len_laser_beam -->
     <arg name="look_ahead_distance" default="2.3"/>
-    <!--meter, double -->
     <arg name="tolerance_approach" default="0.6"/>
-    <!--meter, double -->
     <arg name="timeout_goal" default="330."/>
-    <!--sec, double -->
     <arg name="timeout_subgoal" default="20"/>
-    <!--sec, double -->
-  </include>
+  </include> -->
   <include file="$(find arena_bringup)/launch/sublaunch_testing/intermediate_planner.launch"/>
 
   <!-- makes sure that drl actions will be published according to sim time in eval mode-->

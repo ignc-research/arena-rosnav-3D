@@ -8,14 +8,18 @@
         <rosparam file="$(find conventional)/config/$(arg model)/global_costmap_params.yaml" command="load" />
     </node>
 
+    <!-- spacial_horizon -->
+    <node pkg="arena_spacial_horizon" type="spacial_horizon_node" name="spacial_horizon_node" >
+        <rosparam file="$(find conventional)/config/$(arg model)/plan_fsm_param.yaml" command="load" /> <!-- ns="fsm"-->
+    </node>
 
     <arg name="tb3_speed" default="1.5"/>
     <arg name="file" default="cadrl_node_tb3.py"/>
     <!-- Launch neural net ros wrapper -->
-    <node pkg="cadrl_ros" type="cadrl_node_tb3.py" name="cadrl_node" output="screen" ns="/cadrl">
+    <node pkg="cadrl_ros" type="cadrl_node_3d.py" name="cadrl_node" output="screen" ns="/cadrl">
 
-        <!-- Publications -->
-        <remap from="~other_vels" to="other_vels"/>
+     
+        <!-- <remap from="~other_vels" to="other_vels"/> -->
         <remap from="~nn_cmd_vel" to="/cmd_vel"/>
         <remap from="~pose_marker" to="pose_marker"/>
         <remap from="~path_marker" to="path_marker"/>
@@ -23,7 +27,7 @@
         <remap from="~agent_marker" to="other_agents_marker"/>
         <remap from="~agent_markers" to="other_agents_markers"/>
 
-        <!-- Subscriptions -->
+      
         <remap from="~pose" to="/odom"/>
         <remap from="~velocity" to="velocity"/>
         <remap from="~safe_actions" to="local_path_finder/safe_actions"/>
@@ -33,11 +37,11 @@
         <remap from="~clusters" to="/clusters"/>
         <remap from="~peds" to="ped_manager/ped_recent"/>
 
-        <!-- Parameters -->
+   
         <param name="~tb3_speed" value="$(arg tb3_speed)"/>
 
     </node>
-    <node pkg="cadrl_ros" type="ped_to_ford.py" name="ped_to_ford" output="screen"></node>
+    <!-- <node pkg="cadrl_ros" type="ped_to_ford.py" name="ped_to_ford" output="screen"></node> -->
 
 
 </launch>
