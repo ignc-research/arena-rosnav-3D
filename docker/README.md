@@ -51,6 +51,8 @@ sudo docker run -it --rm --net=host rosnav-3d:v1
 xhost +
 docker run -it --rm -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix rosnav-3d:v1 <local_planner> <task_mode> <world> <model> <actors> <recording>
 ```
+If you are working with an NVIDIA graphics card, you may run into errors while using the docker with visualization. In this case, making sure that the same NVIDIA drivers are installed on both your Ubuntu and the Docker may resolve your problems.
+
 Optional arguments: 
 
 | Parameter                 | Default       | Options   |	
