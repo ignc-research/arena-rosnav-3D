@@ -37,7 +37,8 @@ class GuldenringEncoder(BaseEncoder):
         complete_observation[0, :len(scan), 0] = scan
         
         for i in range(8):
-            complete_observation[0, len(scan) + i * 2:len(scan) + i * 2 + 2, 0] = subgoal_array[:2]
+            # complete_observation[0, len(scan) + i * 2:len(scan) + i * 2 + 2, 0] = subgoal_array[:2]
+            complete_observation[0, len(scan) + i * 2:len(scan) + i * 2 + 1, 0] = subgoal_array[:2]
 
         return complete_observation
 
