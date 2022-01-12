@@ -151,6 +151,7 @@ class DeploymentDRLAgent(BaseDRLAgent):
             self.publish_action(self.STAND_STILL_ACTION)
 
 def main() -> None:
+    # TODO load from args if no params
     trainings_environment = rospy.get_param("trainings_environment")
     model_type = rospy.get_param("network_type")
     robot_type = rospy.get_param("model")
@@ -169,6 +170,8 @@ def main() -> None:
     try:
         AGENT.run()
     except rospy.ROSInterruptException:
+        pass
+    except:
         pass
 
 if __name__ == "__main__":

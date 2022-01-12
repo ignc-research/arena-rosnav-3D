@@ -143,6 +143,8 @@ class BaseDRLAgent(ABC):
                     For holonomic robots action is [xVel, yVel, angularVel]
                     xVel and yVel in m/s, angularVel in rad/s
         """
+        assert len(action) == 3, f"Expected action of size 3"
+
         action_msg = Twist()
         action_msg.linear.x = action[0]
         action_msg.linear.y = action[1]
