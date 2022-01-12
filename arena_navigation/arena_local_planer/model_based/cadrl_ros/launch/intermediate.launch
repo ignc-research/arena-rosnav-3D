@@ -1,0 +1,15 @@
+<launch>
+    <arg name="model" default="turtlebot3_burger"/>
+    <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+        <rosparam file="$(find conventional)/config/$(arg model)/costmap_common_params.yaml" command="load" ns="global_costmap" />
+        <rosparam file="$(find conventional)/config/$(arg model)/costmap_common_params.yaml" command="load" ns="local_costmap" />
+        <rosparam file="$(find conventional)/config/$(arg model)/local_costmap_params.yaml" command="load" />
+        <rosparam file="$(find conventional)/config/$(arg model)/global_costmap_params.yaml" command="load" />
+    </node>
+
+	<arg name="tb3_speed" default="0.12"/>
+        <node pkg="arena_spacial_horizon" type="spacial_horizon_node" name="spacial_horizon_node" >
+        <rosparam file="$(find conventional)/config/$(arg model)/plan_fsm_param.yaml" command="load" /> <!-- ns="fsm"-->
+    </node> 
+
+</launch>
