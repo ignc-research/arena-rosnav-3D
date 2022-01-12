@@ -140,7 +140,6 @@ class DeploymentDRLAgent(BaseDRLAgent):
                 self._action_inferred = True
 
     def callback_publish_action(self, _):
-        print("Callback")
         if self._action_inferred:
             self.publish_action(self._last_action)
             # reset flag
