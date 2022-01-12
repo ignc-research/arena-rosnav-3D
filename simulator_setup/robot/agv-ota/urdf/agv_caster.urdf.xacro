@@ -1,0 +1,57 @@
+<?xml version='1.0'?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <property name="M_PI" value="3.1415926535897931" />
+  <xacro:macro name="agv_swivel" params="xyz_caster rpy_caster side">
+	  
+    <link name='caster_${side}_link'>
+      <visual>
+        <origin xyz="0 0 0" rpy=" 0 0 0"/>
+        <geometry>
+          <mesh filename="package://simulator_setup/robot/agv-ota/meshes/OTAv07_meshes/SarhosTeker.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+      </visual>
+
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <cylinder radius="0.005" length="0.07"/>	  			  
+        </geometry>
+      </collision>
+  
+      <xacro:cylinder_inertial radius="0.005" length="0.07" mass="0.1" />
+    </link>      
+    
+    <joint name="caster_${side}_joint" type="continuous">
+      <origin xyz="${xyz_caster}" rpy="${rpy_caster}"/>
+      <axis xyz="0 0 1"/>
+      <anchor xyz="0 0 0"/>
+      <limit effort="0" velocity="0" k_velocity="0"/>
+      <joint_properties damping="0.0" friction="0.0"/>
+      <parent link="base_link"/>
+      <child link="caster_${side}_link"/>
+    </joint>
+
+    <gazebo reference="caster_${side}_link">
+      <material value="Gazebo/Gray"/>
+    </gazebo>     
+
+    <link name='caster_wheel_${side}_link'>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 1.570796 1.570796"/>
+        <geometry>
+          <cylinder radius="0.042" length="0.02"/>  
+        </geometry>
+      </collision>
+
+      <xacro:cylinder_inertial radius="0.042" length="0.02" mass="0.1" />
+    </link>      
+    
+    <joint name="caster_${side}_wheel_joint" type="continuous">
+      <axis xyz="0 1 0"/>
+      <origin xyz="-0.04 0 -0.07" rpy="0 0 0"/>
+      <parent link="caster_${side}_link"/>
+      <child link="caster_wheel_${side}_link"/>
+    </joint>  
+  
+  </xacro:macro>
+</robot>

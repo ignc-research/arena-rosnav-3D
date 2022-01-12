@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <!-- Joint State Publisher -->
+  <xacro:macro name="agv_joints_state_publisher">    
+  	<gazebo>
+         <plugin name="joint_state_publisher" filename="libgazebo_ros_joint_state_publisher.so">
+            <jointName>caster_front_left_joint,caster_front_right_joint,caster_back_left_joint,caster_back_right_joint,caster_front_left_wheel_joint,caster_front_right_wheel_joint,caster_back_left_wheel_joint,caster_back_right_wheel_joint</jointName>
+            <updateRate>10.0</updateRate>
+            <alwaysOn>true</alwaysOn>
+         </plugin>
+    </gazebo>
+  </xacro:macro>
+
+  <!-- Differential Drive Plugin-->
+  <xacro:macro name="agv_diff_drive">
+    <gazebo>
+      <plugin name="differential_drive_controller" filename="libgazebo_ros_diff_drive.so">
+        <rosDebugLevel>Debug</rosDebugLevel>
+        <publishWheelTF>false</publishWheelTF>
+        <publishOdomTF>true</publishOdomTF>
+        <publishWheelJointState>false</publishWheelJointState>
+        <alwaysOn>true</alwaysOn>
+        <leftJoint>wheel_right_base</leftJoint>
+        <rightJoint>wheel_left_base</rightJoint>
+        <wheelSeparation>0.60</wheelSeparation>
+        <wheelDiameter>0.20</wheelDiameter>
+        <wheelTorque>20</wheelTorque>
+        <wheelAcceleration>1.8</wheelAcceleration>
+        <commandTopic>cmd_vel</commandTopic>
+        <odometryTopic>odom</odometryTopic>
+        <odometryFrame>odom</odometryFrame>
+        <odometrySource>world</odometrySource>
+        <robotBaseFrame>base_link</robotBaseFrame>
+	      <legacyMode>true</legacyMode>
+	      <publishTf>true</publishTf>
+        <updateRate>50.0</updateRate>
+      </plugin>
+    </gazebo>
+
+  </xacro:macro>
+
+  <!-- IMU Plugin -->
+  <xacro:macro name="agv_imu">
+    <gazebo>
+      <plugin name="imu_plugin" filename="libgazebo_ros_imu.so">
+        <alwaysOn>true</alwaysOn>
+        <bodyName>imu_link</bodyName>
+        <frameName>imu_link</frameName>
+        <topicName>imu</topicName>
+        <serviceName>imu_service</serviceName>
+        <gaussianNoise>0.0</gaussianNoise>
+        <updateRate>200</updateRate>
+        <imu>
+          <noise>
+            <type>gaussian</type>
+            <rate>
+              <mean>0.0</mean>
+              <stddev>2e-4</stddev>
+              <bias_mean>0.0000075</bias_mean>
+              <bias_stddev>0.0000008</bias_stddev>
+            </rate>
+            <accel>
+              <mean>0.0</mean>
+              <stddev>1.7e-2</stddev>
+              <bias_mean>0.1</bias_mean>
+              <bias_stddev>0.001</bias_stddev>
+            </accel>
+          </noise>
+        </imu>
+      </plugin>
+    </gazebo>
+
+  </xacro:macro>
+</robot>
