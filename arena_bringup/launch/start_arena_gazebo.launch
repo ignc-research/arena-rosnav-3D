@@ -143,10 +143,10 @@
   <include file="$(find arena_bringup)/launch/sublaunch_testing/sensor_sim.launch" unless="$(eval arg('disable_scenario') or arg('train_mode'))"/>
 
   <!-- move_base plan manager: which provide basic global planner and cost map -->
-  <include file="$(find arena_bringup)/launch/sublaunch_testing/move_base/move_base_$(arg local_planner).launch">
+  <!-- <include file="$(find arena_bringup)/launch/sublaunch_testing/move_base/move_base_$(arg local_planner).launch">
     <arg name="model" value="$(arg model)"/>
     <arg name="cmd_vel_topic" value="/nav_vel" if="$(eval arg('model') == 'agv-ota')" />
-  </include>
+  </include> -->
 
   <!-- <include file="$(find arena_bringup)/launch/sublaunch_testing/plan_manager.launch">
     <arg name="train_mode" value="$(arg train_mode)"/>

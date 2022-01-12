@@ -15,7 +15,7 @@
     </node> 
 
 
-    <node pkg="cadrl_ros" type="cadrl_node_3d.py" name="cadrl_node" output="screen" ns="/cadrl">
+    <!-- <node pkg="cadrl_ros" type="cadrl_node_3d.py" name="cadrl_node" output="screen" ns="/cadrl">
         
         <remap from="~other_vels" to="other_vels"/>
         <remap from="~nn_cmd_vel" to="/cmd_vel"/>
@@ -39,7 +39,7 @@
     </node>
 
 
-    <node pkg="cadrl_ros" type="ped_to_ford.py" name="ped_to_ford" output="screen"></node>
+    <node pkg="cadrl_ros" type="ped_to_ford.py" name="ped_to_ford" output="screen"></node> -->
 
 
 </launch>
