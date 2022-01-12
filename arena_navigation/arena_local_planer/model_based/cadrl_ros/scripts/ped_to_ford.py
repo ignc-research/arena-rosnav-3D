@@ -8,14 +8,10 @@ from pedsim_msgs.msg import AgentStates
 
 class Transformer:
     def __init__(self):
-<<<<<<< HEAD
 
-        self.pedsim_sub = rospy.Subscriber("/pedsim_simulator/simulated_agents", AgentStates, self.transPedMsg)
-=======
         self.pedsim_sub = rospy.Subscriber(
             "/pedsim_simulator/simulated_agents", AgentStates, self.transPedMsg
         )
->>>>>>> f2bf3849cf8fa8656c7d47bfee7ce5b3da2d54ea
         self.clusters_pub = rospy.Publisher("/clusters", Clusters, queue_size=1)
 
     def transPedMsg(self, msg):
