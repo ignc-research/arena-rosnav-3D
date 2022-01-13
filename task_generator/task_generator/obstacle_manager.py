@@ -33,7 +33,7 @@ class ObstaclesManager:
         # a list of publisher to move the obstacle to the start pos.
         self._move_all_obstacles_start_pos_pubs = []
         self.separate_map = rospy.get_param("/additional_map", False)
-        print(self.separate_map)
+        
         self._service_client_get_map = rospy.ServiceProxy(
             "/additional_map/static_map", GetMap)
         self.update_map(map_)

@@ -19,6 +19,7 @@ import math
 import rospkg
 
 import network
+# import network_tf2 as network
 import agent
 import util
 from nav_msgs.msg import Odometry, Path
@@ -81,7 +82,7 @@ class NN_tb3():
         # subscribers and publishers
         self.num_poses = 0
         self.num_actions_computed = 0.0
-        self.pub_others = rospy.Publisher('~other_vels',Vector3,queue_size=1)
+        # self.pub_others = rospy.Publisher('~other_vels',Vector3,queue_size=1)
         self.pub_twist = rospy.Publisher('~nn_cmd_vel',Twist,queue_size=1) 
         self.pub_pose_marker = rospy.Publisher('~pose_marker',Marker,queue_size=1)
         self.pub_agent_marker = rospy.Publisher('~agent_marker',Marker,queue_size=1)
@@ -124,7 +125,7 @@ class NN_tb3():
         self.stop_moving_flag = False
         self.sub_goal.x = msg.pose.position.x
         self.sub_goal.y = msg.pose.position.y
-        # print "new subgoal: "+str(self.sub_goal)
+        print("new subgoal: "+str(self.sub_goal))
 
     def cbPlannerMode(self, msg):
         self.operation_mode = msg
@@ -471,7 +472,8 @@ def run():
 
     rospy.init_node('nn_tb3',anonymous=False)
     veh_name = 'tb3_01'
-    pref_speed = rospy.get_param("~tb3_speed")
+    # pref_speed = rospy.get_param("~tb3_speed")
+    pref_speed = 0.3
     veh_data = {'goal':np.zeros((2,)),'radius':0.3,'pref_speed':pref_speed,'kw':10.0,'kp':1.0,'name':'tb3_01'}
 
     print('==================================\ncadrl node started')

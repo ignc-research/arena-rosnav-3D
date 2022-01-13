@@ -1,0 +1,36 @@
+TensorFlow 2.0 Upgrade Script
+-----------------------------
+Converted 1 files
+Detected 1 issues that require attention
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+File: network.py
+--------------------------------------------------------------------------------
+network.py:106:26: ERROR: Using member tf.contrib.layers.flatten in deprecated module tf.contrib. tf.contrib.layers.flatten cannot be converted automatically. tf.contrib will not be distributed with TensorFlow 2.0, please consider an alternative in non-contrib TensorFlow, a community-maintained repository such as tensorflow/addons, or fork the required code.
+================================================================================
+Detailed log follows:
+
+================================================================================
+--------------------------------------------------------------------------------
+Processing file 'network.py'
+ outputting to 'network_tf2.py'
+--------------------------------------------------------------------------------
+
+29:28: INFO: Renamed 'tf.Session' to 'tf.compat.v1.Session'
+31:27: INFO: Renamed 'tf.ConfigProto' to 'tf.compat.v1.ConfigProto'
+34:36: INFO: Renamed 'tf.GPUOptions' to 'tf.compat.v1.GPUOptions'
+35:30: INFO: Renamed 'tf.global_variables_initializer' to 'tf.compat.v1.global_variables_initializer'
+37:23: INFO: Renamed 'tf.global_variables' to 'tf.compat.v1.global_variables'
+38:29: INFO: Renamed 'tf.train.Saver' to 'tf.compat.v1.train.Saver'
+46:19: INFO: Renamed 'tf.layers.dense' to 'tf.compat.v1.layers.dense'
+49:24: INFO: Renamed 'tf.layers.dense' to 'tf.compat.v1.layers.dense'
+53:35: INFO: Renamed 'tf.layers.dense' to 'tf.compat.v1.layers.dense'
+81:26: INFO: Multiplying scale arg of tf.contrib.layers.l2_regularizer by half to what tf.keras.regularizers.l2 expects.
+
+100:47: INFO: Renamed 'tf.nn.dynamic_rnn' to 'tf.compat.v1.nn.dynamic_rnn'
+100:65: INFO: Renamed 'tf.contrib.rnn.LSTMCell' to 'tf.compat.v1.nn.rnn_cell.LSTMCell'
+103:26: INFO: Renamed 'tf.layers.dense' to 'tf.compat.v1.layers.dense'
+105:22: INFO: Renamed 'tf.layers.dense' to 'tf.compat.v1.layers.dense'
+106:26: ERROR: Using member tf.contrib.layers.flatten in deprecated module tf.contrib. tf.contrib.layers.flatten cannot be converted automatically. tf.contrib will not be distributed with TensorFlow 2.0, please consider an alternative in non-contrib TensorFlow, a community-maintained repository such as tensorflow/addons, or fork the required code.
+--------------------------------------------------------------------------------
+

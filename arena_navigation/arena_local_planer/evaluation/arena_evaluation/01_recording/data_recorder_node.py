@@ -25,17 +25,19 @@ class recorder():
         self.record_only_planner = rospy.get_param("record_only_planner")
         self.scenario = rospy.get_param("scenario_file").replace(".json","").replace("eval/","")
         self.now = time.strftime("%y-%m-%d_%H:%M:%S")
-        self.dir_path = os.path.dirname(os.path.abspath(__file__)) # get path for current file, does not work if os.chdir() was used
+        self.dir_path = "/root/mount/" #os.path.dirname(os.path.abspath(__file__)) # get path for current file, does not work if os.chdir() was used
+        self.model = rospy.get_param("model")
+
         if self.record_only_planner:
             with open(self.dir_path+"/{0}_{1}_{2}.csv".format(self.local_planner,self.scenario,self.now), "w+", newline = "") as file:
                 writer = csv.writer(file, delimiter = ',')
-                header = [["episode","time","laser_scan","robot_lin_vel_x","robot_lin_vel_y","robot_ang_vel","robot_orientation","robot_pos_x","robot_pos_y","action"]]
+                header = [["episode","time","laser_scan","robot_lin_vel_x","robot_lin_vel_y","robot_ang_vel","robot_orientation","robot_pos_x","robot_pos_y","action", "model"]]
                 writer.writerows(header)
                 file.close()
         else:
             with open(self.dir_path+"/{0}_{1}_{2}_{3}.csv".format(self.local_planner,self.waypoint_generator,self.scenario,self.now), "w+", newline = "") as file:
                 writer = csv.writer(file, delimiter = ',')
-                header = [["episode","time","laser_scan","robot_lin_vel_x","robot_lin_vel_y","robot_ang_vel","robot_orientation","robot_pos_x","robot_pos_y","action"]]
+                header = [["episode","time","laser_scan","robot_lin_vel_x","robot_lin_vel_y","robot_ang_vel","robot_orientation","robot_pos_x","robot_pos_y","action", "model"]]
                 writer.writerows(header)
                 file.close()
         
@@ -49,6 +51,7 @@ class recorder():
         self.robot_pos_x = 0
         self.robot_pos_y = 0
         self.action = ["None"]
+       
 
         # subscribe to topics
         rospy.Subscriber("/scenario_reset", Int16, self.episode_callback)
@@ -90,7 +93,6 @@ class recorder():
 
     def action_callback(self, msg_action: Twist): # variables will be written to csv whenever an action is published
         self.action = [msg_action.linear.x,msg_action.linear.y,msg_action.angular.z]
-
         self.addData(np.array(
             [self.episode,
             time.time(),
@@ -101,17 +103,20 @@ class recorder():
             self.robot_orientation,
             self.robot_pos_x,
             self.robot_pos_y,
-            self.action]
+            self.action,
+            self.model]
         ))
 
-    def addData(self, data:np.array): #add new row to the csv file 
+    def addData(self, data:np.array): #add new row to the csv file
+
         with open(self.dir_path+"/{0}_{1}_{2}.csv".format(self.local_planner,self.scenario,self.now), "a+", newline = "") as file:
             writer = csv.writer(file, delimiter = ',') # writer has to be defined again for the code to work
             writer.writerows(data.reshape(1,-1)) # reshape into line vector
             file.close()
 
 
+
 if __name__=="__main__":
-    rospy.init_node("data_recorder")    
+    rospy.init_node("data_recorder")
     data_recorder = recorder()
     rospy.spin()

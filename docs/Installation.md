@@ -82,7 +82,7 @@ To be able to use python3 with ROS, you need an virtual environment. We recommen
 - Install virtual environment and wrapper (as root or admin! with sudo) on your local pc (without conda activated. Deactivate conda env, if you have one active)
 
 ```
-sudo apt install pip
+sudo apt install python3-pip
 sudo pip3 install --upgrade pip
 sudo pip3 install virtualenv
 sudo pip3 install virtualenvwrapper
@@ -109,6 +109,7 @@ source /usr/local/bin/virtualenvwrapper.sh" >> ~/.bashrc
 Note: You might need to restart your terminal at this point.
 
 ```
+source ~/.bashrc
 mkvirtualenv --python=python3.8 rosnav
 workon rosnav
 ```
@@ -177,7 +178,33 @@ rosdep install --from-paths src --ignore-src -r -y
 ```bash
 cd ~/catkin_ws/src/forks/pedsim_ros && git submodule update --init --recursive
 cd ../../.. && catkin_make --only-pkg-with-deps spencer_tracking_rviz_plugin
+catkin_make -DCATKIN_WHITELIST_PACKAGES=""
 ```
+
+## CADRL 
+For CADRL, you need an own environment with python 3.6. and tensorflow 1.4.
+If you are on Ubuntu 20.04, install python3.6-dev
+```
+sudo add-apt-repository ppa:deadsnakes/ppa
+sudo apt-get update
+sudo apt-get install python3.6-dev
+```
+
+Note: You might need to restart your terminal at this point.
+
+```
+source ~/.bashrc
+mkvirtualenv --python=python3.6 cadrl
+workon cadrl
+```
+
+- Install packages inside your venv (venv always activated!):
+
+```
+pip install --extra-index-url https://rospypi.github.io/simple/ rospy rosbag tf tf2_ros --ignore-installed
+pip install pyyaml catkin_pkg netifaces pathlib filelock pyqt5 mpi4py lxml scipy defusedxml matplotlib tensorflow==1.4
+```
+
 
 # Add arena-rosnav next to arena-rosnav-3D
 
@@ -235,7 +262,7 @@ pip3 install torch==1.9.0+cu111 torchvision==0.10.0+cu111 torchaudio==0.9.0 -f h
         This error can be resolved by updating your stable baselines and your workspace. Therefore run the following commands:
         ```
         cd $HOME/catkin_ws/src/forks/stable-baselines3
-        pip install -e.
+        pip install -e .
         ```
         ```
         cd $HOME/catkin_ws/src/arena-rosnav
