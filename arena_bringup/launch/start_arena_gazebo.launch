@@ -113,6 +113,11 @@
     <include file="$(find simulator_setup)/robot/ridgeback/control/launch/control.launch"/>
   </group>
 
+   <!-- Launching additional nodes/scripts needed for pepper to work -->
+   <group if="$(eval arg('model') == 'pepper')">
+    <include file="$(find simulator_setup)/robot/pepper/control/launch/control.launch"/>
+  </group>
+
   <!-- map server-->
   <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_path)">
     <param name="frame_id" value="$(arg global_frame_id)"/>

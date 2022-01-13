@@ -27,7 +27,7 @@ from rl_agent.encoder import BaseEncoder
     the degrees of freedom
 """
 
-class RosnavEncoder(BaseEncoder):
+class Encoder(BaseEncoder):
     def __init__(self, agent_name: str, model_dir: str, hyperparams):
         model_path = path.join(model_dir, agent_name, "best_model.zip")
         vecnorm_path = path.join(model_dir, agent_name, "vec_normalize.pkl")
@@ -74,7 +74,7 @@ class RosnavEncoder(BaseEncoder):
     offset: -3/4 * pi
     action: [x_vel, ang_vel]
 """
-class JackalRosnavEncoder(RosnavEncoder):
+class JackalEncoder(Encoder):
     pass
 
 """
@@ -83,7 +83,7 @@ class JackalRosnavEncoder(RosnavEncoder):
     offset: 0
     action: [x_vel, ang_vel]
 """
-class TurtleBot3RosnavEncoder(RosnavEncoder):
+class TurtleBot3Encoder(Encoder):
     pass
 
 """
@@ -92,7 +92,7 @@ class TurtleBot3RosnavEncoder(RosnavEncoder):
     offset: -pi
     action: [x_vel, ang_vel]
 """
-class AgvRosnavEncoder(RosnavEncoder):
+class AgvEncoder(Encoder):
     pass
 
 """
@@ -101,7 +101,7 @@ class AgvRosnavEncoder(RosnavEncoder):
     offset: -3/4 * pi
     action: [x_vel, y_vel, ang_vel]
 """
-class RidgebackRosnavEncoder(RosnavEncoder):
+class RidgebackEncoder(Encoder):
     def get_action(action):
         assert len(action) == 3, f"Expected an action of size 3 but received: {action}"
 

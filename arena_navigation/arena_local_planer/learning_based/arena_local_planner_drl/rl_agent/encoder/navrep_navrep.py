@@ -1,11 +1,14 @@
 from os import path
+import numpy as np
+import sys
 
 from rl_agent.encoder import BaseEncoder
 """
-    ROSNAV MODEL TRAINED IN NAVREP ENVIRONMENT
+    NAVREP PRETRAINED MODEL
+    Only works for pepper
 """
 
-class Encoder(BaseEncoder):
+class NavrepPretrainedEncoder(BaseEncoder):
     def __init__(self, agent_name: str, model_dir: str, hyperparams):
         model_path = path.join(model_dir, agent_name + ".zip")
 
@@ -22,6 +25,9 @@ class Encoder(BaseEncoder):
             a different python version
         """
         from stable_baselines.ppo2 import PPO2
+        import navrep.tools.custom_policy as custom_policy
+
+        sys.modules["custom_policy"] = custom_policy
 
         return PPO2.load(model_path)
 
@@ -29,7 +35,18 @@ class Encoder(BaseEncoder):
         return lambda obs: obs
 
     def get_observation(self, obs):
-        return obs[0].reshape(len(obs[0]), 1)
+        obs_dict = obs[1]
+        scan = obs_dict["laser_scan"]
+        rho, theta = obs_dict["goal_in_robot_frame"]
+        robot_vel = obs_dict["robot_vel"]
+
+        # Convert Rho, Theta in robot frame coordinates
+        y = np.sin(theta + np.pi) * rho
+        x = np.cos(theta + np.pi) * rho
+
+        navrep_observation = np.hstack([scan, [x, y], np.maximum(np.minimum(1, [robot_vel.linear.x, robot_vel.linear.y, 0]), -1)])
+
+        return navrep_observation.reshape(len(navrep_observation), 1)
 
     def get_action(self, action):
         """
@@ -39,45 +56,5 @@ class Encoder(BaseEncoder):
         """
         assert len(action) == 2, f"Expected an action of size 2 but received {len(action)}: {action}"
         
-
-        x_vel, ang_vel = action
-        return [x_vel, 0, ang_vel]
-
-"""
-    Jackal
-    N: 720 
-    offset: -3/4 * pi
-    action: [x_vel, ang_vel]
-"""
-class JackalEncoder(Encoder):
-    pass
-
-"""
-    Turtlebot3
-    N: 360
-    offset: 0
-    action: [x_vel, ang_vel]
-"""
-class TurtleBot3Encoder(Encoder):
-    pass
-
-"""
-    AGV
-    N: 720
-    offset: -pi
-    action: [x_vel, ang_vel]
-"""
-class AgvEncoder(Encoder):
-    pass
-
-"""
-    Ridgeback
-    N: 720
-    offset: -3/4 * pi
-    action: [x_vel, y_vel, ang_vel]
-"""
-class RidgebackEncoder(Encoder):
-    def get_action(action):
-        assert len(action) == 3, f"Expected an action of size 3 but received: {action}"
-
-        return action
+        x_vel, y_vel = action
+        return [x_vel, y_vel, 0]

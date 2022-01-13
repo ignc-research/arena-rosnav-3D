@@ -1,13 +1,16 @@
 from os import path
+import numpy as np
+import sys
 
 from rl_agent.encoder import BaseEncoder
 """
-    ROSNAV MODEL TRAINED IN NAVREP ENVIRONMENT
+    GULDENRING PRETRAINED MODELS
+    Only works for agv-ota
 """
 
-class Encoder(BaseEncoder):
+class GuldenringPretrainedEncoder(BaseEncoder):
     def __init__(self, agent_name: str, model_dir: str, hyperparams):
-        model_path = path.join(model_dir, agent_name + ".zip")
+        model_path = path.join(model_dir, agent_name + ".pkl")
 
         assert path.isfile(
             model_path
@@ -18,10 +21,9 @@ class Encoder(BaseEncoder):
             self._obs_norm_func = self._load_vecnorm()
 
     def _load_model(self, model_path: str):
-        """Import stable baseline here because it requires
-            a different python version
-        """
         from stable_baselines.ppo2 import PPO2
+
+        print(model_path)
 
         return PPO2.load(model_path)
 
@@ -29,7 +31,27 @@ class Encoder(BaseEncoder):
         return lambda obs: obs
 
     def get_observation(self, obs):
-        return obs[0].reshape(len(obs[0]), 1)
+        obs_dict = obs[1]
+        scan = obs_dict["laser_scan"]
+        rho, theta = obs_dict["goal_in_robot_frame"]
+
+        # Convert Rho, Theta in robot frame coordinates
+        y = np.sin(theta + np.pi) * rho
+        x = np.cos(theta + np.pi) * rho
+
+        complete_observation = np.zeros((1, 90 + 8 * 2, 1))
+
+        downsampled_scan = scan.reshape((-1, 8))
+        downsampled_scan = np.min(downsampled_scan, axis=1)
+
+        complete_observation[0, :90, 0] = downsampled_scan
+
+        for i in range(8):
+            complete_observation[0, 90 + i * 2:90 + i * 2 + 2, 0] = [x, y]
+
+        guldenring_obs = np.round(np.divide(complete_observation, 0.05))*0.05
+        
+        return guldenring_obs
 
     def get_action(self, action):
         """
@@ -42,42 +64,3 @@ class Encoder(BaseEncoder):
 
         x_vel, ang_vel = action
         return [x_vel, 0, ang_vel]
-
-"""
-    Jackal
-    N: 720 
-    offset: -3/4 * pi
-    action: [x_vel, ang_vel]
-"""
-class JackalEncoder(Encoder):
-    pass
-
-"""
-    Turtlebot3
-    N: 360
-    offset: 0
-    action: [x_vel, ang_vel]
-"""
-class TurtleBot3Encoder(Encoder):
-    pass
-
-"""
-    AGV
-    N: 720
-    offset: -pi
-    action: [x_vel, ang_vel]
-"""
-class AgvEncoder(Encoder):
-    pass
-
-"""
-    Ridgeback
-    N: 720
-    offset: -3/4 * pi
-    action: [x_vel, y_vel, ang_vel]
-"""
-class RidgebackEncoder(Encoder):
-    def get_action(action):
-        assert len(action) == 3, f"Expected an action of size 3 but received: {action}"
-
-        return action

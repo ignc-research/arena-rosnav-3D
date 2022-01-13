@@ -4,7 +4,7 @@ import sys
 
 from rl_agent.encoder import BaseEncoder
 """
-    ROSNAV MODEL TRAINED IN NAVREP ENVIRONMENT
+    MODELS FOR DIFFERENT ROBOTERS TRAINED IN GULDENRING
 """
 
 class GuldenringEncoder(BaseEncoder):
@@ -30,17 +30,21 @@ class GuldenringEncoder(BaseEncoder):
     def get_observation(self, obs):
         obs_dict = obs[1]
         scan = obs_dict["laser_scan"]
-        subgoal = obs_dict["subgoal"]
-        subgoal_array = [subgoal.x, subgoal.y]
+        rho, theta = obs_dict["goal_in_robot_frame"]
+
+        # Convert Rho, Theta in robot frame coordinates
+        y = np.sin(theta + np.pi) * rho
+        x = np.cos(theta + np.pi) * rho
 
         complete_observation = np.zeros((1, len(scan) + 8 * 2, 1))
         complete_observation[0, :len(scan), 0] = scan
         
         for i in range(8):
-            # complete_observation[0, len(scan) + i * 2:len(scan) + i * 2 + 2, 0] = subgoal_array[:2]
-            complete_observation[0, len(scan) + i * 2:len(scan) + i * 2 + 1, 0] = subgoal_array[:2]
+            complete_observation[0, len(scan) + i * 2:len(scan) + i * 2 + 2, 0] = [x, y]
 
-        return complete_observation
+        guldenring_obs = np.round(np.divide(complete_observation, 0.05))*0.05
+
+        return guldenring_obs
 
     def get_action(self, action):
         """
