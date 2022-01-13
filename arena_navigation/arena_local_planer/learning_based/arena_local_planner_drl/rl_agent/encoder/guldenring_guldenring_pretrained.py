@@ -7,9 +7,9 @@ from rl_agent.encoder import BaseEncoder
     ROSNAV MODEL TRAINED IN NAVREP ENVIRONMENT
 """
 
-class GuldenringEncoder(BaseEncoder):
+class GuldenringPretrainedEncoder(BaseEncoder):
     def __init__(self, agent_name: str, model_dir: str, hyperparams):
-        model_path = path.join(model_dir, agent_name + ".zip")
+        model_path = path.join(model_dir, agent_name + ".pkl")
 
         assert path.isfile(
             model_path
@@ -21,6 +21,8 @@ class GuldenringEncoder(BaseEncoder):
 
     def _load_model(self, model_path: str):
         from stable_baselines.ppo2 import PPO2
+
+        print(model_path)
 
         return PPO2.load(model_path)
 
@@ -36,14 +38,18 @@ class GuldenringEncoder(BaseEncoder):
         y = np.sin(theta + np.pi) * rho
         x = np.cos(theta + np.pi) * rho
 
-        complete_observation = np.zeros((1, len(scan) + 8 * 2, 1))
-        complete_observation[0, :len(scan), 0] = scan
-        
+        complete_observation = np.zeros((1, 90 + 8 * 2, 1))
+
+        downsampled_scan = scan.reshape((-1, 8))
+        downsampled_scan = np.min(downsampled_scan, axis=1)
+
+        complete_observation[0, :90, 0] = downsampled_scan
+
         for i in range(8):
-            complete_observation[0, len(scan) + i * 2:len(scan) + i * 2 + 2, 0] = [x, y]
+            complete_observation[0, 90 + i * 2:90 + i * 2 + 2, 0] = [x, y]
 
         guldenring_obs = np.round(np.divide(complete_observation, 0.05))*0.05
-
+        
         return guldenring_obs
 
     def get_action(self, action):
@@ -58,40 +64,16 @@ class GuldenringEncoder(BaseEncoder):
         x_vel, ang_vel = action
         return [x_vel, 0, ang_vel]
 
-"""
-    Jackal
-    N: 720 
-    offset: -3/4 * pi
-    action: [x_vel, ang_vel]
-"""
-class JackalGuldenringEncoder(GuldenringEncoder):
+class JackalGuldenringPretrainedEncoder(GuldenringPretrainedEncoder):
     pass
 
-"""
-    Turtlebot3
-    N: 360
-    offset: 0
-    action: [x_vel, ang_vel]
-"""
-class TurtleBot3GuldenringEncoder(GuldenringEncoder):
+class TurtleBot3GuldenringPretrainedEncoder(GuldenringPretrainedEncoder):
     pass
 
-"""
-    AGV
-    N: 720
-    offset: -pi
-    action: [x_vel, ang_vel]
-"""
-class AgvGuldenringEncoder(GuldenringEncoder):
+class AgvGuldenringPretrainedEncoder(GuldenringPretrainedEncoder):
     pass
 
-"""
-    Ridgeback
-    N: 720
-    offset: -3/4 * pi
-    action: [x_vel, y_vel, ang_vel]
-"""
-class RidgebackGuldenringEncoder(GuldenringEncoder):
+class RidgebackGuldenringPretrainedEncoder(GuldenringPretrainedEncoder):
     def get_action(action):
         assert len(action) == 3, f"Expected an action of size 3 but received: {action}"
 

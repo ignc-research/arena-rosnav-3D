@@ -178,6 +178,8 @@ class ObservationCollector:
         else:
             scan = np.zeros(self._laser_num_beams, dtype=float)
 
+        scan = np.minimum(scan, rospy.get_param("laser_range", default=10))
+
         rho, theta = ObservationCollector._get_goal_pose_in_robot_frame(
             self._subgoal, self._robot_pose
         )

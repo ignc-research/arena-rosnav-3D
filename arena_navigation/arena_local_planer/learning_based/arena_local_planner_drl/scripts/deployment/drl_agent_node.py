@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import numpy as np
+from arena_navigation.arena_local_planer.learning_based.arena_local_planner_drl.rl_agent.encoder.navrep_navrep import PepperNavrepEncoder
 import rospy
 import rospkg
 import sys
@@ -9,6 +10,7 @@ from os import path
 from rl_agent.encoder.rosnav_rosnav import *
 from rl_agent.encoder.navrep_rosnav import *
 from rl_agent.encoder.guldenring_guldenring import TurtleBot3GuldenringEncoder
+from rl_agent.encoder.guldenring_guldenring_pretrained import GuldenringPretrainedEncoder
 
 from rl_agent.base_agent_wrapper import BaseDRLAgent
 
@@ -42,6 +44,12 @@ encoders = {
     },
     "guldenring_guldenring": {
         "turtlebot3_burger": TurtleBot3GuldenringEncoder
+    },
+    "guldenring_guldenring_pretrained": {
+        "agv-ota": GuldenringPretrainedEncoder
+    },
+    "navrep_navrep": {
+        "pepper": PepperNavrepEncoder
     }
 }
 
@@ -100,10 +108,7 @@ class DeploymentDRLAgent(BaseDRLAgent):
         self._setup_agent()
 
         # time period for a valid action
-        self._action_period = rospy.Duration(
-            1 / rospy.get_param("/action_frequency", default=10)
-        )  # in seconds
-        self._action_inferred = False
+        self._action_period = rospy.get_param("/action_frequency", default=10)
         self._curr_action, self._last_action = np.array([0, 0, 0]), np.array(
             [0, 0, 0]
         )
@@ -124,7 +129,7 @@ class DeploymentDRLAgent(BaseDRLAgent):
                 the ActionPublisher node in order to comply with the specified \
                 action publishing rate.
         """
-        rospy.Timer(self._action_period, self.callback_publish_action)
+        rate = rospy.Rate(self._action_period)
 
         while not rospy.is_shutdown():
             goal_reached = rospy.get_param("/bool_goal_reached", default=False)
@@ -137,18 +142,9 @@ class DeploymentDRLAgent(BaseDRLAgent):
                 self._last_action = self._curr_action
                 self._curr_action = encoded_action
 
-                self._action_inferred = True
+                self.publish_action(self._last_action)
 
-    def callback_publish_action(self, _):
-        if self._action_inferred:
-            self.publish_action(self._last_action)
-            # reset flag
-            self._action_inferred = False
-        else:
-            rospy.logdebug(
-                "[DRL_NODE]: No action inferred during most recent action cycle."
-            )
-            self.publish_action(self.STAND_STILL_ACTION)
+            rate.sleep()
 
 def main() -> None:
     # TODO load from args if no params
@@ -156,8 +152,6 @@ def main() -> None:
     model_type = rospy.get_param("network_type")
     robot_type = rospy.get_param("model")
     agent_name = rospy.get_param("agent_name")
-
-    print(trainings_environment, model_type, robot_type, agent_name)
 
     AGENT = DeploymentDRLAgent(
         trainings_environment=trainings_environment, 
@@ -169,9 +163,8 @@ def main() -> None:
 
     try:
         AGENT.run()
+        rospy.spin()
     except rospy.ROSInterruptException:
-        pass
-    except:
         pass
 
 if __name__ == "__main__":
