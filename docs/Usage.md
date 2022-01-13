@@ -8,10 +8,20 @@ In our detailed custom worlds you can generate dynamic obstacles either in a sce
 
 # Worlds
 
-We provide the following four worlds for your use:
-|<img width="250" height="240" src="/img/aws_house-2.png">|<img width="250" height="240" src="/img/turtlebot3_house.png">|<img width="250" height="240" src="/img/small_warehouse-2.png">|<img width="250" height="240" src="/img/outside.png">|
-|:--: | :--:| :--:| :--:|
-| _aws_house_ | _turtlebot3_house_ | _small_warehouse_ | _random world_ |
+We provide the following worlds for your use:
+|<img width="150" height="140" src="/img/aws_house-2.png">|<img width="150" height="140" src="/img/turtlebot3_house.png">|<img width="150" height="140" src="/img/small_warehouse-2.png">|<img width="150" height="140" src="/img/outside.png">|<img width="150" height="140" src="/img/factory.png">|<img width="150" height="140" src="/img/hospital.jpg">|
+|:--: | :--:| :--:| :--:| :--:| :--:|
+| _aws_house_ | _turtlebot3_house_ | _small_warehouse_ | _random world_ | _factory_ | _hospital_ |
+
+| <img width="150" height="140" src="/img/experiment_rooms.jpg"> | <img width="150" height="140" src="/img/bookstore.jpeg"> | <img width="150" height="140" src="/img/tb_world.jpg"> |
+| :------------------------------------------------------------: | :------------------------------------------------------: | :----------------------------------------------------: |
+|                       _experiment_rooms_                       |                       _bookstore_                        |                   _turtlebot3_world_                   |
+
+Furthermore, an outside world is available using the flag "outside:=true", e.g.
+
+```
+roslaunch arena_bringup start_arena_gazebo.launch outside:=true
+```
 
 ## Pre-build world
 
@@ -35,7 +45,11 @@ roslaunch arena_bringup start_arena_gazebo.launch outside:=true
 
 The custom world generator creates a map with a set number of static and dynamic obstacles of a randomly determined size (and shape).
 
-If you want to change the number of static obstacles you do this [here](https://github.com/eliastreis/arena-rosnav-3D/blob/18ed507bfbf31015002c5727f2ab9aef3a05ca9b/task_generator/task_generator/tasks.py#L304)
+If you want to change the number of static obstacles you can also do that via the terminal (the shape is randomly determined by the task-generator node):
+
+```bash
+roslaunch arena_bringup start_arena_gazebo.launch outside:=true num_static_obs:=10
+```
 
 If you want to change the number of actors you can specify the amount using parameters like this:
 
@@ -72,7 +86,7 @@ For additional / more detailed information about each robot:
 - [See additional robot parameters like laser min/max [_rad_]](https://github.com/eliastreis/arena-rosnav-3D/tree/main/arena_bringup/launch/sublaunch_testing/robot_params)
 - See [_HERE_](https://github.com/eliastreis/arena-rosnav-3D/tree/main/arena_navigation/arena_local_planer/learning_based/arena_local_planner_drl/configs) for the definition of the robots action_spaces (needed for rl-based-training)
 
-> **_NOTE_**: The _emergency-stop_ capability is currently still being development, it will however be available on all robots.
+> **_NOTE_**: The _emergency-stop_ capability is currently still being development, however, it will be available on all robots.
 
 To select a robot model for your simulation run (in this case _ridgeback_):
 

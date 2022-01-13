@@ -53,3 +53,4 @@ __pycache__/
 
 #dolphin
 .directory
+simulator_setup/robot/agv-ota/meshes/OTAv07_meshes/OTA-v0.7.stl

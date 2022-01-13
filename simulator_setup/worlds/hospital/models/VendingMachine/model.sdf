@@ -8,7 +8,7 @@
       <visual name="visual">
         <geometry>
           <mesh>
-            <uri>model://VendingMachine/meshes/vend.obj</uri>
+            <uri>model://VendingMachine/meshes/VendingMachine.obj</uri>
           </mesh>
         </geometry>
       </visual>
@@ -16,7 +16,7 @@
       <collision name="collision">
         <geometry>
           <mesh>
-            <uri>model://VendingMachine/meshes/vend.obj</uri>
+            <uri>model://VendingMachine/meshes/VendingMachine.obj</uri>
           </mesh>
         </geometry>
       </collision>
