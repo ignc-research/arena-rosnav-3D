@@ -13,7 +13,7 @@ from rl_agent.encoder.guldenring_guldenring import TurtleBot3GuldenringEncoder
 from rl_agent.base_agent_wrapper import BaseDRLAgent
 
 
-sys.modules["arena_navigation.arena_local_planner"] = sys.modules["arena_navigation.arena_local_planer"]
+# sys.modules["arena_navigation.arena_local_planner"] = sys.modules["arena_navigation.arena_local_planer"]
 
 robot_model = rospy.get_param("model")
 """ TEMPORARY GLOBAL CONSTANTS """
@@ -140,7 +140,6 @@ class DeploymentDRLAgent(BaseDRLAgent):
                 self._action_inferred = True
 
     def callback_publish_action(self, _):
-        print("Callback")
         if self._action_inferred:
             self.publish_action(self._last_action)
             # reset flag
@@ -152,6 +151,7 @@ class DeploymentDRLAgent(BaseDRLAgent):
             self.publish_action(self.STAND_STILL_ACTION)
 
 def main() -> None:
+    # TODO load from args if no params
     trainings_environment = rospy.get_param("trainings_environment")
     model_type = rospy.get_param("network_type")
     robot_type = rospy.get_param("model")
@@ -170,6 +170,8 @@ def main() -> None:
     try:
         AGENT.run()
     except rospy.ROSInterruptException:
+        pass
+    except:
         pass
 
 if __name__ == "__main__":

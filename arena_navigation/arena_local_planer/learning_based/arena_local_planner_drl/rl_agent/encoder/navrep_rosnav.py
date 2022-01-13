@@ -18,7 +18,7 @@ class NavrepEncoder(BaseEncoder):
             self._obs_norm_func = self._load_vecnorm()
 
     def _load_model(self, model_path: str):
-        """Import stable baseline here because it maybe requires
+        """Import stable baseline here because it requires
             a different python version
         """
         from stable_baselines.ppo2 import PPO2
