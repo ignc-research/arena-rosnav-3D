@@ -138,7 +138,8 @@ class DeploymentDRLAgent(BaseDRLAgent):
 
     def callback_publish_action(self, event):
         if self._action_inferred:
-            # self._curr_action[0] = self._curr_action[0] * 0.75
+            if robot_model == "jackal":
+                self._curr_action[0] = self._curr_action[0] * 0.75
             self.publish_action(self._curr_action)
             # reset flag
             self._action_inferred = False
