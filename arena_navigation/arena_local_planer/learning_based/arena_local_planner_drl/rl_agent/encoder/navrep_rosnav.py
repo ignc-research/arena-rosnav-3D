@@ -5,7 +5,7 @@ from rl_agent.encoder import BaseEncoder
     ROSNAV MODEL TRAINED IN NAVREP ENVIRONMENT
 """
 
-class NavrepEncoder(BaseEncoder):
+class Encoder(BaseEncoder):
     def __init__(self, agent_name: str, model_dir: str, hyperparams):
         model_path = path.join(model_dir, agent_name + ".zip")
 
@@ -49,7 +49,7 @@ class NavrepEncoder(BaseEncoder):
     offset: -3/4 * pi
     action: [x_vel, ang_vel]
 """
-class JackalNavrepEncoder(NavrepEncoder):
+class JackalEncoder(Encoder):
     pass
 
 """
@@ -58,7 +58,7 @@ class JackalNavrepEncoder(NavrepEncoder):
     offset: 0
     action: [x_vel, ang_vel]
 """
-class TurtleBot3NavrepEncoder(NavrepEncoder):
+class TurtleBot3Encoder(Encoder):
     pass
 
 """
@@ -67,7 +67,7 @@ class TurtleBot3NavrepEncoder(NavrepEncoder):
     offset: -pi
     action: [x_vel, ang_vel]
 """
-class AgvNavrepEncoder(NavrepEncoder):
+class AgvEncoder(Encoder):
     pass
 
 """
@@ -76,7 +76,7 @@ class AgvNavrepEncoder(NavrepEncoder):
     offset: -3/4 * pi
     action: [x_vel, y_vel, ang_vel]
 """
-class RidgebackNavrepEncoder(NavrepEncoder):
+class RidgebackEncoder(Encoder):
     def get_action(action):
         assert len(action) == 3, f"Expected an action of size 3 but received: {action}"
 

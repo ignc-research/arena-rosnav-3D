@@ -1,21 +1,18 @@
 #!/usr/bin/env python
 import numpy as np
-from arena_navigation.arena_local_planer.learning_based.arena_local_planner_drl.rl_agent.encoder.navrep_navrep import PepperNavrepEncoder
 import rospy
 import rospkg
-import sys
 
 from os import path
 
-from rl_agent.encoder.rosnav_rosnav import *
-from rl_agent.encoder.navrep_rosnav import *
+import rl_agent.encoder.rosnav_rosnav as r_rosnav
+import rl_agent.encoder.navrep_rosnav as n_rosnav
 from rl_agent.encoder.guldenring_guldenring import TurtleBot3GuldenringEncoder
+
 from rl_agent.encoder.guldenring_guldenring_pretrained import GuldenringPretrainedEncoder
+from rl_agent.encoder.navrep_navrep import NavrepPretrainedEncoder
 
 from rl_agent.base_agent_wrapper import BaseDRLAgent
-
-
-# sys.modules["arena_navigation.arena_local_planner"] = sys.modules["arena_navigation.arena_local_planer"]
 
 robot_model = rospy.get_param("model")
 """ TEMPORARY GLOBAL CONSTANTS """
@@ -31,16 +28,16 @@ DEFAULT_ACTION_SPACE = path.join(
 
 encoders = {
     "rosnav_rosnav": {
-        "jackal": JackalRosnavEncoder,
-        "ridgeback": RidgebackRosnavEncoder,
-        "agv-ota": AgvRosnavEncoder,
-        "turtlebot3_burger": TurtleBot3RosnavEncoder
+        "jackal": r_rosnav.JackalEncoder,
+        "ridgeback": r_rosnav.RidgebackEncoder,
+        "agv-ota": r_rosnav.AgvEncoder,
+        "turtlebot3_burger": r_rosnav.TurtleBot3Encoder
     },
     "navrep_rosnav": {
-        "jackal": JackalNavrepEncoder,
-        "ridgeback": RidgebackNavrepEncoder,
-        "agv-ota": AgvNavrepEncoder,
-        "turtlebot3_burger": TurtleBot3NavrepEncoder
+        "jackal": n_rosnav.JackalEncoder,
+        "ridgeback": n_rosnav.RidgebackEncoder,
+        "agv-ota": n_rosnav.AgvEncoder,
+        "turtlebot3_burger": n_rosnav.TurtleBot3Encoder
     },
     "guldenring_guldenring": {
         "turtlebot3_burger": TurtleBot3GuldenringEncoder
@@ -49,7 +46,7 @@ encoders = {
         "agv-ota": GuldenringPretrainedEncoder
     },
     "navrep_navrep": {
-        "pepper": PepperNavrepEncoder
+        "pepper": NavrepPretrainedEncoder
     }
 }
 

@@ -5,6 +5,7 @@ import sys
 from rl_agent.encoder import BaseEncoder
 """
     GULDENRING PRETRAINED MODELS
+    Only works for agv-ota
 """
 
 class GuldenringPretrainedEncoder(BaseEncoder):
@@ -63,18 +64,3 @@ class GuldenringPretrainedEncoder(BaseEncoder):
 
         x_vel, ang_vel = action
         return [x_vel, 0, ang_vel]
-
-class JackalGuldenringPretrainedEncoder(GuldenringPretrainedEncoder):
-    pass
-
-class TurtleBot3GuldenringPretrainedEncoder(GuldenringPretrainedEncoder):
-    pass
-
-class AgvGuldenringPretrainedEncoder(GuldenringPretrainedEncoder):
-    pass
-
-class RidgebackGuldenringPretrainedEncoder(GuldenringPretrainedEncoder):
-    def get_action(action):
-        assert len(action) == 3, f"Expected an action of size 3 but received: {action}"
-
-        return action

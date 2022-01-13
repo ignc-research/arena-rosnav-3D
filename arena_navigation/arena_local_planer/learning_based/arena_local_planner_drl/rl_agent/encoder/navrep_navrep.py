@@ -5,9 +5,10 @@ import sys
 from rl_agent.encoder import BaseEncoder
 """
     NAVREP PRETRAINED MODEL
+    Only works for pepper
 """
 
-class NavrepEncoder(BaseEncoder):
+class NavrepPretrainedEncoder(BaseEncoder):
     def __init__(self, agent_name: str, model_dir: str, hyperparams):
         model_path = path.join(model_dir, agent_name + ".zip")
 
@@ -57,12 +58,3 @@ class NavrepEncoder(BaseEncoder):
         
         x_vel, y_vel = action
         return [x_vel, y_vel, 0]
-
-"""
-    Pepper
-    N: 1080 
-    offset: 0
-    action: [x_vel, y_vel]
-"""
-class PepperNavrepEncoder(NavrepEncoder):
-    pass
