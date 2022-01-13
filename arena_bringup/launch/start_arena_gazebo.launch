@@ -9,12 +9,16 @@
   <arg name="enable_pedsim" default="true"/>
   <arg name="enable_pedvis" default="true"/>
   <arg name="outside" default="false"/>
-  <arg name="network_type" default="rosnav" doc="Model type that is used. Will determine the obersation and action space. Currently only rosnav is supported" />
+
+  <arg name="network_type" default="rosnav" doc="Model type that is used. Will determine the observation and action space. Currently only rosnav is supported" />
   <arg name="trainings_environment" default="rosnav" doc="Determines the environment in which the network is trained. How to load the network mostly differs for different environments. Currently rosnav and navrep are supported" />
+  
   <arg name="world" default="small_warehouse" doc ="world type [turtlebot3_house, small_warehouse, aws_house, outside, ignc_lab]" unless="$(arg outside)"/>
   <arg name="world" default="outside" if = "$(arg outside)"/>
   <arg name="model" default="turtlebot3_burger"      doc = "model type [turtlebot3_burger, jackal, ridgeback, agv-ota]"/>
+
   <arg name="agent_name" default="tb3"     doc = "DRL agent name to be deployed" unless="$(eval arg('local_planner') != 'rosnav')"/>
+
   <arg name="scenario_file" default="$(arg world).json"/>
   <arg name="step_size" default="0.01"/>
   <arg name="update_rate" default="250"/>
@@ -127,7 +131,7 @@
     <param name="publish_frequency" type="double" value="50.0" />
   </node>
 
-  <!-- use fake localization-->
+  <!-- provide map to odom trasform once-->
   <include file="$(find arena_bringup)/launch/sublaunch_testing/fake_localization.launch">
     <arg name="global_frame_id" value="$(arg global_frame_id)"/>
     <arg name="odom_frame_id" value="$(arg odom_frame_id)"/>
@@ -155,25 +159,25 @@
     <!-- <arg name="speed" value="$(param speed)"/> -->
   </include>
 
-  <include file="$(find arena_bringup)/launch/sublaunch_testing/plan_manager.launch">
+  <!-- <include file="$(find arena_bringup)/launch/sublaunch_testing/plan_manager.launch"> -->
     <!-- only train_mode is false, otherwise subgoal is identical with global goal
           which is not wanted for training the waypoint generator.
     -->
-    <arg name="train_mode" value="$(arg train_mode)"/>
+    <!-- <arg name="train_mode" value="$(arg train_mode)"/>
     <arg name="global_frame_id" value="$(arg global_frame_id)"/>
     <arg name="odom_frame_id" value="$(arg odom_frame_id)"/>
-    <arg name="base_frame_id" value="$(arg base_frame_id)"/>
+    <arg name="base_frame_id" value="$(arg base_frame_id)"/> -->
     <!-- make use also make the modification in the file start_arena_flatland_waypoint.launch -->
     <!-- look_ahead_distance + outer ring circle < len_laser_beam -->
-    <arg name="look_ahead_distance" default="2.3"/>
+    <!-- <arg name="look_ahead_distance" default="2.3"/> -->
     <!--meter, double -->
-    <arg name="tolerance_approach" default="0.6"/>
+    <!-- <arg name="tolerance_approach" default="0.6"/> -->
     <!--meter, double -->
-    <arg name="timeout_goal" default="330."/>
+    <!-- <arg name="timeout_goal" default="330."/> -->
     <!--sec, double -->
-    <arg name="timeout_subgoal" default="20"/>
+    <!-- <arg name="timeout_subgoal" default="20"/> -->
     <!--sec, double -->
-  </include>
+  <!-- </include> -->
   <include file="$(find arena_bringup)/launch/sublaunch_testing/intermediate_planner.launch"/>
 
   <!-- start Pedsim -->
