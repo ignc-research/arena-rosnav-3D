@@ -1,7 +1,7 @@
 <launch>
   <!-- simulator arguments-->
   <arg name="train_mode" default="false"/>
-  <arg name="local_planner" default="arena"         doc = "local_planer type [teb, dwa, mpc, rlca, cadrl, arena]"/>
+  <arg name="local_planner" default="rosnav"         doc = "local_planer type [teb, dwa, mpc, rlca, cadrl, arena, rosnav]"/>
   <!--rlca are implemented but msg type not yet adjusted from 2D; dwa has a file missing (see project_task)-->
   <arg name="rviz_file" default="nav_LP"/>
   <arg name="disable_scenario" default="false"/>
@@ -13,7 +13,8 @@
   <arg name="world" default="outside"     if = "$(arg outside)"/>
   <arg name="num_static_obs" default="3"/> <!-- Number of static obstacles in outside mode-->
   <arg name="model" default="turtlebot3_burger"      doc = "model type [turtlebot3_burger, jackal, ridgeback, agv-ota]"/>
-  <arg name="scenario_file" default="$(arg world).json"/> <!-- You can also specify your custom scenario file here-->
+  <arg name="agent_name" default="$(arg model)"     doc = "DRL agent name to be deployed" unless="$(eval arg('local_planner') != 'rosnav')"/>
+  <arg name="scenario_file" default="$(arg world).json"/>
   <arg name="step_size" default="0.01"/>
   <arg name="update_rate" default="250"/>
   <arg name="show_viz" default="true"/>
@@ -37,6 +38,7 @@
   <param name="train_mode" value="$(arg train_mode)" />
   <param name="world" value="$(arg world)" />
   <param name="model" value="$(arg model)" />
+  <param name="agent_name" value="$(arg agent_name)" />
   <param name="update_rate" value="$(arg update_rate)" />
   <param name="step_size" value="$(arg step_size)" />
   <param name="show_viz" value="$(arg show_viz)"/>
@@ -54,7 +56,7 @@
   <param name="obs_vel" value="$(arg obs_vel)" />
 
   <!-- DRL action frequency -->
-  <arg name="action_frequency" default="10"/>
+  <arg name="action_frequency" default="5"/>
   <param name="action_frequency" value="$(arg action_frequency)"/>
 
   <!-- Map parameters -->
@@ -146,6 +148,8 @@
   <include file="$(find arena_bringup)/launch/sublaunch_testing/move_base/move_base_$(arg local_planner).launch">
     <arg name="model" value="$(arg model)"/>
     <arg name="cmd_vel_topic" value="/nav_vel" if="$(eval arg('model') == 'agv-ota')" />
+    <arg name="agent_name" value="$(arg agent_name)" if="$(eval arg('local_planner') == 'rosnav')" />
+    <!-- <arg name="speed" value="$(param speed)"/> -->
   </include>
 
   <!-- <include file="$(find arena_bringup)/launch/sublaunch_testing/plan_manager.launch">
@@ -159,9 +163,6 @@
     <arg name="timeout_subgoal" default="20"/>
   </include> -->
   <include file="$(find arena_bringup)/launch/sublaunch_testing/intermediate_planner.launch"/>
-
-  <!-- makes sure that drl actions will be published according to sim time in eval mode-->
-  <node name="action_publisher" pkg="arena_local_planner_drl" type="action_publisher.py" if="$(eval arg('train_mode') == false)"/>
 
   <!-- start Pedsim -->
   <arg name="simulation_factor" default="1"/>
