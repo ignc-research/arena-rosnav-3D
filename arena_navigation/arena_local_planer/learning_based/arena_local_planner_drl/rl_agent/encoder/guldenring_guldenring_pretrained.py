@@ -4,7 +4,7 @@ import sys
 
 from rl_agent.encoder import BaseEncoder
 """
-    ROSNAV MODEL TRAINED IN NAVREP ENVIRONMENT
+    GULDENRING PRETRAINED MODELS
 """
 
 class GuldenringPretrainedEncoder(BaseEncoder):
