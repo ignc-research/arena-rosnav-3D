@@ -125,7 +125,7 @@ bool SpacialHorizon::getSubgoalSpacialHorizon(Eigen::Vector2d &subgoal){
 
 void SpacialHorizon::updateSubgoalDRLCallback(const ros::TimerEvent &e){
     //if there's no goal
-    if(!have_goal_) return;
+    if(!have_goal_) return; 
     
     // get subgoal
     bool subgoal_success=false;

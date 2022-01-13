@@ -26,32 +26,31 @@ class NetworkVPCore(object):
             with tf.device(self.device):
                 self._create_graph()
 
-                self.sess = tf.Session(
+                self.sess = tf.compat.v1.Session(
                     graph=self.graph,
-                    config=tf.ConfigProto(
+                    config=tf.compat.v1.ConfigProto(
                         allow_soft_placement=True,
                         log_device_placement=False,
-                        gpu_options=tf.GPUOptions(allow_growth=True)))
-                self.sess.run(tf.global_variables_initializer())
+                        gpu_options=tf.compat.v1.GPUOptions(allow_growth=True)))
+                self.sess.run(tf.compat.v1.global_variables_initializer())
 
-                vars = tf.global_variables()
-                self.saver = tf.train.Saver({var.name: var for var in vars}, max_to_keep=0)
+                vars = tf.compat.v1.global_variables()
+                self.saver = tf.compat.v1.train.Saver({var.name: var for var in vars}, max_to_keep=0)
 
     
     def _create_graph_inputs(self):
-        # self.x = tf.compat.v1.placeholder(tf.float32, [None, Config.NN_INPUT_SIZE], name='X')
-        self.x = tf.placeholder(tf.float32, [None, Config.NN_INPUT_SIZE], name='X')
+        self.x = tf.compat.v1.placeholder(tf.float32, [None, Config.NN_INPUT_SIZE], name='X')
  
     def _create_graph_outputs(self):
         # FCN
-        self.fc1 = tf.layers.dense(inputs=self.final_flat, units = 256, use_bias = True, activation=tf.nn.relu, name = 'fullyconnected1')
+        self.fc1 = tf.compat.v1.layers.dense(inputs=self.final_flat, units = 256, use_bias = True, activation=tf.nn.relu, name = 'fullyconnected1')
 
         # Cost: p
-        self.logits_p = tf.layers.dense(inputs = self.fc1, units = self.num_actions, name = 'logits_p', activation = None)
+        self.logits_p = tf.compat.v1.layers.dense(inputs = self.fc1, units = self.num_actions, name = 'logits_p', activation = None)
         self.softmax_p = (tf.nn.softmax(self.logits_p) + Config.MIN_POLICY) / (1.0 + Config.MIN_POLICY * self.num_actions)
 
         # Cost: v 
-        self.logits_v = tf.squeeze(tf.layers.dense(inputs=self.fc1, units = 1, use_bias = True, activation=None, name = 'logits_v'), axis=[1])
+        self.logits_v = tf.squeeze(tf.compat.v1.layers.dense(inputs=self.fc1, units = 1, use_bias = True, activation=None, name = 'logits_v'), axis=[1])
 
     def predict_p(self, x):
         return self.sess.run(self.softmax_p, feed_dict={self.x: x})
@@ -79,7 +78,7 @@ class NetworkVP_rnn(NetworkVPCore):
         self._create_graph_inputs()
 
         if Config.USE_REGULARIZATION:
-            regularizer = tf.contrib.layers.l2_regularizer(scale=0.0)
+            regularizer = tf.keras.regularizers.l2(l=0.5 * (0.0))
         else:
             regularizer = None
 
@@ -98,12 +97,12 @@ class NetworkVP_rnn(NetworkVPCore):
             self.host_agent_vec = self.x_normalized[:,Config.FIRST_STATE_INDEX:Config.HOST_AGENT_STATE_SIZE+Config.FIRST_STATE_INDEX:]
             self.other_agent_vec = self.x_normalized[:,Config.HOST_AGENT_STATE_SIZE+Config.FIRST_STATE_INDEX:]
             self.other_agent_seq = tf.reshape(self.other_agent_vec, [-1, max_length, Config.OTHER_AGENT_FULL_OBSERVATION_LENGTH])
-            self.rnn_outputs, self.rnn_state = tf.nn.dynamic_rnn(tf.contrib.rnn.LSTMCell(num_hidden), self.other_agent_seq, dtype=tf.float32, sequence_length=self.num_other_agents)
+            self.rnn_outputs, self.rnn_state = tf.compat.v1.nn.dynamic_rnn(tf.compat.v1.nn.rnn_cell.LSTMCell(num_hidden), self.other_agent_seq, dtype=tf.float32, sequence_length=self.num_other_agents)
             self.rnn_output = self.rnn_state.h
             self.layer1_input = tf.concat([self.host_agent_vec, self.rnn_output],1, name='layer1_input')
-            self.layer1 = tf.layers.dense(inputs=self.layer1_input, units=256, activation=tf.nn.relu, kernel_regularizer=regularizer, name = 'layer1')
+            self.layer1 = tf.compat.v1.layers.dense(inputs=self.layer1_input, units=256, activation=tf.nn.relu, kernel_regularizer=regularizer, name = 'layer1')
 
-        self.layer2 = tf.layers.dense(inputs=self.layer1, units=256, activation=tf.nn.relu, name = 'layer2')
+        self.layer2 = tf.compat.v1.layers.dense(inputs=self.layer1, units=256, activation=tf.nn.relu, name = 'layer2')
         self.final_flat = tf.contrib.layers.flatten(self.layer2)
         
         # Use shared parent class to construct graph outputs/objectives

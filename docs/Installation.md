@@ -181,6 +181,31 @@ cd ../../.. && catkin_make --only-pkg-with-deps spencer_tracking_rviz_plugin
 catkin_make -DCATKIN_WHITELIST_PACKAGES=""
 ```
 
+## CADRL 
+For CADRL, you need an own environment with python 3.6. and tensorflow 1.4.
+If you are on Ubuntu 20.04, install python3.6-dev
+```
+sudo add-apt-repository ppa:deadsnakes/ppa
+sudo apt-get update
+sudo apt-get install python3.6-dev
+```
+
+Note: You might need to restart your terminal at this point.
+
+```
+source ~/.bashrc
+mkvirtualenv --python=python3.6 cadrl
+workon cadrl
+```
+
+- Install packages inside your venv (venv always activated!):
+
+```
+pip install --extra-index-url https://rospypi.github.io/simple/ rospy rosbag tf tf2_ros --ignore-installed
+pip install pyyaml catkin_pkg netifaces pathlib filelock pyqt5 mpi4py lxml scipy defusedxml matplotlib tensorflow==1.4
+```
+
+
 # Add arena-rosnav next to arena-rosnav-3D
 
 - Create a catkin_ws and clone this repo with its dependencies into your catkin_ws

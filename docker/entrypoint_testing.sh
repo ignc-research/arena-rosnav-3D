@@ -19,6 +19,7 @@ local_planner:=$1 \
 task_mode:=$2 \
 world:=$3 \
 model:=$4 \
-actors:=$5 
+actors:=$5 \
+use_recorder:=$6
 
 

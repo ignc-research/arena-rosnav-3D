@@ -83,17 +83,18 @@ class NN_tb3():
         self.num_poses = 0
         self.num_actions_computed = 0.0
         # self.pub_others = rospy.Publisher('~other_vels',Vector3,queue_size=1)
-        self.pub_twist = rospy.Publisher('~nn_cmd_vel',Twist,queue_size=1) 
-        self.pub_pose_marker = rospy.Publisher('~pose_marker',Marker,queue_size=1)
-        self.pub_agent_marker = rospy.Publisher('~agent_marker',Marker,queue_size=1)
-        self.pub_agent_markers = rospy.Publisher('~agent_markers',MarkerArray,queue_size=1)
-        self.pub_path_marker = rospy.Publisher('~path_marker',Marker,queue_size=1)
-        self.pub_goal_path_marker = rospy.Publisher('~goal_path_marker',Marker,queue_size=1)
+        self.pub_twist = rospy.Publisher('/cmd_vel',Twist,queue_size=1) 
+        self.pub_pose_marker = rospy.Publisher('/pose_marker',Marker,queue_size=1)
+        self.pub_agent_marker = rospy.Publisher('/agent_marker',Marker,queue_size=1)
+        self.pub_agent_markers = rospy.Publisher('/agent_markers',MarkerArray,queue_size=1)
+        self.pub_path_marker = rospy.Publisher('/path_marker',Marker,queue_size=1)
+        self.pub_goal_path_marker = rospy.Publisher('/goal_path_marker',Marker,queue_size=1)
         # sub
-        self.sub_pose = rospy.Subscriber('~pose',Odometry,self.cbPose)
-        self.sub_mode = rospy.Subscriber('~mode',PlannerMode, self.cbPlannerMode)
-        self.sub_global_goal = rospy.Subscriber('~goal',PoseStamped, self.cbGlobalGoal)
-        self.sub_subgoal = rospy.Subscriber('~subgoal',PoseStamped, self.cbSubGoal)
+        self.sub_pose = rospy.Subscriber('/odom',Odometry,self.cbPose)
+        self.sub_mode = rospy.Subscriber('/planner_fsm/mode',PlannerMode, self.cbPlannerMode)
+        # self.sub_global_goal = rospy.Subscriber('/move_base_simple/goal',PoseStamped, self.cbGlobalGoal)
+        self.sub_global_goal = rospy.Subscriber('/subgoal',PoseStamped, self.cbGlobalGoal)
+        self.sub_subgoal = rospy.Subscriber('/subgoal',PoseStamped, self.cbSubGoal)
         
         # subgoals
         self.sub_goal = Vector3()
@@ -101,7 +102,7 @@ class NN_tb3():
         self.use_clusters = True
         # self.use_clusters = False
         if self.use_clusters:
-            self.sub_clusters = rospy.Subscriber('~clusters',Clusters, self.cbClusters)
+            self.sub_clusters = rospy.Subscriber('/clusters',Clusters, self.cbClusters)
         else:
             print("no peds")
 
@@ -119,13 +120,14 @@ class NN_tb3():
         self.goal.header = msg.header
 
         # reset subgoals
-        print("new goal: "+str([self.goal.pose.position.x,self.goal.pose.position.y])) 
+        # print("new goal: "+str([self.goal.pose.position.x,self.goal.pose.position.y])) 
 
     def cbSubGoal(self,msg):
+
         self.stop_moving_flag = False
         self.sub_goal.x = msg.pose.position.x
         self.sub_goal.y = msg.pose.position.y
-        print("new subgoal: "+str(self.sub_goal))
+        # print("new subgoal: "+str(self.sub_goal))
 
     def cbPlannerMode(self, msg):
         self.operation_mode = msg
@@ -156,7 +158,8 @@ class NN_tb3():
             v_x = msg.velocities[i].x; v_y = msg.velocities[i].y
             inflation_factor = 1.5
             
-            radius = msg.mean_points[i].z*inflation_factor
+            # radius = msg.mean_points[i].z*inflation_factor
+            radius = 0.2
 
             xs.append(x); ys.append(y); radii.append(radius); labels.append(index); 
 
@@ -209,8 +212,9 @@ class NN_tb3():
         return v_max
 
     def cbControl(self, event):
-
+        
         if self.goal.header.stamp == rospy.Time(0) or self.stop_moving_flag and not self.new_global_goal_received:
+            # print(self.goal.header.stamp)
             self.stop_moving()
             return
         elif self.operation_mode.mode==self.operation_mode.NN:
@@ -233,6 +237,7 @@ class NN_tb3():
             twist = Twist()
             twist.angular.z = vw
             twist.linear.x = vx
+            # print(twist)
             self.pub_twist.publish(twist)
             self.visualize_action(use_d_min)
             return
@@ -263,7 +268,7 @@ class NN_tb3():
     def cbComputeActionGA3C(self, event):
         if self.operation_mode.mode!=self.operation_mode.NN or self.stop_moving_flag:
             # print 'Not in NN mode'
-            # print self.operation_mode.mode
+            # print(self.stop_moving_flag)
             return
             
         # construct agent_state
@@ -322,7 +327,7 @@ class NN_tb3():
             self.stop_moving_flag = False
             
 
-
+        # print(action)
         self.update_action(action)
 
     def update_subgoal(self,subgoal):
@@ -412,11 +417,11 @@ class NN_tb3():
             marker.pose.position.y = ys[i]
             # marker.pose.orientation = orientation
             marker.scale = Vector3(x=2*radii[i],y=2*radii[i],z=1)
-            if labels[i] <= 23: # for static map
-                # print sm
-                marker.color = ColorRGBA(r=0.5,g=0.4,a=1.0)
-            else:
-                marker.color = ColorRGBA(r=1.0,g=0.4,a=1.0)
+            # if labels[i] <= 23: # for static map
+            #     # print sm
+            #     marker.color = ColorRGBA(r=0.5,g=0.4,a=1.0)
+            # else:
+            marker.color = ColorRGBA(r=1.0,g=0.4,a=1.0)
             marker.lifetime = rospy.Duration(0.5)
             markers.markers.append(marker)
 
@@ -472,8 +477,8 @@ def run():
 
     rospy.init_node('nn_tb3',anonymous=False)
     veh_name = 'tb3_01'
-    # pref_speed = rospy.get_param("~tb3_speed")
-    pref_speed = 0.3
+    pref_speed = rospy.get_param("~robot_speed")
+    # pref_speed = 0.3
     veh_data = {'goal':np.zeros((2,)),'radius':0.3,'pref_speed':pref_speed,'kw':10.0,'kp':1.0,'name':'tb3_01'}
 
     print('==================================\ncadrl node started')

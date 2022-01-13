@@ -8,6 +8,7 @@ from pedsim_msgs.msg import AgentStates
 
 class Transformer:
     def __init__(self):
+
         self.pedsim_sub = rospy.Subscriber(
             "/pedsim_simulator/simulated_agents", AgentStates, self.transPedMsg
         )
