@@ -61,7 +61,7 @@ class get_metrics():
 
     def extend_df(self,df):
         
-        if np.all(df['model']== 'turtlebot3-burger'):
+        if np.all(df['model']== 'turtlebot3_burger'):
             robot_radius = 0.113
         if np.all(df['model']== 'jackal'):
             robot_radius = 0.267
@@ -79,7 +79,7 @@ class get_metrics():
             df["max_clearing_distance"] = [np.nanmax(ma.where(np.isfinite(x), x, 0)) for x in df["laser_scan"]]
             df["min_clearing_distance"] = [np.nanmin(x) for x in df["laser_scan"]]
             df["mean_clearing_distance"] = [np.nanmean(ma.where(np.isfinite(x), x, 0)) for x in df["laser_scan"]]
-            df["median_clearing_distance"] = [np.nanmedian(x) for x in df["laser_scan"]]
+            df["median_clearing_distance"] = [np.nanmedian(ma.where(np.isfinite(x), x, 0)) for x in df["laser_scan"]]
             df["curvature"],df["normalized_curvature"] = self.get_curvature(df)
             df["roughness"] = self.get_roughness(df)
             df["jerk"] = self.get_jerk(df)

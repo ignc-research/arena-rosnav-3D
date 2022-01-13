@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-
+# ros
 import rospy
 from observations.msg import Observation
 from geometry_msgs.msg import PoseStamped, Twist, Vector3, PoseWithCovarianceStamped
@@ -28,7 +28,7 @@ class NN_tb3():
         # else:
         #     return True
         goal_reached = rospy.get_param("/bool_goal_reached")        
-        print(goal_reached)
+
         if not goal_reached:
             return False
         else:
@@ -52,10 +52,11 @@ class NN_tb3():
             net = fc.FC_DQN(num_observations, NUM_ACTIONS)
             net.train(False)
             #load NN
-            
+
+            current_dir_path = rospkg.RosPack().get_path('arena_ros') + "/scripts/"
             model_name = "advanced_agent2_best.dat"
             # model_name = "dqn_agent_best_fc_l2.dat"
-            model_path = rospkg.RosPack().get_path('arena_ros') + "/scripts/" + model_name
+            model_path = current_dir_path + model_name
             net.load_state_dict(torch.load(model_path, map_location=device))
             net.to(device)
 

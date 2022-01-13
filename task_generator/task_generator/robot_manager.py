@@ -36,7 +36,9 @@ class RobotManager:
         self._srv_spawn_model = rospy.ServiceProxy(
             "/gazebo/spawn_urdf_model", SpawnModel
         )
-        self._goal_pub = rospy.Publisher("/goal", PoseStamped, queue_size=1, latch=True)
+        self._goal_pub = rospy.Publisher(
+            "/goal", PoseStamped, queue_size=1, latch=True
+        )
         self.pub_mvb_goal = rospy.Publisher(
             "/move_base_simple/goal", PoseStamped, queue_size=1, latch=True
         )
@@ -70,13 +72,17 @@ class RobotManager:
         start_pos.pose.position.z = 0.2
         rospy.wait_for_service("/gazebo/set_model_state")
         try:
-            set_state = rospy.ServiceProxy("/gazebo/set_model_state", SetModelState)
+            set_state = rospy.ServiceProxy(
+                "/gazebo/set_model_state", SetModelState
+            )
             set_state(start_pos)
 
         except rospy.ServiceException:
             print("Move Robot to position failed")
 
-        pub = rospy.Publisher("/initialpose", PoseWithCovarianceStamped, queue_size=10)
+        pub = rospy.Publisher(
+            "/initialpose", PoseWithCovarianceStamped, queue_size=10
+        )
 
         start_pos = PoseWithCovarianceStamped()
         start_pos.header.frame_id = "map"
@@ -97,16 +103,15 @@ class RobotManager:
         goal.header.stamp = rospy.Time.now()
         goal.header.frame_id = "map"
         goal.pose = pose
-        # self._goal_pub.publish(goal)
+
+        # Make sure move_base is ready to take goals/make plan
+        rospy.wait_for_service("/move_base/make_plan")
 
         # these planer need the nav-goal pulished to the /move_base_simple/goal topic
         if self.planer in ["teb", "dwa", "mpc"]:
-            # Make sure move_base is ready to take goals
-            rospy.wait_for_service("/move_base/make_plan")
             self.pub_mvb_goal.publish(goal)
         else:
             self._goal_pub.publish(goal)
-
 
     def set_start_pos_random(self):
         start_pos = Pose()

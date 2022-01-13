@@ -39,7 +39,8 @@ class NetworkVPCore(object):
 
     
     def _create_graph_inputs(self):
-        self.x = tf.compat.v1.placeholder(tf.float32, [None, Config.NN_INPUT_SIZE], name='X')
+        # self.x = tf.compat.v1.placeholder(tf.float32, [None, Config.NN_INPUT_SIZE], name='X')
+        self.x = tf.placeholder(tf.float32, [None, Config.NN_INPUT_SIZE], name='X')
  
     def _create_graph_outputs(self):
         # FCN
