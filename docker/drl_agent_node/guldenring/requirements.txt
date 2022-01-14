@@ -3,3 +3,4 @@ rospkg
 scipy
 stable_baselines
 catkin_pkg
+tensorflow==1.13.2
