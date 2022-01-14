@@ -4,18 +4,20 @@ SHELL ["/bin/bash","-c"]
 
 WORKDIR /root
 
+ADD requirements.txt /root
+
 #   Install required python version and se it as global
 #   Install requirements
 RUN pyenv install 3.6.2 \
     && pyenv global 3.6.2 \
-    && pip3 install --upgrade pip
+    && pip3 install --upgrade pip \
+    && pip3 install -r requirements.txt
 
 #   Clone and install navrep
 RUN git clone https://github.com/RGring/drl_local_planner_ros_stable_baselines.git /root/guldenring_repo
 RUN mkdir /root/guldenring \
     && mv /root/guldenring_repo/rl_agent /root/guldenring/rl_agent \
-    && rm -r /root/guldenring_repo \
-    && pip install catkin_pkg
+    && rm -r /root/guldenring_repo
 WORKDIR /root/guldenring/rl_agent
 RUN pip3 install -e . \
     && pip3 install gym==0.19.0

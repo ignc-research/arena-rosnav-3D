@@ -1,0 +1,5 @@
+pyyaml
+rospkg
+scipy
+stable_baselines
+catkin_pkg
