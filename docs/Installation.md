@@ -262,7 +262,7 @@ pip3 install torch==1.9.0+cu111 torchvision==0.10.0+cu111 torchaudio==0.9.0 -f h
         This error can be resolved by updating your stable baselines and your workspace. Therefore run the following commands:
         ```
         cd $HOME/catkin_ws/src/forks/stable-baselines3
-        pip install -e.
+        pip install -e .
         ```
         ```
         cd $HOME/catkin_ws/src/arena-rosnav

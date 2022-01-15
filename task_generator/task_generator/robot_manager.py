@@ -36,7 +36,9 @@ class RobotManager:
         self._srv_spawn_model = rospy.ServiceProxy(
             "/gazebo/spawn_urdf_model", SpawnModel
         )
-        self._goal_pub = rospy.Publisher("/goal", PoseStamped, queue_size=1, latch=True)
+        self._goal_pub = rospy.Publisher(
+            "/goal", PoseStamped, queue_size=1, latch=True
+        )
         self.pub_mvb_goal = rospy.Publisher(
             "/move_base_simple/goal", PoseStamped, queue_size=1, latch=True
         )
@@ -70,13 +72,17 @@ class RobotManager:
         start_pos.pose.position.z = 0.2
         rospy.wait_for_service("/gazebo/set_model_state")
         try:
-            set_state = rospy.ServiceProxy("/gazebo/set_model_state", SetModelState)
+            set_state = rospy.ServiceProxy(
+                "/gazebo/set_model_state", SetModelState
+            )
             set_state(start_pos)
 
         except rospy.ServiceException:
             print("Move Robot to position failed")
 
-        pub = rospy.Publisher("/initialpose", PoseWithCovarianceStamped, queue_size=10)
+        pub = rospy.Publisher(
+            "/initialpose", PoseWithCovarianceStamped, queue_size=10
+        )
 
         start_pos = PoseWithCovarianceStamped()
         start_pos.header.frame_id = "map"
