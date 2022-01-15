@@ -19,7 +19,12 @@
   <arg name="update_rate" default="250"/>
   <arg name="show_viz" default="true"/>
   <arg name="viz_pub_rate" default="30" />
+
+  <!-- With ot without Gazebo Visualization, without viz, use_rviz=false, headless:=true, gui:=false-->
   <arg name="use_rviz" default="true"/>
+  <arg name="headless" default="false"/>
+  <arg name="gui" default="true"/>  
+
   <arg name="map_path" default="$(find simulator_setup)/maps/$(arg world)/map.yaml" />
   <arg name="task_mode" default="scenario" doc="task_mode type [scenario, random, manual, staged]"/>
   <arg name="actors" default="4" unless="$(arg train_mode)" />
@@ -119,6 +124,8 @@
   <include file="$(find arena_bringup)/launch/sublaunch_testing/gazebo_simulator.launch">
     <arg name="world" value="$(arg world)"/>
     <arg name="model" value="$(arg model)"/>
+    <arg name="headless" value="$(arg headless)"/> 
+    <arg name="gui" value="$(arg gui)"/> 
   </include>
 
   <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
