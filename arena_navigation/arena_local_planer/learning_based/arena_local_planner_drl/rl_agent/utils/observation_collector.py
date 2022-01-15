@@ -6,6 +6,7 @@ from collections import deque
 
 import time  # for debuging
 import threading
+import tf2_ros
 
 # observation msgs
 from sensor_msgs.msg import LaserScan
@@ -32,7 +33,7 @@ class ObservationCollector:
         ns: str,
         num_lidar_beams: int,
         lidar_range: float,
-        external_time_sync: bool = False,
+        external_time_sync: bool = True,
     ):
         """a class to collect and merge observations
 
@@ -64,7 +65,9 @@ class ObservationCollector:
 
         self._laser_num_beams = num_lidar_beams
         # for frequency controlling
-        self._action_frequency = 1 / rospy.get_param("/robot_action_rate") #CHECK: TODO defined in start_arena_gazebo = 10 correct?
+        self._action_frequency = 1 / rospy.get_param(
+            "/robot_action_rate"
+        )  # CHECK: TODO defined in start_arena_gazebo = 10 correct?
 
         self._clock = Clock()
         self._scan = LaserScan()
@@ -73,6 +76,9 @@ class ObservationCollector:
         self._subgoal = Pose2D()
         self._globalplan = np.array([])
 
+        self.tfBuffer = tf2_ros.Buffer()
+        self.listener = tf2_ros.TransformListener(self.tfBuffer)
+        # self.rate = rospy.Rate(10.0)
         # train mode?
         self._is_train_mode = rospy.get_param("/train_mode")
 
@@ -139,9 +145,8 @@ class ObservationCollector:
             # )
 
             # Added to step through the gazebo simulation
-            self.unpause = rospy.ServiceProxy('/gazebo/unpause_physics', Empty)
-            self.pause = rospy.ServiceProxy('/gazebo/pause_physics', Empty)
-
+            self.unpause = rospy.ServiceProxy("/gazebo/unpause_physics", Empty)
+            self.pause = rospy.ServiceProxy("/gazebo/pause_physics", Empty)
 
     def get_observation_space(self):
         return self.observation_space
@@ -149,12 +154,14 @@ class ObservationCollector:
     def get_observations(self):
         # apply action time horizon
         if self._is_train_mode:
-            self.call_service_takeSimStep(self._action_frequency) #CHECK: Does this mean running flatland for x=action_frequency seconds (https://github.com/ignc-research/flatland/blob/sim_to_real/flatland_msgs/srv/StepWorld.srv)
-        else:
-            try:
-                rospy.wait_for_message(f"{self.ns_prefix}next_cycle", Bool)
-            except Exception:
-                pass
+            self.call_service_takeSimStep(
+                self._action_frequency
+            )  # CHECK: Does this mean running flatland for x=action_frequency seconds (https://github.com/ignc-research/flatland/blob/sim_to_real/flatland_msgs/srv/StepWorld.srv)
+        # else:
+        #     try:
+        #         rospy.wait_for_message(f"{self.ns_prefix}next_cycle", Bool)
+        #     except Exception:
+        #         pass
 
         if not self._ext_time_sync:
             # try to retrieve sync'ed obs
@@ -230,13 +237,13 @@ class ObservationCollector:
         # print(f"Laser_stamp: {laser_stamp}, Robot_stamp: {robot_stamp}")
         return laser_scan, robot_pose
 
-    # TODO 
+    # TODO
     def call_service_takeSimStep(self, t=None):
-        '''This method unpauses the the simulation for the duration of one action step.
+        """This method unpauses the the simulation for the duration of one action step.
 
         Keyword arguments:
         t -- action duration (1/action_frequency)
-        '''
+        """
 
         # request = StepWorldRequest() if t is None else StepWorldRequest(t)        # TODO: @Linh: why is this not redundant (didnt we ask in gazebo-gmy env already for sim-step?)
         # timeout = 12
@@ -256,33 +263,51 @@ class ObservationCollector:
         # except rospy.ServiceException as e:
         #     rospy.logdebug("step Service call failed: %s" % e)
 
-
         # IDEA: pausing & unpausing gazebo will set the simulation 1 step ahead
-        if t == None: raise ValueError('The action frequency has not been set')
+        if t == None:
+            raise ValueError("The action frequency has not been set")
 
         # unpause gazebo to collect data
-        rospy.wait_for_service('/gazebo/unpause_physics')
+        rospy.wait_for_service("/gazebo/unpause_physics")
         try:
             self.unpause()
         except (rospy.ServiceException) as e:
-            print ("/gazebo/unpause_physics service call failed")
+            print("/gazebo/unpause_physics service call failed")
 
         # unpause the simulation for the duration of one action frequency time window
         rospy.sleep(t)
-        print('took step', t)
+        print("took step", t)
 
         # pause simualtion to compute reward
-        rospy.wait_for_service('/gazebo/pause_physics')
+        rospy.wait_for_service("/gazebo/pause_physics")
         try:
-            #resp_pause = pause.call()
+            # resp_pause = pause.call()
             self.pause()
         except (rospy.ServiceException) as e:
-            print ("/gazebo/pause_physics service call failed")
-
+            print("/gazebo/pause_physics service call failed")
 
     def callback_odom_scan(self, scan, odom):
         self._scan = self.process_scan_msg(scan)
+        # odom
         self._robot_pose, self._robot_vel = self.process_robot_state_msg(odom)
+
+        # map -> base_footprint tf = robot pose
+        # try:
+        #     tf = self.tfBuffer.lookup_transform(
+        #         "map", "base_footprint", rospy.Time()
+        #     )
+        # except (
+        #     tf2_ros.LookupException,
+        #     tf2_ros.ConnectivityException,
+        #     tf2_ros.ExtrapolationException,
+        # ):
+        #     # self.rate.sleep()
+        #     print("No map to base_footprint transform!")
+        #     return
+
+        # self._robot_pose, self._robot_vel = self.process_robot_state_tf(
+        #     tf, odom
+        # )
 
     def callback_clock(self, msg_Clock):
         self._clock = msg_Clock.clock.to_sec()
@@ -341,6 +366,25 @@ class ObservationCollector:
 
     def process_subgoal_msg(self, msg_Subgoal):
         return self.pose3D_to_pose2D(msg_Subgoal.pose)
+
+    def process_robot_state_tf(self, tf, odom):
+        pose2d = Pose2D()
+        pose3d = tf.transform
+        pose2d.x = pose3d.translation.x
+        pose2d.y = pose3d.translation.y
+        quaternion = (
+            pose3d.rotation.x,
+            pose3d.rotation.y,
+            pose3d.rotation.z,
+            pose3d.rotation.w,
+        )
+        euler = euler_from_quaternion(quaternion)
+        yaw = euler[2]
+        pose2d.theta = yaw
+        # print(pose2d)
+
+        twist = odom.twist.twist
+        return pose2d, twist
 
     @staticmethod
     def process_global_plan_msg(globalplan):

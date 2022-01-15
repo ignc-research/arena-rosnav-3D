@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import os
+import numpy as np
 import pickle
 import rospy
 import rospkg
@@ -21,7 +22,7 @@ TRAINED_MODELS_DIR = os.path.join(
 DEFAULT_ACTION_SPACE = os.path.join(
     rospkg.RosPack().get_path("arena_local_planner_drl"),
     "configs",
-    f"default_settings_{robot_model}.yaml"
+    f"default_settings_{robot_model}.yaml",
 )
 
 
@@ -50,10 +51,9 @@ class DeploymentDRLAgent(BaseDRLAgent):
         """
         self._is_train_mode = rospy.get_param("/train_mode")
         if not self._is_train_mode:
-            rospy.init_node(f"DRL_local_planner", anonymous=True)
+            rospy.init_node("DRL_local_planner", anonymous=True)
 
         self.name = agent_name
-        self.setup_agent()
 
         hyperparameter_path = os.path.join(
             TRAINED_MODELS_DIR, self.name, "hyperparameters.json"
@@ -64,13 +64,32 @@ class DeploymentDRLAgent(BaseDRLAgent):
             hyperparameter_path,
             action_space_path,
         )
+        self.setup_agent()
+        # if self._is_train_mode:
+        #     # step world to fast forward simulation time
+        #     self._service_name_step = f"{self._ns}step_world"
+        #     # self._sim_step_client = rospy.ServiceProxy(
+        #     #     self._service_name_step, StepWorld
+        #     # )
 
-        if self._is_train_mode:
-            # step world to fast forward simulation time
-            self._service_name_step = f"{self._ns}step_world"
-            # self._sim_step_client = rospy.ServiceProxy(
-            #     self._service_name_step, StepWorld
-            # )
+        # time period for a valid action
+        self._action_period = rospy.Duration(
+            1 / rospy.get_param("/action_frequency", default=10)
+        )  # in seconds
+
+        self._action_inferred = False
+        if self._holonomic:
+            (
+                self._curr_action,
+                self._last_action,
+                self.STAND_STILL_ACTION,
+            ) = 3 * (np.array([0, 0, 0]),)
+        else:
+            (
+                self._curr_action,
+                self._last_action,
+                self.STAND_STILL_ACTION,
+            ) = 3 * (np.array([0, 0]),)
 
     def setup_agent(self) -> None:
         """Loads the trained policy and when required the VecNormalize object."""
@@ -84,15 +103,16 @@ class DeploymentDRLAgent(BaseDRLAgent):
         assert os.path.isfile(
             model_file
         ), f"Compressed model cannot be found at {model_file}!"
-        assert os.path.isfile(
-            vecnorm_file
-        ), f"VecNormalize file cannot be found at {vecnorm_file}!"
-
-        with open(vecnorm_file, "rb") as file_handler:
-            vec_normalize = pickle.load(file_handler)
-
         self._agent = PPO.load(model_file).policy
-        self._obs_norm_func = vec_normalize.normalize_obs
+
+        if self._agent_params["normalize"]:
+            assert os.path.isfile(
+                vecnorm_file
+            ), f"VecNormalize file cannot be found at {vecnorm_file}!"
+
+            with open(vecnorm_file, "rb") as file_handler:
+                vec_normalize = pickle.load(file_handler)
+            self._obs_norm_func = vec_normalize.normalize_obs
 
     def run(self) -> None:
         """Loop for running the agent until ROS is shutdown.
@@ -104,42 +124,61 @@ class DeploymentDRLAgent(BaseDRLAgent):
             the ActionPublisher node in order to comply with the specified \
             action publishing rate.
         """
+        rospy.Timer(self._action_period, self.callback_publish_action)
         while not rospy.is_shutdown():
-            if self._is_train_mode:
-                self.call_service_takeSimStep(self._action_frequency)
-            else:
-                self._wait_for_next_action_cycle()
-            obs = self.get_observations()[0]
-            action = self.get_action(obs)
-            self.publish_action(action)
+            goal_reached = rospy.get_param("/bool_goal_reached", default=False)
+            if not goal_reached:
+                obs = self.get_observations()[0]
+                # obs = np.where(obs == np.inf, 3.5, obs)
+                # print(obs[360:])
+                self._last_action = self._curr_action
+                self._curr_action = self.get_action(obs)
 
-    def _wait_for_next_action_cycle(self) -> None:
-        """Stops the loop until a trigger message is sent by the ActionPublisher
+                self._action_inferred = True
 
-        Note:
-            Only use this method in combination with the ActionPublisher node!
-            That node is only booted when training mode is off.
-        """
-        try:
-            rospy.wait_for_message(f"{self._ns_robot}next_cycle", Bool)
-        except ROSException:
-            pass
+    def callback_publish_action(self, event):
+        if self._action_inferred:
+            if robot_model == "jackal":
+                self._curr_action[0] = self._curr_action[0] * 0.75
+            self.publish_action(self._curr_action)
+            # reset flag
+            self._action_inferred = False
+        else:
+            # rospy.logdebug(
+            #     "[DRL_NODE]: No action inferred during most recent action cycle."
+            # )
+            print(
+                "[DRL_NODE]: No action inferred during most recent action cycle."
+            )
+            self.publish_action(self.STAND_STILL_ACTION)
 
-    def call_service_takeSimStep(self, t: float = None) -> None:
-        """Fast-forwards the simulation time.
+    # def _wait_for_next_action_cycle(self) -> None:
+    #     """Stops the loop until a trigger message is sent by the ActionPublisher
 
-        Args:
-            t (float, optional):
-                Time in seconds. When t is None, time is forwarded by 'step_size' s.
-                Defaults to None.
-        """
-        # request = StepWorldRequest() if t is None else StepWorldRequest(t) TODO
+    #     Note:
+    #         Only use this method in combination with the ActionPublisher node!
+    #         That node is only booted when training mode is off.
+    #     """
+    #     try:
+    #         rospy.wait_for_message(f"{self._ns_robot}next_cycle", Bool)
+    #     except ROSException:
+    #         pass
 
-        # try:
-        #     # response = self._sim_step_client(request)
-        #     # rospy.logdebug("step service=", response)
-        # except rospy.ServiceException as e:
-        #     rospy.logdebug("step Service call failed: %s" % e)
+    # def call_service_takeSimStep(self, t: float = None) -> None:
+    #     """Fast-forwards the simulation time.
+
+    #     Args:
+    #         t (float, optional):
+    #             Time in seconds. When t is None, time is forwarded by 'step_size' s.
+    #             Defaults to None.
+    #     """
+    #     # request = StepWorldRequest() if t is None else StepWorldRequest(t) TODO
+
+    #     # try:
+    #     #     # response = self._sim_step_client(request)
+    #     #     # rospy.logdebug("step service=", response)
+    #     # except rospy.ServiceException as e:
+    #     #     rospy.logdebug("step Service call failed: %s" % e)
 
 
 def main(agent_name: str) -> None:
@@ -152,5 +191,6 @@ def main(agent_name: str) -> None:
 
 
 if __name__ == "__main__":
-    AGENT_NAME = "rule_04"
+    # os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
+    AGENT_NAME = sys.argv[1]  # "jackal_2_retrained"
     main(agent_name=AGENT_NAME)

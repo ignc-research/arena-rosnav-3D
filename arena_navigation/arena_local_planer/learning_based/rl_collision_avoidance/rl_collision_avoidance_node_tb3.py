@@ -59,8 +59,12 @@ class NN_tb3:
         # Waiting for scan to be published
         x = rospy.wait_for_message("/scan", LaserScan)
         self.sub_subgoal = rospy.Subscriber("/subgoal", PoseStamped, self.cbSubGoal)
+<<<<<<< HEAD
         # self.laser_sub = rospy.Subscriber("/scan_mapped", LaserScan, self.laser_scan_callback)
         self.laser_sub = rospy.Subscriber("~scan_mapped", LaserScan, self.laser_scan_callback)
+=======
+        self.laser_sub = rospy.Subscriber("/scan", LaserScan, self.laser_scan_callback)
+>>>>>>> 197225a2065932c10ea85dd78763b3897a2e49b9
 
         # control timer
         # self.control_timer = rospy.Timer(rospy.Duration(0.01),self.cbControl)
