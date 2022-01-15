@@ -1,6 +1,5 @@
 <launch>
-    <!-- Launch neural net ros wrapper -->
-
+    <!-- move base -->
     <arg name="model" default="turtlebot3_burger"/>
     <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
         <rosparam file="$(find conventional)/config/$(arg model)/costmap_common_params.yaml" command="load" ns="global_costmap" />
@@ -9,13 +8,15 @@
         <rosparam file="$(find conventional)/config/$(arg model)/global_costmap_params.yaml" command="load" />
     </node>
 
-	<arg name="tb3_speed" default="0.12"/>
-        <node pkg="arena_spacial_horizon" type="spacial_horizon_node" name="spacial_horizon_node" >
+    <!-- spacial_horizon -->
+    <node pkg="arena_spacial_horizon" type="spacial_horizon_node" name="spacial_horizon_node" >
         <rosparam file="$(find conventional)/config/$(arg model)/plan_fsm_param.yaml" command="load" /> <!-- ns="fsm"-->
-    </node> 
+    </node>
 
-
-    <!-- <node pkg="cadrl_ros" type="cadrl_node_3d.py" name="cadrl_node" output="screen" ns="/cadrl">
+    <!-- Launch CADRL node ,neural net ros wrapper -->
+  
+	<!-- <arg name="robot_speed" default="2"/>
+    <node pkg="cadrl_ros" type="cadrl_node_3d.py" name="cadrl_node" output="screen" ns="/cadrl">
         
         <remap from="~other_vels" to="other_vels"/>
         <remap from="~nn_cmd_vel" to="/cmd_vel"/>
@@ -34,12 +35,13 @@
         <remap from="~clusters" to="/obst_odom"/>
         <remap from="~peds" to="ped_manager/ped_recent"/>
         
-        <param name="~tb3_speed" value="$(arg tb3_speed)"/>
+        <param name="~robot_speed" value="$(arg robot_speed)"/>
 
-    </node>
+    </node> -->
 
 
-    <node pkg="cadrl_ros" type="ped_to_ford.py" name="ped_to_ford" output="screen"></node> -->
+    <!-- pedsim agent state to cluster msg converter -->
+    <!-- <node pkg="cadrl_ros" type="ped_to_ford.py" name="ped_to_ford" output="screen"></node> -->
 
 
 </launch>

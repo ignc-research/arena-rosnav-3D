@@ -1,0 +1,22 @@
+<launch>
+    <!-- move base -->
+    <arg name="model" default="turtlebot3_burger"/>
+    <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+        <rosparam file="$(find conventional)/config/$(arg model)/costmap_common_params.yaml" command="load" ns="global_costmap" />
+        <rosparam file="$(find conventional)/config/$(arg model)/costmap_common_params.yaml" command="load" ns="local_costmap" />
+        <rosparam file="$(find conventional)/config/$(arg model)/local_costmap_params.yaml" command="load" />
+        <rosparam file="$(find conventional)/config/$(arg model)/global_costmap_params.yaml" command="load" />
+    </node>
+
+    <!-- spacial_horizon -->
+    <node pkg="arena_spacial_horizon" type="spacial_horizon_node" name="spacial_horizon_node" >
+        <rosparam file="$(find conventional)/config/$(arg model)/plan_fsm_param.yaml" command="load" /> <!-- ns="fsm"-->
+    </node>
+
+
+  <include file="$(find arena_bringup)/launch/map_scan.launch"/>
+  <node pkg="rl_collision_avoidance" type="rl_collision_avoidance_node_tb3.py" name="rl_collision_avoidance" output="screen">
+    <remap from="~scan_mapped" to="/scan"/>
+  </node>
+
+</launch>
