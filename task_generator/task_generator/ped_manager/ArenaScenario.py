@@ -15,7 +15,7 @@ class ArenaScenario:
         self.robotPosition = np.zeros(2)  # starting position of robot
         self.robotGoal = np.zeros(2)  # robot goal
         self.mapPath = ""  # path to map file
-
+        self.resets = 0
         self.path = ""  # path to file associated with this scenario
 
     def toDict(self):
@@ -26,6 +26,7 @@ class ArenaScenario:
         # d["interactive_obstacles"] = TODO...
         d["robot_position"] = [float(value) for value in self.robotPosition]
         d["robot_goal"] = [float(value) for value in self.robotGoal]
+        d["resets"] = self.resets
         d["map_path"] = self.mapPath
         d["format"] = "arena-tools"
 
@@ -48,6 +49,10 @@ class ArenaScenario:
         self.robotPosition = np.array([d["robot_position"][0], d["robot_position"][1]])
         self.robotGoal = np.array([d["robot_goal"][0], d["robot_goal"][1]])
         self.mapPath = get_current_user_path(d["map_path"])
+        if ("resets") in d.keys():
+            self.resets = d["resets"]
+        else:
+            self.resets = 0
 
     def saveToFile(self, path_in=""):
         # type: (str) -> bool
