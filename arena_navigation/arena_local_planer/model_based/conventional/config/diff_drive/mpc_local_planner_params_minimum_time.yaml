@@ -21,10 +21,12 @@ MpcLocalPlannerROS:
   ## Collision avoidance
   collision_avoidance:
     min_obstacle_dist: 0.2 # Note, this parameter must be chosen w.r.t. the footprint_model
-    enable_dynamic_obstacles: False
+    # enable_dynamic_obstacles: False
+    enable_dynamic_obstacles: True
     force_inclusion_dist: 0.5
     cutoff_dist: 2.5 
-    include_costmap_obstacles: True
+    # include_costmap_obstacles: True
+    include_costmap_obstacles: False
     costmap_obstacles_behind_robot_dist: 1.5
 
   ## Planning grid 

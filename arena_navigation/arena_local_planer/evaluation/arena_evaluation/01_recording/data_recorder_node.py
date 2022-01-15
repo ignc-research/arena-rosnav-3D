@@ -16,6 +16,9 @@ from nav_msgs.msg import Odometry
 
 # for transformations
 from tf.transformations import euler_from_quaternion
+# reset costmaps
+import subprocess
+
 
 
 class recorder:
@@ -105,9 +108,16 @@ class recorder:
         rospy.Subscriber("/odom", Odometry, self.odometry_callback)
         rospy.Subscriber("/cmd_vel", Twist, self.action_callback)
 
+    def clear_costmaps(self):
+        bashCommand = "rosservice call /move_base/clear_costmaps"
+        process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
+        output, error = process.communicate()
+        return output, error
+
     # define callback function for all variables and their respective topics
     def episode_callback(self, msg_scenario_reset: Int16):
         self.episode = msg_scenario_reset.data
+        self.clear_costmaps()
 
     def laserscan_callback(self, msg_laserscan: LaserScan):
         self.laserscan = msg_laserscan.ranges
