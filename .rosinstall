@@ -10,10 +10,10 @@
     local-name: ../forks/pedsim_ros
     uri: https://github.com/Jacenty00/pedsim_ros
     version: master
- - git:
-     local-name: ../forks/arena-tools
-     uri: https://github.com/Jacenty00/arena-tools
-     version: main
+- git:
+    local-name: ../forks/arena-tools
+    uri: https://github.com/Jacenty00/arena-tools
+    version: main
 - git:
     local-name: ../forks/gazebo_ros_2Dmap_plugin
     uri: https://github.com/Jacenty00/gazebo_ros_2Dmap_plugin
