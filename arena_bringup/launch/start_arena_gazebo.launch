@@ -152,7 +152,7 @@
     <!-- <arg name="speed" value="$(param speed)"/> -->
   </include>
 
-  <!-- <include file="$(find arena_bringup)/launch/sublaunch_testing/plan_manager.launch"> 
+  <!-- <include file="$(find arena_bringup)/launch/sublaunch_testing/plan_manager.launch">
     <arg name="train_mode" value="$(arg train_mode)"/>
     <arg name="global_frame_id" value="$(arg global_frame_id)"/>
     <arg name="odom_frame_id" value="$(arg odom_frame_id)"/>
@@ -161,7 +161,7 @@
     <arg name="tolerance_approach" default="0.6"/>
     <arg name="timeout_goal" default="330."/>
     <arg name="timeout_subgoal" default="20"/>
-  </include> plan manager global plan is deprecated -->
+  </include> -->
   <include file="$(find arena_bringup)/launch/sublaunch_testing/intermediate_planner.launch"/>
 
   <!-- start Pedsim -->
