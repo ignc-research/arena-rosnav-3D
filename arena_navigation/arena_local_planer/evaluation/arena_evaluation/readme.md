@@ -9,7 +9,7 @@ To record data as csv file while doing evaluation runs set the flag `use_recorde
 
 ```
 workon rosnav
-roslaunch arena_bringup start_arena_flatland.launch disable_scenario:="false" map_file:="map1" scenario_file:="eval/obstacle_map1_obs05.json" local_planner:="teb" use_recorder:="true"
+roslaunch arena_bringup start_arena_flatland.launch disable_scenario:="false" map_file:="aws_house" scenario_file:="aws_house.json" local_planner:="teb" use_recorder:="true"
 ```
 
 The data will be recorded in `.../catkin_ws/src/arena-rosnav/arena_navigation/arena_local_planner/evaluation/arena_evaluation/01_recording`.
