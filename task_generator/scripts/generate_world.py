@@ -37,8 +37,8 @@ if mode == "scenario":
         for agent in range(ped.number_of_peds):
             actor = Element("actor", name="person_" + str(j) + "_" + str(agent))
             skin = Element("skin")
-            init_x = ped.waypoints[0][0]
-            init_y = ped.waypoints[0][1]
+            init_x = ped.pos[0]
+            init_y = ped.pos[1]
             init_pose = etree.fromstring(
                 f"<pose> {init_x} {init_y} 0.0 0.0 0.0 1.57 </pose>"
             )
@@ -63,16 +63,18 @@ if mode == "scenario":
             trajectory = Element("trajectory", id=f"{j}_{agent}", type="animation")
             max_vel = ped.vmax
             traj_time = 0.0
+            x = ped.waypoints[0][0]
+            y = ped.waypoints[0][1]
+            waypoint = Element("waypoint")
+            pose = etree.fromstring(f"<pose> {x} {y} 0.0 0.0 0.0 1.57 </pose>")
+            dist = np.linalg.norm(ped.waypoints[0] - ped.pos)
+            time = dist / max_vel
+            t = etree.fromstring(f"<time>{time}</time>")
+            traj_time += time
+            waypoint.append(t)
+            waypoint.append(pose)
+            trajectory.append(waypoint)
             for i in range(len(ped.waypoints) - 1):
-                if i == 0:
-                    x = ped.waypoints[0][0]
-                    y = ped.waypoints[0][1]
-                    waypoint = Element("waypoint")
-                    pose = etree.fromstring(f"<pose> {x} {y} 0.0 0.0 0.0 1.57 </pose>")
-                    t = etree.fromstring("<time>0</time>")
-                    waypoint.append(t)
-                    waypoint.append(pose)
-                    trajectory.append(waypoint)
                 old_x = ped.waypoints[i][0]
                 old_y = ped.waypoints[i][1]
                 new_x = ped.waypoints[i + 1][0]
@@ -90,6 +92,20 @@ if mode == "scenario":
                 waypoint.append(t)
                 waypoint.append(pose)
                 trajectory.append(waypoint)
+            old_x = ped.waypoints[len(ped.waypoints) - 1][0]
+            old_y = ped.waypoints[len(ped.waypoints) - 1][1]
+            x = ped.pos[0]
+            y = ped.pos[0]
+            waypoint = Element("waypoint")
+            pose = etree.fromstring(f"<pose> {x} {y} 0.0 0.0 0.0 1.57 </pose>")
+            dist = np.linalg.norm(ped.pos - ped.waypoints[len(ped.waypoints) - 1])
+            time = dist / max_vel
+            traj_time += time
+            t = etree.fromstring(f"<time>{traj_time}</time>")
+            waypoint.append(t)
+            waypoint.append(pose)
+            trajectory.append(waypoint)
+
             script.append(trajectory)
             coll_plugin = (
                 sim_setup_path + "/obstacles/" + "utils" + "/collision-actor-plugin"
