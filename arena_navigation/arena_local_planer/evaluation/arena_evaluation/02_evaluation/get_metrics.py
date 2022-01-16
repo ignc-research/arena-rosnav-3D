@@ -14,7 +14,7 @@ import sys
 class get_metrics():
     def __init__(self):
         self.dir_path = os.path.dirname(os.path.abspath(__file__)) # get path for current file, does not work if os.chdir() was used
-        self.data_dir = os.path.dirname(self.dir_path) + "/01_recording" # parent_directory_path + directory name where csv files are located
+        self.data_dir = os.path.dirname(self.dir_path) + "/01_recording/jackal" # parent_directory_path + directory name where csv files are located
         self.now = time.strftime("%y-%m-%d_%H:%M:%S")
         self.read_config()
 
