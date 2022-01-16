@@ -95,7 +95,7 @@ if mode == "scenario":
             old_x = ped.waypoints[len(ped.waypoints) - 1][0]
             old_y = ped.waypoints[len(ped.waypoints) - 1][1]
             x = ped.pos[0]
-            y = ped.pos[0]
+            y = ped.pos[1]
             waypoint = Element("waypoint")
             pose = etree.fromstring(f"<pose> {x} {y} 0.0 0.0 0.0 1.57 </pose>")
             dist = np.linalg.norm(ped.pos - ped.waypoints[len(ped.waypoints) - 1])
