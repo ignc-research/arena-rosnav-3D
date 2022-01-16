@@ -182,7 +182,7 @@ class get_metrics():
         v3 = (v3[0]**2 + v3[1]**2)**0.5            
         a1 = v2-v1 # acceleration
         a2 = v3-v2
-        jerk = a2-a1
+        jerk = np.absolute(a2-a1)
         return jerk
 
     def drop_last_episode(self,df):
