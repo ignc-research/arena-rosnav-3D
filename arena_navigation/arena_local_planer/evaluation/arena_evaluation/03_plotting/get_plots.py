@@ -16,6 +16,10 @@ class plotter():
         self.dir_path = os.path.dirname(os.path.abspath(__file__)) # get path for current file, does not work if os.chdir() was used
         self.data_dir = os.path.dirname(self.dir_path) + "/02_evaluation" # parent_directory_path + directory name where csv files are located
         self.now = time.strftime("%y-%m-%d_%H:%M:%S")
+        try:
+            os.mkdir(self.dir_path + "/data")
+        except:
+            pass
         self.read_config()
         self.grab_data()
         self.load_data()
@@ -150,7 +154,7 @@ class plotter():
                     # plot map image
                     img= image.imread("{0}/{1}".format(map_path,map_file))
                     img_rotated = ndimage.rotate(img, 90, reshape=True) # rotate by 90 degree to get rviz konvention
-                    plt.imshow(img_rotated)
+                    plt.imshow(img_rotated, cmap="gray")
 
                     # plot each planners path and if flag given collisions and zones
                     for key in sorted(obs_keys):
