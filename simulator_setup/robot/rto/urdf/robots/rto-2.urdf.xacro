@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<robot name="rto" xmlns:xacro="http://wiki.ros.org/xacro">
+  <xacro:include filename="$(find simulator_setup)/robot/rto/urdf/components/rto_parts.urdf.xacro"/>
+  <xacro:include filename="$(find simulator_setup)/robot/rto/urdf/components/rto_body.urdf.xacro"/>
+  <xacro:include filename="$(find simulator_setup)/robot/rto/urdf/sensors/realsense_d415.urdf.xacro"/>
+  <xacro:include filename="$(find simulator_setup)/robot/rto/urdf/sensors/hokuyo.urdf.xacro"/>
+
+  <xacro:rto_body/>
+  
+  <xacro:plate parent="base_link" name="plate"/>
+  <xacro:bracket parent="base_link" name="bracket_hokuyo" scale="0.001">
+    <origin xyz="0.101 0 0.15" rpy="0 0 1.57"/>
+  </xacro:bracket>
+
+  <xacro:sensor_d415 name="d415" parent="base_link" use_nominal_extrinsics="true">
+    <origin xyz="0.061 0.0 0.271" rpy="0 0 0"/>
+  </xacro:sensor_d415>
+  <xacro:hokuyo name="hokuyo" parent="base_link">
+    <origin xyz="0.08 0 0.2015" rpy="0 0 0"/>
+  </xacro:hokuyo>
+
+</robot>

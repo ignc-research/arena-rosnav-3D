@@ -59,7 +59,12 @@ class NN_tb3:
         # Waiting for scan to be published
         x = rospy.wait_for_message("/scan", LaserScan)
         self.sub_subgoal = rospy.Subscriber("/subgoal", PoseStamped, self.cbSubGoal)
+<<<<<<< HEAD
+        # self.laser_sub = rospy.Subscriber("/scan_mapped", LaserScan, self.laser_scan_callback)
+        self.laser_sub = rospy.Subscriber("~scan_mapped", LaserScan, self.laser_scan_callback)
+=======
         self.laser_sub = rospy.Subscriber("/scan", LaserScan, self.laser_scan_callback)
+>>>>>>> 197225a2065932c10ea85dd78763b3897a2e49b9
 
         # control timer
         # self.control_timer = rospy.Timer(rospy.Duration(0.01),self.cbControl)
@@ -100,63 +105,6 @@ class NN_tb3:
         twist = Twist()
         self.pub_twist.publish(twist)
 
-    # def update_action(self, action):
-    #     # print 'update action'
-    #     self.desired_action = action
-    #     self.desired_position.pose.position.x = self.pose.pose.position.x + 1*action[0]*np.cos(action[1])
-    #     self.desired_position.pose.position.y = self.pose.pose.position.y + 1*action[0]*np.sin(action[1])
-
-    # def cbControl(self, event):
-
-    #     if self.goal.header.stamp == rospy.Time(0) or self.stop_moving_flag and not self.new_global_goal_received:
-    #         self.stop_moving()
-    #         return
-    #     elif self.operation_mode.mode==self.operation_mode.NN:
-    #         desired_yaw = self.desired_action[1]
-    #         yaw_error = desired_yaw - self.psi
-    #         if abs(yaw_error) > np.pi:
-    #             yaw_error -= np.sign(yaw_error)*2*np.pi
-
-    #         gain = 1.3 # canon: 2
-    #         vw = gain*yaw_error
-
-    #         use_d_min = True
-    #         if False: # canon: True
-    #             # use_d_min = True
-    #             # print "vmax:", self.find_vmax(self.d_min,yaw_error)
-    #             vx = min(self.desired_action[0], self.find_vmax(self.d_min,yaw_error))
-    #         else:
-    #             vx = self.desired_action[0]
-
-    #         twist = Twist()
-    #         twist.angular.z = vw
-    #         twist.linear.x = vx
-    #         self.pub_twist.publish(twist)
-    #         self.visualize_action(use_d_min)
-    #         return
-
-    #     elif self.operation_mode.mode == self.operation_mode.SPIN_IN_PLACE:
-    #         print('Spinning in place.')
-    #         self.stop_moving_flag = False
-    #         angle_to_goal = np.arctan2(self.global_goal.pose.position.y - self.pose.pose.position.y, \
-    #             self.global_goal.pose.position.x - self.pose.pose.position.x)
-    #         global_yaw_error = self.psi - angle_to_goal
-    #         if abs(global_yaw_error) > 0.5:
-    #             vx = 0.0
-    #             vw = 1.0
-    #             twist = Twist()
-    #             twist.angular.z = vw
-    #             twist.linear.x = vx
-    #             self.pub_twist.publish(twist)
-    #             # print twist
-    #         else:
-    #             print('Done spinning in place')
-    #             self.operation_mode.mode = self.operation_mode.NN
-    #             # self.new_global_goal_received = False
-    #         return
-    #     else:
-    #         self.stop_moving()
-    #         return
 
     def laser_scan_callback(self, scan):
         self.scan_param = [
@@ -233,8 +181,9 @@ class NN_tb3:
 
     def cbComputeAction(self, event):
         while self.scan is None or self.sub_goal.x is None:
+            # print(self.scan)
             pass
-        # ************************************ Inpsut ************************************
+        # ************************************ Input ************************************
         obs = self.get_laser_observation()
         obs_stack = deque([obs, obs, obs])
         self.state = [

@@ -1,30 +1,61 @@
+
+<!-- <launch>
+
+  <arg name="model" default="turtlebot3_burger"/>
+  <arg name="cmd_vel_topic" default="/cmd_vel" />
+  <arg name="odom_topic" default="/odom" />
+
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+    <rosparam file="$(find conventional)/config/carlike/mpc/costmap_common_params.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find conventional)/config/carlike/mpc/costmap_common_params.yaml" command="load" ns="local_costmap" />   
+    <rosparam file="$(find conventional)/config/carlike/mpc/local_costmap_params.yaml" command="load" />
+    <rosparam file="$(find conventional)/config/carlike/mpc/global_costmap_params.yaml" command="load" />
+    
+
+    <rosparam file="$(find conventional)/config/carlike/mpc/mpc_local_planner_params.yaml" command="load"/>
+
+		<param name="base_global_planner" value="global_planner/GlobalPlanner" />
+		<param name="planner_frequency" value="1.0" />
+		<param name="planner_patience" value="5.0" />
+
+		<param name="base_local_planner" value="mpc_local_planner/MpcLocalPlannerROS" />
+		<param name="controller_frequency" value="5.0" />
+		<param name="controller_patience" value="15.0" />
+
+  </node>
+  
+
+
+
+
+
+</launch> -->
+
 <!-- -->
 <launch>
   <!-- Arguments -->
-  <arg name="model" default="turtlebot3_burger"/>
+  <arg name="model" default="burger"/>
   <arg name="cmd_vel_topic" default="/cmd_vel" />
   <arg name="odom_topic" default="odom" />
 
  
   <!-- move_base -->
   <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
-    <rosparam file="$(find conventional)/config/$(arg model)/costmap_common_params.yaml" command="load" ns="global_costmap" />
-    <rosparam file="$(find conventional)/config/$(arg model)/costmap_common_params.yaml" command="load" ns="local_costmap" />   
-    <rosparam file="$(find conventional)/config/$(arg model)/local_costmap_params.yaml" command="load" />
-    <rosparam file="$(find conventional)/config/$(arg model)/global_costmap_params.yaml" command="load" />
-    
+    <rosparam file="$(find conventional)/config/turtlebot3_burger/tb3_mpc/costmap_common_params.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find conventional)/config/turtlebot3_burger/tb3_mpc/costmap_common_params.yaml" command="load" ns="local_costmap" />   
+    <rosparam file="$(find conventional)/config/turtlebot3_burger/tb3_mpc/local_costmap_params.yaml" command="load" />
+    <rosparam file="$(find conventional)/config/turtlebot3_burger/tb3_mpc/global_costmap_params.yaml" command="load" />
+    <rosparam file="$(find conventional)/config/turtlebot3_burger/tb3_mpc/mpc_local_planner_params_minimum_time.yaml" command="load" />
+ 
     <!-- planner params --> 
-    <rosparam file="$(find conventional)/config/$(arg model)/base_local_planner_params.yaml" command="load" />
-    <rosparam file="$(find conventional)/config/$(arg model)/mpc_local_planner_params_minimum_time.yaml" command="load"/>
-
+    <rosparam file="$(find conventional)/config/turtlebot3_burger/base_local_planner_params.yaml" command="load" />
     <remap from="cmd_vel" to="$(arg cmd_vel_topic)"/>
     <remap from="odom" to="$(arg odom_topic)"/>
-		<rosparam file="$(find mpc_local_planner_examples)/cfg/diff_drive/costmap_converter_params.yaml" command="load" /> 
 
 
     <!-- mpc -->
     <param name="base_local_planner" value="mpc_local_planner/MpcLocalPlannerROS" />
-    <param name="controller_frequency" value="10.0" />
+    <param name="controller_frequency" value="5.0" />
     <param name="controller_patience" value="15.0" />
     <param name="planner_frequency" value="1.0" />
 

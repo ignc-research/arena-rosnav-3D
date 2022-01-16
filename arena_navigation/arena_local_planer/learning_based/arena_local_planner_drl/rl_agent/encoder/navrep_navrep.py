@@ -40,6 +40,8 @@ class NavrepPretrainedEncoder(BaseEncoder):
         rho, theta = obs_dict["goal_in_robot_frame"]
         robot_vel = obs_dict["robot_vel"]
 
+        print(scan, np.max(scan))
+
         # Convert Rho, Theta in robot frame coordinates
         y = np.sin(theta + np.pi) * rho
         x = np.cos(theta + np.pi) * rho
