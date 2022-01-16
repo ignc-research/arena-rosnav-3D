@@ -223,7 +223,7 @@
         -8.64,
         -3.6
     ],
-    "resets": 0,
+    "resets": 4,
     "map_path": "/home/linh/code/navigation/3d_ws/src/arena-rosnav-3D/simulator_setup/maps/aws_house/map.yaml",
     "format": "arena-tools"
 }
