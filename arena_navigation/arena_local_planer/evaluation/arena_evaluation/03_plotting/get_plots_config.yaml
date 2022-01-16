@@ -22,11 +22,7 @@ leave_out_metric:
 leave_out_planner:
 - rlca_subsampling
 - drl_subsampling
-<<<<<<< HEAD
 most_recent_file: data_22-01-16_21:15:00.json
-=======
-most_recent_file: data_22-01-16_211500.json
->>>>>>> d95e5f6f7f27cf04df90c7fbd10454d7d425fea8
 obstacle_color: black
 obstacle_radius: 0.3
 path_alpha: 0.3

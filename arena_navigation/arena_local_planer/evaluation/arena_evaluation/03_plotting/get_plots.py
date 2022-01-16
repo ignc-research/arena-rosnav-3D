@@ -229,13 +229,13 @@ class plotter():
                         plt.legend(loc=self.config["plot_qualitative_legend_location"])
                     if self.config["plot_qualitative_title"]:
                         if obstacle_number == "base_obstacle_number" and velocity == "base_velocity":
-                            plt.suptitle("Map: {0}".format(map), fontsize = self.config["plot_qualitative_title_size"], fontweight = "bold")
+                            plt.title("Map: {0}".format(map), fontsize = self.config["plot_qualitative_title_size"], fontweight = "bold")
                         elif obstacle_number == "base_obstacle_number":
-                            plt.suptitle("Map: {0} Velocity: {1}.{2}".format(map, velocity.replace("vel","")[0], velocity.replace("vel","")[1]), fontsize = self.config["plot_qualitative_title_size"], fontweight = "bold")
+                            plt.title("Map: {0} Velocity: {1}.{2}".format(map, velocity.replace("vel","")[0], velocity.replace("vel","")[1]), fontsize = self.config["plot_qualitative_title_size"], fontweight = "bold")
                         elif velocity == "base_velocity":
-                            plt.suptitle("Map: {0} Obstacles: {1}".format(map, int(obstacle_number.replace("obs",""))), fontsize = self.config["plot_qualitative_title_size"], fontweight = "bold")
+                            plt.title("Map: {0} Obstacles: {1}".format(map, int(obstacle_number.replace("obs",""))), fontsize = self.config["plot_qualitative_title_size"], fontweight = "bold")
                         else:
-                            plt.suptitle("Map: {0} Obstacles: {1} Velocity: {1}.{2} ".format(map, int(obstacle_number.replace("obs","")), velocity.replace("vel","")[0], velocity.replace("vel","")[1]), fontsize = self.config["plot_qualitative_title_size"], fontweight = "bold")
+                            plt.title("Map: {0} Obstacles: {1} Velocity: {1}.{2} ".format(map, int(obstacle_number.replace("obs","")), velocity.replace("vel","")[0], velocity.replace("vel","")[1]), fontsize = self.config["plot_qualitative_title_size"], fontweight = "bold")
                     if self.config["plot_qualitative_axes"]:
                         plt.xlabel("x in [m]")
                         plt.ylabel("y in [m]")
@@ -254,7 +254,7 @@ class plotter():
                         ax.set_xticklabels([])
                         ax.set_yticks(y_locs)
                         ax.set_yticklabels([])
-                    plt.savefig(self.plot_dir + "/qualitative_plot_{0}_{1}_{2}_{3}".format(map,obstacle_number,velocity,self.now))
+                    plt.savefig(self.plot_dir + "/qualitative_plot_{0}_{1}_{2}_{3}".format(map,obstacle_number,velocity,self.now), bbox_inches='tight')
                     plt.close()
 
     def plot_scenario(self, keys, img,  map_resolution, map_origin):
@@ -386,7 +386,7 @@ class plotter():
                             else:
                                 plt.grid(axis="y", zorder = 1)
 
-                        plt.savefig(self.plot_dir + "/quantitative_plots/{0}_{1}_{2}_{3}_{4}".format(metric,map,obstacle_number,velocity,self.now))
+                        plt.savefig(self.plot_dir + "/quantitative_plots/{0}_{1}_{2}_{3}_{4}".format(metric,map,obstacle_number,velocity,self.now), bbox_inches='tight')
                         plt.close()
 ### end of block quantitative plots ###
 
