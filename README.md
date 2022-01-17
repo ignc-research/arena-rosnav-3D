@@ -33,10 +33,10 @@ Please refer to [Installation.md](docs/Installation.md) for detailed explanation
 ![Picture of GUI](https://i.ibb.co/3C4XZjx/Screenshot-20211020-184556.png) -->
 
 <!-- Otherwise please  -->
-For more detailled explanations, we refer to [Usage.md](docs/Usage.md) for command-line use, as well as detailed explanations about agent, policy and training setups.
+For more detailed explanations, we refer to [Usage.md](docs/Usage.md) for command-line use, as well as detailed explanations about agent, policy and training setups.
 
 
-Arena-rosnav-3D is structurally very similar to a[rena-rosnav](https://github.com/ignc-research/arena-rosnav) to allow easy switching between 2D and 3D environments. Currently, a large number of custom worlds and a random world generator are supported. You can include dynamic obstacles either in a *scenario* mode or in a *random* mode where the dynamic obstacle trajectories are determined randomly. 
+Arena-rosnav-3D is structurally very similar to [arena-rosnav](https://github.com/ignc-research/arena-rosnav) to allow easy switching between 2D and 3D environments. Currently, a large number of custom worlds and a random world generator are supported. You can include dynamic obstacles either in a *scenario* mode or in a *random* mode where the dynamic obstacle trajectories are determined randomly. 
 
 #### Worlds
 We provide the following worlds: 
