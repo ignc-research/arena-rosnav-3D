@@ -13,6 +13,8 @@ goal_point_color: tab:brown
 goal_size: 20
 labels:
   arena: ARENA
+  teb_jackal: TEB Jackal
+  teb_tb3: TEB TB3
   dwa: DWA
   mpc: MPC
   rosnav: ROSNAV
