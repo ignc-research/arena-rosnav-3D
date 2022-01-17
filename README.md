@@ -2,7 +2,7 @@
 
 This repository is the 3D version of the navigation platform [arena-rosnav-2D](https://github.com/ignc-research/arena-rosnav). It is build on the 3D ROS simulator Gazebo and integrates with a modified Pedsim Simulator to provide realistic dynamic 3D scenarios and tasks to evaluate and and benchmark classic and learning-based ROS navigation approaches on multiple robot platforms. It is fully compatible with the planning algorithms trained and developed with [arena-rosnav-2D](https://github.com/ignc-research/arena-rosnav). This presents an essential step in deploying the navigation approaches from arena-rosnav towards real robots.
 
-|<img width="450" height="300" src="img/demo-gifs/random-mode-warehouse.gif">|<img width="450" height="300" src="img/demo-gifs/arena-tools-world.gif">|
+|<img width="600" src="img/demo-gifs/random-mode-warehouse.gif">|<img width="600"  src="img/demo-gifs/arena-tools-world.gif">|
 |:--:       |              :--:|
 | *Random task mode* | *Arena Generated* |
 
@@ -40,13 +40,13 @@ Arena-rosnav-3D is structurally very similar to arena-rosnav to allow easy switc
 
 #### Worlds
 We provide the following worlds for your use: 
-|<img width="150" height="140" src="/img/aws_house-2.png">|<img width="150" height="140" src="/img/turtlebot3_house.png">|<img width="150" height="140" src="/img/small_warehouse-2.png">|<img width="150" height="140" src="/img/outside.png">|<img width="150" height="140" src="/img/factory.png">|<img width="150" height="140" src="/img/hospital.jpg">|
-|:--:       |              :--:|             :--:|          :--:|             :--:|          :--:|
-| *aws_house* | *turtlebot3_house* | *small_warehouse* | *random world* | *factory* | *hospital* | 
+|<img width="150" height="140" src="/img/aws_house-2.png">|<img width="150" height="140" src="/img/turtlebot3_house.png">|<img width="150" height="140" src="/img/small_warehouse-2.png">|<img width="150" height="140" src="/img/outside.png">|<img width="150" height="140" src="/img/factory.png">|
+|:--:       |              :--:|             :--:|          :--:|             :--:|  
+| *aws_house* | *turtlebot3_house* | *small_warehouse* | *random world* | *factory* | 
 
-|<img width="150" height="140" src="/img/experiment_rooms.jpg">|<img width="150" height="140" src="/img/bookstore.jpeg">|<img width="150" height="140" src="/img/tb_world.jpg">|
-|:--:|        :--:|      :--:|     
-| *experiment_rooms* | *bookstore* | *turtlebot3_world* |
+|<img width="150" height="140" src="/img/hospital.jpg">|<img width="150" height="140" src="/img/experiment_rooms.jpg">|<img width="150" height="140" src="/img/bookstore.jpeg">|<img width="150" height="140" src="/img/tb_world.jpg">|
+|:--: |:--:|        :--:|      :--:|     
+| *hospital* | *experiment_rooms* | *bookstore* | *turtlebot3_world* |
 
 
 #### World generation with arena-tools and LIRS
@@ -57,7 +57,7 @@ For more information on how to use this feature please refer to [arena-tools](ht
 
 #### Robots
 We support four different robots. 
-|<img width="250" height="240" src="/img/robots/turtlebot3-burger.jpg">|<img width="250" height="240" src="/img/robots/jackal.jpg">|<img width="250" height="240" src="/img/robots/ridgeback.jpg">|<img width="250" height="240" src="/img/robots/agv-ota.png">|
+|<img width="250" src="/img/robots/turtlebot3-burger.jpg">|<img width="250" src="/img/robots/jackal.jpg">|<img width="250"  src="/img/robots/ridgeback.jpg">|<img width="250" src="/img/robots/agv-ota.png">|
 |:--:       |              :--:|             :--:|          :--:| 
 | *turtlebot3_burger* | *jackal* | *ridgeback* | *agv-ota* |
 
