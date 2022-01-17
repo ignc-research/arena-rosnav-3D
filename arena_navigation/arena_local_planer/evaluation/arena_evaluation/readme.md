@@ -6,7 +6,8 @@ The Arena Evaluation package consists of 3 parts:
 ## Prerequisites
 
 ```
-pip install sklearn seaborn
+workon rosnav
+pip install scikit-learn seaborn pandas matplotlib
 ```
 
 ## 01 Data Recording
