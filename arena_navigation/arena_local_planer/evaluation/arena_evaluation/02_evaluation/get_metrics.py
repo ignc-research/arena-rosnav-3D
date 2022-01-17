@@ -14,7 +14,7 @@ import sys
 class get_metrics():
     def __init__(self):
         self.dir_path = os.path.dirname(os.path.abspath(__file__)) # get path for current file, does not work if os.chdir() was used
-        self.data_dir = os.path.dirname(self.dir_path) + "/01_recording" # parent_directory_path + directory name where csv files are located
+        self.data_dir = os.path.dirname(self.dir_path) + "/01_recording/jackal" # parent_directory_path + directory name where csv files are located
         self.now = time.strftime("%y-%m-%d_%H:%M:%S")
         self.read_config()
 
@@ -182,7 +182,7 @@ class get_metrics():
         v3 = (v3[0]**2 + v3[1]**2)**0.5            
         a1 = v2-v1 # acceleration
         a2 = v3-v2
-        jerk = a2-a1
+        jerk = np.around(np.absolute(a2-a1),2)
         return jerk
 
     def drop_last_episode(self,df):

@@ -3,6 +3,11 @@ The Arena Evaluation package consists of 3 parts:
 - data recording
 - data transformation and evaluation
 - plotting
+## Prerequisites
+
+```
+pip install sklearn seaborn
+```
 
 ## 01 Data Recording
 To record data as csv file while doing evaluation runs set the flag `use_recorder:="true"` in your `roslaunch` command. For example:
