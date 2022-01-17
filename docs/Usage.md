@@ -77,11 +77,12 @@ roslaunch arena_bringup start_arena_gazebo.launch task_mode:=scenario scenario_f
 
 ---
 # Local Planners 
-We offer the following local planners [teb, dwa, mpc, rlca, cadrl, arena, rosnav], which can be used by setting the local planner argument like this:
+We offer the following local planners [teb, dwa, mpc, rlca, arena, rosnav], which can be used by setting the local planner argument like this:
 
 ```bash
 roslaunch arena_bringup start_arena_gazebo.launch local_planner:=teb
 ```
+To use the local planer `cadrl` refer to the documentation [here](/docs/Installation.md#cadrl)
 The rosnav planner hereby is our DRL agent. To extend the training and depoyment package(s) please refer to the [DRL_Pipeline.md](/docs/Miscellaneous.md#How-to-include-further-scenarios).
 
 # Robots

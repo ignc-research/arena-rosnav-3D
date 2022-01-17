@@ -111,7 +111,6 @@ Note: You might need to restart your terminal at this point.
 ```
 source ~/.bashrc
 mkvirtualenv --python=python3.8 rosnav
-workon rosnav
 ```
 
 - Install packages inside your venv (venv always activated!):
@@ -195,7 +194,6 @@ Note: You might need to restart your terminal at this point.
 ```
 source ~/.bashrc
 mkvirtualenv --python=python3.6 cadrl
-workon cadrl
 ```
 
 - Install packages inside your venv (venv always activated!):
