@@ -36,10 +36,10 @@ Please refer to [Installation.md](docs/Installation.md) for detailed explanation
 For more detailled explanations, we refer to [Usage.md](docs/Usage.md) for command-line use, as well as detailed explanations about agent, policy and training setups.
 
 
-Arena-rosnav-3D is structurally very similar to arena-rosnav to allow easy switching between 2D and 3D environments. Currently, three custom worlds and a random world generator are supported. In our detailed custom worlds you can generate dynamic obstacles either in a scenario mode or in a random mode where the obstacle trajectories are determined randomly. 
+Arena-rosnav-3D is structurally very similar to a[rena-rosnav](https://github.com/ignc-research/arena-rosnav) to allow easy switching between 2D and 3D environments. Currently, a large number of custom worlds and a random world generator are supported. You can include dynamic obstacles either in a *scenario* mode or in a *random* mode where the dynamic obstacle trajectories are determined randomly. 
 
 #### Worlds
-We provide the following worlds for your use: 
+We provide the following worlds: 
 |<img width="150" height="140" src="/img/aws_house-2.png">|<img width="150" height="140" src="/img/turtlebot3_house.png">|<img width="150" height="140" src="/img/small_warehouse-2.png">|<img width="150" height="140" src="/img/outside.png">|<img width="150" height="140" src="/img/factory.png">|
 |:--:       |              :--:|             :--:|          :--:|             :--:|  
 | *aws_house* | *turtlebot3_house* | *small_warehouse* | *random world* | *factory* | 

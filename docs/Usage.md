@@ -83,6 +83,7 @@ We offer the following local planners [teb, dwa, mpc, rlca, arena, rosnav], whic
 roslaunch arena_bringup start_arena_gazebo.launch local_planner:=teb
 ```
 To use the local planer `cadrl` refer to the documentation [here](/docs/Installation.md#cadrl)
+
 The rosnav planner hereby is our DRL agent. To extend the training and depoyment package(s) please refer to the [DRL_Pipeline.md](/docs/Miscellaneous.md#How-to-include-further-scenarios).
 
 # Robots
