@@ -58,13 +58,10 @@ class get_metrics():
             file_name = file.split("/")[-1]
             os.rename(self.data_dir+"/"+file_name, self.dir_path+"/data_{}/".format(self.now)+file_name) # move file from dir_path to data folder
     def string_to_float_list(self,df_column): # convert list from csv saved as string to list of floats
-        if df_column == ["None"]:
-            return [np.nan]
-        else:
-            return list(np.array((df_column.replace("[","").replace("]","").split(", "))).astype(float))
+        return list(np.array((df_column.replace("[","").replace("]","").split(", "))).astype(float))
 
     def extend_df(self,df):
-        model = np.unique[df["model"]]
+        model = np.unique(df["model"])[0]
         with warnings.catch_warnings():
             warnings.simplefilter('ignore') 
             df["collision"] = [np.any(np.less_equal(x,self.config["robot_radius"][model])) for x in df["laser_scan"]]
