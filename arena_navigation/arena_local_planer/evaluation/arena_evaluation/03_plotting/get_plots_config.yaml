@@ -3,28 +3,28 @@ collision_size: 1.0
 collision_zone_alpha: 0.075
 collision_zone_base_diameter: 0.025
 color_scheme:
-  arena: tab:orange
-  dwa: tab:red
-  mpc: tab:green
-  rosnav: tab:blue
-  teb: tab:cyan
+  dwa_jackal: tab:red
+  guldenring_jackal: tab:brown
+  mpc_jackal: tab:green
+  navrep_jackal: tab:purple
+  rosnav_jackal: tab:orange
+  teb_jackal: tab:cyan
 goal_marker: '*'
 goal_point_color: tab:brown
 goal_size: 20
 labels:
-  arena: ARENA
-  teb_jackal: TEB Jackal
-  teb_tb3: TEB TB3
-  dwa: DWA
-  mpc: MPC
-  rosnav: ROSNAV
-  teb: TEB
+  dwa_jackal: DWA
+  guldenring_jackal: "G\xFCldenring"
+  mpc_jackal: MPC
+  navrep_jackal: NAVREP
+  rosnav_jackal: ROSNAV
+  teb_jackal: TEB
 leave_out_metric:
 - cusps
 leave_out_planner:
 - rlca_subsampling
 - drl_subsampling
-most_recent_file: data_22-01-16_21:15:00.json
+most_recent_file: data_22-01-17_19:14:42.json
 obstacle_color: black
 obstacle_radius: 0.3
 path_alpha: 0.3
