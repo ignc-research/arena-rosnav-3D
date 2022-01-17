@@ -4,5 +4,6 @@ robot_radius:
   jackal: 0.267
   ridgeback: 0.625
   agv-ota: 0.629
+  rto: 0.225
 time_out_treshold: 180
 collision_treshold: 2
