@@ -46,7 +46,6 @@ encoders = {
         "agv-ota": GuldenringPretrainedEncoder
     },
     "navrep_navrep": {
-        "pepper": NavrepPretrainedEncoder,
         "rto": NavrepPretrainedEncoder
     }
 }
