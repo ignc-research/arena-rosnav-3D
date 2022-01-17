@@ -26,6 +26,7 @@ class recorder():
         self.local_planner = rospy.get_param("local_planner")
         self.waypoint_generator = rospy.get_param("waypoint_generator")
         self.record_only_planner = rospy.get_param("record_only_planner")
+        self.start = time.time()
         self.scenario = rospy.get_param("scenario_file").replace(".json","").replace("eval/","")
         self.now = time.strftime("%y-%m-%d_%H:%M:%S")
         self.dir_path = os.path.dirname(os.path.abspath(__file__)) # get path for current file, does not work if os.chdir() was used
@@ -81,7 +82,7 @@ class recorder():
         self.laserscan = msg_laserscan.ranges
 
         #  check for termination criterion "max time"
-        if time.time()-self.start > self.config["max_time"]:
+        if time.time()-self. > self.config["max_time"]:
             subprocess.call(["killall","-9","rosmaster"]) # apt-get install psmisc necessary
             sys.exit()
 
