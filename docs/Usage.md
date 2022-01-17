@@ -90,9 +90,20 @@ For additional / more detailed information about each robot:
 
 To select a robot model for your simulation run (in this case _ridgeback_):
 
+
 ```bash
 roslaunch arena_bringup start_arena_gazebo.launch model:=ridgeback
 ```
+
+To use the local planer `cadrl` refer to the documentation [here](/docs/Installation.md#cadrl)
+The rosnav planner hereby is our DRL agent. To extend the training and depoyment package(s) please refer to the [DRL_Pipeline.md](/docs/Miscellaneous.md#How-to-include-further-scenarios).
+
+# Robots
+We support four different robots. 
+|<img width="250" height="240" src="/img/robots/turtlebot3-burger.jpg">|<img width="250" height="240" src="/img/robots/jackal.jpg">|<img width="250" height="240" src="/img/robots/ridgeback.jpg">|<img width="250" height="240" src="/img/robots/agv-ota.png">|
+|:--:       |              :--:|             :--:|          :--:| 
+| *turtlebot3-burger* | *jackal* | *ridgeback* | *agv-ota* |
+
 
 ¹ _Stops moving when an object has been detected in the safety zone of the robot_
 

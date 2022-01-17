@@ -66,7 +66,7 @@ class plotter():
         self.config["most_recent_file"] = self.data_file_name
         with open(self.dir_path+"/get_plots_config.yaml", 'w') as file: # update most_recent_file in config
             yaml.dump(self.config, file)
-        self.keys = list(self.data.keys())
+            self.keys = list(self.data.keys())
 
         ### get scenario properties ###
         self.get_map() # self.maps
@@ -113,7 +113,7 @@ class plotter():
         planners = list(self.config["labels"].keys())
         planner_found = False
         for key in self.keys:
-            for planner in planners: # check if a map in /simulator_setup/maps fits scenario name
+            for planner in planners:
                 if planner in key:
                     self.data[key]["planner"] = planner
                     planner_found = True
@@ -125,6 +125,7 @@ class plotter():
 
 ### qualitative plots ###
     def get_qualitative_plots(self):
+        os.mkdir(self.plot_dir + "/quantitative_plots")
         ### iteration part ###
         for map in self.maps:
             map_keys = [] # list of keys with current map
@@ -254,7 +255,7 @@ class plotter():
                         ax.set_xticklabels([])
                         ax.set_yticks(y_locs)
                         ax.set_yticklabels([])
-                    plt.savefig(self.plot_dir + "/qualitative_plot_{0}_{1}_{2}_{3}".format(map,obstacle_number,velocity,self.now), bbox_inches='tight')
+                    plt.savefig(self.plot_dir + "/qualitative_plots/qualitative_plot_{0}_{1}_{2}_{3}".format(map,obstacle_number,velocity,self.now), bbox_inches='tight')
                     plt.close()
 
     def plot_scenario(self, keys, img,  map_resolution, map_origin):
@@ -356,7 +357,7 @@ class plotter():
                                 ax = sns.violinplot(x="planner", y=metric, data = data, inner = self.config["plot_quantitative_violin_inner"], palette = self.config["color_scheme"])
                                 ax.set_xlabel(self.config["plot_quantitative_labels"]["planner"], fontsize = self.config["plot_quantitative_axes_label_size"])
                                 ax.set_ylabel(self.config["plot_quantitative_labels"][metric], fontsize = self.config["plot_quantitative_axes_label_size"])
-                                ax.set_xticklabels([self.config["labels"][x.get_text()] for x in ax.get_xticklabels()], {"fontsize": self.config["plot_quantitative_axes_tick_size"]})
+                                ax.set_xticklabels([self.config["labels"][x.get_text()] for x in ax.get_xticklabels()], fontsize = self.config["plot_quantitative_axes_tick_size"])
                                 ax.zorder = 5
                             else:
                                 labels = [self.config["labels"][x] for x in data.groupby(by="planner").mean().index]
@@ -386,7 +387,7 @@ class plotter():
                             else:
                                 plt.grid(axis="y", zorder = 1)
 
-                        plt.savefig(self.plot_dir + "/quantitative_plots/{0}_{1}_{2}_{3}_{4}".format(metric,map,obstacle_number,velocity,self.now), bbox_inches='tight')
+                        plt.savefig(self.plot_dir + "/quantitative_plots/{0}_{1}_{2}_{3}".format(metric,map,obstacle_number,velocity), bbox_inches='tight')
                         plt.close()
 ### end of block quantitative plots ###
 
