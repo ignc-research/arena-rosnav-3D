@@ -125,7 +125,7 @@ class plotter():
 
 ### qualitative plots ###
     def get_qualitative_plots(self):
-        os.mkdir(self.plot_dir + "/quantitative_plots")
+        os.mkdir(self.plot_dir + "/qualitative_plots")
         ### iteration part ###
         for map in self.maps:
             map_keys = [] # list of keys with current map
