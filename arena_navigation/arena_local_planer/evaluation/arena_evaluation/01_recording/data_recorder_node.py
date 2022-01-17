@@ -82,7 +82,7 @@ class recorder():
         self.laserscan = msg_laserscan.ranges
 
         #  check for termination criterion "max time"
-        if time.time()-self. > self.config["max_time"]:
+        if time.time()-self.start > self.config["max_time"]:
             subprocess.call(["killall","-9","rosmaster"]) # apt-get install psmisc necessary
             sys.exit()
 
