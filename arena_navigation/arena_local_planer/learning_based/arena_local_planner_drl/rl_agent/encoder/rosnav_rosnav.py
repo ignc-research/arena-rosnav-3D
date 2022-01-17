@@ -102,7 +102,7 @@ class AgvEncoder(Encoder):
     action: [x_vel, y_vel, ang_vel]
 """
 class RidgebackEncoder(Encoder):
-    def get_action(action):
+    def get_action(self, action):
         assert len(action) == 3, f"Expected an action of size 3 but received: {action}"
 
         return action
