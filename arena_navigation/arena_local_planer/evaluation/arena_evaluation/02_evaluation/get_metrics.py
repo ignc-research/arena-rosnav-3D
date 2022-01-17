@@ -64,7 +64,7 @@ class get_metrics():
         model = np.unique(df["model"])[0]
         with warnings.catch_warnings():
             warnings.simplefilter('ignore') 
-            df["collision"] = [np.any(np.less_equal(x,self.config["robot_radius"][model])) for x in df["laser_scan"]]
+            df["collision"] = self.get_collision(self,df,model)
             df["action_type"] = self.get_action_type(df)
             # df["computation_time"] = self.get_computation_time(df)
             df["max_clearing_distance"] = [np.nanmax(np.where(np.isfinite(x), x, 0)) for x in df["laser_scan"]]
@@ -75,6 +75,11 @@ class get_metrics():
             df["roughness"] = self.get_roughness(df)
             df["jerk"] = self.get_jerk(df)
         return df
+
+    def get_collision(self,df,model):
+        raw_collision = list(np.any(np.less_equal(x,self.config["robot_radius"][model])) for x in df["laser_scan"])
+        helper_collision = [False] + raw_collision[:-1]
+        return [x > 0 for x in [r - h for r,h in zip(raw_collision,helper_collision)]]
 
     def get_action_type(self,df):
         action_type_column = []
@@ -198,7 +203,7 @@ class get_metrics():
         episodes = np.unique(df["episode"])
         for episode in episodes:
             times = list(df.loc[df["episode"]==episode,"time"])
-            time_list.append(times[-1]-times[0])
+            time_list.append((times[-1]-times[0])*0.3) # sim to real time factor, currently hardcoded TODO: implement realtime factor
         return time_list
 
     def get_path_length(self,df):
