@@ -44,7 +44,8 @@ encoders = {
     },
     "guldenring_guldenring_pretrained": {
         "agv-ota": gring.GuldenringPretrainedEncoder,
-        "turtlebot3_burger": gring.TurtleBot3Encoder
+        "turtlebot3_burger": gring.TurtleBot3Encoder,
+        "jackal": gring.JackalEncoder
     },
     "navrep_navrep": {
         "rto": NavrepPretrainedEncoder

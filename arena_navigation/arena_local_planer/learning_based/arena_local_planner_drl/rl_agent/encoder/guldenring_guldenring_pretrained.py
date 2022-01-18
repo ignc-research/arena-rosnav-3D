@@ -2,6 +2,7 @@ from os import path
 from turtle import down
 import numpy as np
 import sys
+from scipy import interpolate
 
 from rl_agent.encoder import BaseEncoder
 """
@@ -62,7 +63,6 @@ class GuldenringPretrainedEncoder(BaseEncoder):
         """
         assert len(action) == 2, f"Expected an action of size 2 but received {len(action)}: {action}"
         
-
         x_vel, ang_vel = action
         return [x_vel, 0, ang_vel]
 
@@ -83,6 +83,40 @@ class TurtleBot3Encoder(GuldenringPretrainedEncoder):
 
         complete_observation[0, :45, 0] = downsampled_scan[135:]
         complete_observation[0, 45:90, 0] = downsampled_scan[:45]
+
+        for i in range(8):
+            complete_observation[0, 90 + i * 2:90 + i * 2 + 2, 0] = [x, y]
+
+        guldenring_obs = np.round(np.divide(complete_observation, 0.05))*0.05
+        
+        return guldenring_obs
+
+class JackalEncoder(GuldenringPretrainedEncoder):
+    def get_observation(self, obs):
+        obs_dict = obs[1]
+        scan = obs_dict["laser_scan"]
+        rho, theta = obs_dict["goal_in_robot_frame"]
+
+        # Convert Rho, Theta in robot frame coordinates
+        y = np.sin(theta + np.pi) * rho
+        x = np.cos(theta + np.pi) * rho
+
+        rotated_scan = np.zeros((480))
+        rotated_scan[:240] = scan[120:360]
+        rotated_scan[240:] = scan[360:600]
+
+        downsampled_scan = rotated_scan.reshape((-1, 5))
+        downsampled_scan = np.min(downsampled_scan, axis=1)
+
+        f = interpolate.interp1d(np.arange(0, 96), downsampled_scan)
+        upsampled = f(np.linspace(0, 96 - 1, 90))
+
+        complete_observation = np.zeros((1, 90 + 8 * 2, 1))
+
+        downsampled_scan = scan.reshape((-1, 2))
+        downsampled_scan = np.min(downsampled_scan, axis=1)
+
+        complete_observation[0, :90, 0] = upsampled
 
         for i in range(8):
             complete_observation[0, 90 + i * 2:90 + i * 2 + 2, 0] = [x, y]
