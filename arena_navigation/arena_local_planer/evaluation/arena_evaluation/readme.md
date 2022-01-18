@@ -15,15 +15,23 @@ To record data as csv file while doing evaluation runs set the flag `use_recorde
 
 ```
 workon rosnav
-roslaunch arena_bringup start_arena_gazebo.launch disable_scenario:="false" map_file:="aws_house" scenario_file:="aws_house.json" local_planner:="teb" use_recorder:="true"
+roslaunch arena_bringup start_arena_gazebo.launch world:="aws_house" scenario_file:="aws_house_obs05.json" local_planner:="teb" model:="turtlebot3_burger" use_recorder:="true"
 ```
 
-The data will be recorded in `.../catkin_ws/src/arena-rosnav/arena_navigation/arena_local_planner/evaluation/arena_evaluation/01_recording`.
-The script stops recording as soon as the agent finishes the scenario and stops moving. After doing all evaluation runs please remember to push your csv files or gather them in `/01_recording`.
+The data will be recorded in `.../catkin_ws/src/arena-rosnav-3D/arena_navigation/arena_local_planner/evaluation/arena_evaluation/01_recording`.
+The script stops recording as soon as the agent finishes the scenario and stops moving or after termination criterion is met. Termination criterion as well as recording frequency can be set in `data_recorder_config.yaml`.
+
+```
+max_episodes: 15 # terminates simulation upon reaching xth episode
+max_time: 1200 # terminates simulation after x seconds
+record_frequency: 0.2 # time between actions recorded
+```
+
+After doing all evaluation runs please remember to push your csv files or gather them in `/01_recording`.
 
 NOTE: Leaving the simulation running for a long time after finishing the set number of repetitions does not influence the evaluation results as long as the agent stops running. Also, the last episode of every evaluation run is pruned before evaluating the recorded data.
 
-Note: Sometimes csv files will be ignored by git so you have to use git add -f <file>. We recommend using the code below.
+NOTE: Sometimes csv files will be ignored by git so you have to use git add -f <file>. We recommend using the code below.
 ```
 roscd arena_evaluation
 git add -f .
@@ -37,7 +45,7 @@ After finishing all the evaluation runs, recording the desired csv files and all
 This script will evaluate the raw data recorded from the evaluation runs und summarize them in a compact dataset for each map, planner and scenario, which are all stored in one single JSON file with the following naming convention: `data_<timestamp>.json`. During this process all the csv files will be moved from `/01_recording` to `/02_evaluation` into a directory with the naming convention `data_<timestamp>`. The JSON file will be stored in `/02_evaluation`.
 
 Some configurations can be set in the `get_metrics_config.yaml` file. Those are:
-- `robot_radius`: radius of the robot, relevant for collision measurement
+- `robot_radius`: dictionary of robot radii, relevant for collision measurement
 - `time_out_treshold`: treshold for episode timeout in seconds
 - `collision_treshold`: treshold for allowed number of collisions until episode deemed as failed
 
