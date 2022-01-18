@@ -38,7 +38,7 @@ leave_out_metric:
 leave_out_planner:
 - rlca_subsampling
 - drl_subsampling
-most_recent_file: data_tb3.json
+most_recent_file: data_jackal.json
 obstacle_color: black
 obstacle_radius: 0.3
 path_alpha: 0.3
