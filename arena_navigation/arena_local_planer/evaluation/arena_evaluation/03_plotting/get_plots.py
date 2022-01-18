@@ -345,26 +345,32 @@ class plotter():
                                 success_list.append(self.data[obs_key]["summary_df"]["done_reason"].count("goal_reached")/len_df)
                                 collision_list.append((self.data[obs_key]["summary_df"]["done_reason"].count("goal_reached")+self.data[obs_key]["summary_df"]["done_reason"].count("collision"))/len_df)
                             planner_list = [self.config["labels"][x] for x in planner_list]
-                            ax.bar(planner_list, timeout_list, color = self.config["plot_success_time_out_color"], width = self.config["plot_success_width"], label = "Timeout", alpha = self.config["plot_success_alpha"])
-                            ax.bar(planner_list, collision_list, color = self.config["plot_success_collision_color"], width = self.config["plot_success_width"], label = "Collision", alpha = self.config["plot_success_alpha"])
-                            ax.bar(planner_list, success_list, color = self.config["plot_success_success_color"], width = self.config["plot_success_width"], label = "Success", alpha = self.config["plot_success_alpha"])
-                            if self.config["plot_success_legend"]:
-                                ax.legend(loc=self.config["plot_success_legend_location"])
+                            data_success = pd.DataFrame(list(zip(planner_list,timeout_list,success_list,collision_list)), columns=["Planners","Timeout","Success","Collision"])
+                            ax = sns.barplot(x = "Planners", y = "Timeout", color = self.config["plot_success_time_out_color"], label = "Timeout", saturation = self.config["plot_success_alpha"], data=data_success)
+                            ax = sns.barplot(x = "Planners", y = "Collision", color = self.config["plot_success_collision_color"], label = "Collision", saturation = self.config["plot_success_alpha"], data=data_success)
+                            ax = sns.barplot(x = "Planners", y = "Success", color = self.config["plot_success_success_color"], label = "Success", saturation = self.config["plot_success_alpha"], data=data_success)
+                            if self.config["plot_quantitative_legend"]:
+                                ax.legend(loc=self.config["plot_quantitative_legend_location"])
                             ax.set_xlabel(self.config["plot_quantitative_labels"]["planner"], fontsize = self.config["plot_quantitative_axes_label_size"])
                             ax.set_ylabel(self.config["plot_quantitative_labels"][metric], fontsize = self.config["plot_quantitative_axes_label_size"])
                         else:
                             if self.config["plot_quantitative_violin"]:
+                                ax.zorder = 5
                                 ax = sns.violinplot(x="planner", y=metric, data = data, inner = self.config["plot_quantitative_violin_inner"], palette = self.config["color_scheme"])
                                 ax.set_xlabel(self.config["plot_quantitative_labels"]["planner"], fontsize = self.config["plot_quantitative_axes_label_size"])
                                 ax.set_ylabel(self.config["plot_quantitative_labels"][metric], fontsize = self.config["plot_quantitative_axes_label_size"])
                                 ax.set_xticklabels([self.config["labels"][x.get_text()] for x in ax.get_xticklabels()], fontsize = self.config["plot_quantitative_axes_tick_size"])
-                                ax.zorder = 5
+
                             else:
-                                labels = [self.config["labels"][x] for x in data.groupby(by="planner").mean().index]
-                                colors = [self.config["color_scheme"][x] for x in data.groupby(by="planner").mean().index]
-                                ax.bar(x = labels, height = data.groupby(by="planner").mean()[metric], yerr = data.groupby(by="planner").std()[metric], color = colors, ecolor = self.config["plot_barplot_errorcolor"], capsize=self.config["plot_barplot_capsize"], alpha = self.config["plot_barplot_alpha"], zorder=5)
+                                if not self.config["plot_barplot_errorbars"]:
+                                    ci = None
+                                else:
+                                    ci = "sd"
+                                ax.zorder = 5
+                                ax = sns.barplot(x="planner", y=metric, palette = self.config["color_scheme"], data=data, ci=ci, saturation=self.config["plot_barplot_alpha"],capsize=self.config["plot_barplot_capsize"],errcolor=self.config["plot_barplot_errorcolor"])
                                 ax.set_xlabel(self.config["plot_quantitative_labels"]["planner"], fontsize = self.config["plot_quantitative_axes_label_size"])
                                 ax.set_ylabel(self.config["plot_quantitative_labels"][metric], fontsize = self.config["plot_quantitative_axes_label_size"])
+                                ax.set_xticklabels([self.config["labels"][x.get_text()] for x in ax.get_xticklabels()], fontsize = self.config["plot_quantitative_axes_tick_size"])
 
                         # title 
                         if self.config["plot_quantitative_suptitle"]:
@@ -382,14 +388,92 @@ class plotter():
 
                         # grid
                         if self.config["plot_quantitative_ygrid"]:
-                            if self.config["plot_quantitative_violin"]:
-                                sns.set_style("whitegrid")
-                            else:
-                                plt.grid(axis="y", zorder = 1)
+                            sns.set_style("whitegrid")
 
                         plt.savefig(self.plot_dir + "/quantitative_plots/{0}_{1}_{2}_{3}".format(metric,map,obstacle_number,velocity), bbox_inches='tight')
                         plt.close()
 ### end of block quantitative plots ###
+
+### obs in one plots ###
+    def get_obs_in_one_plots(self):
+        os.mkdir(self.plot_dir + "/obs_in_one_plots")
+        metrics = list(self.data[self.keys[0]]["summary_df"].keys())
+        ### iteration part ###
+        for map in self.maps:
+            map_keys = [] # list of keys with current map
+            for key in self.keys:
+                if self.data[key]["map"] == map:
+                    map_keys.append(key) # append key if map matches current map
+            for velocity in self.velocities:
+                vel_keys = [] # list of keys with current velocity
+                for key in map_keys:
+                    if self.data[key]["velocity"] == velocity:
+                        vel_keys.append(key) # append key if velocity matches current velocity
+
+                # plotting part
+                obs_in_one_color_scheme = {self.config["labels"][k]:v for k,v in self.config["color_scheme"].items()}               
+                for metric in metrics:
+                    if metric in self.config["leave_out_metric"]:
+                        continue
+                    if metric in ["done_reason", "curvature"]:
+                        continue
+                    fig, ax = plt.subplots()
+                    data = pd.DataFrame() # concat all summary_df of the planners into one and save planner in column
+                    for obstacle_number in self.obstacle_numbers:
+                        for key in sorted(vel_keys):
+                            if self.data[key]["obstacle_number"] == obstacle_number:
+                                dat = pd.DataFrame(self.data[key]["summary_df"]) # concat the summary_df of that key (planner)
+                                dat["Planner"] = self.config["labels"][self.data[key]["planner"]]
+                                dat["obstacle_number"] = self.data[key]["obstacle_number"].replace("obs0","").replace("obs","")
+                                len_dat = len(dat.index)
+                                dat["Success"] = [list(dat["done_reason"]).count("goal_reached")/len_dat]*len_dat
+                                data = pd.concat([data,dat])
+                    if metric == "success": # bar plots for success metric
+                        ax.zorder = 5
+                        ax = sns.barplot(x="obstacle_number", y="Success", hue="Planner", palette = obs_in_one_color_scheme, data=data, ci=None, alpha=self.config["plot_barplot_alpha"])
+                        ax.set_xlabel(self.config["plot_quantitative_labels"]["obstacle_number"], fontsize = self.config["plot_quantitative_axes_label_size"])
+                        ax.set_ylabel(self.config["plot_quantitative_labels"][metric], fontsize = self.config["plot_quantitative_axes_label_size"])
+                        if self.config["plot_quantitative_legend"]:
+                            ax.legend(loc=self.config["plot_quantitative_legend_location"])
+
+                    else:
+                        if self.config["plot_quantitative_violin"]:
+                            ax.zorder = 5
+                            ax = sns.violinplot(x="obstacle_number", y=metric, hue="Planner", palette = obs_in_one_color_scheme, data=data, inner = self.config["plot_quantitative_violin_inner"])
+                            ax.set_xlabel(self.config["plot_quantitative_labels"]["obstacle_number"], fontsize = self.config["plot_quantitative_axes_label_size"])
+                            ax.set_ylabel(self.config["plot_quantitative_labels"][metric], fontsize = self.config["plot_quantitative_axes_label_size"])
+                            if self.config["plot_quantitative_legend"]:
+                                ax.legend(loc=self.config["plot_quantitative_legend_location"])                              
+                        else:
+                            if not self.config["plot_barplot_errorbars"]:
+                                ci = None
+                            else:
+                                ci = "sd"
+                            ax.zorder = 5
+                            ax = sns.barplot(x="obstacle_number", y=metric, hue="Planner", palette = obs_in_one_color_scheme, data=data, ci=ci, saturation=self.config["plot_barplot_alpha"],capsize=self.config["plot_barplot_capsize"],errcolor=self.config["plot_barplot_errorcolor"])
+                            ax.set_xlabel(self.config["plot_quantitative_labels"]["obstacle_number"], fontsize = self.config["plot_quantitative_axes_label_size"])
+                            ax.set_ylabel(self.config["plot_quantitative_labels"][metric], fontsize = self.config["plot_quantitative_axes_label_size"])
+                            if self.config["plot_quantitative_legend"]:
+                                ax.legend(loc=self.config["plot_quantitative_legend_location"])                            
+
+                    # title 
+                    if self.config["plot_quantitative_suptitle"]:
+                        plt.suptitle("{0}".format(self.config["plot_quantitative_labels"][metric]), fontsize = self.config["plot_quantitative_suptitle_size"], fontweight = "bold")
+                    # subtitle
+                    if self.config["plot_quantitative_title"]:
+                        if velocity == "base_velocity" and obstacle_number == "base_obstacle_number":
+                            plt.title("Map: {0}".format(map), fontsize = self.config["plot_quantitative_title_size"])
+                        elif obstacle_number == "base_obstacle_number":
+                            plt.title("Map: {0} Velocity: {1}.{2}".format(map, velocity.replace("vel","")[0], velocity.replace("vel","")[1]), fontsize = self.config["plot_quantitative_title_size"])
+                        else:
+                            plt.title("Map: {0}".format(map), fontsize = self.config["plot_quantitative_title_size"])
+                    # grid
+                    if self.config["plot_quantitative_ygrid"]:
+                        sns.set_style("whitegrid")
+
+                    plt.savefig(self.plot_dir + "/obs_in_one_plots/{0}_{1}_obs_in_one_{2}".format(metric,map,velocity), bbox_inches='tight')
+                    plt.close()
+### end of block obs in one plots ###
 
 
 # additional functions
@@ -421,3 +505,5 @@ if __name__=="__main__":
         Plotter.get_qualitative_plots()
     if Plotter.config["plot_quantitative"]:
         Plotter.get_quantitative_plots()
+    if Plotter.config["plot_obs_in_one"]:
+        Plotter.get_obs_in_one_plots()
