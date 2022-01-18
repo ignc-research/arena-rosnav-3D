@@ -32,11 +32,13 @@ path_arrow_color: black
 path_arrow_size: 5
 path_size: 0.1
 plot_barplot_alpha: 1.0
-plot_barplot_capsize: 10
+plot_barplot_capsize: 0.02
+plot_barplot_errorbars: true
 plot_barplot_errorcolor: black
 plot_barplot_width: 0.5
 plot_collision_zones: true
 plot_collisions: true
+plot_obs_in_one: true
 plot_progression: false
 plot_qualitative: true
 plot_qualitative_axes: true
@@ -60,11 +62,14 @@ plot_quantitative_labels:
   median_clearing_distance: Median Clearing Distance in [m]
   min_clearing_distance: Min. Clearing Distance in [m]
   normalized_curvature: Normalized Curvature
+  obstacle_number: Obstacle Number
   path_length: Path Length in [m]
   planner: Planner
   roughness: Path Roughness
-  success: Success, Collision and Timeout Rate
+  success: Success Rate
   time: Time Traveled in [s]
+plot_quantitative_legend: true
+plot_quantitative_legend_location: upper left
 plot_quantitative_suptitle: true
 plot_quantitative_suptitle_size: 16
 plot_quantitative_title: true
@@ -73,11 +78,9 @@ plot_quantitative_violin: false
 plot_quantitative_violin_inner: point
 plot_quantitative_ygrid: true
 plot_success_alpha: 1.0
-plot_success_collision_color: red
-plot_success_legend: true
-plot_success_legend_location: upper left
-plot_success_success_color: green
-plot_success_time_out_color: blue
+plot_success_collision_color: tab:red
+plot_success_success_color: tab:green
+plot_success_time_out_color: tab:blue
 plot_success_width: 0.5
 progression_size: 3
 progression_steps: 20
