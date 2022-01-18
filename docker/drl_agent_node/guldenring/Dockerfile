@@ -11,7 +11,7 @@ ADD requirements.txt /root
 RUN pyenv install 3.6.2 \
     && pyenv global 3.6.2 \
     && pip3 install --upgrade pip \
-    && pip3 install -r requirements.txt
+    && pip3 install -r requirements.txt    
 
 #   Clone and install navrep
 RUN git clone https://github.com/danieldugas/drl_local_planner_ros_stable_baselines.git /root/guldenring_repo

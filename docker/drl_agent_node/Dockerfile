@@ -21,7 +21,13 @@ RUN apt-get -y update \
     && apt-get -y update \
     && apt-get -y install \
     python3 \
-    python3-pip
+    python3-pip \
+    tk \
+    ros-noetic-turtlebot3-description \
+    ros-noetic-turtlebot3-navigation \
+    python-tk \
+    python3-tk \
+    tk-dev
 
 #   Install Poetry
 RUN pip3 install poetry \

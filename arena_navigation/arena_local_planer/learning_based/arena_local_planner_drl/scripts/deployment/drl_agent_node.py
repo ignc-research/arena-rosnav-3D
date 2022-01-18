@@ -9,7 +9,7 @@ import rl_agent.encoder.rosnav_rosnav as r_rosnav
 import rl_agent.encoder.navrep_rosnav as n_rosnav
 from rl_agent.encoder.guldenring_guldenring import TurtleBot3GuldenringEncoder
 
-from rl_agent.encoder.guldenring_guldenring_pretrained import GuldenringPretrainedEncoder
+import rl_agent.encoder.guldenring_guldenring_pretrained as gring
 from rl_agent.encoder.navrep_navrep import NavrepPretrainedEncoder
 
 from rl_agent.base_agent_wrapper import BaseDRLAgent
@@ -43,7 +43,9 @@ encoders = {
         "turtlebot3_burger": TurtleBot3GuldenringEncoder
     },
     "guldenring_guldenring_pretrained": {
-        "agv-ota": GuldenringPretrainedEncoder
+        "agv-ota": gring.GuldenringPretrainedEncoder,
+        "turtlebot3_burger": gring.TurtleBot3Encoder,
+        "jackal": gring.JackalEncoder
     },
     "navrep_navrep": {
         "rto": NavrepPretrainedEncoder
