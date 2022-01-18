@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<robot name="sensor_kinect" xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:include filename="$(find simulator_setup)/robot/rto/urdf/sensors/3dsensor_gazebo.urdf.xacro"/>
+  <xacro:property name="KINECT_LENGTH" value="0.064"/>
+  <xacro:property name="KINECT_WIDTH" value="0.121"/>
+  <xacro:property name="KINECT_HEIGHT" value="0.0381"/>
+  <xacro:macro name="kinect" params="parent name *origin">
+    <joint name="${name}_joint" type="fixed">
+      <insert_block name="origin"/>
+      <parent link="${parent}"/>
+      <child link="${name}_link"/>
+    </joint>
+    <link name="${name}_link">
+      <inertial>
+        <mass value="0.00001" />
+        <origin xyz="0 0 0" />
+        <inertia ixx="1.0" ixy="0.0" ixz="0.0"
+          iyy="1.0" iyz="0.0"
+          izz="1.0" />
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 ${M_PI/2}"/>
+        <!-- <origin xyz="0 0 0" rpy="0 0 0" /> -->
+        <geometry>
+          <mesh filename="package://simulator_setup/robot/rto/meshes/sensors/kinect.dae"/>
+          <!-- <box size="${KINECT_LENGTH} ${KINECT_WIDTH} ${KINECT_HEIGHT}"/> -->
+        </geometry>
+        <!-- <material name="${color}"/> -->
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <box size="${KINECT_LENGTH} ${KINECT_WIDTH} ${KINECT_HEIGHT}"/>
+        </geometry>
+      </collision>
+    </link>
+    <!-- add simulation of 3d sensor -->
+    <sim_3dsensor/>
+  </xacro:macro>
+</robot>
