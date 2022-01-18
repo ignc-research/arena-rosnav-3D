@@ -32,8 +32,8 @@ path_arrow_color: black
 path_arrow_size: 5
 path_size: 0.1
 plot_barplot_alpha: 1.0
-plot_barplot_capsize: 0.02
-plot_barplot_errorbars: true
+plot_barplot_capsize: 0.1
+plot_barplot_errorbars: false
 plot_barplot_errorcolor: black
 plot_barplot_width: 0.5
 plot_collision_zones: true
@@ -47,7 +47,7 @@ plot_qualitative_legend: true
 plot_qualitative_legend_location: upper left
 plot_qualitative_title: true
 plot_qualitative_title_size: 16
-plot_quantitative: true
+plot_quantitative: false
 plot_quantitative_axes_label_size: 12
 plot_quantitative_axes_tick_size: 10
 plot_quantitative_labels:
