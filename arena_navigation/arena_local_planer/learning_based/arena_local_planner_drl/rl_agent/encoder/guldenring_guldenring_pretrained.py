@@ -1,4 +1,5 @@
 from os import path
+from turtle import down
 import numpy as np
 import sys
 
@@ -64,3 +65,28 @@ class GuldenringPretrainedEncoder(BaseEncoder):
 
         x_vel, ang_vel = action
         return [x_vel, 0, ang_vel]
+
+class TurtleBot3Encoder(GuldenringPretrainedEncoder):
+    def get_observation(self, obs):
+        obs_dict = obs[1]
+        scan = obs_dict["laser_scan"]
+        rho, theta = obs_dict["goal_in_robot_frame"]
+
+        # Convert Rho, Theta in robot frame coordinates
+        y = np.sin(theta + np.pi) * rho
+        x = np.cos(theta + np.pi) * rho
+
+        complete_observation = np.zeros((1, 90 + 8 * 2, 1))
+
+        downsampled_scan = scan.reshape((-1, 2))
+        downsampled_scan = np.min(downsampled_scan, axis=1)
+
+        complete_observation[0, :45, 0] = downsampled_scan[135:]
+        complete_observation[0, 45:90, 0] = downsampled_scan[:45]
+
+        for i in range(8):
+            complete_observation[0, 90 + i * 2:90 + i * 2 + 2, 0] = [x, y]
+
+        guldenring_obs = np.round(np.divide(complete_observation, 0.05))*0.05
+        
+        return guldenring_obs
