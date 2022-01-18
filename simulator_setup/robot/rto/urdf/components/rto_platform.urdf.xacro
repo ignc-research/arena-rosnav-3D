@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<robot name="rto" xmlns:xacro="http://wiki.ros.org/xacro">
+    <xacro:include filename="$(find simulator_setup)/robot/rto/urdf/rto_body.urdf.xacro"/>
+    <xacro:include filename="$(find simulator_setup)/robot/rto/urdf/rto_parts.urdf.xacro"/>
+    <xacro:rto_body/>
+    <!-- add platform -->
+    <xacro:platform name="platform" parent="base_link">
+        <origin xyz="0.0 0.0 0.13" rpy="0 0 0"/>
+    </xacro:platform>
+</robot>

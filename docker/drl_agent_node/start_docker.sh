@@ -1,0 +1,1 @@
+docker run -ti -v $1/arena_navigation/arena_local_planer/learning_based/arena_local_planner_drl:/root/src/arena_local_planner_drl --network host $2 $3

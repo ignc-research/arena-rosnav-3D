@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1">
+    <asset>
+        <contributor>
+            <authoring_tool>ctmconv</authoring_tool>
+            <comments></comments>
+        </contributor>
+        <created>2020-08-05T15:54:24</created>
+        <modified>2020-08-05T15:54:24</modified>
+    </asset>
+    <library_geometries>
+        <geometry id="Mesh-1" name="Mesh-1">
+            <mesh>
+                <source id="Mesh-1-positions" name="position">
+                    <float_array id="Mesh-1-positions-array" count="36">-30 10 0 -30 10 2 -30 48 2 -30 48 40 -30 50 0 -30 50 40 30 10 0 30 10 2 30 48 2 30 48 40 30 50 0 30 50 40 </float_array>
+                    <technique_common>
+                        <accessor count="12" offset="0" source="#Mesh-1-positions-array" stride="3">
+                            <param name="X" type="float" />
+                            <param name="Y" type="float" />
+                            <param name="Z" type="float" />
+                        </accessor>
+                    </technique_common>
+                </source>
+                <vertices id="Mesh-1-vertices">
+                    <input semantic="POSITION" source="#Mesh-1-positions" />
+                </vertices>
+                <triangles count="20">
+                    <input offset="0" semantic="VERTEX" source="#Mesh-1-vertices" />
+                    <p>7 6 8 11 9 8 6 10 8 11 8 10 0 1 2 4 0 2 3 5 2 4 2 5 8 2 1 8 1 7 10 4 5 10 5 11 5 3 9 5 9 11 1 0 6 1 6 7 10 6 0 10 0 4 9 3 2 9 2 8 </p>
+                </triangles>
+            </mesh>
+        </geometry>
+    </library_geometries>
+    <library_visual_scenes>
+        <visual_scene id="Scene-1" name="Scene-1">
+            <node id="Object-1" name="Object-1">
+                <instance_geometry url="#Mesh-1" />
+            </node>
+        </visual_scene>
+    </library_visual_scenes>
+    <scene>
+        <instance_visual_scene url="#Scene-1" />
+    </scene>
+</COLLADA>
