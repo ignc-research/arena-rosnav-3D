@@ -3,28 +3,42 @@ collision_size: 1.0
 collision_zone_alpha: 0.075
 collision_zone_base_diameter: 0.025
 color_scheme:
+  arena_turtlebot3_burger: tab:grey
+  cadrl_turtlebot3_burger: tab:olive
   dwa_jackal: tab:red
+  dwa_turtlebot3_burger: tab:red
   guldenring_jackal: tab:brown
+  guldenring_turtlebot3_burger: tab:brown
   mpc_jackal: tab:green
+  mpc_turtlebot3_burger: tab:green
   navrep_jackal: tab:purple
   rosnav_jackal: tab:orange
+  rosnav_turtlebot3_burger: tab:orange
   teb_jackal: tab:cyan
+  teb_turtlebot3_burger: tab:cyan
 goal_marker: '*'
 goal_point_color: tab:brown
 goal_size: 20
 labels:
+  arena_turtlebot3_burger: ARENA
+  cadrl_turtlebot3_burger: CADRL
   dwa_jackal: DWA
+  dwa_turtlebot3_burger: DWA
   guldenring_jackal: "G\xFCldenring"
+  guldenring_turtlebot3_burger: "G\xFCldenring"
   mpc_jackal: MPC
+  mpc_turtlebot3_burger: MPC
   navrep_jackal: NAVREP
   rosnav_jackal: ROSNAV
+  rosnav_turtlebot3_burger: ROSNAV
   teb_jackal: TEB
+  teb_turtlebot3_burger: TEB
 leave_out_metric:
 - cusps
 leave_out_planner:
 - rlca_subsampling
 - drl_subsampling
-most_recent_file: data_22-01-17_19:14:42.json
+most_recent_file: data_tb3.json
 obstacle_color: black
 obstacle_radius: 0.3
 path_alpha: 0.3
