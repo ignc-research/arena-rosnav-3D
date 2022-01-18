@@ -1,3 +1,4 @@
+from email.policy import default
 import numpy as np
 import glob # usefull for listing all files of a type in a directory
 import os
@@ -10,9 +11,17 @@ from matplotlib import image
 import scipy.ndimage as ndimage
 import seaborn as sns
 import pandas as pd
+import argparse
+
+def parsing():
+    parser = argparse.ArgumentParser(description='Create quantitative and qualitative plots for user.') # create parser object
+    parser.add_argument('--config', type=str, action='store', help='config yaml', default='get_plots_config.yaml') # store userID
+    args = parser.parse_args()
+    return args
 
 class plotter():
     def __init__(self):
+        self.args = parsing()
         self.dir_path = os.path.dirname(os.path.abspath(__file__)) # get path for current file, does not work if os.chdir() was used
         self.data_dir = os.path.dirname(self.dir_path) + "/02_evaluation" # parent_directory_path + directory name where csv files are located
         self.now = time.strftime("%y-%m-%d_%H:%M:%S")
@@ -28,7 +37,7 @@ class plotter():
 
 ### load data ###
     def read_config(self):
-        with open(self.dir_path+"/get_plots_config.yaml") as file:
+        with open(self.dir_path+"/"+self.args.config) as file:
             self.config = yaml.safe_load(file)
 
     def grab_data(self): # move data.json from 02_evaluation into 03_plotting/data
