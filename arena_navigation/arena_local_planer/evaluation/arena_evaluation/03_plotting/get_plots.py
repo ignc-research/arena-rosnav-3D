@@ -237,6 +237,9 @@ class plotter():
                     # plot legend, title, axes labels
                     if self.config["plot_qualitative_legend"]:
                         plt.legend(loc=self.config["plot_qualitative_legend_location"])
+                    else:
+                        plt.legend(loc=self.config["plot_qualitative_legend_location"])
+                        ax.get_legend().remove()
                     if self.config["plot_qualitative_title"]:
                         if obstacle_number == "base_obstacle_number" and velocity == "base_velocity":
                             plt.title("Map: {0}".format(map), fontsize = self.config["plot_qualitative_title_size"], fontweight = "bold")
@@ -360,6 +363,9 @@ class plotter():
                             ax = sns.barplot(x = "Planners", y = "Success", color = self.config["plot_success_success_color"], label = "Success", saturation = self.config["plot_success_alpha"], data=data_success)
                             if self.config["plot_quantitative_legend"]:
                                 ax.legend(loc=self.config["plot_quantitative_legend_location"])
+                            else:
+                                ax.legend(loc=self.config["plot_quantitative_legend_location"])
+                                ax.get_legend().remove()
                             ax.set_xlabel(self.config["plot_quantitative_labels"]["planner"], fontsize = self.config["plot_quantitative_axes_label_size"])
                             ax.set_ylabel(self.config["plot_quantitative_labels"][metric], fontsize = self.config["plot_quantitative_axes_label_size"])
                         else:
@@ -444,7 +450,9 @@ class plotter():
                         ax.set_ylabel(self.config["plot_quantitative_labels"][metric], fontsize = self.config["plot_quantitative_axes_label_size"])
                         if self.config["plot_quantitative_legend"]:
                             ax.legend(loc=self.config["plot_quantitative_legend_location"])
-
+                        else:
+                            ax.legend(loc=self.config["plot_quantitative_legend_location"])
+                            ax.get_legend().remove()
                     else:
                         if self.config["plot_quantitative_violin"]:
                             ax.zorder = 5
@@ -452,7 +460,10 @@ class plotter():
                             ax.set_xlabel(self.config["plot_quantitative_labels"]["obstacle_number"], fontsize = self.config["plot_quantitative_axes_label_size"])
                             ax.set_ylabel(self.config["plot_quantitative_labels"][metric], fontsize = self.config["plot_quantitative_axes_label_size"])
                             if self.config["plot_quantitative_legend"]:
-                                ax.legend(loc=self.config["plot_quantitative_legend_location"])                              
+                                ax.legend(loc=self.config["plot_quantitative_legend_location"])    
+                            else:
+                                ax.legend(loc=self.config["plot_quantitative_legend_location"])
+                                ax.get_legend().remove()                          
                         else:
                             if not self.config["plot_barplot_errorbars"]:
                                 ci = None
@@ -463,7 +474,10 @@ class plotter():
                             ax.set_xlabel(self.config["plot_quantitative_labels"]["obstacle_number"], fontsize = self.config["plot_quantitative_axes_label_size"])
                             ax.set_ylabel(self.config["plot_quantitative_labels"][metric], fontsize = self.config["plot_quantitative_axes_label_size"])
                             if self.config["plot_quantitative_legend"]:
-                                ax.legend(loc=self.config["plot_quantitative_legend_location"])                            
+                                ax.legend(loc=self.config["plot_quantitative_legend_location"])
+                            else:
+                                ax.legend(loc=self.config["plot_quantitative_legend_location"])
+                                ax.get_legend().remove()                        
 
                     # title 
                     if self.config["plot_quantitative_suptitle"]:

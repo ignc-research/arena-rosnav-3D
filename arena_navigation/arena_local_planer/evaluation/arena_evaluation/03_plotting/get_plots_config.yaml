@@ -57,11 +57,11 @@ plot_progression: false
 plot_qualitative: true
 plot_qualitative_axes: true
 plot_qualitative_axes_size: 8
-plot_qualitative_legend: true
+plot_qualitative_legend: false
 plot_qualitative_legend_location: upper left
 plot_qualitative_title: true
 plot_qualitative_title_size: 16
-plot_quantitative: false
+plot_quantitative: true
 plot_quantitative_axes_label_size: 12
 plot_quantitative_axes_tick_size: 10
 plot_quantitative_labels:
@@ -82,7 +82,7 @@ plot_quantitative_labels:
   roughness: Path Roughness
   success: Success Rate
   time: Time Traveled in [s]
-plot_quantitative_legend: true
+plot_quantitative_legend: false
 plot_quantitative_legend_location: upper left
 plot_quantitative_suptitle: true
 plot_quantitative_suptitle_size: 16
