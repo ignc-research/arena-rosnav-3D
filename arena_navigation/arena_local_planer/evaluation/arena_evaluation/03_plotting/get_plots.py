@@ -503,7 +503,75 @@ class plotter():
 
 ### latex table ###
     def get_latex_table(self):
-        pass
+        ### iteration part ###
+        data = pd.DataFrame() # concat all summary_df of the planners into one and save planner in column
+        for map in self.maps:
+            map_keys = [] # list of keys with current map
+            for key in self.keys:
+                if self.data[key]["map"] == map:
+                    map_keys.append(key) # append key if map matches current map
+            for velocity in self.velocities:
+                vel_keys = [] # list of keys with current velocity
+                for key in map_keys:
+                    if self.data[key]["velocity"] == velocity:
+                        vel_keys.append(key) # append key if velocity matches current velocity
+                for obstacle_number in self.obstacle_numbers:
+                    obs_keys = [] # list of keys with the current obstacle number
+                    for key in sorted(vel_keys):
+                        if self.data[key]["obstacle_number"] == obstacle_number:
+                            obs_keys.append(key) # append key if obstacle_number matches current obstacle_number
+                            dat = pd.DataFrame(self.data[key]["summary_df"]) # concat the summary_df of that key (planner)
+                            len_dat = len(dat.index)
+                            dat["success"] = [list(dat["done_reason"]).count("goal_reached")/len_dat]*len_dat
+                            dat["planner"] = self.config["labels"][self.data[key]["planner"]]
+                            dat["obs"] = self.data[key]["obstacle_number"].replace("obs","")
+                            dat["map"] = map
+                            data = pd.concat([data,dat[["time","path_length","success","collision","jerk","map","planner","obs"]]])
+        data = data.groupby(["map","planner","obs"]).mean()
+        data_map_average = data.groupby(level=["planner","obs"]).mean()
+        data_map_average_obs_overage = data.groupby(level=["planner"]).mean()
+        data_obs_average = data.groupby(level=["map","planner"]).mean()
+        maps_list = self.maps
+        planner_list = [self.config["labels"][x] for x in self.planners]
+        obs_list = ["05","10","20","avg"]
+        for map in maps_list:
+            for planner in planner_list:
+                data.loc[map,planner,"avg"] = data_obs_average.loc[map,planner]
+        for planner in planner_list:
+            data_map_average.loc[(planner,"avg"),:] = data_map_average_obs_overage.loc[planner]
+        data = data.sort_index()
+        data = data.rename({"time":"Time","path_length":"Path Length","success":"Success Rate","collision":"Collisions","jerk":"Movement Jerk"}, axis=1)
+        data_map_average = data_map_average.sort_index()
+        data_map_average = data_map_average.rename({"time":"Time","path_length":"Path Length","success":"Success Rate","collision":"Collisions","jerk":"Movement Jerk"}, axis=1)
+        cols = ["Time","Path Length","Success Rate","Collisions","Movement Jerk"]
+        data_minimal = pd.DataFrame(index=data_obs_average.index, columns=cols,)
+        for map in maps_list:
+            for planner in planner_list:
+                for col in cols:
+                    col_data = str()
+                    for obs in obs_list:
+                        if obs == "05":
+                            col_data = str(np.round(data.loc[(map,planner,obs),col],2))
+                        else:
+                            col_data = col_data + "|" + str(np.round(data.loc[(map,planner,obs),col],2))
+                    data_minimal.loc[(map,planner),col] = col_data
+        data_map_average_minimal = pd.DataFrame(index=data_map_average_obs_overage.index, columns=cols,)
+        for planner in planner_list:
+            for col in cols:
+                col_data = str()
+                for obs in obs_list:
+                    if obs == "05":
+                        col_data = str(np.round(data_map_average.loc[(planner,obs),col],2))
+                    else:
+                        col_data = col_data + " | " + str(np.round(data_map_average.loc[(planner,obs),col],2))
+                data_map_average_minimal.loc[(planner),col] = col_data
+
+        table = {"map_data":data_minimal,"avg_data":data_map_average_minimal}
+        text_file = open(self.plot_dir+"/latex_table.txt", "w")
+        for t in table:
+            text_file.write("\nTable for: "+t+"\n")
+            text_file.write(table[t].to_latex())
+        text_file.close()
 ### end of block latex table ###
 
 # additional functions
