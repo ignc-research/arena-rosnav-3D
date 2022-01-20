@@ -107,6 +107,8 @@ python scripts/training/train_agent.py --agent MLP_ARENA2D
 - [How to create more world files](docs/Miscellaneous.md#How-to-create-more-world-files)
 - [How to speed-up gazebo simulation speed](docs/Miscellaneous.md#How-to-speed-up-gazebo-simulation-speed)
 - [How to include further scenarios](docs/Miscellaneous.md#How-to-include-further-scenarios)
+- [How to automate the scenario mode(for large scale benchmarking)](docs/Miscellaneous.md#how-to-automate-the-scenario-mode-for-large-scale-benchmarking)
+- [How to include further robots](docs/Miscellaneous.md#how-to-include-additional-robot-models)
 - [Link to project report](https://www.overleaf.com/9421739154ccngtqpdcvjj)
 
 # Used third party repos:
