@@ -143,7 +143,7 @@ roscd arena_bringup && cd launch
 python launch_arena.py --yaml_path PATH_TO_YOUR_CONFIG
 ```
 # How to include additional robot models
-> __NOTE__: Since every robot model works slightly differently it is not possible to provide here a comprehensive guide. We provide only some important steps, and tests to ensure your robot model is implemented properly.
+> __NOTE__: Since every robot model works differently it is not possible to provide here a comprehensive guide. We provide only some important steps, and tests to ensure your robot model is implemented properly.
 
 __General Tips:__
 
