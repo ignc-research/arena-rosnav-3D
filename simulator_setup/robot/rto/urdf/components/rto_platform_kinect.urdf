@@ -17,12 +17,12 @@
         <mesh filename="package://simulator_setup/robot/rto/meshes/parts/rto_base.dae" scale="0.01 0.01 0.01"/>
       </geometry>
     </visual>
-    <!-- <collision>
+    <collision>
       <origin rpy="0 0 0" xyz="0 0 0.025"/>
       <geometry>
         <cylinder length="0.05" radius="0.18"/>
       </geometry>
-    </collision> -->
+    </collision>
   </link>
   <gazebo reference="base_link">
     <material>Gazebo/White</material>
@@ -127,12 +127,12 @@
       <origin xyz="0 0 0"/>
       <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
     </inertial>
-    <!-- <collision>
+    <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
         <box size="0.25 0.11 0.16"/>
       </geometry>
-    </collision> -->
+    </collision>
   </link>
   <joint name="command_bridge_joint" type="fixed">
     <origin rpy="0 0 1.570795" xyz="-0.05 0 0.13"/>
@@ -214,12 +214,12 @@
       </geometry>
       <!-- <material name="${color}"/> -->
     </visual>
-    <!-- <collision>
+    <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
         <box size="0.064 0.121 0.0381"/>
       </geometry>
-    </collision> -->
+    </collision>
   </link>
   <gazebo reference="camera_link">
     <sensor name="camera" type="depth">

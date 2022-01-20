@@ -132,15 +132,15 @@ It is possible to run Gazebo faster than real time. The maximum simulation speed
 - To speed up the simulation time to the maximum capacity, go into the world file of the gazebo (for the small warehouse world this would be under `simulator_setup/worlds/small_warehouse/worlds`) and change the `real_time_update_rate` from `<real_time_update_rate>1000</real_time_update_rate>` to `<real_time_update_rate>0</real_time_update_rate>`. This will speed up your simulation and adjust all parameters. (If you want to increase the simulation by a certain factor, see [here](http://gazebosim.org/tutorials?tut=physics_params&cat=physics)). You can further increase the speed by running the simulation headless. To do this, follow the description [here](https://github.com/eliastreis/arena-rosnav-3D/blob/2ecc4640576fce3e39356f5dc806b7d1986ed493/arena_bringup/launch/sublaunch_testing/gazebo_simulator.launch#L17)).
 
 # How to automate the scenario mode (for large scale benchmarking)
-To running multiple scenario files (on multiple robots and planers), we provide the `launch_arena.py` file. This will automatically _roslaunch_ the scenario files and save the respective _.csv_ files. Use this as follows:
+For running multiple scenario files, (on different robots and planers), we provide the `launch_arena.py` file. This will automatically _roslaunch_ the scenario files and save the respective _.csv_ files. Use this as follows:
 
-1. create a _config.yaml_ in which you specify: _planer, robot, scenario, etc._. You can find an example config file [here](https://github.com/ignc-research/arena-rosnav-3D/blob/main/arena_bringup/launch/launch_configs/example_config.yaml). The script will later automatically launch: every unique combination of planer, robot and scenario. You can also turn of the visualization (to increase simulation speed, by setting Visualization to `False`)
+1. create a _config.yaml_ in which you specify: _planer, robot, scenario, etc._. You can find an example config file [here](https://github.com/ignc-research/arena-rosnav-3D/blob/main/arena_bringup/launch/launch_configs/example_config.yaml). The script will later automatically launch every unique combination of planer, robot and scenario. You can also turn of the visualization (to increase simulation speed, by setting Visualization to `False`)
 2. save the file under: `arena-rosnav-3D/arena_bringup/launch/{NAME-OF-YOUR-CONFIG}.yaml` and copy the path to the config
 3. [OPTIONAL:] Your might want to change further parameters since for example you want to active a different _virtual environement_ for certain planners. You can do this [here](https://github.com/ignc-research/arena-rosnav-3D/blob/main/arena_bringup/launch/launch_arena.py)
 4. Launch the file, by providing your PATH_TO_YOUR_CONFIG (from step 1) as argument:
 ```zsh
 roscd arena_bringup && cd launch
-python launch_arena.py --yaml_path PATH_TO_YOUR_CONFIG
+python launch_arena.py --yaml_path {PATH_TO_YOUR_CONFIG}
 ```
 # How to include additional robot models
 > __NOTE__: Since every robot model works slightly differently it is not possible to provide here a comprehensive guide. We provide only some important steps, and tests to ensure your robot model is implemented properly.
@@ -152,7 +152,7 @@ __General Tips:__
 
 __Implementation:__
 1. Gazebo uses the _.urdf_ format to define gazebo-robot model. Add the corresponding fils to: `simulator_setup/robot`.\
-__Note:__ The _.urdf_ model will sometimes read out files from other (support) packages / files. Make sure to update these paths accordingly.
+__Note:__ The _.urdf_ model will sometimes read out files from other (support) packages / files. Make sure to update these paths accordingly by looking at all appearances of `package://` and `$(find ` in your newly added files.
 2. Since some robot models require extra packages for example to map the laser scan data. You should make sure to include them im the `start_arena_gazebo.launch` file ([here](https://github.com/ignc-research/arena-rosnav-3D/blob/main/arena_bringup/launch/start_arena_gazebo.launch)). You can use the *group_by* parameter to only activate the node in the case of your robot model. See for example [here](https://github.com/eliastreis/arena-rosnav-3D/blob/93ae3a306b45da68a3d26a941f3235524e94cbea/arena_bringup/launch/start_arena_gazebo.launch#L98).\
 __Note:__ To check weather your robot is implemented correctly, make sure a laser scan topic is published under the name `scan`. Run: 
     ```bash

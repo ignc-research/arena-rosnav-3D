@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <robot name="sensor_asus_xtion_pro" xmlns:xacro="http://ros.org/wiki/xacro">
-  <xacro:include filename="$(find rto_description)/urdf/sensors/3dsensor_gazebo.urdf.xacro"/>
+  <xacro:include filename="$(find simulator_setup)/robot/rto/urdf/sensors/3dsensor_gazebo.urdf.xacro"/>
   <xacro:property name="M_SCALE2" value="0.001"/>
   <xacro:property name="asus_xtion_pro_depth_rel_rgb_py" value="0.0270" />
   <xacro:property name="asus_xtion_pro_cam_rel_rgb_py"   value="-0.0220" />
