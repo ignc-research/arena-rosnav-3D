@@ -1,0 +1,17 @@
+local_planner:
+ - teb
+ - dwa
+ - mpc
+model:
+ - turtlebot3_burger
+ - jackal
+ - ridgeback
+ - agv-ota
+ - rto
+scenarios: # TIP: you can get this by running ' echo "$(ls)" ' in your scenario folder 
+ - small_warehouse.json
+ - small_warehouse_obs05.json
+ - small_warehouse_obs10.json
+ - small_warehouse_obs20.json
+Visualization: False
+# This would test 3 planers on 5 robot models in 4 different scenarios (therefore running each scenario 15 times)

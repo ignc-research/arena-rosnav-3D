@@ -369,7 +369,13 @@ class ScenarioTask(ABSTask):
                     "max_repeats_curr_scene"
                 ] = 1000  # TODO: implement max number of repeats for scenario
             return info
+            
         else:
+            # communicates to launch_arena (if used) the end of the simulation
+            self.pub = rospy.Publisher('End_of_scenario', Bool, queue_size=10)
+            self.end_msg = Bool()
+            self.end_msg.data = True
+            self.pub.publish(self.end_msg)
             return "End"
 
 
@@ -410,6 +416,12 @@ def get_predefined_task(ns, mode="random", start_stage=1, PATHS=None):
         task = ScenarioTask(
             pedsim_manager, obstacle_manager, robot_manager, PATHS["scenario"]
         )
+    if mode == "scenario_staged":
+        rospy.set_param("/task_mode", "scenario_staged")
+        task = ScenarioTask(
+            pedsim_manager, obstacle_manager, robot_manager, PATHS["scenario"]
+        )
+
     if mode == "manual":
         rospy.set_param("/task_mode", "manual")
         task = ManualTask(pedsim_manager, obstacle_manager, robot_manager)

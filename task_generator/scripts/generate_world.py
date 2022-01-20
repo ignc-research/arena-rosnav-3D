@@ -153,7 +153,7 @@ def add_actor_element_box(j, agent):
 
 
 # In the scenario case we use the gazebo-actor concept to move our dynamic obstacles, therefore we need to script the actors trajectories in the .wold file
-if mode == "scenario":
+if mode in ["scenario", "scenario_staged"]:
 
     # loading scenario data
     if not debug:
