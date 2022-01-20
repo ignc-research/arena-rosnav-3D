@@ -152,9 +152,15 @@ __General Tips:__
 
 __Implementation:__
 1. Gazebo uses the _.urdf_ format to define gazebo-robot model. Add the corresponding fils to: `simulator_setup/robot`.\
+<<<<<<< HEAD
 __Note:__ The _.urdf_ model will sometimes read out files from other (support) packages / files. Make sure to update these paths accordingly.
 2. Since some robot models require extra packages for example to map the laser scan data. You should make sure to include them im the `start_arena_gazebo.launch` file ([here](https://github.com/ignc-research/arena-rosnav-3D/blob/main/arena_bringup/launch/start_arena_gazebo.launch)). You can use the *group_by* parameter to only activate the node in the case of your robot model. See for example [here](https://github.com/eliastreis/arena-rosnav-3D/blob/93ae3a306b45da68a3d26a941f3235524e94cbea/arena_bringup/launch/start_arena_gazebo.launch#L98).\
 __NOTE:__ To check weather your robot is implemented correctly, make sure a laser scan topic is published under the name `scan`. Run: 
+=======
+__Note:__ The _.urdf_ model will at time read out files from other (support) packages / files. Make sure to update these paths accordingly.
+2. Since some robot models require extra packages for example to map the laser scan data. You should make sure to include them im the `start_arena_gazebo.launch` file ([here](main/arena_bringup/launch/start_arena_gazebo.launch)). You can use the *group_by* parameter to only activate the node in the case of your robot model. See for example [here](https://github.com/eliastreis/arena-rosnav-3D/blob/93ae3a306b45da68a3d26a941f3235524e94cbea/arena_bringup/launch/start_arena_gazebo.launch#L98).\
+__NOTE:__ To check weather your robot is implemented correctly, make sure a laser scan topic is under the name `scan` is published. Run: 
+>>>>>>> 98c91445bca78130b00227762f7d307a67af473a
     ```bash
     rostopic echo scan
     ```
