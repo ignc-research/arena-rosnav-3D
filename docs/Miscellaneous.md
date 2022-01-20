@@ -148,7 +148,7 @@ python launch_arena.py --yaml_path PATH_TO_YOUR_CONFIG
 __General Tips:__
 
 ❗Make sure your: `YOUR_ROBOT_NAME` stays consistent with every use\
-❗Use an underscore multi-word robot names, like: `robot_name`
+❗Use an underscore for multi-word robot names, like: `robot_name`
 
 __Implementation:__
 1. Gazebo uses the _.urdf_ format to define gazebo-robot model (the robot mesh file etc.). Add the corresponding fils to: `simulator_setup/robot`.\
