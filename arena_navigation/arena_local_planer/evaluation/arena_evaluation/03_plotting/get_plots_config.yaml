@@ -53,20 +53,20 @@ plot_barplot_errorcolor: black
 plot_barplot_width: 0.5
 plot_collision_zones: true
 plot_collisions: true
-plot_obs_in_one: true
+plot_obs_in_one: false
 plot_progression: false
-plot_qualitative: true
+plot_qualitative: false
 plot_qualitative_axes: true
 plot_qualitative_axes_size: 16
-plot_qualitative_axes_ticks_size: 12
+plot_qualitative_axes_ticks_size: 16
 plot_qualitative_legend: false
 plot_qualitative_legend_fontsize: 12
 plot_qualitative_legend_location: upper left
 plot_qualitative_title: true
 plot_qualitative_title_size: 18
-plot_quantitative: true
+plot_quantitative: false
 plot_quantitative_axes_label_size: 16
-plot_quantitative_axes_tick_size: 12
+plot_quantitative_axes_tick_size: 16
 plot_quantitative_labels:
   angle_over_length: Angle over Length
   collision: Collisions
