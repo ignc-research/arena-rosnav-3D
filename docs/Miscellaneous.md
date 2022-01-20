@@ -161,10 +161,10 @@ __NOTE:__ To check weather your robot is implemented correctly, make sure a lase
     If this is the case, check also weather *tf* is setup correctly, (by opening **rviz** > **Add** > **LaserScan** and writing into 'topic': `/scan`. (If your scan topic is published under some other name, change this to *scan* since, this is required by other arena-rosnav modules)
 
 3. If you want to use _classical_ planers (like _teb_, _dwa_ or _mpc_), you need to add their respective parameters, under:\
-`arena_navigation/arena_local_planer/model_based/conventional/config/YOUR_ROBOT_NAME`\
+`arena_navigation/arena_local_planer/model_based/conventional/config/{YOUR_ROBOT_NAME}`\
 You can also check the launch files of the respective planers like for example [here](https://github.com/ignc-research/arena-rosnav-3D/blob/main/arena_bringup/launch/sublaunch_testing/move_base/move_base_dwa.launch) to see the needed files. 
 4. Make sure to add also a parameter file (to be published to the parameter sever), under:\
-`arena_bringup/launch/sublaunch_testing/robot_params/YOUR_ROBOT_NAME_params.yaml`
+`arena_bringup/launch/sublaunch_testing/robot_params/{YOUR_ROBOT_NAME}_params.yaml`
     - The parameters: [*robot_action_rate, laser_update_rate, laser_min, laser_max, laser_range, laser_beams*] can (usually) be found in the _.urdf_ file(s) of the robot model. 
     - If the *radius* is not given you can approximate the max. radius for example by calculating it by the data given in the 'footprint' section of the `costmap_common_params.yaml` file.
     - The *speed* parameter can often be found on the website of the manufacturer, or in some additional config files.
