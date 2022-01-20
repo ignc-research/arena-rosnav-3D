@@ -134,9 +134,9 @@ It is possible to run Gazebo faster than real time. The maximum simulation speed
 # How to automate the scenario mode (for large scale benchmarking)
 To running multiple scenario files (on multiple robots and planers), we provide the `launch_arena.py` file. This will automatically _roslaunch_ the scenario files and save the respective _.csv_ files. Use this as follows:
 
-1. create a _config.yaml_ in which you specify: _planer, robot, scenario, etc._. You can find an example config file [here](arena_bringup/launch/launch_configs/example_config.yaml). The script will later automatically launch: every unique combination of planer, robot and scenario. You can also turn of the visualization (to increase simulation speed, by setting Visualization to `False`)
+1. create a _config.yaml_ in which you specify: _planer, robot, scenario, etc._. You can find an example config file [here](https://github.com/ignc-research/arena-rosnav-3D/blob/main/arena_bringup/launch/launch_configs/example_config.yaml). The script will later automatically launch: every unique combination of planer, robot and scenario. You can also turn of the visualization (to increase simulation speed, by setting Visualization to `False`)
 2. save the file under: `arena-rosnav-3D/arena_bringup/launch/{NAME-OF-YOUR-CONFIG}.yaml` and copy the path to the config
-3. [OPTIONAL:] Your might want to change further parameters since for example you want to active a different _virtual environement_ for certain planners. You can do this [here](arena_bringup/launch/launch_arena.py)
+3. [OPTIONAL:] Your might want to change further parameters since for example you want to active a different _virtual environement_ for certain planners. You can do this [here](https://github.com/ignc-research/arena-rosnav-3D/blob/main/arena_bringup/launch/launch_arena.py)
 4. Launch the file, by providing your PATH_TO_YOUR_CONFIG (from step 1) as argument:
 ```zsh
 roscd arena_bringup && cd launch
@@ -152,23 +152,23 @@ __General Tips:__
 
 __Implementation:__
 1. Gazebo uses the _.urdf_ format to define gazebo-robot model. Add the corresponding fils to: `simulator_setup/robot`.\
-__Note:__ The _.urdf_ model will at time read out files from other (support) packages / files. Make sure to update these paths accordingly.
-2. Since some robot models require extra packages for example to map the laser scan data. You should make sure to include them im the `start_arena_gazebo.launch` file ([here](arena_bringup/launch/start_arena_gazebo.launch)). You can use the *group_by* parameter to only activate the node in the case of your robot model. See for example [here](https://github.com/eliastreis/arena-rosnav-3D/blob/93ae3a306b45da68a3d26a941f3235524e94cbea/arena_bringup/launch/start_arena_gazebo.launch#L98).\
-__NOTE:__ To check weather your robot is implemented correctly, make sure a laser scan topic is under the name `scan` is published. Run: 
+__Note:__ The _.urdf_ model will sometimes read out files from other (support) packages / files. Make sure to update these paths accordingly.
+2. Since some robot models require extra packages for example to map the laser scan data. You should make sure to include them im the `start_arena_gazebo.launch` file ([here](https://github.com/ignc-research/arena-rosnav-3D/blob/main/arena_bringup/launch/start_arena_gazebo.launch)). You can use the *group_by* parameter to only activate the node in the case of your robot model. See for example [here](https://github.com/eliastreis/arena-rosnav-3D/blob/93ae3a306b45da68a3d26a941f3235524e94cbea/arena_bringup/launch/start_arena_gazebo.launch#L98).\
+__NOTE:__ To check weather your robot is implemented correctly, make sure a laser scan topic is published under the name `scan`. Run: 
     ```bash
     rostopic echo scan
     ```
-    If this is the case, check also weather tf is setup correctly, (by opening **rviz** > **Add** > **LaserScan** and writing into 'topic': `/scan`. (If your scan topic is published under some other name, change this to *scan* since, this is required by other arena-rosnav modules)
+    If this is the case, check also weather *tf* is setup correctly, (by opening **rviz** > **Add** > **LaserScan** and writing into 'topic': `/scan`. (If your scan topic is published under some other name, change this to *scan* since, this is required by other arena-rosnav modules)
 
 3. If you want to use _classical_ planers (like _teb_, _dwa_ or _mpc_), you need to add their respective parameters, under:\
 `arena_navigation/arena_local_planer/model_based/conventional/config/YOUR_ROBOT_NAME`\
-You can also check the launch files of the respective planers like for example [here](arena_bringup/launch/sublaunch_testing/move_base/move_base_dwa.launch) to see the needed files. 
+You can also check the launch files of the respective planers like for example [here](https://github.com/ignc-research/arena-rosnav-3D/blob/main/arena_bringup/launch/sublaunch_testing/move_base/move_base_dwa.launch) to see the needed files. 
 4. Make sure to add also a parameter file (to be published to the parameter sever), under:\
-`arena_bringup/launch/sublaunch_testing/robot_params/YOUR_ROBOT_NAME_params.yaml`\
+`arena_bringup/launch/sublaunch_testing/robot_params/YOUR_ROBOT_NAME_params.yaml`
     - The parameters: [*robot_action_rate, laser_update_rate, laser_min, laser_max, laser_range, laser_beams*] can (usually) be found in the _.urdf_ file(s) of the robot model. 
     - If the *radius* is not given you can approximate the max. radius for example by calculating it by the data given in the 'footprint' section of the `costmap_common_params.yaml` file.
     - The *speed* parameter can often be found on the website of the manufacturer, or in some additional config files.
     - The laser increment can be calculated by *(laser_max-laser_min)/laser_beams*
 5. If you want to use this robot for drl training you must also add the definition of the actionspace of the robot under:\
 `arena_navigation/arena_local_planer/learning_based/arena_local_planner_drl/configs`
-6. If you want to make your implementation publicly available, make sure to update the documentation [here](docs/Usage.md#robots)
+6. If you want to make your implementation publicly available, make sure to update the documentation [here](Usage.md#robots) and [here](https://github.com/ignc-research/arena-rosnav-3D#robots)
