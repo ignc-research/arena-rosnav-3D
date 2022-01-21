@@ -14,8 +14,8 @@
   <arg name="base_type_suffix" value="_omni" if="$(eval arg('base_type') == 'omni_base')"/>
 
   <!-- Joint trajectory and diff drive controllers -->
-  <rosparam command="load" file="$(find tiago_controller_configuration_gazebo)/config/mobile_base_controller$(arg base_type_suffix).yaml"/>
-  <include file="$(find tiago_controller_configuration_gazebo)/launch/tiago_controllers.launch">
+  <rosparam command="load" file="$(find simulator_setup)/robot/tiago/params/config/mobile_base_controller$(arg base_type_suffix).yaml"/>
+  <include file="$(find simulator_setup)/robot/tiago/params/launch/tiago_controllers.launch">
     <arg name="arm" value="$(arg arm)"/>
     <arg name="end_effector" value="$(arg end_effector)"/>
     <arg name="ft_sensor" value="$(arg ft_sensor)"/>
