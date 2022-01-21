@@ -56,7 +56,7 @@ For more information on how to use this feature please refer to [arena-tools](ht
 ---
 
 #### Robots
-We support four different robots. 
+We support different robots:
 |<img width="250" src="/img/robots/turtlebot3-burger.jpg">|<img width="250" src="/img/robots/jackal.jpg">|<img width="250"  src="/img/robots/ridgeback.jpg">|<img width="250" src="/img/robots/agv-ota.png">|
 |:--:       |              :--:|             :--:|          :--:| 
 | *turtlebot3_burger* | *jackal* | *ridgeback* | *agv-ota* |
@@ -79,7 +79,6 @@ All robots are equipped with a laser scanner. The robots differ in size, laser-r
 | *turtlebot3_waffle_pi*| 0.26  | 0.0  | 1.82  | 0.208 | False | 3.5  | False |
 | *Car-O-Bot4 (cob4)*   |  1.1 |  todo | todo | 0.36 | True |  todo | todo |
 
-rto  tiago  turtlebot3_burger  turtlebot3_waffle_pi
 For additional / more detailed information about each robot:
 
 + [See the parameters needed for the **Navigation stack**](https://github.com/eliastreis/arena-rosnav-3D/tree/main/arena_navigation/arena_local_planer/model_based/conventional/config)
