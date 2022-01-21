@@ -70,7 +70,7 @@
 
   <!-- The following included files set up definitions of parts of the robot body -->
   <!-- Base -->
-  <xacro:include filename="$(find ${base_type}_description)/urdf/base/base_sensors.urdf.xacro" />
+  <xacro:include filename="$(find simulator_setup)/robot/tiago/${base_type}_description/urdf/base/base_sensors.urdf.xacro" />
 
   <!-- Torso -->
   <xacro:include filename="$(find simulator_setup)/robot/tiago/urdf/torso/torso.urdf.xacro" />

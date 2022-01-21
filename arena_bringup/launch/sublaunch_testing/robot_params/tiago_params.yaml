@@ -1,0 +1,11 @@
+# From the tiago specs sheet: https://pal-robotics.com/wp-content/uploads/2021/11/TIAGo-Datasheet-2021.pdf
+radius: 0.27 # [m]
+speed: 1.5 # [m/s]
+robot_action_rate: 10 # TODO
+laser_update_rate: 10 # TODO
+# the following 4 params are from the .gazebo.axro model
+laser_min: -2.35619 # angel # TODO
+laser_max: 2.35619 # angel # TODO
+laser_increment: 0.01 # TODO
+laser_range: 10.0 # depending on model: 5.6 m / 10 m / 25 m 
+laser_beams: 720 # TODO

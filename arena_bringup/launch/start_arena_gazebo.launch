@@ -62,7 +62,27 @@
   <param name="actor_height" value="1.03" if="$(eval arg('world') == 'arena_generated')"/>
   <param name="num_static_obs" value="$(arg num_static_obs)"/>
 
-  <param name="robot_description" command="$(find xacro)/xacro $(find simulator_setup)/robot/$(arg model)/urdf/$(arg model).urdf.xacro" />
+  <param name="robot_description" command="$(find xacro)/xacro $(find simulator_setup)/robot/$(arg model)/urdf/$(arg model).urdf.xacro"/>
+
+  <group if="$(eval arg('model') == 'dont use')">
+    <param name="robot_description"
+      command="rosrun xacro xacro --inorder
+      '$(find simulator_setup)/robot/tiago/urdf/tiago.urdf.xacro'
+      arm:='True'
+      wrist_model:='wrist-2017'
+      end_effector:='pal-hey5'
+      ft_sensor:='schunk-ft'
+      laser_model:='sick-571'
+      camera_model:='orbbec-astra'
+      no_safety_eps:='False'
+      base_type:='pmb2'
+      description_calibration_dir:'$(find simulator_setup)/robot/tiago/urdf/calibration'
+      extrinsic_calibration_dir:'$(find simulator_setup)/robot/tiago/urdf/calibration'
+      ''" />
+    <rosparam command="load" file="$(find simulator_setup)/robot/tiago/collision/collision_parameters.yaml" />
+  </group>
+
+  <include file="$(find simulator_setup)/robot/tiago/launch/tiago_gazebo.launch" if="$(eval arg('model') == 'dont use')"/>
 
   <!-- the velocity of randomly genelized obstacles  -->
   <arg name="obs_vel" default="0.3" />
