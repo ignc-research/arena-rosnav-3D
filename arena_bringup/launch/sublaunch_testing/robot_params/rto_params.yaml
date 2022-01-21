@@ -1,5 +1,5 @@
 # from https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&ved=2ahUKEwiR3emW1MP1AhWHqaQKHamUAfgQFnoECA4QAQ&url=https%3A%2F%2Fwww.festo-didactic.com%2Fdownload.php%3Fname%3DBrochure%2520-%2520Robotino%2520EN.pdf%26c_id%3D1100%26file%3Dbrochure_robotino_en.pdf&usg=AOvVaw25LBbAmpHcugrgwJ2M1K9y
-radius: 22.5 # [m]
+radius: 0.225 # [m]
 speed: 2.78 # [m/s]
 robot_action_rate: 10 # TODO
 laser_update_rate: 10 # TODO

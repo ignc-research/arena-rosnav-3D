@@ -1,5 +1,5 @@
 # from https://www.care-o-bot.de/content/dam/careobot/de/documents/technischedaten/Care-O-bot%204_Technische_Daten.pdf
-radius: 36 # [m] 
+radius: 0.36 # [m] 
 speed: 1.1 # [m/s]
 robot_action_rate: 10
 laser_update_rate: 10
