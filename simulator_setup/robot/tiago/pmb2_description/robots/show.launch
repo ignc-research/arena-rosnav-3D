@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <launch>
   <include file="$(find simulator_setup)/robot/tiago/pmb2_description/robots/upload.launch" pass_all_args="true">
   </include>

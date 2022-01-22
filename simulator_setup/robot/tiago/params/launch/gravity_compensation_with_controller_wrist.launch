@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <launch>
   <rosparam command="load" file="$(find simulator_setup)/robot/tiago/params/config/gravity_compensation_with_controller_wrist_controller.yaml" />
 

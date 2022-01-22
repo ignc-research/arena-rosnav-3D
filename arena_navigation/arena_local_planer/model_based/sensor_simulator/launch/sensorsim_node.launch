@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <launch>
     <!-- Launch neural net ros wrapper -->
     <arg name="use_task_manager" default="false"/>

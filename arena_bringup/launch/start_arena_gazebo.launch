@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <launch>
   <arg name="train_mode" default="false"/>
   <arg name="local_planner" default="dwa"         doc = "local_planner type [teb, dwa, mpc, rlca, cadrl, arena, rosnav]"/>
