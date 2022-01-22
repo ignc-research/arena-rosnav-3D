@@ -17,9 +17,9 @@
     </include>
 
     <include file="$(find simulator_setup)/robot/tiago/tiago_controller_configuration/launch/imu_controller.launch"/>
-    <group if="$(eval ft_sensor == 'schunk-ft')">
+    <!-- <group if="$(eval ft_sensor == 'schunk-ft')">
         <include file="$(find simulator_setup)/robot/tiago/tiago_controller_configuration/launch/force_torque_controller.launch"/>
-    </group>
+    </group> -->
     <!-- <group if="$(eval end_effector == 'pal-gripper')">
         <rosparam command="load" file="$(find simulator_setup)/robot/tiago/tiago_controller_configuration/config/pal-gripper_joint_trajectory_controllers.yaml" />
         <include file="$(find pal_gripper_controller_configuration_gazebo)/launch/gripper_controller.launch"/>

@@ -6,6 +6,6 @@ laser_update_rate: 10
 # the following 4 params are from the .gazebo.axro model
 laser_min: -1.5 #[rad] of one of the 3 lasers
 laser_max: 1.5  #[rad] of one of the 3 lasers
-laser_increment: 
+laser_increment: 0.0
 laser_range: 29.5 #[m] both following (assuming sick_s300) from https://github.com/ipa320/cob_common/blob/baa838a0a57a6f344148ca9067db3f1cb02fef47/cob_description/urdf/sensors/sick_s300_laser.gazebo.xacro#L20
 laser_beams: 541 
