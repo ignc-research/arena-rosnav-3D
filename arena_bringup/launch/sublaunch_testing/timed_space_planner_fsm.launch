@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <launch>
     <node pkg="arena_timespace_planner" name="time_space" type="time_space_planner_node" output="screen">
         <!-- plan fsm -->

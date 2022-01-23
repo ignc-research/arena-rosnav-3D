@@ -56,23 +56,28 @@ For more information on how to use this feature please refer to [arena-tools](ht
 ---
 
 #### Robots
-We support four different robots. 
+We support different robots:
 |<img width="250" src="/img/robots/turtlebot3-burger.jpg">|<img width="250" src="/img/robots/jackal.jpg">|<img width="250"  src="/img/robots/ridgeback.jpg">|<img width="250" src="/img/robots/agv-ota.png">|
 |:--:       |              :--:|             :--:|          :--:| 
 | *turtlebot3_burger* | *jackal* | *ridgeback* | *agv-ota* |
 
-
+|<img width="250" src="/img/robots/rto.jpg">|<img width="250" src="/img/robots/tiago.jpeg">|<img width="250"  src="/img/robots/turtlebot3_waffle_pi.jpg">|<img width="250" src="/img/robots/cob4.jpg">|
+|:--:       |              :--:|             :--:|          :--:| 
+| *Robotino(rto)* | *tiago* | *turtlebot3_waffle_pi* | *Car-O-Bot4 (cob4)* |
 
 All robots are equipped with a laser scanner. The robots differ in size, laser-range etc. See below table for more detailed information on each robot:
 
 
 | Name  | Max Speed (v_x) [_m/s_]  | Max Speed (v_y) [_m/s_]  | Max Rotational Speed (θ_y) [_rad/s_]  | Radius [_m_] | Emergency-Stop¹ | Laser-range [_m_] | Holonomic² |
 | :--- | :---:|  :---: |:---: |:---: |:---:|   :---:| :---:| 
-| *turtlebot3-burger* | 0.22 | 0.0  | 2.84  | 0.113 | False | 3.5  | False |
-| *jackal*            | 2.0  | 0.0  | 4.0  | 0.267 | False | 30.0 | False |
-| *ridgeback*         | 1.1  | 0.5  | 2.0  | 0.625 | False | 10.0 | True  |
-| *agv-ota*           | 0.5  | 0.0  | 0.4  | 0.629 | False | 5.0  | False |
-
+| *turtlebot3-burger*   | 0.22 | 0.0  | 2.84  | 0.113 | True | 3.5  | False |
+| *jackal*              | 2.0  | 0.0  | 4.0  | 0.267 | True | 30.0 | False |
+| *ridgeback*           | 1.1  | 0.5  | 2.0  | 0.625 | True | 10.0 | True  |
+| *agv-ota*             | 0.5  | 0.0  | 0.4  | 0.629 | True | 5.0  | False |
+| *rto*                 | 2.78  | todo  |  todo | 0.225 | todo | todo  | todo |
+| *tiago*               |  1.5 |  todo |  todo | 0.27 | todo | todo  | todo|
+| *turtlebot3_waffle_pi*| 0.26  | 0.0  | 1.82  | 0.208 | False | 3.5  | False |
+| *Car-O-Bot4 (cob4)*   |  1.1 |  todo | todo | 0.36 | True |  todo | todo |
 
 For additional / more detailed information about each robot:
 

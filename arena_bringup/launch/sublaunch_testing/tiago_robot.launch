@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+    <arg name="robot"  default="titanium"/>
+    <!-- <arg name="arm"  default="$(eval {'iron': False}.get(arg('robot'), True))"/> -->
+    <arg name="arm"  default="False"/>
+
+    <arg name="end_effector"  default="$(eval {'iron': 'false', 'steel': 'pal-gripper', 'titanium': 'pal-hey5'}.get(arg('robot'), 'pal-gripper'))"/>  
+    <arg name="ft_sensor"  default="$(eval {'titanium': 'schunk-ft'}.get(arg('robot'), 'false'))"/>
+    <arg name="laser_model"  default="sick-571"/>
+    <arg name="camera_model"  default="orbbec-astra"/>
+    <arg name="multi" default=""/>
+    <arg name="model_name" default="tiago"/>
+    <arg name="base_type" default="pmb2"/>
+    <arg name="file_suffix" value="$(eval ('no-arm' if not arm else end_effector+ ('' if not ft_sensor else '_'+ft_sensor)))"/>
+    <arg name="use_moveit_camera" default="false"/>
+    <arg name="base_type_suffix" default=""/>
+    <arg name="robot_namespace"         default=""/>
+    
+    <rosparam ns="pal_robot_info" subst_value="true">
+    type: "tiago"
+    end_effector: $(arg end_effector)
+    ft_sensor: $(arg ft_sensor)
+    laser_model: $(arg laser_model)
+    camera_model: $(arg camera_model)
+    base_type: $(arg base_type)
+    arm: $(arg arm)
+    </rosparam>
+    
+    <rosparam command="load" file="$(find simulator_setup)/robot/tiago/params/config/pids.yaml"/>
+    <rosparam command="load" file="$(find simulator_setup)/robot/tiago/params/config/hardware_gazebo/tiago_pal_hardware_gazebo_$(arg file_suffix).yaml"/>
+    <rosparam command="load" file="$(find simulator_setup)/robot/tiago/collision/collision_parameters.yaml" />
+
+    <!-- Joint trajectory and diff drive controllers -->
+    <rosparam command="load" file="$(find simulator_setup)/robot/tiago/params/config/mobile_base_controller$(arg base_type_suffix).yaml"/>
+    <include file="$(find simulator_setup)/robot/tiago/params/launch/tiago_controllers.launch">
+    <arg name="arm" value="$(arg arm)"/>
+    <arg name="end_effector" value="$(arg end_effector)"/>
+    <arg name="ft_sensor" value="$(arg ft_sensor)"/>
+    <arg name="laser_model" value="$(arg laser_model)"/>
+    <arg name="camera_model" value="$(arg camera_model)"/>
+    <arg name="use_moveit_camera" value="$(arg use_moveit_camera)"/>
+    <arg name="robot_namespace" value="$(arg robot_namespace)"/>
+    <arg name="base_type_suffix"  value="$(arg base_type_suffix)"/>
+    </include>
+
+    <!-- TF lookup -->
+    <!-- Mostly a tf transform streamer to avoid using a transformListener @All not sure if we need this TODO: CHECK-->
+    <node pkg="tf_lookup" type="tf_lookup" name="tf_lookup" output="screen"/>
+</launch>

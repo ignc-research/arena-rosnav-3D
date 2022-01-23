@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+    <arg name="model" default="turtlebot3_burger"/>
+    <!-- Robot specific parameter -->
+    <rosparam file="$(find arena_bringup)/launch/sublaunch_testing/robot_params/$(arg model)_params.yaml" />
+
+    <include file="$(find arena_bringup)/launch/sublaunch_testing/tiago_robot.launch" if="$(eval arg('model') == 'tiago')"/>
+
+    <!-- Launching additional nodes/scripts needed for jackal to work -->
+    <group if="$(eval arg('model') == 'jackal')">
+        <include file="$(find simulator_setup)/robot/jackal/launch/control.launch"/>
+    </group>
+
+    <!-- Launching additional nodes/scripts needed for agv-ota to work -->
+    <group if="$(eval arg('model') == 'agv-ota')">
+        <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
+        <node name="emergency_brake" pkg="task_generator" type="emergency_brake_node.py"/>
+    </group>
+
+    <!-- Launching additional nodes/scripts needed for ridgeback to work -->
+    <group if="$(eval arg('model') == 'ridgeback')">
+        <include file="$(find simulator_setup)/robot/ridgeback/control/launch/control.launch"/>
+    </group>
+
+
+    <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
+        <param name="publish_frequency" type="double" value="50.0" />
+    </node>
+
+</launch>

@@ -1,4 +1,4 @@
-<!-- Starts RVIZ to visualize the training -->
+<?xml version="1.0" encoding="UTF-8"?>
 <launch>
   <arg name="ns" default="sim_1"/>
   <arg name="rviz_file"       default="nav_LP"/>

@@ -66,19 +66,29 @@ For more information on how to use this feature please refer to [arena-tools](ht
 
 # Robots
 
-We support four different robots.
-|<img width="250" height="240" src="/img/robots/turtlebot3-burger.jpg">|<img width="250" height="240" src="/img/robots/jackal.jpg">|<img width="250" height="240" src="/img/robots/ridgeback.jpg">|<img width="250" height="240" src="/img/robots/agv-ota.png">|
-|:--: | :--:| :--:| :--:|
-| _turtlebot3-burger_ | _jackal_ | _ridgeback_ | _agv-ota_ |
+We support different robots:
+|<img width="250" src="/img/robots/turtlebot3-burger.jpg">|<img width="250" src="/img/robots/jackal.jpg">|<img width="250"  src="/img/robots/ridgeback.jpg">|<img width="250" src="/img/robots/agv-ota.png">|
+|:--:       |              :--:|             :--:|          :--:| 
+| *turtlebot3_burger* | *jackal* | *ridgeback* | *agv-ota* |
+
+|<img width="250" src="/img/robots/rto.jpg">|<img width="250" src="/img/robots/tiago.jpeg">|<img width="250"  src="/img/robots/turtlebot3_waffle_pi.jpg">|<img width="250" src="/img/robots/cob4.jpg">|
+|:--:       |              :--:|             :--:|          :--:| 
+| *Robotino(rto)* | *tiago* | *turtlebot3_waffle_pi* | *Car-O-Bot4 (cob4)* |
 
 All robots are equipped with a laser scanner. The robots differ in size, laser-range etc. See below table for more detailed information on each robot:
 
-| Name                | Max Speed (v*x) [\_m/s*] | Max Speed (v*y) [\_m/s*] | Max Rotational Speed (θ*y) [\_rad/s*] | Radius [_m_] | Emergency-Stop¹ | Laser-range [_m_] | Holonomic² |
-| :------------------ | :----------------------: | :----------------------: | :-----------------------------------: | :----------: | :-------------: | :---------------: | :--------: |
-| _turtlebot3-burger_ |           0.22           |           0.0            |                 2.84                  |    0.113     |      False      |        3.5        |   False    |
-| _jackal_            |           2.0            |           0.0            |                  4.0                  |    0.267     |      False      |       30.0        |   False    |
-| _ridgeback_         |           1.1            |           0.5            |                  2.0                  |    0.625     |      False      |       10.0        |    True    |
-| _agv-ota_           |           0.5            |           0.0            |                  0.4                  |    0.629     |      False      |        5.0        |   False    |
+
+| Name  | Max Speed (v_x) [_m/s_]  | Max Speed (v_y) [_m/s_]  | Max Rotational Speed (θ_y) [_rad/s_]  | Radius [_m_] | Emergency-Stop¹ | Laser-range [_m_] | Holonomic² |
+| :--- | :---:|  :---: |:---: |:---: |:---:|   :---:| :---:| 
+| *turtlebot3-burger*   | 0.22 | 0.0  | 2.84  | 0.113 | True | 3.5  | False |
+| *jackal*              | 2.0  | 0.0  | 4.0  | 0.267 | True | 30.0 | False |
+| *ridgeback*           | 1.1  | 0.5  | 2.0  | 0.625 | True | 10.0 | True  |
+| *agv-ota*             | 0.5  | 0.0  | 0.4  | 0.629 | True | 5.0  | False |
+| *rto³*                 | 2.78  | todo  |  todo | 0.225 | todo | todo  | todo |
+| *tiago*               |  1.5 |  todo |  todo | 0.27 | todo | todo  | todo|
+| *turtlebot3_waffle_pi*| 0.26  | 0.0  | 1.82  | 0.208 | False | 3.5  | False |
+| *Car-O-Bot4 (cob4)³*   |  1.1 |  todo | todo | 0.36 | True |  todo | todo |
+
 
 For additional / more detailed information about each robot:
 
@@ -95,22 +105,19 @@ To select a robot model for your simulation run (in this case _ridgeback_):
 roslaunch arena_bringup start_arena_gazebo.launch model:=ridgeback
 ```
 
-To use the local planer `cadrl` refer to the documentation [here](/docs/Installation.md#cadrl)
-
-The rosnav planner hereby is our DRL agent. To extend the training and depoyment package(s) please refer to the [DRL_Pipeline.md](/docs/Miscellaneous.md#How-to-include-further-scenarios).
-
-# Robots
-We support four different robots. 
-|<img width="250" height="240" src="/img/robots/turtlebot3-burger.jpg">|<img width="250" height="240" src="/img/robots/jackal.jpg">|<img width="250" height="240" src="/img/robots/ridgeback.jpg">|<img width="250" height="240" src="/img/robots/agv-ota.png">|
-|:--:       |              :--:|             :--:|          :--:| 
-| *turtlebot3-burger* | *jackal* | *ridgeback* | *agv-ota* |
-
 
 ¹ _Stops moving when an object has been detected in the safety zone of the robot_
 
 ² _For *non-holonomic* robots `vel_y = 0`; they are not able to drive directly to their left or right, but have to drive on a circular trajectory to their reach navigation goal_
 
+³ _We only use the navigation platform of these robots_
+
 ---
+
+# Navigation
+To use the local planer `cadrl` refer to the documentation [here](/docs/Installation.md#cadrl)
+
+The rosnav planner hereby is our DRL agent. To extend the training and depoyment package(s) please refer to the [DRL_Pipeline.md](/docs/Miscellaneous.md#How-to-include-further-scenarios).
 
 # Parameters
 
@@ -124,7 +131,7 @@ We support four different robots.
 | Name                  | Type                                                | Default           | Description                                                                                                                                                                         |
 | --------------------- | --------------------------------------------------- | ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | network_type          | rosnav \| navrep \| guldenring                      | rosnav            | This is mainly needed to pick the right encoder. You can find a detailed documentation of how to add a new encoder and what this parameter exactly means [here](#TODO)              |
-| trainings_environment | rosnav \| navrep \| guldenring                      | rosnav            | Indicates in which trainings environment the model you want to test has been trained. For all inputs except _rosnav_ the drl node is not started automatically.                     |
+| trainings_environment | rosnav \| navrep \| guldenring                      | rosnav            | Indicates in which trainings environment the model you want to test has been trained. For all inputs except _rosnav_ the drl node is not started automatically.                    |
 | agent_name            | string                                              | tb3               | Must exactly match the name of your model file. The model file needs to be in a directory named like the trainings_environment. More on this [here](#TODO)                          |
 | model                 | turtlebot3_burger \| jackal \| ridgeback \| agv-ota | turtlebot3_burger | All roboter models we provide. Each roboter model has different velocities and scan sizes. Therefore, it is crucial that the model parameter matches the roboter your model is for. |
 

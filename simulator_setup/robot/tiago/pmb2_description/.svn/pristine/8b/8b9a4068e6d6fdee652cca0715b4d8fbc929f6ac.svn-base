@@ -1,0 +1,9 @@
+<launch>
+  <include file="$(find pmb2_description)/robots/upload.launch" pass_all_args="true">
+  </include>
+
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" args="_use_gui:=True" />
+
+  <node name="rviz" pkg="rviz" type="rviz"/>
+</launch>

@@ -1,18 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <launch>
-  <!-- simulator arguments-->
   <arg name="train_mode" default="false"/>
   <arg name="local_planner" default="dwa"         doc = "local_planner type [teb, dwa, mpc, rlca, cadrl, arena, rosnav]"/>
-  <!--rlca are implemented but msg type not yet adjusted from 2D; dwa has a file missing (see project_task)-->
   <arg name="rviz_file" default="nav_LP"/>
   <arg name="disable_scenario" default="false"/>
   <arg name="reset" default="true"/>
   <arg name="enable_pedsim" default="true"/>
   <arg name="enable_pedvis" default="true"/>
   <arg name="outside" default="false"/>
-
   <arg name="network_type" default="rosnav" doc="Model type that is used. Will determine the observation and action space. Currently only rosnav is supported" />
   <arg name="trainings_environment" default="rosnav" doc="Determines the environment in which the network is trained. How to load the network mostly differs for different environments. Currently rosnav and navrep are supported" />
-  
   <arg name="world" default="small_warehouse" doc ="world type [turtlebot3_house, small_warehouse, aws_house, outside, ignc_lab]" unless="$(arg outside)"/>
   <arg name="world" default="outside" if = "$(arg outside)"/>
   <arg name="model" default="turtlebot3_burger"      doc = "model type [turtlebot3_burger, jackal, ridgeback, agv-ota, rto, tiago, turtlebot3_waffle_pi]"/>
@@ -23,12 +20,10 @@
   <arg name="update_rate" default="250"/>
   <arg name="show_viz" default="true"/>
   <arg name="viz_pub_rate" default="30" />
-
   <!-- With ot without Gazebo Visualization, without viz, use_rviz=false, headless:=true, gui:=false-->
   <arg name="use_rviz" default="true"/>
   <arg name="headless" default="false"/>
   <arg name="gui" default="true"/>  
-
   <arg name="map_path" default="$(find simulator_setup)/maps/$(arg world)/map.yaml" />
   <arg name="task_mode" default="scenario" doc="task_mode type [scenario, random, manual, staged]"/>
   <arg name="actors" default="4" unless="$(arg train_mode)" />
@@ -38,7 +33,15 @@
   <arg name="add_map_path" default=""/>
   <arg name="additional_map" default="false"/>
   <arg name="waypoint_generator"   default="classic"/>
-
+  <arg name="obs_vel" default="0.3" />
+  <arg name="action_frequency" default="5"/>
+  <arg name="global_frame_id" value="map"/>
+  <arg name="odom_frame_id" value="odom"/>
+  <arg name="base_frame_id" value="base_footprint"/>
+  <arg name="odom_ground_truth" default="/odometry/ground_truth"/>
+  <arg name="simulation_factor" default="1"/>
+  <arg name="pedsim_update_rate" default="30.0"/>
+  <arg name="scene_file" default="$(find simulator_setup)/scenarios/ped_scenarios/$(arg world).xml"/>
 
   <param name="additional_map" value="$(arg additional_map)"/>
   <param name="local_planner" value="$(arg local_planner)"/>
@@ -46,12 +49,10 @@
   <param name="use_sim_time" value="true"/>
   <param name="train_mode" value="$(arg train_mode)" />
   <param name="world" value="$(arg world)" />
-  
   <param name="model" value="$(arg model)" />
   <param name="agent_name" value="$(arg agent_name)" />
   <param name="trainings_environment" value="$(arg trainings_environment)" />
   <param name="network_type" value="$(arg network_type)" />
-
   <param name="update_rate" value="$(arg update_rate)" />
   <param name="step_size" value="$(arg step_size)" />
   <param name="show_viz" value="$(arg show_viz)"/>
@@ -61,27 +62,10 @@
   <param name="actor_height" value="$(arg actor_height)" unless="$(eval arg('world') == 'arena_generated')"/>
   <param name="actor_height" value="1.03" if="$(eval arg('world') == 'arena_generated')"/>
   <param name="num_static_obs" value="$(arg num_static_obs)"/>
-
-  <param name="robot_description" command="$(find xacro)/xacro $(find simulator_setup)/robot/$(arg model)/urdf/$(arg model).urdf.xacro" />
-
-  <!-- the velocity of randomly genelized obstacles  -->
-  <arg name="obs_vel" default="0.3" />
+  <param name="robot_description" command="$(find xacro)/xacro $(find simulator_setup)/robot/$(arg model)/urdf/$(arg model).urdf.xacro"/>
   <param name="obs_vel" value="$(arg obs_vel)" />
-
-  <!-- DRL action frequency -->
-  <arg name="action_frequency" default="5"/>
   <param name="action_frequency" value="$(arg action_frequency)"/>
 
-  <!-- Map parameters -->
-  <arg name="global_frame_id" value="map"/>
-  <arg name="odom_frame_id" value="odom"/>
-  <arg name="base_frame_id" value="base_footprint"/>
-  <arg name="odom_ground_truth" default="/odometry/ground_truth"/>
-
-  <!-- Robot specific parameter -->
-  <rosparam file="$(find arena_bringup)/launch/sublaunch_testing/robot_params/$(arg model)_params.yaml" />
-
-  <!-- This starts the world creation with dynamic actor models -->
   <!-- Adding actors to world  -->
   <group if="$(eval arg('train_mode') == false)">
     <node name="generate_world" pkg="task_generator" type="generate_world.py" if="$(arg enable_pedsim)">
@@ -91,26 +75,11 @@
     </node>
   </group>
 
-  <!-- Launching additional nodes/scripts needed for jackal to work -->
-  <group if="$(eval arg('model') == 'jackal')">
-    <include file="$(find simulator_setup)/robot/jackal/launch/control.launch"/>
-  </group>
+  <!-- Managing our Robots-->
+  <include file="$(find arena_bringup)/launch/sublaunch_testing/robots.launch">
+    <arg name="model" value="$(arg model)"/>
+  </include>
 
-  <!-- Launching additional nodes/scripts needed for agv-ota to work -->
-  <group if="$(eval arg('model') == 'agv-ota')">
-    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
-    <node name="emergency_brake" pkg="task_generator" type="emergency_brake_node.py"/>
-  </group>
-
-   <!-- Launching additional nodes/scripts needed for ridgeback to work -->
-   <group if="$(eval arg('model') == 'ridgeback')">
-    <include file="$(find simulator_setup)/robot/ridgeback/control/launch/control.launch"/>
-  </group>
-
-   <!-- Launching additional nodes/scripts needed for pepper to work -->
-   <group if="$(eval arg('model') == 'pepper')">
-    <include file="$(find simulator_setup)/robot/pepper/control/launch/control.launch"/>
-  </group>
 
   <!-- map server-->
   <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_path)">
@@ -140,9 +109,6 @@
     <arg name="gui" value="$(arg gui)"/> 
   </include>
 
-  <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
-    <param name="publish_frequency" type="double" value="50.0" />
-  </node>
 
   <!-- provide map to odom trasform once-->
   <include file="$(find arena_bringup)/launch/sublaunch_testing/fake_localization.launch">
@@ -185,10 +151,6 @@
   <include file="$(find arena_bringup)/launch/sublaunch_testing/intermediate_planner.launch"/>
 
   <!-- start Pedsim -->
-  <arg name="simulation_factor" default="1"/>
-  <arg name="pedsim_update_rate" default="30.0"/>
-  <arg name="scene_file" default="$(find simulator_setup)/scenarios/ped_scenarios/$(arg world).xml"/>
-
   <node name="pedsim_simulator" pkg="pedsim_simulator" type="pedsim_simulator" output="screen" if="$(arg enable_pedsim)">
     <param name="simulation_factor" value="$(arg simulation_factor)" type="double"/>
     <param name="pedsim_update_rate" value="$(arg pedsim_update_rate)" type="double"/>

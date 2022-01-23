@@ -17,7 +17,7 @@
 
   <!--File includes-->
   <xacro:include filename="$(find simulator_setup)/robot/tiago/urdf/deg_to_rad.xacro" />
-  <xacro:include filename="$(find hey5_description)/urdf/hey5_hand.urdf.xacro" />
+  <xacro:include filename="$(find simulator_setup)/robot/tiago/hey5_description/urdf/hey5_hand.urdf.xacro" />
 
   <!--
     Utiliy to create a tiago end effector (right or left).
