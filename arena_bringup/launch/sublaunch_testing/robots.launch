@@ -22,6 +22,8 @@
         <include file="$(find simulator_setup)/robot/ridgeback/control/launch/control.launch"/>
     </group>
 
+    <!-- For gring -->
+    <rosparam file="$(find arena_local_planner_drl)/rl_agent/gring_params/rl_params_$(arg model).yaml" command="load" ns="sim1"/>
 
     <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
         <param name="publish_frequency" type="double" value="50.0" />
