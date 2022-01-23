@@ -6,21 +6,11 @@
   <arg name="ft_sensor"/>
   <arg name="laser_model"/>
   <arg name="camera_model"/>
-  <arg name="use_moveit_camera" default="false"/>
   <arg name="robot_namespace" default=""/>
   <arg name="base_type_suffix" default=""/>
 
-  <include file="$(find simulator_setup)/robot/tiago/params/launch/default_controllers.launch">
-    <arg name="robot_namespace" value="$(arg robot_namespace)"/>
-    <arg name="arm" value="$(arg arm)"/>
-    <arg name="base_type_suffix" value="$(arg base_type_suffix)"/>
-  </include>
-
   <!-- load configuration -->
   <rosparam command="load" file="$(find imu_sensor_controller)/imu_sensor_controller.yaml" />
-
-  <!-- spawn controller -->
-  <node name="bringup_controllers_spawner_imu" pkg="controller_manager" type="spawner" output="screen" args="imu_sensor_controller" />
 
   <rosparam command="load" file="$(find simulator_setup)/robot/tiago/tiago_controller_configuration/config/joint_trajectory_controllers.yaml" />
   <rosparam command="load" file="$(find simulator_setup)/robot/tiago/tiago_controller_configuration/config/joint_state_controller_extra_joints$(arg base_type_suffix).yaml" ns="joint_state_controller"/>
@@ -36,19 +26,25 @@
               head_controller
               mobile_base_controller"/>
 
+  <!-- spawn controller -->
+  <node name="bringup_controllers_spawner_imu" pkg="controller_manager" type="spawner" output="screen" args="imu_sensor_controller" />
+
   <!-- Controllers that come up started -->
   <node name="default_controllers_spawner" pkg="controller_manager" type="spawner" output="screen" args="--timeout 120
              $(arg controller_list) " />
+             
+  <node name="odom_pub" pkg="task_generator" type="odom.py"/>
+  <node name="velocity_redirect" pkg="task_generator" type="trans.py"/>
 
-  <!-- Motion planning -->
-  <include file="$(find simulator_setup)/robot/tiago/tiago_moveit_config/launch/move_group.launch">
+  <!-- Motion planning @ELIAS uncomment -->
+  <!-- <include file="$(find simulator_setup)/robot/tiago/tiago_moveit_config/launch/move_group.launch">
     <arg name="arm" value="$(arg arm)"/>
     <arg name="end_effector" value="$(arg end_effector)"/>
     <arg name="ft_sensor" value="$(arg ft_sensor)"/>
     <arg name="laser_model" value="$(arg laser_model)"/>
     <arg name="camera_model" value="$(arg camera_model)"/>
-    <arg name="camera" value="$(arg use_moveit_camera)"/>
-  </include>
+  </include> -->
+
   <!-- <group if="$(eval ft_sensor == 'schunk-ft')">
         <include file="$(find simulator_setup)/robot/tiago/tiago_controller_configuration/launch/force_torque_controller.launch"/>
     </group> -->

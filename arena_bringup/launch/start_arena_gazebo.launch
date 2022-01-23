@@ -50,7 +50,7 @@
   <param name="train_mode" value="$(arg train_mode)" />
   <param name="world" value="$(arg world)" />
   <param name="model" value="$(arg model)" />
-  <param name="agent_name" value="$(arg agent_name)" />
+  <param name="agent_name" value="$(arg agent_name)" unless="$(eval arg('local_planner') != 'rosnav')"/>
   <param name="trainings_environment" value="$(arg trainings_environment)" />
   <param name="network_type" value="$(arg network_type)" />
   <param name="update_rate" value="$(arg update_rate)" />
