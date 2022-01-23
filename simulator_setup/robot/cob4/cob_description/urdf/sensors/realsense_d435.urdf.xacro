@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:include filename="$(find simulator_setup)/robot/cob4/cob_description/urdf/common.xacro" />
+  <xacro:include filename="$(find simulator_setup)/robot/cob4/cob_description/urdf/sensors/realsense_d435.gazebo.xacro" />
+
+  <xacro:macro name="realsense_d435" params="name parent *origin">
+
+    <joint name="${name}_mount_joint" type="fixed">
+      <xacro:insert_block name="origin" />
+      <parent link="${parent}"/>
+      <child link="${name}_mount_link"/>
+    </joint>
+
+    <link name="${name}_mount_link"/>
+    
+    <joint name="${name}_joint" type="fixed">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <parent link="${name}_mount_link"/>
+      <child link="${name}_link"/>
+    </joint>
+    
+    <link name="${name}_link">
+      <xacro:default_inertial/>
+      <visual>
+       <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://simulator_setup/robot/cob4/cob_description/meshes/sensors/realsense_d435.stl"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://simulator_setup/robot/cob4/cob_description/meshes/sensors/realsense_d435.stl"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <!-- extensions -->
+    <xacro:realsense_d435_gazebo name="${name}"/>
+  </xacro:macro>
+
+</robot>
+

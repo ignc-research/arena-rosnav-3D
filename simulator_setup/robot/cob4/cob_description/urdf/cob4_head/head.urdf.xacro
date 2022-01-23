@@ -1,0 +1,192 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:include filename="$(find simulator_setup)/robot/cob4/cob_description/urdf/common.xacro" />
+  <xacro:include filename="$(find simulator_setup)/robot/cob4/cob_description/urdf/cob4_head/head.gazebo.xacro"/>
+  <xacro:include filename="$(find simulator_setup)/robot/cob4/cob_description/urdf/cob4_head/head.transmission.xacro"/>
+
+  <!-- torso_2_joint is on the right side of the robot (different from CAD) -->
+  <xacro:macro name="head" params="parent name *origin dof1:=false dof2:=false dof3:=false">
+    <xacro:property name="origin_1_joint">
+      <origin xyz="0 0 0.0305" rpy="0 0 0"/>
+    </xacro:property>
+    <xacro:property name="origin_2_joint">
+      <origin xyz="0 -0.07725 0.00439" rpy="0.349 0 0"/>
+    </xacro:property>
+    <xacro:property name="origin_3_joint">
+      <origin xyz="0 0.09849 0.04476" rpy="-0.349 0 0"/>
+    </xacro:property>
+    <xacro:head_template name="${name}" parent="${parent}" dof1="${dof1}" dof2="${dof2}" dof3="${dof3}">
+      <xacro:insert_block name="origin"/>
+    </xacro:head_template>
+  </xacro:macro>
+
+  <!-- torso_2_joint is on the left side of the robot (same as in CAD) -->
+  <xacro:macro name="head_cad" params="parent name *origin dof1:=false dof2:=false dof3:=false">
+    <xacro:property name="origin_1_joint">
+      <origin xyz="0 0 0.0305" rpy="0 0 0"/>
+    </xacro:property>
+    <xacro:property name="origin_2_joint">
+      <origin xyz="0 0.07725 0.00439" rpy="0.349 0 ${M_PI}"/>
+    </xacro:property>
+    <xacro:property name="origin_3_joint">
+      <origin xyz="0 0.09849 0.04476" rpy="0.349 0 -${M_PI}"/>
+    </xacro:property>
+    <xacro:head_template name="${name}" parent="${parent}" dof1="${dof1}" dof2="${dof2}" dof3="${dof3}">
+      <xacro:insert_block name="origin"/>
+    </xacro:head_template>
+  </xacro:macro>
+
+
+
+  <!-- configurable template -->
+  <xacro:macro name="head_template" params="parent name *origin dof1:=false dof2:=false dof3:=false">
+
+    <joint name="${name}_base_joint" type="fixed">
+      <xacro:insert_block name="origin"/>
+      <child link="${name}_base_link"/>
+      <parent link="${parent}"/>
+    </joint>
+
+    <link name="${name}_base_link">
+      <xacro:default_inertial/>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.001 0.001 0.001"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.001 0.001 0.001"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <xacro:unless value="${dof1}">
+      <joint name="${name}_1_joint" type="fixed">
+        <xacro:insert_block name="origin_1_joint"/>
+        <parent link="${name}_base_link"/>
+        <child link="${name}_1_link"/>
+      </joint>
+    </xacro:unless>
+    <xacro:if value="${dof1}">
+      <joint name="${name}_1_joint" type="revolute">
+        <xacro:insert_block name="origin_1_joint"/>
+        <parent link="${name}_base_link"/>
+        <child link="${name}_1_link"/>
+        <axis xyz="0 0 1"/>
+        <limit effort="100" lower="-6.2831" upper="6.2831" velocity="1.4"/>
+      </joint>
+    </xacro:if>
+
+    <link name="${name}_1_link">
+      <xacro:default_inertial/>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.001 0.001 0.001"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.001 0.001 0.001"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <xacro:unless value="${dof2}">
+      <joint name="${name}_2_joint" type="fixed">
+        <xacro:insert_block name="origin_2_joint"/>
+        <parent link="${name}_1_link"/>
+        <child link="${name}_2_link"/>
+      </joint>
+    </xacro:unless>
+    <xacro:if value="${dof2}">
+      <joint name="${name}_2_joint" type="revolute">
+        <xacro:insert_block name="origin_2_joint"/>
+        <parent link="${name}_1_link"/>
+        <child link="${name}_2_link"/>
+        <axis xyz="0 0 1"/>
+        <limit effort="100" lower="-6.2831" upper="6.2831" velocity="1.4"/>
+      </joint>
+    </xacro:if>
+
+    <link name="${name}_2_link">
+      <xacro:default_inertial/>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.001 0.001 0.001"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.001 0.001 0.001"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <xacro:unless value="${dof3}">
+      <joint name="${name}_3_joint" type="fixed">
+        <xacro:insert_block name="origin_3_joint"/>
+        <parent link="${name}_2_link"/>
+        <child link="${name}_3_link"/>
+      </joint>
+    </xacro:unless>
+    <xacro:if value="${dof3}">
+      <joint name="${name}_3_joint" type="revolute">
+        <xacro:insert_block name="origin_3_joint"/>
+        <parent link="${name}_2_link"/>
+        <child link="${name}_3_link"/>
+        <axis xyz="0 0 1"/>
+        <limit effort="100" lower="-6.2831" upper="6.2831" velocity="1.4"/>
+      </joint>
+    </xacro:if>
+
+    <link name="${name}_3_link">
+      <xacro:default_inertial/>
+
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://simulator_setup/robot/cob4/cob_description/meshes/cob4_head/head_link.dae"/>
+        </geometry>
+      </visual>
+
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://simulator_setup/robot/cob4/cob_description/meshes/cob4_head/head_link_collision.stl"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="${name}_center_joint" type="fixed">
+      <origin xyz="0.0 0.0 -0.28247" rpy="0 0 0"/>
+      <parent link="${name}_3_link"/>
+      <child link="${name}_center_link"/>
+    </joint>
+
+    <link name="${name}_center_link"/>
+
+    <!-- extensions -->
+    <xacro:head_gazebo name="${name}"/>
+    <xacro:head_transmission name="${name}" dof1="${dof1}" dof2="${dof2}" dof3="${dof3}"/>
+
+    <!-- ros_control plugin -->
+    <xacro:if value="${(dof1 == True) or (dof2 == True) or (dof3 == True)}">
+      <gazebo>
+        <plugin name="${name}_ros_control" filename="libhwi_switch_gazebo_ros_control.so">
+          <robotNamespace>${name}</robotNamespace>
+          <filterJointsParam>joint_names</filterJointsParam>
+        </plugin>
+      </gazebo>
+    </xacro:if>
+
+  </xacro:macro>
+
+</robot>

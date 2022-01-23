@@ -17,12 +17,12 @@ class PedsimManager():
     def __init__(self):
         # spawn peds
         spawn_peds_service_name = "pedsim_simulator/spawn_peds"
-        rospy.wait_for_service(spawn_peds_service_name, 6.0)
+        # rospy.wait_for_service(spawn_peds_service_name, 6.0)
         self.spawn_peds_client = rospy.ServiceProxy(
             spawn_peds_service_name, SpawnPeds)
         # respawn peds
         respawn_peds_service_name = "pedsim_simulator/respawn_peds"
-        rospy.wait_for_service(respawn_peds_service_name, 6.0)
+        # rospy.wait_for_service(respawn_peds_service_name, 6.0)
         self.respawn_peds_client = rospy.ServiceProxy(
             respawn_peds_service_name, SpawnPeds)
         # spawn interactive obstacles
@@ -37,21 +37,21 @@ class PedsimManager():
         #     respawn_interactive_obstacles_service_name, SpawnInteractiveObstacles)
         # respawn interactive obstacles
         reset_all_peds_service_name = "pedsim_simulator/reset_all_peds"
-        rospy.wait_for_service(reset_all_peds_service_name, 6.0)
+        # rospy.wait_for_service(reset_all_peds_service_name, 6.0)
         self.reset_all_peds_client = rospy.ServiceProxy(
             reset_all_peds_service_name, Trigger)
         # remove all peds
         remove_all_peds = "/pedsim_simulator/remove_all_peds"
-        rospy.wait_for_service(remove_all_peds, 6.0)
+        # rospy.wait_for_service(remove_all_peds, 6.0)
         self.remove_all_peds_client = rospy.ServiceProxy(
             remove_all_peds, SetBool)
         # move all (dynamic) peds
         move_peds = '/pedsim_simulator/move_peds'
-        rospy.wait_for_service(remove_all_peds, 6.0)
+        # rospy.wait_for_service(remove_all_peds, 6.0)
         self.move_peds_client = rospy.ServiceProxy(move_peds, MovePeds)
         # spawn Object in pedsim
         spawn_obstacle = '/pedsim_simulator/add_obstacle'
-        rospy. wait_for_service(spawn_obstacle, 6.0)
+        # rospy. wait_for_service(spawn_obstacle, 6.0)
         self.spawn_obstacle = rospy.ServiceProxy(spawn_obstacle, SpawnObstacle)
         
         # TODO This is currenly not supported by pedsim from Elias

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+    <rosparam command="load" ns="/script_server/base" file="$(find cob_default_robot_config)/robot/cob4/base_configurations.yaml"/>
+</launch>

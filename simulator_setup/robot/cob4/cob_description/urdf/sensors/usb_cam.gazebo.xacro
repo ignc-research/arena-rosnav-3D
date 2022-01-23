@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- at 2048x1536 3.6hz is maximum on hw -->
+  <xacro:macro name="usb_cam_gazebo" params="name ros_topic update_rate:=3.5 height:=1536 width:=2048" >
+    <gazebo reference="${name}_link">
+
+    <sensor type="wideanglecamera" name="${name}">
+      <update_rate>${update_rate}</update_rate>
+      <camera name="${name}">
+        <horizontal_fov>${170.0*M_PI/180.0}</horizontal_fov>
+        <image>
+          <format>B8G8R8</format>
+          <width>${width}</width>
+          <height>${height}</height>
+        </image>
+        <clip>
+          <near>0.02</near>
+          <far>300</far>
+        </clip>
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.007</stddev>
+        </noise>
+        <lens>
+          <!-- type element is mandatory -->
+          <type>custom</type>
+          <!-- manually defined mapping function r = c1*f*fun(theta/c2 + c3) -->
+          <!-- More information here: https://en.wikipedia.org/wiki/Fisheye_lens#Mapping_function -->
+          <custom_function>
+            <c1>1.05</c1>
+            <!-- linear scaling -->
+            <c2>4</c2>
+            <!-- angle scaling -->
+            <f>1.0</f>
+            <!-- one more scaling parameter -->
+            <fun>tan</fun>
+            <!-- one of sin,tan,id -->
+          </custom_function>
+          <!-- if it is set to `true` your horizontal FOV will ramain as defined -->
+          <!-- othervise it depends on lens type and custom function, if there is one -->
+          <scale_to_hfov>true</scale_to_hfov>
+          <!-- clip everything that is outside of this angle -->
+          <cutoff_angle>${M_PI}</cutoff_angle>
+          <!-- resolution of the cubemap texture, the highter it is - the sharper is your image -->
+          <env_texture_size>512</env_texture_size>
+        </lens>
+      </camera>
+      <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+        <alwaysOn>true</alwaysOn>
+        <updateRate>${update_rate}</updateRate>
+        <cameraName>${ros_topic}</cameraName>
+        <imageTopicName>image_raw</imageTopicName>
+        <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+        <frameName>${name}_optical_frame</frameName>
+        <hackBaseline>0.07</hackBaseline>
+        <distortionK1>0.0</distortionK1>
+        <distortionK2>0.0</distortionK2>
+        <distortionK3>0.0</distortionK3>
+        <distortionT1>0.0</distortionT1>
+        <distortionT2>0.0</distortionT2>
+      </plugin>
+    </sensor>
+      <material>IPA/LightGrey</material>
+    </gazebo>
+  </xacro:macro>
+
+</robot>
+

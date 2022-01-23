@@ -15,7 +15,8 @@
   <arg name="model" default="turtlebot3_burger"      doc = "model type [turtlebot3_burger, jackal, ridgeback, agv-ota, rto, tiago, turtlebot3_waffle_pi]"/>
   <arg name="agent_name" default="$(arg model)"     doc = "DRL agent name to be deployed" unless="$(eval arg('local_planner') != 'rosnav')"/>
   <arg name="scenario_file" default="$(arg world).json"/>
-  <arg name="num_static_obs" default="3"/> <!-- Number of static obstacles in outside mode-->
+  <arg name="num_static_obs" default="3"/>
+  <!-- Number of static obstacles in outside mode-->
   <arg name="step_size" default="0.01"/>
   <arg name="update_rate" default="250"/>
   <arg name="show_viz" default="true"/>
@@ -23,16 +24,16 @@
   <!-- With ot without Gazebo Visualization, without viz, use_rviz=false, headless:=true, gui:=false-->
   <arg name="use_rviz" default="true"/>
   <arg name="headless" default="false"/>
-  <arg name="gui" default="true"/>  
+  <arg name="gui" default="true"/>
   <arg name="map_path" default="$(find simulator_setup)/maps/$(arg world)/map.yaml" />
   <arg name="task_mode" default="scenario" doc="task_mode type [scenario, random, manual, staged]"/>
   <arg name="actors" default="4" unless="$(arg train_mode)" />
   <arg name="actor_height" default="1.1"/>
   <arg name="use_recorder" default="false"/>
-  <arg name="record_only_planner"       default="true"/>
+  <arg name="record_only_planner" default="true"/>
   <arg name="add_map_path" default=""/>
   <arg name="additional_map" default="false"/>
-  <arg name="waypoint_generator"   default="classic"/>
+  <arg name="waypoint_generator" default="classic"/>
   <arg name="obs_vel" default="0.3" />
   <arg name="action_frequency" default="5"/>
   <arg name="global_frame_id" value="map"/>
@@ -94,19 +95,19 @@
   <!-- data recorder -->
   <group if="$(eval arg('use_recorder') == true)">
     <node pkg="arena_evaluation" name="data_recorder_node" type="data_recorder_node.py" />
-      <param name="local_planner"  value="$(arg local_planner)"/>
-      <param name="waypoint_generator"  value="$(arg waypoint_generator)"/>
-      <param name="record_only_planner"  value="$(arg record_only_planner)"/>
-      <param name="scenario_file"  value="$(arg scenario_file)"/>
-      <param name="model"  value="$(arg model)"/>
+    <param name="local_planner" value="$(arg local_planner)"/>
+    <param name="waypoint_generator" value="$(arg waypoint_generator)"/>
+    <param name="record_only_planner" value="$(arg record_only_planner)"/>
+    <param name="scenario_file" value="$(arg scenario_file)"/>
+    <param name="model" value="$(arg model)"/>
   </group>
 
   <!-- use simulator-->
   <include file="$(find arena_bringup)/launch/sublaunch_testing/gazebo_simulator.launch">
     <arg name="world" value="$(arg world)"/>
     <arg name="model" value="$(arg model)"/>
-    <arg name="headless" value="$(arg headless)"/> 
-    <arg name="gui" value="$(arg gui)"/> 
+    <arg name="headless" value="$(arg headless)"/>
+    <arg name="gui" value="$(arg gui)"/>
   </include>
 
 
@@ -150,14 +151,19 @@
   </include> -->
   <include file="$(find arena_bringup)/launch/sublaunch_testing/intermediate_planner.launch"/>
 
-  <!-- start Pedsim -->
-  <node name="pedsim_simulator" pkg="pedsim_simulator" type="pedsim_simulator" output="screen" if="$(arg enable_pedsim)">
-    <param name="simulation_factor" value="$(arg simulation_factor)" type="double"/>
-    <param name="pedsim_update_rate" value="$(arg pedsim_update_rate)" type="double"/>
-    <param name="scene_file" value="$(arg scene_file)" type="string"/>
-  </node>
 
-  <node name="pedsim_visualizer" type="pedsim_visualizer_node" pkg="pedsim_visualizer" output="screen" if="$(arg enable_pedvis)"/>
+  <!-- Pedsim is not used in scenario mode since here the actor concept is being used -->
+  <group unless="$(eval arg('task_mode') == 'scenario')">
+    <!-- start Pedsim -->
+    <node name="pedsim_simulator" pkg="pedsim_simulator" type="pedsim_simulator" output="screen" if="$(arg enable_pedsim)">
+      <param name="simulation_factor" value="$(arg simulation_factor)" type="double"/>
+      <param name="pedsim_update_rate" value="$(arg pedsim_update_rate)" type="double"/>
+      <param name="scene_file" value="$(arg scene_file)" type="string"/>
+    </node>
+
+    <node name="pedsim_visualizer" type="pedsim_visualizer_node" pkg="pedsim_visualizer" output="screen" if="$(arg enable_pedvis)"/>
+  </group>
+
 
   <!-- start_rviz -->
   <node name="gazebo_rviz" pkg="rviz" type="rviz" args="-d $(find arena_bringup)/rviz/$(arg rviz_file).rviz" if="$(arg use_rviz)"/>

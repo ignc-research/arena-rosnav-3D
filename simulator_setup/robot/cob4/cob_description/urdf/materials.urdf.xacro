@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <material name="IPA/LightGrey">
+    <color rgba="0.7 0.7 0.7 1.0"/>
+  </material>
+
+  <material name="IPA/DarkGrey">
+    <color rgba="0.4 0.4 0.4 1.0"/>
+  </material>
+
+  <material name="IPA/Black">
+    <color rgba="0.0 0.0 0.0 1.0"/>
+  </material>
+
+  <material name="IPA/Metall">
+    <color rgba="0.7 0.7 0.7 1.0"/>
+  </material>
+
+  <material name="IPA/YellowRubber">
+    <color rgba="0.4 0.27 0.16 1.0"/>
+  </material>
+
+  <material name="IPA/Orange">
+    <color rgba="1.0 0.4 0.0 1.0"/>
+  </material>
+
+  <material name="IPA/Blue">
+    <color rgba="0.0 0.0 0.5 1.0"/>
+  </material>
+
+</robot>

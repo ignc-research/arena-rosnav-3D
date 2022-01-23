@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:include filename="$(find simulator_setup)/robot/cob4/cob_description/urdf/common.xacro" />
+  <xacro:include filename="$(find simulator_setup)/robot/cob4/cob_description/urdf/cob4_sensorring/sensorring.gazebo.xacro" />
+  <xacro:include filename="$(find simulator_setup)/robot/cob4/cob_description/urdf/cob4_sensorring/sensorring.transmission.xacro" />
+
+  <xacro:macro name="sensorring" params="parent name *origin active:=False">
+
+    <joint name="${name}_base_joint" type="fixed">
+      <xacro:insert_block name="origin" />
+      <parent link="${parent}"/>
+      <child link="${name}_base_link" />
+    </joint>
+
+    <link name="${name}_base_link">
+      <xacro:default_inertial/>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <box size="0.001 0.001 0.001" />
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <box size="0.001 0.001 0.001" />
+        </geometry>
+      </collision>
+    </link>
+
+    <xacro:unless value="${active}">
+      <joint name="${name}_joint" type="fixed">
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <parent link="${name}_base_link"/>
+        <child link="${name}_link" />
+      </joint>
+    </xacro:unless>
+    <xacro:if value="${active}">
+      <joint name="${name}_joint" type="revolute">
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <parent link="${name}_base_link"/>
+        <child link="${name}_link" />
+        <axis xyz="0 0 1" />
+        <limit effort="100" lower="-6.2831" upper="6.2831" velocity="2.62"/>
+      </joint>
+    </xacro:if>
+
+    <link name="${name}_link">
+      <xacro:default_inertial/>
+<!--
+      <xacro:cylinder_inertial radius="0.250" length="0.1" mass="1.0">
+        <origin xyz="0 0 0" rpy="0 0 0" />
+      </xacro:cylinder_inertial>
+-->
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <box size="0.001 0.001 0.001" />
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <box size="0.001 0.001 0.001" />
+        </geometry>
+      </collision>
+    </link>
+
+    <!-- extensions -->
+    <xacro:sensorring_gazebo name="${name}" />
+    <xacro:sensorring_transmission name="${name}" active="${active}" />
+
+    <!-- ros_control plugin -->
+    <xacro:if value="${active}">
+      <gazebo>
+        <plugin name="${name}_ros_control" filename="libhwi_switch_gazebo_ros_control.so">
+          <robotNamespace>${name}</robotNamespace>
+          <filterJointsParam>joint_names</filterJointsParam>
+        </plugin>
+      </gazebo>
+    </xacro:if>
+
+  </xacro:macro>
+
+</robot>

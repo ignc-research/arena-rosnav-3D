@@ -1,0 +1,126 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:include filename="$(find simulator_setup)/robot/cob4/cob_description/urdf/drive_wheel/drive_wheel.gazebo.xacro" />
+  <xacro:include filename="$(find simulator_setup)/robot/cob4/cob_description/urdf/drive_wheel/drive_wheel.transmission.xacro" />
+
+  <xacro:property name="caster_wheel_offset_y" value="0.0" />
+
+  <xacro:property name="caster_mass" value="5.9" />
+  <xacro:property name="wheel_mass" value="0.44036" />
+
+  <xacro:macro name="cob_wheel" params="parent suffix reflect drive_vel:=^ passive:=false">
+
+    <xacro:if value="${passive}">
+      <joint name="${parent}_${suffix}_wheel_joint" type="continuous">
+        <origin xyz="0 ${reflect*caster_wheel_offset_y} 0" rpy="0 0 0" />
+        <parent link="${parent}_rotation_link"/>
+        <child link="${parent}_${suffix}_wheel_link"/>
+        <axis xyz="0 1 0" />
+        <safety_controller  k_velocity="10" />
+        <limit effort="0.0" velocity="${drive_vel}"/>
+        <dynamics damping="0.0" friction="0.0" />
+      </joint>
+    </xacro:if>
+    <xacro:unless value="${passive}">
+      <joint name="${parent}_${suffix}_wheel_joint" type="continuous">
+        <origin xyz="0 ${reflect*caster_wheel_offset_y} 0" rpy="0 0 0" />
+        <parent link="${parent}_rotation_link"/>
+        <child link="${parent}_${suffix}_wheel_link"/>
+        <axis xyz="0 1 0" />
+        <safety_controller  k_velocity="10" />
+        <limit effort="100" velocity="${drive_vel}"/>
+        <dynamics damping="0.0" friction="0.0" />
+      </joint>
+    </xacro:unless>
+
+    <link name="${parent}_${suffix}_wheel_link">
+      <inertial>
+        <origin xyz="0 0 0" />
+        <mass value="${wheel_mass}" />
+        <inertia  ixx="0.012411765597" ixy="-0.000711733678" ixz="0.00050272983"
+                  iyy="0.015218160428" iyz="-0.000004273467" izz="0.011763977943" />
+      </inertial>
+      <visual>
+        <geometry>
+          <mesh filename="package://simulator_setup/robot/cob4/cob_description/meshes/drive_wheel/wheel.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://simulator_setup/robot/cob4/cob_description/meshes/drive_wheel/wheel.stl"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <!-- extensions -->
+    <xacro:cob_wheel_gazebo parent="${parent}" suffix="${suffix}" />
+    <xacro:unless value="${passive}">
+      <xacro:cob_wheel_transmission parent="${parent}" suffix="${suffix}" reflect="${reflect}" />
+    </xacro:unless>
+
+  </xacro:macro>
+
+  <!-- Macro for Caster hub only -->
+  <xacro:macro name="cob_caster_hub" params="*origin parent suffix steer_vel:=^ passive:=false" >
+
+    <xacro:if value="${passive}">
+      <joint name="${suffix}_rotation_joint" type="fixed">
+        <xacro:insert_block name="origin" />
+        <parent link="${parent}"/>
+        <child link="${suffix}_rotation_link" />
+      </joint>
+    </xacro:if>
+    <xacro:unless value="${passive}">
+      <joint name="${suffix}_rotation_joint" type="continuous">
+        <xacro:insert_block name="origin" />
+        <parent link="${parent}"/>
+        <child link="${suffix}_rotation_link" />
+        <axis xyz="0 0 1" />
+        <safety_controller  k_velocity="10" />
+        <limit effort="100" velocity="${steer_vel}"/>
+        <dynamics damping="0.0" friction="0.0" />
+      </joint>
+    </xacro:unless>
+
+    <link name="${suffix}_rotation_link">
+      <inertial>
+        <origin xyz="0 0 0" />
+        <mass value="${caster_mass}"/>
+        <inertia  ixx="0.04" ixy="-0.0007" ixz="0.0"
+                  iyy="0.02" iyz="-0.000004" izz="0.05" />
+      </inertial>
+      <visual>
+        <geometry>
+          <mesh filename="package://simulator_setup/robot/cob4/cob_description/meshes/drive_wheel/caster.stl"/>
+        </geometry>
+        <material name="IPA/LightGrey" />
+      </visual>
+      <collision>
+        <geometry>
+          <box size="0.001 0.001 0.001" />
+        </geometry>
+      </collision>
+    </link>
+
+    <!-- extensions -->
+    <xacro:unless value="${passive}">
+      <xacro:cob_caster_transmission suffix="${suffix}" />
+    </xacro:unless>
+
+  </xacro:macro>
+
+
+  <xacro:macro name="drive_wheel" params="*origin parent suffix drive_vel:=^|100 steer_vel:=^|100 passive:=false">
+
+    <xacro:cob_caster_hub parent="${parent}" suffix="${suffix}_caster" passive="${passive}" >
+      <xacro:insert_block name="origin" />
+    </xacro:cob_caster_hub>
+
+    <xacro:cob_wheel parent="${suffix}_caster" suffix="r" reflect="-1"  passive="${passive}" />
+
+    <!-- extensions -->
+    <xacro:cob_caster_gazebo suffix="${suffix}" />
+  </xacro:macro>
+
+</robot>

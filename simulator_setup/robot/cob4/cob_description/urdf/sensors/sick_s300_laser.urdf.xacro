@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:include filename="$(find simulator_setup)/robot/cob4/cob_description/urdf/sensors/sick_s300_laser.gazebo.xacro" />
+
+  <xacro:property name="cylinder_radius" value="0.05" />  <!--simple collision model for the laser -->
+  <xacro:property name="cylinder_length" value="0.15" />
+
+  <xacro:macro name="sick_s300_laser_v0" params="name parent *origin">
+    <joint name="${name}_joint" type="fixed">
+      <xacro:insert_block name="origin" />
+      <parent link="${parent}_link"/>
+      <child link="${name}_link"/>
+    </joint>
+
+    <link name="${name}_link" type="laser">
+      <xacro:cylinder_inertial radius="${cylinder_radius}" length="${cylinder_length}" mass="1.2">
+        <origin xyz="0 0 0" rpy="0 0 0" />
+      </xacro:cylinder_inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://simulator_setup/robot/cob4/cob_description/meshes/sensors/sick_s300_laser.dae"/>
+          <!--box size="0.001 0.001 0.001" /-->
+        </geometry>
+        <material name="IPA/LightGrey" />
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://simulator_setup/robot/cob4/cob_description/meshes/sensors/sick_s300_laser_collision.stl"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <!-- gazebo extensions -->
+    <xacro:sick_s300_laser_gazebo_v0 name="${name}"/>
+  </xacro:macro>
+
+</robot>

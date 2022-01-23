@@ -4,7 +4,7 @@
     <!-- Robot specific parameter -->
     <rosparam file="$(find arena_bringup)/launch/sublaunch_testing/robot_params/$(arg model)_params.yaml" />
 
-    <include file="$(find arena_bringup)/launch/sublaunch_testing/tiago_robot.launch" if="$(eval arg('model') == 'tiago')"/>
+    <include file="$(find arena_bringup)/launch/sublaunch_testing/robot_launch/tiago_robot.launch" if="$(eval arg('model') == 'tiago')"/>
 
     <!-- Launching additional nodes/scripts needed for jackal to work -->
     <group if="$(eval arg('model') == 'jackal')">

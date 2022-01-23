@@ -1,0 +1,98 @@
+material IPA/LightGrey
+{
+  receive_shadows on
+
+	technique
+	{
+		pass
+		{
+			ambient 0.7 0.7 0.7 1
+			diffuse 0.1 0.1 0.1 1
+		}
+	}
+}
+
+material IPA/DarkGrey
+{
+  receive_shadows on
+
+	technique
+	{
+		pass
+		{
+			ambient 0.4 0.4 0.4 1
+			diffuse 0.1 0.1 0.1 1
+		}
+	}
+}
+
+material IPA/Black
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.0 0.0 0.0 1.0
+			diffuse 0.1 0.1 0.1 1
+		}
+	}
+}
+
+material IPA/Metal
+{
+  receive_shadows on
+
+	technique
+	{
+		pass
+		{
+			lighting on
+			ambient 0.7 0.7 0.7 1
+			diffuse 0.7 0.7 0.7 1
+			specular 0.9 0.9 0.9 1
+		}
+	}
+}
+
+
+material IPA/YellowRubber
+{
+	receive_shadows on
+
+	technique
+	{
+		pass
+		{
+			lighting on
+			ambient 0.4 0.27 0.16 1
+			diffuse 0.4 0.27 0.16 1
+			specular 0.67 0.41 0.14 1
+		}
+	}
+}
+
+material IPA/Orange
+{
+	technique
+	{
+		pass
+		{
+			ambient 1.0 0.4 0.0 0
+			diffuse 0.1 0.1 0.1 1
+		}
+	}
+}
+
+material IPA/Blue
+{
+  receive_shadows on
+
+	technique
+	{
+		pass
+		{
+			ambient 0.0 0.0 0.5 1
+			diffuse 0.1 0.1 0.1 1
+		}
+	}
+}

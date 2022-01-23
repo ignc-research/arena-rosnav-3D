@@ -1,0 +1,136 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:include filename="$(find simulator_setup)/robot/cob4/cob_description/urdf/cob4_base/base.gazebo.xacro" />
+
+  <!-- drive_wheel module -->
+  <xacro:include filename="$(find simulator_setup)/robot/cob4/cob_description/urdf/drive_wheel/drive_wheel.urdf.xacro" />
+
+  <!-- properties -->
+  <xacro:property name="caster_offset_x" value="0.24844" />  <!--modify here-->
+  <xacro:property name="caster_offset_y" value="0.21515" />
+  <xacro:property name="caster_offset_z" value="0.0782" />
+
+  <xacro:property name="base_mass" value="100" />
+
+
+  <xacro:macro name="base" params="name tricycle_mode:=false forward:=true">
+
+    <xacro:property name="drive_vel" value="19.95" />
+    <xacro:property name="steer_vel" value="12.00" /> <!-- Controller: 10.0, Driver: 12.0, Elmo: 15.0 -->
+
+    <xacro:if value="${tricycle_mode}">
+      <link name="${name}_pivot_link"/>
+      
+      <xacro:if value="${forward}">
+        <joint name="${name}_pivot_joint" type="fixed">
+          <origin xyz="${-caster_offset_x/2} 0.0 0.0" rpy="0 0 0" />
+          <parent link="${name}_pivot_link"/>
+          <child link="${name}_footprint" />
+        </joint>
+      </xacro:if>
+      <xacro:unless value="${forward}">
+        <joint name="${name}_pivot_joint" type="fixed">
+          <origin xyz="${caster_offset_x/2} 0.0 0.0" rpy="0 0 0" />
+          <parent link="${name}_pivot_link"/>
+          <child link="${name}_footprint" />
+        </joint>
+      </xacro:unless>
+    </xacro:if>
+
+    <link name="${name}_footprint"/>
+
+    <joint name="${name}_footprint_joint" type="fixed">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <parent link="${name}_footprint"/>
+      <child link="${name}_link" />
+    </joint>
+
+    <link name="${name}_link"/>
+
+    <xacro:if value="${forward}">
+      <joint name="${name}_chassis_joint" type="fixed">
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <parent link="${name}_link"/>
+        <child link="${name}_chassis_link" />
+      </joint>
+    </xacro:if>
+    <xacro:unless value="${forward}">
+      <joint name="${name}_chassis_joint" type="fixed">
+        <origin xyz="0 0 0" rpy="0 0 ${M_PI}" />
+        <parent link="${name}_link"/>
+        <child link="${name}_chassis_link" />
+      </joint>
+    </xacro:unless>
+
+    <link name="${name}_chassis_link">
+      <inertial>
+        <origin xyz="0 0 0" />
+        <mass value="${base_mass}" />
+        <inertia ixx="5.652232699207" ixy="-0.009719934438" ixz="1.293988226423"
+             iyy="5.669473158652" iyz="-0.007379583694" izz="3.683196351726" />
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://simulator_setup/robot/cob4/cob_description/meshes/cob4_base/base.dae"/>
+          <!--box size="0.01 0.01 0.01" /-->
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://simulator_setup/robot/cob4/cob_description/meshes/cob4_base/base_collision.stl"/>
+          <!--box size="0.01 0.01 0.01" /-->
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="${name}_charger_joint" type="fixed">
+      <origin xyz="0.2992 0.0 0.09089" rpy="0 0 0" />
+      <parent link="${name}_chassis_link"/>
+      <child link="${name}_charger_link" />
+    </joint>
+
+    <link name="${name}_charger_link"/>
+
+    <!-- arrangement of the three drive_wheel modules -->
+    <xacro:if value="${tricycle_mode}">
+      <xacro:drive_wheel parent="${name}_chassis_link" suffix="fl" passive="true" >
+        <origin xyz="${caster_offset_x/2} ${caster_offset_y} ${caster_offset_z}" rpy="0 0 0" />
+      </xacro:drive_wheel>
+      <xacro:drive_wheel parent="${name}_chassis_link" suffix="b" >
+        <origin xyz="${-caster_offset_x} 0.0 ${caster_offset_z}" rpy="0 0 0" />
+      </xacro:drive_wheel>
+      <xacro:drive_wheel parent="${name}_chassis_link" suffix="fr" passive="true">
+        <origin xyz="${caster_offset_x/2} ${-caster_offset_y} ${caster_offset_z}" rpy="0 0 0" />
+      </xacro:drive_wheel>
+    </xacro:if>
+
+    <xacro:unless value="${tricycle_mode}">
+      <xacro:drive_wheel parent="${name}_chassis_link" suffix="fl" >
+        <origin xyz="${caster_offset_x/2} ${caster_offset_y} ${caster_offset_z}" rpy="0 0 0" />
+      </xacro:drive_wheel>
+      <xacro:drive_wheel parent="${name}_chassis_link" suffix="b" >
+        <origin xyz="${-caster_offset_x} 0.0 ${caster_offset_z}" rpy="0 0 0" />
+      </xacro:drive_wheel>
+      <xacro:drive_wheel parent="${name}_chassis_link" suffix="fr" >
+        <origin xyz="${caster_offset_x/2} ${-caster_offset_y} ${caster_offset_z}" rpy="0 0 0" />
+      </xacro:drive_wheel>
+    </xacro:unless>
+
+
+    <!-- gazebo extensions -->
+    <xacro:base_gazebo name="${name}" />
+
+    <!-- ros_control plugin -->
+    <gazebo>
+      <plugin name="${name}_ros_control" filename="libhwi_switch_gazebo_ros_control.so">
+        <robotNamespace>${name}</robotNamespace>
+        <filterJointsParam>joint_names</filterJointsParam>
+      </plugin>
+    </gazebo>
+
+  </xacro:macro>
+
+</robot>

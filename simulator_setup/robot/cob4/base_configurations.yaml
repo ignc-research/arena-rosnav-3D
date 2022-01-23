@@ -1,0 +1,2 @@
+service_ns: /base/driver
+topic_name: /base/twist_mux/command_script_server

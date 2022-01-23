@@ -33,9 +33,6 @@
   <node name="default_controllers_spawner" pkg="controller_manager" type="spawner" output="screen" args="--timeout 120
              $(arg controller_list) " />
              
-  <node name="odom_pub" pkg="task_generator" type="odom.py"/>
-  <node name="velocity_redirect" pkg="task_generator" type="trans.py"/>
-
   <!-- Motion planning @ELIAS uncomment -->
   <!-- <include file="$(find simulator_setup)/robot/tiago/tiago_moveit_config/launch/move_group.launch">
     <arg name="arm" value="$(arg arm)"/>

@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:macro name="sensorring_gazebo" params="name">
+
+    <gazebo reference="${name}_link">
+      <gravity>true</gravity>
+      <self_collide>false</self_collide>
+      <material>IPA/DarkGrey</material>
+    </gazebo>
+
+  </xacro:macro>
+
+</robot>
