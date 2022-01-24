@@ -5,7 +5,7 @@
 	<arg name="pkg_hardware_config" default="$(find simulator_setup)/robot/cob4"/>
 	<arg name="name" default="$(anon scan_unifier)"/>
 	<arg name="input_scans"/>
-	<arg name="output_scan" default="/scan_unified"/>
+	<arg name="output_scan" default="/scan"/>
 
 	<!-- run scan unifier -->
 	<node pkg="cob_scan_unifier" type="scan_unifier_node" name="$(arg name)" output="log">

@@ -50,6 +50,11 @@
 		<rosparam command="load" file="$(find simulator_setup)/robot/cob4/robots/$(arg robot)/config/joint_state_publisher.yaml"/>
 	</node>
 
+ <!-- TODO: MAYBE SOLVE WITH https://answers.ros.org/question/104111/how-to-publish-transform-from-odom-to-base_link/ -->
+	<!-- <arg name="global_frame_id" value="base_link"/>
+	<arg name="odom_frame_id" value="map"/>
+	<node pkg="tf2_ros" type="static_transform_publisher" name="test_to_odom_tfpublisher" args="0 0 0 0 0 0 $(arg global_frame_id) $(arg odom_frame_id)">
+	</node> -->
 	<!-- 
 NOTE: The robot has several functionalities which could enhance our repo, but are for performance resons not implemented:
 (all these can be startet, here: https://github.com/ipa320/cob_robots/blob/kinetic_dev/cob_bringup/robots/cob4-4.xml    )
