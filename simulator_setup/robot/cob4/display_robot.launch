@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<launch>
+
+	<arg name="robot" default="$(optenv ROBOT !!NO_ROBOT_SET!!)"/>
+	<arg name="gui" default="false" />
+	<arg name="rvizconfig" default="$(find simulator_setup)/robot/cob4/robots/common/display_robot.rviz" />
+
+	<!-- upload robot description -->
+	<include file="$(find simulator_setup)/robot/cob4/upload_robot.launch">
+		<arg name="robot" value="$(arg robot)"/>
+	</include>
+
+	<!-- fake joint_states -->
+	<node unless="$(arg gui)" pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher" output="screen">
+		<remap from="robot_description" to="/robot_description"/>
+		<remap from="joint_states" to="/joint_states"/>
+	</node>
+	<node if="$(arg gui)" pkg="joint_state_publisher_gui" type="joint_state_publisher_gui" name="joint_state_publisher" output="screen">
+		<remap from="robot_description" to="/robot_description"/>
+		<remap from="joint_states" to="/joint_states"/>
+	</node>
+	<node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" output="screen"/>
+
+	<!-- rviz visualization -->
+	<node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" required="true" />
+
+</launch>

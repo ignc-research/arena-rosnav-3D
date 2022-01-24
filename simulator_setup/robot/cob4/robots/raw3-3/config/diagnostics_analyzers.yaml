@@ -1,0 +1,49 @@
+pub_rate: 1.0 # Optional
+base_path: '' # Optional, prepended to all diagnostic output
+analyzers:
+  computers:
+    type: diagnostic_aggregator/AnalyzerGroup
+    path: Computers
+    analyzers:
+      pc1:
+        type: diagnostic_aggregator/GenericAnalyzer
+        path: pc1
+        contains: 'pc1'
+      pc2:
+        type: diagnostic_aggregator/GenericAnalyzer
+        path: pc2
+        contains: 'pc2'
+
+  sensors:
+    type: diagnostic_aggregator/AnalyzerGroup
+    path: Sensors
+    analyzers:
+      joystick:
+        type: diagnostic_aggregator/GenericAnalyzer
+        path: Joystick
+        contains: 'joy'
+      laser_rear:
+        type: diagnostic_aggregator/GenericAnalyzer
+        path: Scan Rear
+        contains: 'laser_rear'
+      laser_front:
+        type: diagnostic_aggregator/GenericAnalyzer
+        path: Scan Front
+        contains: 'laser_front'
+
+  motors:
+    type: diagnostic_aggregator/AnalyzerGroup
+    path: Actuators
+    analyzers:
+      base:
+        type: diagnostic_aggregator/AnalyzerGroup
+        path: Base
+        analyzers:
+          base:
+            type: diagnostic_aggregator/GenericAnalyzer
+            path: Base
+            contains: 'base/'
+          base_twist_mux:
+            type: diagnostic_aggregator/GenericAnalyzer
+            path: twist_mux
+            contains: 'twist_mux'

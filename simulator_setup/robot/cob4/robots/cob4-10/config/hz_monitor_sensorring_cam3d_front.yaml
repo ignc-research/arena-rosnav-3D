@@ -1,0 +1,4 @@
+diagnostics_name: sensorring_cam3d_front
+topics: [/sensorring_cam3d_front/depth/camera_info]
+hz: 30 
+hzerror: 5

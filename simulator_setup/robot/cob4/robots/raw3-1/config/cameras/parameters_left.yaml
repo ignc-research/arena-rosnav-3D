@@ -1,0 +1,15 @@
+ip_address: 10.0.0.50
+auto_exposure:     False
+#exposure_auto_max: 50000
+#exposure_auto_target: 40
+exposure:          0.080
+auto_gain:         False
+#gain_auto_target: 40
+gain:              10
+auto_whitebalance: True
+frame_id: head_color_camera_l_link
+stream_bytes_per_second: 55000000 #17500000 full speed in stereo rig: 55000000
+#auto_adjust_stream_bytes_per_second: False
+trigger_mode: streaming
+#packet_size: 9000
+#trig_rate: 1

@@ -1,0 +1,7 @@
+threshold_warning: 20 # % of battery level
+threshold_error: 10 # % of battery level
+threshold_critical: 5 # % of battery level
+
+enable_light: false
+
+enable_sound: false

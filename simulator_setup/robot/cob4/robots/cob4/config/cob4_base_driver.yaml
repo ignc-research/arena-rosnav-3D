@@ -1,0 +1,54 @@
+sync:
+  interval_ms: 20
+  overflow: 0
+heartbeat:
+  rate: 20
+  msg: "77f#05"
+
+defaults:
+  eds_pkg: cob_hardware_config
+  eds_file: "robots/common/Elmo.dcf"
+  dcf_overlay:
+    "6083": "1000000" # profile acceleration
+    "6084": "1000000" # profile deceleration
+    "60C5": "1000000" # maximum acceleration
+    "60C6": "1000000" # maximum deceleration
+    "6099sub1": "100000" # find switch (coarse)
+    "6099sub2": "10000" # find home (fine)
+    "1016sub1" : "0x7F0064" # heartbeat timeout of 100 ms for master at 127
+  eff_from_device: "obj6078/1000.0*9.76" #CL[1]=9.76
+
+drive_wheel: &drive_wheel
+  dcf_overlay: # "ObjectID" : "ParameterValue" (both as strings)
+    "6098": "35" # homing method
+  vel_from_device: "p1 != p1 || obj2041 == t1 ? 0 : deg2rad(1000*norm(obj6064-p1,-36000000,36000000)/norm(obj2041-t1,0,2^32)), p1=p0, p0 = obj6064, t1 = t0, t0 = obj2041"
+  eff_from_device: "obj6078/1000.0*14.14" #CL[1]=14.14
+
+nodes:
+  ##Wheel 1
+  fl_caster_rotation_joint:
+    id: 1
+    dcf_overlay: # "ObjectID" : "ParameterValue" (both as strings)
+      "6098": "19" # homing method
+  fl_caster_r_wheel_joint:
+    <<: *drive_wheel
+    id: 2
+
+  ##Wheel 2
+  b_caster_rotation_joint:
+    id: 3
+    dcf_overlay: # "ObjectID" : "ParameterValue" (both as strings)
+      "6098": "19" # homing method
+  b_caster_r_wheel_joint:
+    <<: *drive_wheel
+    id: 4
+
+  ##Wheel 3
+  fr_caster_rotation_joint:
+    id: 5
+    dcf_overlay: # "ObjectID" : "ParameterValue" (both as strings)
+      "6098": "19" # homing method
+  fr_caster_r_wheel_joint:
+    <<: *drive_wheel
+    id: 6
+

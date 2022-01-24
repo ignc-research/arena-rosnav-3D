@@ -1,0 +1,23 @@
+# rotation mode (0=fixed angle as defined  by rotation_angle, 1=automatic upright rotation against gravity using reference coordinate frame with upwards directed z-axis, 2=as 1 but image rotation only in 90deg steps -> faster)
+# int
+rotation_mode: 1
+
+# image rotation [in deg] (especially efficient with 0, 90, 180, 270 deg)
+# double
+rotation_angle: 0
+
+# reference world coordinate frame with z-axis pointing upwards (= against gravity direction)
+# string
+reference_frame: base_link
+
+# flip color image
+# bool
+flip_color_image: true
+
+# flip point cloud (usually unnecessary because tf takes care of this with original point cloud)
+# bool
+flip_pointcloud: true
+
+# display warning if transformation not available
+# bool
+display_warnings: false

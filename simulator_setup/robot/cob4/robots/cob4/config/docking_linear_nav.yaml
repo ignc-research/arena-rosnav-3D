@@ -1,0 +1,23 @@
+#Parameters designing the potential field controller
+#Translational part
+kv: 2.50 #damping 2.50
+kp: 3.00 #stiffness 3.0
+virt_mass: 0.50 #0.50
+vmax: 0.09 #0.3
+goal_threshold: 0.02 #0.03
+speed_threshold: 0.02 #0.08
+
+#Rotational part
+kv_rot: 2.0 #damping 2.0
+kp_rot: 2.0 #stiffness 2.0
+virt_mass_rot: 0.50 #0.5
+vtheta_max: 0.3 # 0.3
+goal_threshold_rot: 0.06 #0.08
+speed_threshold_rot: 0.02 #0.08
+
+#tf parameters
+global_frame: odom_combined #/map
+robot_frame: base_link #/base_link
+
+slow_down_distance: 0.25 #0.5[m] distance from robot_center to goal at which robot starts slowing down
+goal_abortion_time: 5.0 #5.0[s] time until robot aborts goal due to obstacle

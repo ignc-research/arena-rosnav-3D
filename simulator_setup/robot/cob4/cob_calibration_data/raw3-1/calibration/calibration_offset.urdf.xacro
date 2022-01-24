@@ -1,0 +1,99 @@
+<?xml version="1.0" ?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+	<!-- ***************** -->
+	<!-- base calibration -->
+	<!-- ***************** -->
+	<!-- laser front mount positions | relative to base_link -->
+	<xacro:property name="offset_laser_front_x" value="0.0"/>
+	<xacro:property name="offset_laser_front_y" value="0.0"/>
+	<xacro:property name="offset_laser_front_z" value="0.0"/>
+	<xacro:property name="offset_laser_front_roll" value="0.0"/>
+	<xacro:property name="offset_laser_front_pitch" value="0.0"/>
+	<xacro:property name="offset_laser_front_yaw" value="0.0"/>
+
+	<!-- laser rear mount positions | relative to base_link -->
+	<xacro:property name="offset_laser_rear_x" value="0.0"/>
+	<xacro:property name="offset_laser_rear_y" value="0.0"/>
+	<xacro:property name="offset_laser_rear_z" value="0.0"/>
+	<xacro:property name="offset_laser_rear_roll" value="0.0"/>
+	<xacro:property name="offset_laser_rear_pitch" value="0.0"/>
+	<xacro:property name="offset_laser_rear_yaw" value="0.0"/>
+
+	<!-- *********************** -->
+	<!-- upper robot calibration -->
+	<!-- *********************** -->
+	<!-- tower mount positions | relative to base_link -->
+	<xacro:property name="offset_tower_x" value="0.0"/>
+	<xacro:property name="offset_tower_y" value="0.0"/>
+	<xacro:property name="offset_tower_z" value="0.0"/>
+	<xacro:property name="offset_tower_roll" value="0.0"/>
+	<xacro:property name="offset_tower_pitch" value="0.0"/>
+	<xacro:property name="offset_tower_yaw" value="0.0"/>
+
+	<!-- torso mount positions | relative to base_link -->
+	<xacro:property name="offset_torso_x" value="0.0"/>
+	<xacro:property name="offset_torso_y" value="0.0"/>
+	<xacro:property name="offset_torso_z" value="0.0"/>
+	<xacro:property name="offset_torso_roll" value="0.0"/>
+	<xacro:property name="offset_torso_pitch" value="0.0"/>
+	<xacro:property name="offset_torso_yaw" value="0.0"/>
+
+	<!-- head mount positions | relative to head_cover_link -->
+	<xacro:property name="offset_head_x" value="0.0"/>
+	<xacro:property name="offset_head_y" value="0.0"/>
+	<xacro:property name="offset_head_z" value="0.0"/>
+	<xacro:property name="offset_head_roll" value="0.0"/>
+	<xacro:property name="offset_head_pitch" value="0.0"/>
+	<xacro:property name="offset_head_yaw" value="0.0"/>
+
+	<!-- arm mount positions | relative to base_link -->
+	<xacro:property name="offset_arm_x" value="0.0"/>
+	<xacro:property name="offset_arm_y" value="0.0"/>
+	<xacro:property name="offset_arm_z" value="0.0"/>
+	<xacro:property name="offset_arm_roll" value="0.0"/>
+	<xacro:property name="offset_arm_pitch" value="0.0"/>
+	<xacro:property name="offset_arm_yaw" value="0.0"/>
+
+	<!-- gripper mount positions | relative to arm_ee_link -->
+	<xacro:property name="offset_gripper_x" value="0.0"/>
+	<xacro:property name="offset_gripper_y" value="0.0"/>
+	<xacro:property name="offset_gripper_z" value="0.0"/>
+	<xacro:property name="offset_gripper_roll" value="0.0"/>
+	<xacro:property name="offset_gripper_pitch" value="0.0"/>
+	<xacro:property name="offset_gripper_yaw" value="0.0"/>
+
+	<!-- ***************************** -->
+	<!-- camera calibration properties -->
+	<!-- ***************************** -->
+	<!-- left | handeye calibration | relative to head_axis_link -->
+	<xacro:property name="offset_cam_reference_x" value="0.0"/>
+	<xacro:property name="offset_cam_reference_y" value="0.0"/>
+	<xacro:property name="offset_cam_reference_z" value="0.0"/>
+	<xacro:property name="offset_cam_reference_roll" value="0.0"/>
+	<xacro:property name="offset_cam_reference_pitch" value="0.0"/>
+	<xacro:property name="offset_cam_reference_yaw" value="0.0"/>
+
+	<!-- left | handeye calibration | relative to cam_reference_link -->
+	<xacro:property name="offset_cam_l_x" value="0.0"/>
+	<xacro:property name="offset_cam_l_y" value="0.0"/>
+	<xacro:property name="offset_cam_l_z" value="0.0"/>
+	<xacro:property name="offset_cam_l_roll" value="0.0"/>
+	<xacro:property name="offset_cam_l_pitch" value="0.0"/>
+	<xacro:property name="offset_cam_l_yaw" value="0.0"/>
+
+	<!-- right | stereo baseline calibration | relative to cam_reference_link -->
+	<xacro:property name="offset_cam_r_x" value="0.0"/>
+	<xacro:property name="offset_cam_r_y" value="0.0"/>
+	<xacro:property name="offset_cam_r_z" value="0.0"/>
+	<xacro:property name="offset_cam_r_roll" value="0.0"/>
+	<xacro:property name="offset_cam_r_pitch" value="0.0"/>
+	<xacro:property name="offset_cam_r_yaw" value="0.0"/>
+
+	<!-- cam3d | handeye calibration | relative to cam_reference_link -->
+	<xacro:property name="offset_cam3d_x" value="0.0"/>
+	<xacro:property name="offset_cam3d_y" value="0.0"/>
+	<xacro:property name="offset_cam3d_z" value="0.0"/>
+	<xacro:property name="offset_cam3d_roll" value="0.0"/>
+	<xacro:property name="offset_cam3d_pitch" value="0.0"/>
+	<xacro:property name="offset_cam3d_yaw" value="0.0"/>
+</robot>

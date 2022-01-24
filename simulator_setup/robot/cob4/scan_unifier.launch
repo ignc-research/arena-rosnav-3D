@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<launch>
+
+	<arg name="robot" default="$(optenv ROBOT !!NO_ROBOT_SET!!)"/>
+	<arg name="pkg_hardware_config" default="$(find simulator_setup)/robot/cob4"/>
+	<arg name="name" default="$(anon scan_unifier)"/>
+	<arg name="input_scans"/>
+	<arg name="output_scan" default="/scan_unified"/>
+
+	<!-- run scan unifier -->
+	<node pkg="cob_scan_unifier" type="scan_unifier_node" name="$(arg name)" output="log">
+		<rosparam subst_value="True" param="input_scans">$(arg input_scans)</rosparam>
+		<remap from="scan_unified" to="$(arg output_scan)"/>
+	</node>
+
+
+	<node ns="$(arg name)" pkg="generic_throttle" type="generic_throttle_node.py" name="generic_throttle">
+		<rosparam subst_value="True">{topics: [$(arg output_scan): {latched: False, lazy: True, topic_rate: 1.0}] }</rosparam>
+	</node>
+
+
+	<!-- range filter -->
+	<node pkg="laser_filters" type="scan_to_scan_filter_chain" name="scan_unifier_filter">
+		<rosparam command="load" file="$(find simulator_setup)/robot/cob4/robots/$(arg robot)/config/scan_unifier_filter.yaml"/>
+		<remap from="scan" to="$(arg output_scan)"/>
+		<remap from="scan_filtered" to="$(arg output_scan)_filtered"/>
+	</node>
+
+</launch>
+

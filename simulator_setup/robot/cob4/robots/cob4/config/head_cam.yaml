@@ -1,0 +1,5 @@
+video_device: "/dev/video0"
+image_width: 2048
+image_height: 1536
+pixel_format: yuyv
+framerate: 3.5  #at 2048x1536 3.6hz is maximum on hw

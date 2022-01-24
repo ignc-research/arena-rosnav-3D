@@ -1,0 +1,39 @@
+drive_wheel: &drive_wheel
+  pos_to_device: "-rint(pos * 4096 * 21 * 1 / (2 * pi))" # rev * gear * belt / (2 * pi)
+  vel_to_device: "-rint(vel * 4096 * 21 * 1 / (2 * pi))" # rev * gear * belt / (2 * pi)
+  pos_from_device: "-obj6064 * 2 * pi / ( 4096 * 21 * 1)" # 2 * pi / (rev * gear * belt)
+  vel_from_device: "-obj606c * 2 * pi / ( 4096 * 21 * 1)" # 2 * pi / (rev * gear * belt)
+
+nodes:
+  ##Wheel 1
+  fl_caster_rotation_joint:
+    motor_layer:
+      homing_event: 19 # -> digin
+      homing_speed: -5093 # -1.0 rs/s
+      homing_offset: -12700
+
+
+  ##Wheel 2
+  bl_caster_rotation_joint:
+    motor_layer:
+      homing_event: 19 # -> digin
+      homing_speed: -5093 # -1.0 rs/s
+      homing_offset: -12673
+
+  ##Wheel 3
+  br_caster_rotation_joint:
+    motor_layer:
+      homing_event: 17 # -> digin
+      homing_speed: -5093 # -1.0 rs/s
+      homing_offset: 14093
+
+  br_caster_r_wheel_joint:
+    <<: *drive_wheel
+  ##Wheel 4
+  fr_caster_rotation_joint:
+    motor_layer:
+      homing_event: 19 # -> digin
+      homing_speed: -5093 # -1.0 rs/s
+      homing_offset: 13972
+  fr_caster_r_wheel_joint:
+    <<: *drive_wheel

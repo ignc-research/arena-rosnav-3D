@@ -1,0 +1,101 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+	<!-- ***************** -->
+	<!-- base calibration -->
+	<!-- ***************** -->
+	<!-- laser front mount positions | relative to base_link -->
+	<xacro:property name="def_laser_front_x" value="0.465"/>
+	<xacro:property name="def_laser_front_y" value="-0.232"/>
+	<xacro:property name="def_laser_front_z" value="0.178"/>
+	<xacro:property name="def_laser_front_roll" value="${M_PI}"/>
+	<xacro:property name="def_laser_front_pitch" value="0.0"/>
+	<xacro:property name="def_laser_front_yaw" value="${-M_PI/4}"/>
+
+	<!-- laser rear mount positions | relative to base_link -->
+	<xacro:property name="def_laser_rear_x" value="-0.465"/>
+	<xacro:property name="def_laser_rear_y" value="0.232"/>
+	<xacro:property name="def_laser_rear_z" value="0.178"/>
+	<xacro:property name="def_laser_rear_roll" value="${M_PI}"/>
+	<xacro:property name="def_laser_rear_pitch" value="0.0"/>
+	<xacro:property name="def_laser_rear_yaw" value="${-5*M_PI/4}"/>
+
+	<!-- *********************************** -->
+	<!-- kinematic chain reference positions -->
+	<!-- *********************************** -->
+
+	<!-- tower mount positions | relative to base_link -->
+	<xacro:property name="def_tower_x" value="0.357"/>
+	<xacro:property name="def_tower_y" value="0.0"/>
+	<xacro:property name="def_tower_z" value="0.306"/>
+	<xacro:property name="def_tower_roll" value="0.0"/>
+	<xacro:property name="def_tower_pitch" value="0.0"/>
+	<xacro:property name="def_tower_yaw" value="3.14159265359"/>
+
+	<!--torso mount positions (torso_0_link) | relative to base_link-->
+	<xacro:property name="def_torso_x" value="0.166"/>
+	<xacro:property name="def_torso_y" value="0.2175"/>
+	<xacro:property name="def_torso_z" value="0.302"/>
+	<xacro:property name="def_torso_roll" value="0.0"/>
+	<xacro:property name="def_torso_pitch" value="0.0"/>
+	<xacro:property name="def_torso_yaw" value="1.57079632679"/>
+
+	<!-- head mount positions | relative to head_cover_link -->
+	<xacro:property name="def_head_x" value="0.0"/>
+	<xacro:property name="def_head_y" value="0.0"/>
+	<xacro:property name="def_head_z" value="0.0"/>
+	<xacro:property name="def_head_roll" value="0.0"/>
+	<xacro:property name="def_head_pitch" value="0.0"/>
+	<xacro:property name="def_head_yaw" value="0.0"/>
+
+	<!--arm mount positions | relative to base_link-->
+	<xacro:property name="def_arm_x" value="0.324"/>
+	<xacro:property name="def_arm_y" value="-0.191"/>
+	<xacro:property name="def_arm_z" value="0.585"/>
+	<xacro:property name="def_arm_roll" value="0.0"/>
+	<xacro:property name="def_arm_pitch" value="0.0"/>
+	<xacro:property name="def_arm_yaw" value="-2.3562"/>
+
+	<!-- gripper mount positions | relative to arm_ee_link -->
+	<xacro:property name="def_gripper_x" value="0.0"/>
+	<xacro:property name="def_gripper_y" value="0.0"/>
+	<xacro:property name="def_gripper_z" value="0.0"/>
+	<xacro:property name="def_gripper_roll" value="0.0"/>
+	<xacro:property name="def_gripper_pitch" value="0.0"/>
+	<xacro:property name="def_gripper_yaw" value="0.0"/>
+
+	<!-- ***************************** -->
+	<!-- camera calibration properties -->
+	<!-- ***************************** -->
+	<!-- left | handeye calibration | relative to head_axis_link -->
+	<xacro:property name="def_cam_reference_x" value="0.044"/>
+	<xacro:property name="def_cam_reference_y" value="0.06"/>
+	<xacro:property name="def_cam_reference_z" value="0.092"/>
+	<xacro:property name="def_cam_reference_roll" value="-1.57"/>
+	<xacro:property name="def_cam_reference_pitch" value="0.0"/>
+	<xacro:property name="def_cam_reference_yaw" value="-1.57"/>
+
+	<!-- left | handeye calibration | relative to cam_reference_link -->
+	<xacro:property name="def_cam_l_x" value="0.0"/>
+	<xacro:property name="def_cam_l_y" value="0.0"/>
+	<xacro:property name="def_cam_l_z" value="0.0"/>
+	<xacro:property name="def_cam_l_roll" value="0.0"/>
+	<xacro:property name="def_cam_l_pitch" value="0.0"/>
+	<xacro:property name="def_cam_l_yaw" value="0.0"/>
+
+	<!-- right | stereo baseline calibration | relative to cam_reference_link -->
+	<xacro:property name="def_cam_r_x" value="0.12"/>
+	<xacro:property name="def_cam_r_y" value="0.0"/>
+	<xacro:property name="def_cam_r_z" value="0.0"/>
+	<xacro:property name="def_cam_r_roll" value="0.0"/>
+	<xacro:property name="def_cam_r_pitch" value="0.0"/>
+	<xacro:property name="def_cam_r_yaw" value="0.0"/>
+
+	<!-- cam3d | handeye calibration | relative to cam_reference_link -->
+	<xacro:property name="def_cam3d_x" value="0.06"/>
+	<xacro:property name="def_cam3d_y" value="0.0"/>
+	<xacro:property name="def_cam3d_z" value="0.0"/>
+	<xacro:property name="def_cam3d_roll" value="0.0"/>
+	<xacro:property name="def_cam3d_pitch" value="0.0"/>
+	<xacro:property name="def_cam3d_yaw" value="0.0"/>
+
+</robot>

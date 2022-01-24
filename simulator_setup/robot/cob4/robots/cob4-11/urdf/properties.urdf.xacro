@@ -1,0 +1,33 @@
+<?xml version="1.0" ?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+	<!--reference calc-->
+	<xacro:include filename="$(find simulator_setup)/robot/cob4/cob_calibration_data/cob4-11/calibration/calibration_offset.urdf.xacro" />
+	<xacro:include filename="$(find simulator_setup)/robot/cob4/robots/cob4-11/urdf/calibration_default.urdf.xacro" />
+	<!-- ***************** -->
+	<!-- base calibration -->
+	<!-- ***************** -->
+	<!-- laser front mount positions | relative to base_link -->
+	<xacro:property name="laser_front_x" value="${def_laser_front_x+offset_laser_front_x}"/>
+	<xacro:property name="laser_front_y" value="${def_laser_front_y+offset_laser_front_y}"/>
+	<xacro:property name="laser_front_z" value="${def_laser_front_z+offset_laser_front_z}"/>
+	<xacro:property name="laser_front_roll" value="${def_laser_front_roll+offset_laser_front_roll}"/>
+	<xacro:property name="laser_front_pitch" value="${def_laser_front_pitch+offset_laser_front_pitch}"/>
+	<xacro:property name="laser_front_yaw" value="${def_laser_front_yaw+offset_laser_front_yaw}"/>
+
+	<!-- laser rear mount positions | relative to base_link -->
+	<xacro:property name="laser_left_x" value="${def_laser_left_x+offset_laser_left_x}"/>
+	<xacro:property name="laser_left_y" value="${def_laser_left_y+offset_laser_left_y}"/>
+	<xacro:property name="laser_left_z" value="${def_laser_left_z+offset_laser_left_z}"/>
+	<xacro:property name="laser_left_roll" value="${def_laser_left_roll+offset_laser_left_roll}"/>
+	<xacro:property name="laser_left_pitch" value="${def_laser_left_pitch+offset_laser_left_pitch}"/>
+	<xacro:property name="laser_left_yaw" value="${def_laser_left_yaw+offset_laser_left_yaw}"/>
+
+	<!-- laser top mount positions | relative to base_link -->
+	<xacro:property name="laser_right_x" value="${def_laser_right_x+offset_laser_right_x}"/>
+	<xacro:property name="laser_right_y" value="${def_laser_right_y+offset_laser_right_y}"/>
+	<xacro:property name="laser_right_z" value="${def_laser_right_z+offset_laser_right_z}"/>
+	<xacro:property name="laser_right_roll" value="${def_laser_right_roll+offset_laser_right_roll}"/>
+	<xacro:property name="laser_right_pitch" value="${def_laser_right_pitch+offset_laser_right_pitch}"/>
+	<xacro:property name="laser_right_yaw" value="${def_laser_right_yaw+offset_laser_right_yaw}"/>
+
+</robot>

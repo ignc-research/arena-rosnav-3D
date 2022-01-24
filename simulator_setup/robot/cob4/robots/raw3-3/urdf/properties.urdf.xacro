@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+	<xacro:include filename="$(find simulator_setup)/robot/cob4/robots/raw3-3/urdf/calibration_default.urdf.xacro" />
+	<xacro:include filename="$(find simulator_setup)/robot/cob4/cob_calibration_data/raw3-3/calibration/calibration_offset.urdf.xacro" />>
+
+	<!-- ***************** -->
+	<!-- base calibration -->
+	<!-- ***************** -->
+	<!-- laser front mount positions | relative to base_link -->
+	<xacro:property name="laser_front_x" value="${def_laser_front_x+offset_laser_front_x}"/>
+	<xacro:property name="laser_front_y" value="${def_laser_front_y+offset_laser_front_y}"/>
+	<xacro:property name="laser_front_z" value="${def_laser_front_z+offset_laser_front_z}"/>
+	<xacro:property name="laser_front_roll" value="${def_laser_front_roll+offset_laser_front_roll}"/>
+	<xacro:property name="laser_front_pitch" value="${def_laser_front_pitch+offset_laser_front_pitch}"/>
+	<xacro:property name="laser_front_yaw" value="${def_laser_front_yaw+offset_laser_front_yaw}"/>
+
+	<!-- laser rear mount positions | relative to base_link -->
+	<xacro:property name="laser_rear_x" value="${def_laser_rear_x+offset_laser_rear_x}"/>
+	<xacro:property name="laser_rear_y" value="${def_laser_rear_y+offset_laser_rear_y}"/>
+	<xacro:property name="laser_rear_z" value="${def_laser_rear_z+offset_laser_rear_z}"/>
+	<xacro:property name="laser_rear_roll" value="${def_laser_rear_roll+offset_laser_rear_roll}"/>
+	<xacro:property name="laser_rear_pitch" value="${def_laser_rear_pitch+offset_laser_rear_pitch}"/>
+	<xacro:property name="laser_rear_yaw" value="${def_laser_rear_yaw+offset_laser_rear_yaw}"/>
+
+	<!-- *********************** -->
+	<!-- upper robot calibration -->
+	<!-- *********************** -->
+	<!-- tower mount positions | relative to base_link -->
+	<xacro:property name="tower_x" value="${def_tower_x+offset_tower_x}"/>
+	<xacro:property name="tower_y" value="${def_tower_y+offset_tower_y}"/>
+	<xacro:property name="tower_z" value="${def_tower_z+offset_tower_z}"/>
+	<xacro:property name="tower_roll" value="${def_tower_roll+offset_tower_roll}"/>
+	<xacro:property name="tower_pitch" value="${def_tower_pitch+offset_tower_pitch}"/>
+	<xacro:property name="tower_yaw" value="${def_tower_yaw+offset_tower_yaw}"/>
+
+</robot>

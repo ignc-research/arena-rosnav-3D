@@ -1,0 +1,36 @@
+sync:
+  interval_ms: 10
+  overflow: 0
+heartbeat:
+  rate: 20
+  msg: "77f#05"
+
+defaults:
+  eds_pkg: cob_hardware_config
+  eds_file: "robots/common/Elmo.dcf"
+  vel_from_device: "v != v ? v=0 : v=smooth(deg2rad(obj606c/1000.0),v,0.3)" # for smoother current velocity in joint_states
+  motor_layer:
+    switching_state: 4 # switched on - stop controller before switching modes
+  dcf_overlay:
+    "1016sub1" : "0x7F0064" # heartbeat timeout of 100 ms for master at 127
+
+nodes:
+  - name: torso_2_joint
+    id: 32
+    #publish: ["60C1sub1"]   #trajectory
+    #publish: ["60FF"]       #velocity
+    dcf_overlay: # "ObjectID": "ParameterValue" (both as strings)
+      "6083": "200000" # profile acceleration, mgrad/sec^2
+      "6084": "200000" # profile deceleration, mgrad/sec^2
+      "60C5": "200000" # max acceleration, mgrad/sec^2
+      "60C6": "200000" # max deceleration, mgrad/sec^2
+  - name: torso_3_joint
+    id: 33
+    #publish: ["60C1sub1"]   #trajectory
+    #publish: ["60FF"]       #velocity
+    dcf_overlay: # "ObjectID": "ParameterValue" (both as strings)
+      "6083": "200000" # profile acceleration, mgrad/sec^2
+      "6084": "200000" # profile deceleration, mgrad/sec^2
+      "60C5": "200000" # max acceleration, mgrad/sec^2
+      "60C6": "200000" # max deceleration, mgrad/sec^2
+

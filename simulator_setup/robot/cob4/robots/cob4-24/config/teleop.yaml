@@ -1,0 +1,80 @@
+#cob4-24
+##########
+# common params
+run_factor: 2.0
+apply_ramp: false
+joy_num_buttons: 12
+joy_num_axes: 6
+joy_num_modes: 4
+mode_switch_button: 8
+
+enable_light: true
+light_action_name: /light_torso/set_light
+enable_sound: true
+sound_action_name: /sound/say
+
+# axes
+axis_vx: 1
+axis_vy: 0
+axis_vz: 5
+axis_roll: 4
+axis_pitch: 3
+axis_yaw: 2
+
+# buttons
+deadman_button: 5
+safety_button: 4
+init_button: 9
+
+#mode1: Base
+run_button: 7
+
+#mode2: Trajectory controller
+torso_sss_default_target_button: 1
+
+#mode3: Velocity group controller
+torso_joint1_button: 0
+
+right_indicator_button: 7
+left_indicator_button: 6
+up_down_button: 5
+right_left_button: 4
+
+#mode4: Twist controller
+torso_twist_button: 1
+
+components: {
+  base: {
+    twist_topic_name: '/base/twist_mux/command_teleop_joy',
+    twist_safety_topic_name: '/base/collision_velocity_filter/command',
+    twist_max_velocity: [0.3, 0.2, 0.3],
+    twist_max_acc: [0.5, 0.5, 0.7]
+  },
+  torso: {
+    sss_default_target: "home",
+    velocity_topic_name: "/torso/joint_group_velocity_controller/command",
+    joint_velocity: [0.05, 0.05],
+    twist_topic_name: '/torso/twist_controller/command_twist',
+    twist_max_velocity: [0.3, 0.2, 0.3, 0.3, 0.2, 0.3]
+  },
+  arm_left: {
+    sss_default_target: "folded",
+    velocity_topic_name: "/arm_left/joint_group_velocity_controller/command",
+    joint_velocity: [0.05, 0.05, 0.05, 0.05, 0.05, 0.05, 0.05],
+    twist_topic_name: '/arm_left/twist_controller/command_twist',
+    twist_max_velocity: [0.3, 0.2, 0.3, 0.3, 0.2, 0.3]
+  },
+  gripper_left: {
+    sss_default_target: "home"
+  },
+  arm_right: {
+    sss_default_target: "folded",
+    velocity_topic_name: "/arm_right/joint_group_velocity_controller/command",
+    joint_velocity: [0.05, 0.05, 0.05, 0.05, 0.05, 0.05, 0.05],
+    twist_topic_name: '/arm_right/twist_controller/command_twist',
+    twist_max_velocity: [0.3, 0.2, 0.3, 0.3, 0.2, 0.3]
+  },
+  gripper_right: {
+    sss_default_target: "home"
+  }
+}

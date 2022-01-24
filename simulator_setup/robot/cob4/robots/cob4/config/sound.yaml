@@ -1,0 +1,6 @@
+mode: "cepstral"
+cepstral_voice: "David"
+cepstral_settings: "\"speech/rate=170\""
+fade_volume: true   #fade volume on play and on track transition
+fade_duration: 1.0  #time till full volume or mute is reached
+                    #(complete fade time between two tracks = 2*fade_duration)

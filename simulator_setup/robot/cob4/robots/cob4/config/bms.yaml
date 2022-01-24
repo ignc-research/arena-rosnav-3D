@@ -1,0 +1,137 @@
+diagnostics:
+  - id: 0x01 # Status Register
+    fields:
+      - name: "battery_empty"
+        offset: 0
+        len: 2
+        bit_mask: 0x01
+      - name: "battery_almost_empty"
+        offset: 0
+        len: 2
+        bit_mask: 0x02
+      - name: "charging_fet_active"
+        offset: 0
+        len: 2
+        bit_mask: 0x04
+      - name: "discharging_fet_active"
+        offset: 0
+        len: 2
+        bit_mask: 0x08
+      - name: "battery_learning"
+        offset: 0
+        len: 2
+        bit_mask: 0x10
+      - name: "battery_discharging"
+        offset: 0
+        len: 2
+        bit_mask: 0x20
+      - name: "battery_full"
+        offset: 0
+        len: 2
+        bit_mask: 0x40
+      - name: "battery_charging"
+        offset: 0
+        len: 2
+        bit_mask: 0x80
+
+  - id: 0x02 # Akku Current
+    fields:
+      - name: "current"
+        offset: 0
+        len: 2
+        is_signed: true
+        factor: 0.01
+        unit: "A"
+
+  - id: 0x03 # Akku Pack Voltage
+    fields:
+      - name: "voltage"
+        offset: 0
+        len: 2
+        is_signed: false
+        factor: 0.01
+        unit: "V"
+
+  - id: 0x04 # All Temperatures
+    fields:
+      - name: "temperature"
+        offset: 0
+        len: 2
+        is_signed: true
+        factor: 0.1
+        unit: "Celsius"
+      - name: "temperature_cell_1"
+        offset: 2
+        len: 2
+        is_signed: true
+        factor: 0.1
+        unit: "Celsius"
+      - name: "temperature_cell_2"
+        offset: 4
+        len: 2
+        is_signed: true
+        factor: 0.1
+        unit: "Celsius"
+
+  - id: 0x05 # All Temperatures 2
+    fields:
+      - name: "temperature_cell_3"
+        offset: 0
+        len: 2
+        is_signed: true
+        factor: 0.1
+        unit: "Celsius"
+      - name: "temperature_cell_4"
+        offset: 2
+        len: 2
+        is_signed: true
+        factor: 0.1
+        unit: "Celsius"
+      - name: "temperature_cell_5"
+        offset: 4
+        len: 2
+        is_signed: true
+        factor: 0.1
+        unit: "Celsius"
+
+  - id: 0x06 # All Capacities
+    fields:
+      - name: "remaining_capacity"
+        offset: 0
+        len: 2
+        is_signed: false
+        factor: 0.001
+        unit: "Ah"
+      - name: "full_charge_capacity"
+        offset: 2
+        len: 2
+        is_signed: false
+        factor: 0.001
+        unit: "Ah"
+
+  - id: 0x07 # All Cycle Counts
+    fields:
+      - name: "discharge_cycles"
+        offset: 0
+        len: 2
+        is_signed: false
+        factor: 1.0
+        unit: "#"
+      - name: "cycles_after_learn"
+        offset: 2
+        len: 2
+        is_signed: false
+        factor: 1.0
+        unit: "#"
+      - name: "learning_cycles"
+        offset: 4
+        len: 2
+        is_signed: false
+        factor: 1.0
+        unit: "#"
+
+topics: ["current", "voltage", "remaining_capacity", "full_charge_capacity", "temperature", "battery_charging", "battery_full", "battery_learning", "battery_almost_empty"]
+
+can_device: "can1"
+bms_id_to_poll: 0x200
+poll_frequency_hz: 20

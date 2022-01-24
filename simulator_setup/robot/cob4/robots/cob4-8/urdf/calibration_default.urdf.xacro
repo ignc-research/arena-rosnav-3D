@@ -1,0 +1,133 @@
+<?xml version="1.0" ?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+	<!-- ***************** -->
+	<!-- base calibration -->
+	<!-- ***************** -->
+	<!-- laser front mount positions | relative to base_link -->
+	<xacro:property name="def_laser_front_x" value="0.244"/>
+	<xacro:property name="def_laser_front_y" value="0.0"/>
+	<xacro:property name="def_laser_front_z" value="0.20858"/>
+	<xacro:property name="def_laser_front_roll" value="0.0"/>
+	<xacro:property name="def_laser_front_pitch" value="0.0"/>
+	<xacro:property name="def_laser_front_yaw" value="0.0"/>
+
+	<!-- laser left mount positions | relative to base_link -->
+	<xacro:property name="def_laser_left_x" value="-0.122"/>
+	<xacro:property name="def_laser_left_y" value="0.21131"/>
+	<xacro:property name="def_laser_left_z" value="0.20858"/>
+	<xacro:property name="def_laser_left_roll" value="0.0"/>
+	<xacro:property name="def_laser_left_pitch" value="0.0"/>
+	<xacro:property name="def_laser_left_yaw" value="2.094"/>
+
+	<!-- laser right mount positions | relative to base_link -->
+	<xacro:property name="def_laser_right_x" value="-0.122"/>
+	<xacro:property name="def_laser_right_y" value="-0.21131"/>
+	<xacro:property name="def_laser_right_z" value="0.20858"/>
+	<xacro:property name="def_laser_right_roll" value="0.0"/>
+	<xacro:property name="def_laser_right_pitch" value="0.0"/>
+	<xacro:property name="def_laser_right_yaw" value="-2.094"/>
+
+	<!-- *********************** -->
+	<!-- upper robot calibration -->
+	<!-- *********************** -->
+
+	<!-- torso mount positions | relative to base_link -->
+	<xacro:property name="def_torso_x" value="0.0"/>
+	<xacro:property name="def_torso_y" value="0.0"/>
+	<xacro:property name="def_torso_z" value="0.26411"/>
+	<xacro:property name="def_torso_roll" value="0.0"/>
+	<xacro:property name="def_torso_pitch" value="0.0"/>
+	<xacro:property name="def_torso_yaw" value="0.0"/>
+
+	<!-- head mount positions | relative to torso_3_link -->
+	<xacro:property name="def_head_x" value="0.0"/>
+	<xacro:property name="def_head_y" value="0.0"/>
+	<xacro:property name="def_head_z" value="0.610"/>
+	<xacro:property name="def_head_roll" value="0.0"/>
+	<xacro:property name="def_head_pitch" value="0.0"/>
+	<xacro:property name="def_head_yaw" value="0.0"/>
+
+	<!-- head sensors mount positions | relative to head_2_link -->
+	<xacro:property name="def_sensorring_x" value="0.0"/>
+	<xacro:property name="def_sensorring_y" value="0.09849"/>
+	<xacro:property name="def_sensorring_z" value="0.04476"/>
+	<xacro:property name="def_sensorring_roll" value="0.349"/>
+	<xacro:property name="def_sensorring_pitch" value="0.0"/>
+	<xacro:property name="def_sensorring_yaw" value="-${M_PI}"/>
+
+	<!-- arm right mount positions | relative to torso_3_link -->
+	<xacro:property name="def_arm_right_x" value="0.0"/>
+	<xacro:property name="def_arm_right_y" value="-0.014"/>
+	<xacro:property name="def_arm_right_z" value="0.55"/>
+	<xacro:property name="def_arm_right_roll" value="1.57097"/>
+	<xacro:property name="def_arm_right_pitch" value="0"/>
+	<xacro:property name="def_arm_right_yaw" value="0.0"/>
+
+	<!-- arm left mount positions | relative to torso_3_link -->
+	<xacro:property name="def_arm_left_x" value="0.0"/>
+	<xacro:property name="def_arm_left_y" value="0.014"/>
+	<xacro:property name="def_arm_left_z" value="0.55"/>
+	<xacro:property name="def_arm_left_roll" value="1.57097"/>
+	<xacro:property name="def_arm_left_pitch" value="0"/>
+	<xacro:property name="def_arm_left_yaw" value="3.14159"/>
+
+	<!-- gripper right mount positions | relative to arm_right_7_link -->
+	<xacro:property name="def_gripper_right_x" value="0.0"/>
+	<xacro:property name="def_gripper_right_y" value="0.0"/>
+	<xacro:property name="def_gripper_right_z" value="0.0748"/>
+	<xacro:property name="def_gripper_right_roll" value="0.0"/>
+	<xacro:property name="def_gripper_right_pitch" value="0.0"/>
+	<xacro:property name="def_gripper_right_yaw" value="3.14159"/>
+
+	<!-- gripper left mount positions | relative to arm_left_7_link -->
+	<xacro:property name="def_gripper_left_x" value="0.0"/>
+	<xacro:property name="def_gripper_left_y" value="0.0"/>
+	<xacro:property name="def_gripper_left_z" value="0.0748"/>
+	<xacro:property name="def_gripper_left_roll" value="0.0"/>
+	<xacro:property name="def_gripper_left_pitch" value="0.0"/>
+	<xacro:property name="def_gripper_left_yaw" value="3.14159"/>
+
+	<!-- ***************************** -->
+	<!-- extrinsic camera calibration  -->
+	<!-- ***************************** -->
+	<!-- torso cam3d left mount positions | relative to torso_3_link -->
+	<xacro:property name="def_torso_cam3d_left_x" value="0.14873"/>
+	<xacro:property name="def_torso_cam3d_left_y" value="0.01293"/>
+	<xacro:property name="def_torso_cam3d_left_z" value="0.27008"/>
+	<xacro:property name="def_torso_cam3d_left_roll" value="-1.57079"/>
+	<xacro:property name="def_torso_cam3d_left_pitch" value="0.0"/>
+	<xacro:property name="def_torso_cam3d_left_yaw" value="0.61"/>
+
+	<!-- torso cam3d right mount positions | relative to torso_3_link -->
+	<xacro:property name="def_torso_cam3d_right_x" value="0.14873"/>
+	<xacro:property name="def_torso_cam3d_right_y" value="-0.01293"/>
+	<xacro:property name="def_torso_cam3d_right_z" value="0.27008"/>
+	<xacro:property name="def_torso_cam3d_right_roll" value="-1.57079"/>
+	<xacro:property name="def_torso_cam3d_right_pitch" value="0.0"/>
+	<xacro:property name="def_torso_cam3d_right_yaw" value="-0.61"/>
+
+	<!-- torso cam3d down mount positions | relative to torso_3_link -->
+	<xacro:property name="def_torso_cam3d_down_x" value="0.15203"/>
+	<xacro:property name="def_torso_cam3d_down_y" value="0.0"/>
+	<xacro:property name="def_torso_cam3d_down_z" value="0.1307"/>
+	<xacro:property name="def_torso_cam3d_down_roll" value="0.0"/>
+	<xacro:property name="def_torso_cam3d_down_pitch" value="0.56"/>
+	<xacro:property name="def_torso_cam3d_down_yaw" value="0.0"/>
+
+	<!-- sensorring cam3d | handeye calibration | relative to sensorring_link -->
+	<xacro:property name="def_sensorring_cam3d_x" value="0.096"/>
+	<xacro:property name="def_sensorring_cam3d_y" value="0.0"/>
+	<xacro:property name="def_sensorring_cam3d_z" value="0.0195"/>
+	<xacro:property name="def_sensorring_cam3d_roll" value="0.0"/>
+	<xacro:property name="def_sensorring_cam3d_pitch" value="0.0"/>
+	<xacro:property name="def_sensorring_cam3d_yaw" value="0.0"/>
+
+	<!-- head cam mount positions | relative to head_3_link -->
+	<xacro:property name="def_head_cam_x" value="-0.181"/>
+	<xacro:property name="def_head_cam_y" value="0.0"/>
+	<xacro:property name="def_head_cam_z" value="0.325"/>
+	<xacro:property name="def_head_cam_roll" value="-1.57079"/>
+	<xacro:property name="def_head_cam_pitch" value="-0.73"/>
+	<xacro:property name="def_head_cam_yaw" value="0.0"/>
+
+</robot>

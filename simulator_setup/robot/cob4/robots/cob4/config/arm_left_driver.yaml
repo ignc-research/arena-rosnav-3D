@@ -1,0 +1,29 @@
+sync:
+  interval_ms: 10
+  overflow: 0
+
+defaults:
+  eds_pkg: cob_hardware_config
+  eds_file: "robots/common/Schunk_0_63.dcf"
+
+  #the following scaling is due to 16bit value range limitation of velocity command in vl mode (2)
+  vel_to_device: "rint(rad2deg(vel)*250)"
+  dcf_overlay: # "ObjectID": "ParameterValue" (both as strings)
+    "604Csub1": "1" # vl dimension factor numerator
+    "604Csub2": "24000" # vl dimension factor denominator
+
+nodes:
+  - name: arm_left_1_joint
+    id: 51
+  - name: arm_left_2_joint
+    id: 52
+  - name: arm_left_3_joint
+    id: 53
+  - name: arm_left_4_joint
+    id: 54
+  - name: arm_left_5_joint
+    id: 55
+  - name: arm_left_6_joint
+    id: 56
+  - name: arm_left_7_joint
+    id: 57

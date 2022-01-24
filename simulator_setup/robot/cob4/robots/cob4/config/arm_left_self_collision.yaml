@@ -1,0 +1,10 @@
+## The following parameter structure defines what pairs of links are to be considered during self-collision avoidance
+
+## Left: The link that is considered an 'obstacle' during self-collision avoidance
+## Right: The links of the component that are to be checked for self-collision with the 'obstacle'
+self_collision_map: {
+    head_3_link : [arm_left_3_link, arm_left_4_link, arm_left_5_link, arm_left_6_link, arm_left_7_link],
+    torso_3_link : [arm_left_4_link, arm_left_5_link, arm_left_6_link, arm_left_7_link],
+    base_link : [arm_left_5_link, arm_left_6_link, arm_left_7_link],
+}
+

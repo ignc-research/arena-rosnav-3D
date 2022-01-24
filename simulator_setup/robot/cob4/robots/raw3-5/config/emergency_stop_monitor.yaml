@@ -1,0 +1,6 @@
+enable_light: false
+
+enable_sound: false
+
+diagnostics_based: false
+motion_based: false

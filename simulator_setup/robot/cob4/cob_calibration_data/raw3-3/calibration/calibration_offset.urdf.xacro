@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+	<!-- ***************** -->
+	<!-- base calibration -->
+	<!-- ***************** -->
+	<!-- laser front mount positions | relative to base_link -->
+	<xacro:property name="offset_laser_front_x" value="0.0"/>
+	<xacro:property name="offset_laser_front_y" value="0.0"/>
+	<xacro:property name="offset_laser_front_z" value="0.0"/>
+	<xacro:property name="offset_laser_front_roll" value="0.0"/>
+	<xacro:property name="offset_laser_front_pitch" value="0.0"/>
+	<xacro:property name="offset_laser_front_yaw" value="0.0"/>
+
+	<!-- laser rear mount positions | relative to base_link -->
+	<xacro:property name="offset_laser_rear_x" value="0.0"/>
+	<xacro:property name="offset_laser_rear_y" value="0.0"/>
+	<xacro:property name="offset_laser_rear_z" value="0.0"/>
+	<xacro:property name="offset_laser_rear_roll" value="0.0"/>
+	<xacro:property name="offset_laser_rear_pitch" value="0.0"/>
+	<xacro:property name="offset_laser_rear_yaw" value="0.0"/>
+
+	<!-- *********************************** -->
+	<!-- kinematic chain reference positions -->
+	<!-- *********************************** -->
+	<!-- this feature is no longer supported as urdfdom does not parse the according 'calibration_rising' tag -->
+
+	<!-- tower mount positions | relative to base_link -->
+	<xacro:property name="offset_tower_x" value="0.0"/>
+	<xacro:property name="offset_tower_y" value="0.0"/>
+	<xacro:property name="offset_tower_z" value="0.0"/>
+	<xacro:property name="offset_tower_roll" value="0.0"/>
+	<xacro:property name="offset_tower_pitch" value="0.0"/>
+	<xacro:property name="offset_tower_yaw" value="0.0"/>
+
+</robot>

@@ -1,0 +1,8 @@
+# node from which initial footprint is read
+footprint_source: /local_costmap_node/costmap
+
+#
+robot_base_frame: base_link
+# frames to check for footprint adjustment
+frames_to_check: base_laser_front_link base_laser_left_link base_laser_right_link
+epsilon: 0.01

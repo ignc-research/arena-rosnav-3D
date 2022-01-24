@@ -1,0 +1,18 @@
+port: "9100" # alternative syntax: !!str 9100
+odometry_timeout: 1.0
+threshold_linear_slow: 0.4
+threshold_linear_fast: 0.9
+threshold_angular_fast: 1.0
+marker_type: 11 # http://www.ros.org/wiki/rviz/DisplayTypes/Marker, not all are supported
+scale_x: 1.0
+scale_y: 1.0
+scale_z: 1.0
+footprint_angular_slow: [[0.4,0.4], [-0.4,0.4], [-0.4,-0.4], [0.4,-0.4]]
+footprint_angular_fast: [[0.5,0.5], [-0.5,0.5], [-0.5,-0.5], [0.5,-0.5]]
+footprint_linear_slow: [[0.6,0.4], [-0.4,0.4], [-0.4,-0.4], [0.6,-0.4]]
+footprint_linear_fast: [[0.8,0.4], [-0.4,0.4], [-0.4,-0.4], [0.8,-0.4]]
+
+has_wireless_emstop: true   # has fall sensors
+warn_for_laser_bridged: false
+warn_for_wireless_bridged: false
+

@@ -1,0 +1,10 @@
+# node from which initial footprint is read
+footprint_source: /local_costmap_node/costmap
+
+#
+robot_base_frame: base_link
+# wait until tf from robot_base_frame to farthest_frame is available
+farthest_frame: base_link
+# frames to check for footprint adjustment
+#frames_to_check: /arm_forearm_link /arm_wrist_1_link /arm_wrist_2_link /arm_wrist_3_link /arm_ee_link
+epsilon: 0.01

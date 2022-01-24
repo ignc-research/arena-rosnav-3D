@@ -1,0 +1,132 @@
+<?xml version="1.0" ?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+	<!-- ***************** -->
+	<!-- base calibration -->
+	<!-- ***************** -->
+	<!-- laser front mount positions | relative to base_link -->
+	<xacro:property name="offset_laser_front_x" value="0.0"/>
+	<xacro:property name="offset_laser_front_y" value="0.0"/>
+	<xacro:property name="offset_laser_front_z" value="0.0"/>
+	<xacro:property name="offset_laser_front_roll" value="0.0"/>
+	<xacro:property name="offset_laser_front_pitch" value="0.0"/>
+	<xacro:property name="offset_laser_front_yaw" value="0.0"/>
+
+	<!-- laser left mount positions | relative to base_link -->
+	<xacro:property name="offset_laser_left_x" value="0.0"/>
+	<xacro:property name="offset_laser_left_y" value="0.0"/>
+	<xacro:property name="offset_laser_left_z" value="0.0"/>
+	<xacro:property name="offset_laser_left_roll" value="0.0"/>
+	<xacro:property name="offset_laser_left_pitch" value="0.0"/>
+	<xacro:property name="offset_laser_left_yaw" value="0.0"/>
+
+	<!-- laser right mount positions | relative to base_link -->
+	<xacro:property name="offset_laser_right_x" value="0.0"/>
+	<xacro:property name="offset_laser_right_y" value="0.0"/>
+	<xacro:property name="offset_laser_right_z" value="0.0"/>
+	<xacro:property name="offset_laser_right_roll" value="0.0"/>
+	<xacro:property name="offset_laser_right_pitch" value="0.0"/>
+	<xacro:property name="offset_laser_right_yaw" value="0.0"/>
+
+	<!-- *********************** -->
+	<!-- upper robot calibration -->
+	<!-- *********************** -->
+
+	<!-- torso mount positions | relative to base_link -->
+	<xacro:property name="offset_torso_x" value="0.0"/>
+	<xacro:property name="offset_torso_y" value="0.0"/>
+	<xacro:property name="offset_torso_z" value="0.0"/>
+	<xacro:property name="offset_torso_roll" value="0.0"/>
+	<xacro:property name="offset_torso_pitch" value="0.0"/>
+	<xacro:property name="offset_torso_yaw" value="0.0"/>
+
+	<!-- head mount positions | relative to torso_3_link -->
+	<xacro:property name="offset_head_x" value="0.0"/>
+	<xacro:property name="offset_head_y" value="0.0"/>
+	<xacro:property name="offset_head_z" value="0.0"/>
+	<xacro:property name="offset_head_roll" value="0.0"/>
+	<xacro:property name="offset_head_pitch" value="0.0"/>
+	<xacro:property name="offset_head_yaw" value="0.0"/>
+
+	<!-- sensorring mount positions | relative to head_3_link -->
+	<xacro:property name="offset_sensorring_x" value="0.0"/>
+	<xacro:property name="offset_sensorring_y" value="0.0"/>
+	<xacro:property name="offset_sensorring_z" value="0.0"/>
+	<xacro:property name="offset_sensorring_roll" value="0.0"/>
+	<xacro:property name="offset_sensorring_pitch" value="0.0"/>
+	<xacro:property name="offset_sensorring_yaw" value="0.0"/>
+
+	<!-- arm right mount positions | relative to torso_3_link -->
+	<xacro:property name="offset_arm_right_x" value="0.0"/>
+	<xacro:property name="offset_arm_right_y" value="0.0"/>
+	<xacro:property name="offset_arm_right_z" value="0.0"/>
+	<xacro:property name="offset_arm_right_roll" value="0.0"/>
+	<xacro:property name="offset_arm_right_pitch" value="0.0"/>
+	<xacro:property name="offset_arm_right_yaw" value="0.0"/>
+
+	<!-- arm left mount positions | relative to torso_3_link -->
+	<xacro:property name="offset_arm_left_x" value="0.0"/>
+	<xacro:property name="offset_arm_left_y" value="0.0"/>
+	<xacro:property name="offset_arm_left_z" value="0.0"/>
+	<xacro:property name="offset_arm_left_roll" value="0.0"/>
+	<xacro:property name="offset_arm_left_pitch" value="0.0"/>
+	<xacro:property name="offset_arm_left_yaw" value="0.0"/>
+
+	<!-- gripper right mount positions | relative to arm_7_link -->
+	<xacro:property name="offset_gripper_right_x" value="0.0"/>
+	<xacro:property name="offset_gripper_right_y" value="0.0"/>
+	<xacro:property name="offset_gripper_right_z" value="0.0"/>
+	<xacro:property name="offset_gripper_right_roll" value="0.0"/>
+	<xacro:property name="offset_gripper_right_pitch" value="0.0"/>
+	<xacro:property name="offset_gripper_right_yaw" value="0.0"/>
+
+	<!-- gripper left mount positions | relative to arm_7_link -->
+	<xacro:property name="offset_gripper_left_x" value="0.0"/>
+	<xacro:property name="offset_gripper_left_y" value="0.0"/>
+	<xacro:property name="offset_gripper_left_z" value="0.0"/>
+	<xacro:property name="offset_gripper_left_roll" value="0.0"/>
+	<xacro:property name="offset_gripper_left_pitch" value="0.0"/>
+	<xacro:property name="offset_gripper_left_yaw" value="0.0"/>
+
+	<!-- ***************************** -->
+	<!-- extrinsic camera calibration  -->
+	<!-- ***************************** -->
+	<!-- torso cam3d left mount positions | relative to torso_3_link -->
+	<xacro:property name="offset_torso_cam3d_left_x" value="0.0"/>
+	<xacro:property name="offset_torso_cam3d_left_y" value="0.0"/>
+	<xacro:property name="offset_torso_cam3d_left_z" value="0.0"/>
+	<xacro:property name="offset_torso_cam3d_left_roll" value="0.0"/>
+	<xacro:property name="offset_torso_cam3d_left_pitch" value="0.04"/>
+	<xacro:property name="offset_torso_cam3d_left_yaw" value="0.0"/>
+
+	<!-- torso cam3d right mount positions | relative to torso_3_link -->
+	<xacro:property name="offset_torso_cam3d_right_x" value="0.0"/>
+	<xacro:property name="offset_torso_cam3d_right_y" value="0.0"/>
+	<xacro:property name="offset_torso_cam3d_right_z" value="0.0"/>
+	<xacro:property name="offset_torso_cam3d_right_roll" value="0.0"/>
+	<xacro:property name="offset_torso_cam3d_right_pitch" value="0.04"/>
+	<xacro:property name="offset_torso_cam3d_right_yaw" value="0.0"/>
+
+	<!-- torso cam3d down mount positions | relative to torso_3_link -->
+	<xacro:property name="offset_torso_cam3d_down_x" value="0.0"/>
+	<xacro:property name="offset_torso_cam3d_down_y" value="0.0"/>
+	<xacro:property name="offset_torso_cam3d_down_z" value="0.0"/>
+	<xacro:property name="offset_torso_cam3d_down_roll" value="0.0"/>
+	<xacro:property name="offset_torso_cam3d_down_pitch" value="0.0"/>
+	<xacro:property name="offset_torso_cam3d_down_yaw" value="0.0"/>
+
+	<!-- sensorring cam3d mount positions | relative to sensorring_link -->
+	<xacro:property name="offset_sensorring_cam3d_x" value="0.0"/>
+	<xacro:property name="offset_sensorring_cam3d_y" value="0.0"/>
+	<xacro:property name="offset_sensorring_cam3d_z" value="0.0"/>
+	<xacro:property name="offset_sensorring_cam3d_roll" value="0.0"/>
+	<xacro:property name="offset_sensorring_cam3d_pitch" value="0.0"/>
+	<xacro:property name="offset_sensorring_cam3d_yaw" value="0.0"/>
+
+	<!-- head cam mount positions | relative to head_3_link -->
+	<xacro:property name="offset_head_cam_x" value="0.0"/>
+	<xacro:property name="offset_head_cam_y" value="0.0"/>
+	<xacro:property name="offset_head_cam_z" value="0.0"/>
+	<xacro:property name="offset_head_cam_roll" value="0.0"/>
+	<xacro:property name="offset_head_cam_pitch" value="0.0"/>
+	<xacro:property name="offset_head_cam_yaw" value="0.0"/>
+</robot>

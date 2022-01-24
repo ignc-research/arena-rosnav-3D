@@ -1,0 +1,43 @@
+# Input topics handled/muxed.
+# For each topic:
+# - name    : name identifier to select the topic
+# - topic   : input topic of geometry_msgs::Twist type
+# - timeout : timeout in seconds to start discarding old messages, and use 0.0 speed instead
+# - priority: priority in the range [0, 255]; the higher the more priority over other topics
+
+topics:
+-
+  name    : collision_velocity_filter
+  topic   : twist_mux/command_safe
+  timeout : 0.25
+  priority: 10
+-
+  name    : navigation
+  topic   : twist_mux/command_navigation
+  timeout : 0.25
+  priority: 20
+-
+  name    : syncmm # cob_twist_controller
+  topic   : twist_mux/command_syncmm
+  timeout : 0.5
+  priority: 60
+-
+  name    : script_server
+  topic   : twist_mux/command_script_server
+  timeout : 0.5
+  priority: 70
+-
+  name    : teleop_keyboard
+  topic   : twist_mux/command_teleop_keyboard
+  timeout : 0.5
+  priority: 80
+-
+  name    : teleop_android
+  topic   : twist_mux/command_teleop_android
+  timeout : 0.5
+  priority: 90
+-
+  name    : teleop_joystick
+  topic   : twist_mux/command_teleop_joy
+  timeout : 0.25
+  priority: 100
