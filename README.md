@@ -74,10 +74,10 @@ All robots are equipped with a laser scanner. The robots differ in size, laser-r
 | *jackal*              | 2.0  | 0.0  | 4.0  | 0.267 | True | 30.0 | False |
 | *ridgeback*           | 1.1  | 0.5  | 2.0  | 0.625 | True | 10.0 | True  |
 | *agv-ota*             | 0.5  | 0.0  | 0.4  | 0.629 | True | 5.0  | False |
-| *rto*                 | 2.78  | todo  |  todo | 0.225 | todo | todo  | todo |
-| *tiago*               |  1.5 |  0.0 |  todo | 0.27 | False | todo  | False |
+| *rto*                 | 2.78  | TODO  |  TODO | 0.225 | True | TODO  | TODO |
+| *tiago*               |  1.5 |  0.0 |  TODO | 0.27 | False | TODO  | False |
 | *turtlebot3_waffle_pi*| 0.26  | 0.0  | 1.82  | 0.208 | False | 3.5  | False |
-| *Car-O-Bot4 (cob4)*   |  1.1 |  todo | todo | 0.36 | True |  todo | True |
+| *Car-O-Bot4 (cob4)*   |  1.1 |  TODO | TODO | 0.36 | True |  TODO | True |
 
 For additional / more detailed information about each robot:
 
