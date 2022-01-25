@@ -35,8 +35,8 @@
 	</include>
 
 
-
-
+<!-- For frame [base_link]: No transform to fixed frame [map].  TF error: [Could not find a connection between 'map' and 'base_link' because they are not part of the same tree.Tf has two or more unconnected trees -->
+	<node pkg="tf2_ros" type="static_transform_publisher" name="map_totewstlisher"  args="0 0 0 0 0 0 base_link map"/>
 
 	<group ns="base">
 		<rosparam command="load" file="$(find simulator_setup)/robot/cob4/robots/cob4/config/cob4_base_controller.yaml"/>
