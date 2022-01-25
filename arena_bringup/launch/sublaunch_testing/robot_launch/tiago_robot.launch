@@ -28,6 +28,22 @@
     
     <rosparam command="load" file="$(find simulator_setup)/robot/tiago/params/config/pids.yaml"/>
     <rosparam command="load" file="$(find simulator_setup)/robot/tiago/params/config/hardware_gazebo/tiago_pal_hardware_gazebo_$(arg file_suffix).yaml"/>
+
+    <param name="$(arg robot_description)"
+        command="rosrun xacro xacro --inorder
+        '$(find simulator_setup)/robot/tiago/urdf/robots/tiago.urdf.xacro'
+        arm:=$(arg arm)
+        wrist_model:=$(arg wrist_model)
+        end_effector:=$(arg end_effector)
+        ft_sensor:=$(arg ft_sensor)
+        laser_model:=$(arg laser_model)
+        camera_model:=$(arg camera_model)
+        no_safety_eps:=$(arg no_safety_eps)
+        base_type:=$(arg base_type)
+        description_calibration_dir:=$(arg description_calibration_dir)
+        extrinsic_calibration_dir:=$(arg extrinsic_calibration_dir)
+        $(arg multi)" />
+
     <rosparam command="load" file="$(find simulator_setup)/robot/tiago/collision/collision_parameters.yaml" />
 
     <!-- Joint trajectory and diff drive controllers -->
