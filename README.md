@@ -105,6 +105,8 @@ roslaunch arena_bringup start_arena_gazebo.launch  train_mode:=true use_viz:=tru
 roscd arena_local_planner_drl
 python scripts/training/train_agent.py --agent MLP_ARENA2D
 ```
+### Evaluation
+To benchmark the performance of your simulation use see the documentation [here](arena_navigation/arena_local_planer/evaluation/arena_evaluation/readme.md)
 
 ## Miscellaneous
 

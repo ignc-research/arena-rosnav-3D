@@ -31,7 +31,7 @@
 	<include file="$(find simulator_setup)/robot/cob4/scan_unifier.launch">
 		<arg name="robot" value="$(arg robot)"/>
 		<arg name="input_scans" value="['base_laser_front/scan','base_laser_left/scan','base_laser_right/scan']"/>
-		<arg name="output_scan" value="/scan_unified"/>
+		<arg name="output_scan" value="scan"/>
 	</include>
 
 
