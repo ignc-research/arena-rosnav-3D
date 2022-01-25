@@ -1,44 +1,36 @@
 MpcLocalPlannerROS:
+  odom_topic:
+    odom
 
-  odom_topic: odom
-    
-   ## Robot settings
+    ## Robot settings
   robot:
     type: "unicycle"
     unicycle:
-      max_vel_x: 0.4
-      max_vel_x_backwards: 0.2
-      max_vel_theta: 0.3
-      acc_lim_x: 0.2 # deactive bounds with zero
-      dec_lim_x: 0.2 # deactive bounds with zero
-      acc_lim_theta: 0.2 # deactivate bounds with zero
+      max_vel_x: 1.1
+      max_vel_x_backwards: 1.1
+      max_vel_theta: 2.0
+      max_vel_y: 1.1
+      acc_lim_x: 2.5 # deactive bounds with zero
+      dec_lim_x: 2.5 # deactive bounds with zero
+      acc_lim_y: 2.5
+      acc_lim_theta: 1.0 # deactivate bounds with zero
 
   ## Footprint model for collision avoidance
   footprint_model:
-    type: "point"
-    is_footprint_dynamic: False
+    type: "polygon"
+    vertices: [[0.48, -0.40], [0.48, 0.40], [-0.48, 0.40], [-0.48, -0.40]]
 
-  ## Collision avoidance
-  collision_avoidance:
-    min_obstacle_dist: 0.2 # Note, this parameter must be chosen w.r.t. the footprint_model
-    enable_dynamic_obstacles: False
-    force_inclusion_dist: 0.5
-    cutoff_dist: 2.5  
-    include_costmap_obstacles: True
-    costmap_obstacles_behind_robot_dist: 1.5
-    collision_check_no_poses: 5
-
-  ## Planning grid 
+  ## Planning grid
   grid:
     type: "fd_grid"
     grid_size_ref: 20 # Set horizon length here (T = (grid_size_ref-1) * dt_ref); Note, also check max_global_plan_lookahead_dist
-    dt_ref: 0.3 # and here the corresponding temporal resolution  
+    dt_ref: 0.3 # and here the corresponding temporal resolution
     xf_fixed: [False, False, False] # Unfix final state -> we use terminal cost below
     warm_start: True
     collocation_method: "forward_differences"
     cost_integration_method: "left_sum"
     variable_grid:
-      enable: False # We want a fixed grid  
+      enable: False # We want a fixed grid
       min_dt: 0.0;
       max_dt: 10.0;
       grid_adaptation:
@@ -74,12 +66,12 @@ MpcLocalPlannerROS:
     global_plan_prune_distance: 1.0
     allow_init_with_backward_motion: True
     max_global_plan_lookahead_dist: 1.0 # Check horizon length
-    force_reinit_new_goal_dist: 1.0 
+    force_reinit_new_goal_dist: 1.0
     force_reinit_new_goal_angular: 1.57
     force_reinit_num_steps: 0
     prefer_x_feedback: False
     publish_ocp_results: False
-    
+
   ## Solver settings
   solver:
     type: "ipopt"
@@ -89,7 +81,7 @@ MpcLocalPlannerROS:
       ipopt_numeric_options:
         tol: 1e-4
       ipopt_string_options:
-        linear_solver: "mumps" 
+        linear_solver: "mumps"
         hessian_approximation: "exact" # exact or limited-memory
     lsq_lm:
       iterations: 10

@@ -3,23 +3,22 @@ TebLocalPlannerROS:
 
   # Robot
 
-  max_vel_x: 2.0
-  max_vel_x_backwards: 0.5
-  max_vel_y: 0.0
-  max_vel_theta: 1.57
-  min_vel_theta: -1.57
-  acc_lim_x: 10.0
-  acc_lim_theta: 20.0
-  min_turning_radius: 0.0 # diff-drive robot (can turn on place!)
+  max_vel_x: 1.1
+  max_vel_x_backwards: 1.1
+  max_vel_y: 1.1
+  max_vel_theta: 2.0
+  acc_lim_x: 2.5
+  acc_lim_y: 2.5
+  acc_lim_theta: 1.0
 
   footprint_model:
     type: "polygon"
-    vertices: [[-0.21, -0.165], [-0.21, 0.165], [0.21, 0.165], [0.21, -0.165]]
+    vertices: [[0.48, -0.40], [0.48, 0.40], [-0.48, 0.40], [-0.48, -0.40]]
 
   # GoalTolerance
 
-  xy_goal_tolerance: 0.25
-  yaw_goal_tolerance: 0.17
+  xy_goal_tolerance: 0.2
+  yaw_goal_tolerance: 0.1
   free_goal_vel: False
   complete_global_plan: True
 
@@ -32,5 +31,3 @@ TebLocalPlannerROS:
   oscillation_omega_eps: 0.1
   oscillation_recovery_min_duration: 10
   oscillation_filter_duration: 10
-
-  heading_scoring: True

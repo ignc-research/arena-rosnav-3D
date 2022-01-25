@@ -1,46 +1,45 @@
-DWAPlannerROS:
+TrajectoryPlannerROS:
   # Robot Configuration Parameters
-  max_vel_x: 0.22
-  min_vel_x: -0.22
+  acc_lim_x: 10.0
+  acc_lim_theta: 20.0
 
-  max_vel_y: 0.0
-  min_vel_y: 0.0
+  max_vel_x: 0.5
+  min_vel_x: 0.1
 
-  # The velocity when robot is moving in a straight line
-  max_vel_trans: 0.22
-  min_vel_trans: 0.11
+  max_vel_theta: 1.57
+  min_vel_theta: -1.57
+  min_in_place_vel_theta: 0.314
 
-  max_vel_theta: 2.75
-  min_vel_theta: 1.37
+  holonomic_robot: false
+  escape_vel: -0.5
 
-  acc_lim_x: 2.5
-  acc_lim_y: 0.0
-  acc_lim_theta: 3.2
-
-  # Goal Tolerance Parametes
-  xy_goal_tolerance: 0.05
-  yaw_goal_tolerance: 0.17
+  # Goal Tolerance Parameters
+  yaw_goal_tolerance: 0.157
+  xy_goal_tolerance: 0.25
   latch_xy_goal_tolerance: false
 
   # Forward Simulation Parameters
-  sim_time: 1.5
-  vx_samples: 20
-  vy_samples: 0
-  vth_samples: 40
-  controller_frequency: 10.0
+  sim_time: 2.0
+  sim_granularity: 0.02
+  angular_sim_granularity: 0.02
+  vx_samples: 6
+  vtheta_samples: 20
+  controller_frequency: 20.0
 
-  # Trajectory Scoring Parameters
-  path_distance_bias: 32.0
-  goal_distance_bias: 20.0
-  occdist_scale: 0.02
-  forward_point_distance: 0.325
-  stop_time_buffer: 0.2
-  scaling_speed: 0.25
-  max_scaling_factor: 0.2
+  # Trajectory scoring parameters
+  meter_scoring: true # Whether the gdist_scale and pdist_scale parameters should assume that goal_distance and path_distance are expressed in units of meters or cells. Cells are assumed by default (false).
+  occdist_scale: 0.1 #The weighting for how much the controller should attempt to avoid obstacles. default 0.01
+  pdist_scale: 0.75 #     The weighting for how much the controller should stay close to the path it was given . default 0.6
+  gdist_scale: 1.0 #     The weighting for how much the controller should attempt to reach its local goal, also controls speed  default 0.8
 
-  # Oscillation Prevention Parameters
-  oscillation_reset_dist: 0.05
-
-  # Debugging
-  publish_traj_pc: true
+  heading_lookahead: 0.325 #How far to look ahead in meters when scoring different in-place-rotation trajectories
+  heading_scoring: false #Whether to score based on the robot's heading to the path or its distance from the path. default false
+  heading_scoring_timestep: 0.8 #How far to look ahead in time in seconds along the simulated trajectory when using heading scoring (double, default: 0.8)
+  dwa: true #Whether to use the Dynamic Window Approach (DWA)_ or whether to use Trajectory Rollout
+  simple_attractor: false
   publish_cost_grid_pc: true
+
+  #Oscillation Prevention Parameters
+  oscillation_reset_dist: 0.05 #How far the robot must travel in meters before oscillation flags are reset (double, default: 0.05)
+  escape_reset_dist: 0.1
+  escape_reset_theta: 0.1

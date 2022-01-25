@@ -15,17 +15,14 @@
 
 <robot name="tiago" xmlns:xacro="http://ros.org/wiki/xacro">
   <gazebo>
-    <plugin filename="libgazebo_ros_control.so" name="gazebo_ros_control">
-      <ns></ns>
-      <robotSimType>pal_hardware_gazebo/PalHardwareGazebo</robotSimType>
-      <xacro:if value="${is_multiple}">
-          <robotNamespace>/${nsp}</robotNamespace>
-      </xacro:if>
-      <xacro:unless value="${is_multiple}">
-          <robotNamespace></robotNamespace>
-      </xacro:unless>
-      <controlPeriod>0.001</controlPeriod>
+    <plugin filename="libgazebo_ros_planar_move.so" name="object_controller">
+      <commandTopic>cmd_vel</commandTopic>
+      <odometryTopic>odom</odometryTopic>
+      <odometryFrame>odom</odometryFrame>
+      <odometryRate>20</odometryRate>
+      <robotBaseFrame>base_link</robotBaseFrame>
     </plugin>
+    <plugin filename="libgazebo_ros_control.so" name="gazebo_ros_control"/>
 
     <xacro:if value="${base_type == 'omni_base'}">
       <plugin filename="libgazebo_ros_force_based_move.so" name="gazebo_force_based_move" >

@@ -15,6 +15,11 @@
     <arg name="use_moveit_camera" default="false"/>
     <arg name="base_type_suffix" default=""/>
     <arg name="robot_namespace"         default=""/>
+    <arg name="wrist_model"  default="wrist-2010"/>
+    <arg name="no_safety_eps" default="False"/>
+    <arg name="description_calibration_dir" default="$(find simulator_setup)/robot/tiago/urdf/calibration"/>
+    <arg name="extrinsic_calibration_dir" default="$(find simulator_setup)/robot/tiago/urdf/calibration"/>
+    <arg name="robot_description" default="robot_description"/>
     
     <rosparam ns="pal_robot_info" subst_value="true">
     type: "tiago"
@@ -29,9 +34,9 @@
     <rosparam command="load" file="$(find simulator_setup)/robot/tiago/params/config/pids.yaml"/>
     <rosparam command="load" file="$(find simulator_setup)/robot/tiago/params/config/hardware_gazebo/tiago_pal_hardware_gazebo_$(arg file_suffix).yaml"/>
 
-    <param name="$(arg robot_description)"
-        command="rosrun xacro xacro --inorder
-        '$(find simulator_setup)/robot/tiago/urdf/robots/tiago.urdf.xacro'
+    <!-- <param name="$(arg robot_description)"
+        command="rosrun xacro xacro 
+        '$(find simulator_setup)/robot/tiago/urdf/tiago.urdf.xacro'
         arm:=$(arg arm)
         wrist_model:=$(arg wrist_model)
         end_effector:=$(arg end_effector)
@@ -42,7 +47,7 @@
         base_type:=$(arg base_type)
         description_calibration_dir:=$(arg description_calibration_dir)
         extrinsic_calibration_dir:=$(arg extrinsic_calibration_dir)
-        $(arg multi)" />
+        $(arg multi)" /> -->
 
     <rosparam command="load" file="$(find simulator_setup)/robot/tiago/collision/collision_parameters.yaml" />
 
