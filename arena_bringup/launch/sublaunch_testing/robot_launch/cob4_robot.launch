@@ -3,8 +3,12 @@
 	<!-- changing the robot model here will load the robot with different configurations -->
 	<arg name="robot" default="cob4-11"/>
 	<param name="robot_description" command="$(find xacro)/xacro --inorder '$(find simulator_setup)/robot/cob4/urdf/cob4.urdf.xacro'" />
+	
 
-	<!-- configering the lasers	 --> simulator_setup/robot/cob4/base_configurations.yaml
+	<node name="odom_pub" pkg="task_generator" type="odom.py"/>
+	<node name="velocity_redirect" pkg="task_generator" type="trans.py"/>
+	
+	<!-- configering the lasers	 -->
 	<rosparam command="load" ns="/script_server/base" file="$(find simulator_setup)/robot/cob4/base_configurations.yaml"/>
 	<rosparam ns="base_laser_front" command="load" file="$(find simulator_setup)/robot/cob4/robots/$(arg robot)/config/base_laser_front.yaml"/>
 	<rosparam ns="base_laser_right" command="load" file="$(find simulator_setup)/robot/cob4/robots/$(arg robot)/config/base_laser_right.yaml"/>
@@ -35,8 +39,8 @@
 	</include>
 
 
-<!-- For frame [base_link]: No transform to fixed frame [map].  TF error: [Could not find a connection between 'map' and 'base_link' because they are not part of the same tree.Tf has two or more unconnected trees -->
-	<node pkg="tf2_ros" type="static_transform_publisher" name="map_totewstlisher"  args="0 0 0 0 0 0 base_link map"/>
+	<!-- For frame [base_link]: No transform to fixed frame [map].  TF error: [Could not find a connection between 'map' and 'base_link' because they are not part of the same tree.Tf has two or more unconnected trees -->
+	<!-- <node pkg="tf2_ros" type="static_transform_publisher" name="map_totewstlisher" args="0 0 0 0 0 0 base_link map"/> -->
 
 	<group ns="base">
 		<rosparam command="load" file="$(find simulator_setup)/robot/cob4/robots/cob4/config/cob4_base_controller.yaml"/>
@@ -50,7 +54,7 @@
 		<rosparam command="load" file="$(find simulator_setup)/robot/cob4/robots/$(arg robot)/config/joint_state_publisher.yaml"/>
 	</node>
 
- <!-- TODO: MAYBE SOLVE WITH https://answers.ros.org/question/104111/how-to-publish-transform-from-odom-to-base_link/ -->
+	<!-- TODO: MAYBE SOLVE WITH https://answers.ros.org/question/104111/how-to-publish-transform-from-odom-to-base_link/ -->
 	<!-- <arg name="global_frame_id" value="base_link"/>
 	<arg name="odom_frame_id" value="map"/>
 	<node pkg="tf2_ros" type="static_transform_publisher" name="test_to_odom_tfpublisher" args="0 0 0 0 0 0 $(arg global_frame_id) $(arg odom_frame_id)">
