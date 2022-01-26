@@ -142,6 +142,11 @@ For running multiple scenario files, (on different robots and planers), we provi
 roscd arena_bringup && cd launch
 python launch_arena.py --yaml_path {PATH_TO_YOUR_CONFIG}
 ```
+> __NOTE__: If you manually terminate the script, ros and gazebo might still continue to run. Terminate them by entering the following commands in the terminal:
+```
+killall -9 gazebo & killall -9 gzserver  & killall -9 gzclient
+rosnode kill --all
+```
 # How to include additional robot models
 > __NOTE__: Since every robot model works differently it is not possible to provide here a comprehensive guide. We provide only some important steps, and tests to ensure your robot model is implemented properly.
 

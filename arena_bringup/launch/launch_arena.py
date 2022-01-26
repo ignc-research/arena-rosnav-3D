@@ -5,10 +5,11 @@
 """
 
 import yaml
-import os
+import os, time
 import rospkg
 import subprocess
 import rospy
+import rostopic
 import numpy as np
 from argparse import ArgumentParser
 from std_msgs.msg import Bool
@@ -69,7 +70,13 @@ def terminate_simulation():
     )
     # terminate rosnodes
     subprocess.Popen("rosnode kill --all", shell=True)
-    rospy.sleep(2)
+
+    # wait until ros core is shut down
+    while not rospy.is_shutdown():
+        time.sleep(1)
+    time.sleep(1)
+
+
 
 
 if __name__ == '__main__':
