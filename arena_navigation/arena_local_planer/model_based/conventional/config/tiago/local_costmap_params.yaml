@@ -1,8 +1,8 @@
 local_costmap:
   map_type: costmap
 
-  global_frame: odom
-  robot_base_frame: base_footprint
+  global_frame: map
+  robot_base_frame: base_link
 
   # params are from https://github.com/pal-robotics/pal_navigation_cfg_public/blob/master/pal_navigation_cfg_pmb2/config/base/common/local_costmap_public_sim.yaml
   update_frequency: 5.0
