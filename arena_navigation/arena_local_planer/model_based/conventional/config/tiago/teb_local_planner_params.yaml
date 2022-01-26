@@ -1,5 +1,4 @@
 TebLocalPlannerROS:
-  odom_topic: odom
 
  odom_topic: odom
 
@@ -28,14 +27,8 @@ TebLocalPlannerROS:
  acc_lim_theta: 0.5
  min_turning_radius: 0.0 # diff-drive robot (can turn on place!)
 
-  max_vel_x: 2.0
-  max_vel_x_backwards: 0.5
-  max_vel_y: 0.0
-  max_vel_theta: 1.57
-  min_vel_theta: -1.57
-  acc_lim_x: 10.0
-  acc_lim_theta: 20.0
-  min_turning_radius: 0.0 # diff-drive robot (can turn on place!)
+ footprint_model:
+   type: "point"
 
  # GoalTolerance
 
@@ -52,12 +45,12 @@ TebLocalPlannerROS:
  costmap_obstacles_behind_robot_dist: 1.5
  obstacle_poses_affected: 15
 
-  # GoalTolerance
+ dynamic_obstacle_inflation_dist: 0.6
+ include_dynamic_obstacles: True
 
-  xy_goal_tolerance: 0.25
-  yaw_goal_tolerance: 0.17
-  free_goal_vel: False
-  complete_global_plan: True
+ costmap_converter_plugin: ""
+ costmap_converter_spin_thread: True
+ costmap_converter_rate: 5
 
  # Optimization
 
@@ -83,13 +76,7 @@ TebLocalPlannerROS:
  weight_viapoint: 1
  weight_adapt_factor: 2
 
-  shrink_horizon_backup: True
-  shrink_horizon_min_duration: 10
-  oscillation_recovery: True
-  oscillation_v_eps: 0.1
-  oscillation_omega_eps: 0.1
-  oscillation_recovery_min_duration: 10
-  oscillation_filter_duration: 10
+ # Homotopy Class Planner
 
  enable_homotopy_class_planning: True
  enable_multithreading: True

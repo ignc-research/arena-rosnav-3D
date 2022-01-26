@@ -7,13 +7,5 @@ global_costmap:
   publish_frequency: 1.0
   transform_tolerance: 0.2
 
-  update_frequency: 10
-  publish_frequency: 10 # changed from 5 since this works better with mpc-planer
-  transform_tolerance: 0.2
-  width: 40.0
-  height: 40.0
-  resolution: 0.05
-  # origin_x: -20.0
-  # origin_y: -20.0
-  rolling_window: false
   static_map: true
+

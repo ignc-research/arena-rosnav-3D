@@ -1,11 +1,10 @@
+#base_local_planner
 TrajectoryPlannerROS:
-  # Robot Configuration Parameters
-  acc_lim_x: 2.5
-  acc_lim_y: 2.5
-  acc_lim_theta: 1.0
+  holonomic_robot: true
+  dwa: true
 
-  max_vel_x: 1.1
-  min_vel_x: 0.1
+  heading_scoring: false
+  heading_lookahead: 1.0
 
   # params are from https://github.com/ipa320/cob_navigation/tree/indigo_dev/cob_navigation_config/robots/cob4/nav/dwa_local_planner.yaml
   max_vel_x: 1.1 #default 0.3
@@ -20,7 +19,10 @@ TrajectoryPlannerROS:
 
 DWAPlannerROS:
   holonomic_robot: true
-  escape_vel: -0.5
+  dwa: true
+
+  heading_scoring: false
+  heading_lookahead: 1.0
 
   acc_lim_x: 2.5
   acc_lim_y: 2.5
@@ -76,8 +78,8 @@ DWAPlannerROS:
   publish_cost_grid: true
   #	Whether or not to publish the cost grid that the planner will use when planning. When true, a sensor_msgs/PointCloud2 will be available on the ~<name>/cost_cloud topic. Each point cloud represents the cost grid and has a field for each individual scoring function component as well as the overall cost for each cell, taking the scoring parameters into account.
   publish_cost_grid_pc: true
+  publish_traj_pc: true
 
-  #Oscillation Prevention Parameters
-  oscillation_reset_dist: 0.05 #How far the robot must travel in meters before oscillation flags are reset (double, default: 0.05)
-  escape_reset_dist: 0.1
-  escape_reset_theta: 0.1
+  prune_plan: true
+  #	Defines whether or not to eat up the plan as the robot moves along the path. If set to true, points will fall off the end of the plan once the robot moves 1 meter past them.  default: true
+  global_frame_id: map
