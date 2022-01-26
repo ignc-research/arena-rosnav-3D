@@ -1,4 +1,4 @@
-# NOTE: Not all needed parameters are publically available. If the information was not to be found turtlebots parameters have been used  
+# NOTE: Not all needed parameters are publically available. If the information was not to be found turtlebots parameters have been used
 
 # subgoal mode selection
 subgoal_mode: &subgoal_mode 0                       # 0: spacial_horizon 1:timed_astar 2: simple sample 3: goal subgoal
@@ -10,27 +10,23 @@ subgoal_pub_period: &subgoal_pub_period 0.5             # sec
 goal_tolerance: &goal_tolerance 0.2
 subgoal_tolerance: &subgoal_tolerance 0.2
 
-planning_time_horizon: &planning_time_horizon 3.0       # sec look ahead time
+planning_time_horizon: &planning_time_horizon 5.6       # sec look ahead time
 planning_horizen: &planning_horizen 1.0                # m   look ahead distance
-sensor_range: &sensor_range 3.0                         # m   laser sensor range (raytrace range)
+sensor_range: &sensor_range 5.6                         # m   laser sensor range (raytrace range)
 
-#max_vel: &max_vel 2.0                                 # m/s   robot max vel
-max_vel: &max_vel 0.5                               # m/s   robot max vel
-max_acc: &max_acc 0.12                                   # m/s^2 srobot max acc
+max_vel: &max_vel 2.78                               # m/s   robot max vel
+max_acc: &max_acc 2.5                                   # m/s^2 srobot max acc
 max_jerk: &max_jerk 4.0                                 # m/s^3 robot max jerk # @Elias TODO
 
-avg_vel: &avg_vel 0.5                                   # m/s for timed_astar action set 
-#min_vel: &min_vel 0.3                                 # m/s for timed_astar action set 
-min_vel: &min_vel 0.08                                 # m/s for timed_astar action set
+avg_vel: &avg_vel 1.85                                   # m/s for timed_astar action set
+min_vel: &min_vel 0.1                                 # m/s for timed_astar action set
 
 
-#robot_radius: &robot_radius 0.3                         # m
-robot_radius: &robot_radius 0.629                         # m
-#obstacle_radius: &obstacle_radius 0.4                   # m
+robot_radius: &robot_radius 0.225                         # m
 obstacle_radius: &obstacle_radius 0.150                   # m
 obstacles_inflation: &obstacles_inflation 0.05           # m
 obstacle_name: &obstacle_name obstacle_dynamic_with_traj
-use_drl: &use_drl true                                  # true:  cmd_vel is published by drl or others; 
+use_drl: &use_drl true                                  # true:  cmd_vel is published by drl or others;
                                                         # false: cmd_vel is published by traj tracker in plan_fsm
 # ----------------------------------------------------------------------------------
 # 1. FSM parameters (fsm/)
@@ -127,7 +123,7 @@ optimization_ESDF/lambda3: 0.00001  # feasibility
 optimization_ESDF/lambda4: 0.01     # endpoint
 optimization_ESDF/lambda5: 1.5      # guide [no need]
 optimization_ESDF/lambda6: 10.0     #       [no need]
-optimization_ESDF/lambda7: 100.0    # waypoint 
+optimization_ESDF/lambda7: 100.0    # waypoint
 optimization_ESDF/max_iteration_num1: 2
 optimization_ESDF/max_iteration_num2: 300
 optimization_ESDF/max_iteration_num3: 200
@@ -138,7 +134,7 @@ optimization_ESDF/max_iteration_time3: 0.003
 optimization_ESDF/max_iteration_time4: 0.003
 
 # ----------------------------------------------------------------------------------
-# 7. Mapping (sdf_map/) 
+# 7. Mapping (sdf_map/)
 sdf_map/frame_id: map
 #sdf_map/resolution: 0.05
 sdf_map/use_occ_esdf: true
@@ -161,7 +157,7 @@ sdf_map/p_max: 0.75
 sdf_map/p_occ: 0.70
 
 # local map margin for cell/index
-sdf_map/local_map_margin: 0 
+sdf_map/local_map_margin: 0
 
 # performance test
 sdf_map/show_occ_time: false
