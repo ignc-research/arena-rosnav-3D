@@ -12,12 +12,18 @@ from geometry_msgs.msg import Twist
 
 
 def vel_callback(data):
-    pub = rospy.Publisher("/jackal_velocity_controller/cmd_vel", Twist, queue_size=10)
+    pub = rospy.Publisher(remap_msg, Twist, queue_size=10)
     pub.publish(data)
 
 
 def listener():
     rospy.init_node("listener", anonymous=True)
+
+    model = rospy.get_param('model', 'jackal')
+    global remap_msg
+    remap_msg = '/base/twist_controller/cmd_vel'
+    if model == 'jackal': remap_msg = '/jackal_velocity_controller/cmd_vel'
+
 
     # rospy.Subscriber("/jackal_velocity_controller/odom", Odometry, odom_callback)
     rospy.Subscriber("/cmd_vel", Twist, vel_callback)
@@ -27,4 +33,6 @@ def listener():
 
 
 if __name__ == "__main__":
+    
+
     listener()
