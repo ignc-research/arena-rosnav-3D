@@ -1,4 +1,5 @@
 TrajectoryPlannerROS:
+  # params are from https://github.com/dietriro/rto_core/tree/noetic-devel/rto_navigation/config
   max_vel_x: 0.45
   min_vel_x: 0.1
   max_vel_theta: 1.0

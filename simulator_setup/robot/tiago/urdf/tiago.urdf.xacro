@@ -104,8 +104,8 @@
     <xacro:base_sensors name="base" front_laser_model="$(arg laser_model)" rear_laser_model="$(arg laser_model)"/>
   </xacro:if>
   <xacro:tiago_torso name="torso" parent="base_link"/>
-  <xacro:head name="head" parent="torso_lift_link" camera_model="$(arg camera_model)" 
-	  description_calibration_dir="$(arg description_calibration_dir)" 
+  <xacro:head name="head" parent="torso_lift_link" camera_model="$(arg camera_model)"
+	  description_calibration_dir="$(arg description_calibration_dir)"
 	  extrinsic_calibration_dir="$(arg extrinsic_calibration_dir)"
     no_safety_eps="${no_safety_eps}"/>
   <xacro:if value="${has_arm}">
