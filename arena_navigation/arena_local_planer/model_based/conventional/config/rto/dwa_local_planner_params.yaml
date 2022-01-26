@@ -1,4 +1,5 @@
 DWAPlannerROS:
+  # params are from https://github.com/dietriro/rto_core/tree/noetic-devel/rto_navigation/config
   # Robot Configuration Parameters
   max_vel_x: 2.78
   min_vel_x: -2.78

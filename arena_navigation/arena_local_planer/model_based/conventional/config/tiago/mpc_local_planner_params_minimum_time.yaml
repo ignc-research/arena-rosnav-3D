@@ -6,10 +6,10 @@ MpcLocalPlannerROS:
   robot:
     type: "unicycle"
     unicycle:
-      max_vel_x: 0.4
-      max_vel_x_backwards: 0.2
-      max_vel_theta: 0.3
-      acc_lim_x: 0.2 # deactive bounds with zero
+      max_vel_x: 1.5
+      max_vel_x_backwards: 0
+      max_vel_theta: 2.0
+      acc_lim_x: 0.8 # deactive bounds with zero
       dec_lim_x: 0.2 # deactive bounds with zero
       acc_lim_theta: 0.2 # deactivate bounds with zero
 
@@ -72,7 +72,7 @@ MpcLocalPlannerROS:
   controller:
     outer_ocp_iterations: 5
     xy_goal_tolerance: 0.2
-    yaw_goal_tolerance: 0.1
+    yaw_goal_tolerance: 0.2
     global_plan_overwrite_orientation: true
     global_plan_prune_distance: 1.0
     allow_init_with_backward_motion: True
