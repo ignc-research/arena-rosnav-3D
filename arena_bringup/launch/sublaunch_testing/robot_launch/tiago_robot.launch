@@ -65,5 +65,5 @@
 
     <!-- TF lookup -->
     <!-- Mostly a tf transform streamer to avoid using a transformListener @All not sure if we need this TODO: CHECK-->
-    <node pkg="tf_lookup" type="tf_lookup" name="tf_lookup" output="screen"/>
+    <!-- <node pkg="tf_lookup" type="tf_lookup" name="tf_lookup" output="screen"/> -->
 </launch>

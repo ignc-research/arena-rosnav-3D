@@ -15,7 +15,7 @@
 
 <robot  xmlns:xacro="http://ros.org/wiki/xacro"
         name="tiago" >
-    <xacro:arg name="arm" default="true"/> <!-- true, false -->
+    <xacro:arg name="arm" default="false"/> <!-- true, false -->
     <xacro:arg name="wrist_model" default="wrist-2010"/>
     <xacro:arg name="end_effector" default="pal-hey5"/> <!-- false, pal-gripper, pal-hey5, schunk-wsg-->
     <xacro:arg name="ft_sensor" default="schunk-ft"/> <!-- false, schunk-ft -->
@@ -73,7 +73,7 @@
   <xacro:include filename="$(find simulator_setup)/robot/tiago/${base_type}_description/urdf/base/base_sensors.urdf.xacro" />
 
   <!-- Torso -->
-  <xacro:include filename="$(find simulator_setup)/robot/tiago/urdf/torso/torso.urdf.xacro" />
+  <!-- <xacro:include filename="$(find simulator_setup)/robot/tiago/urdf/torso/torso.urdf.xacro" /> -->
 
   <xacro:if value="${has_arm}">
     <!-- Arm -->
@@ -83,12 +83,12 @@
   </xacro:if>
 
   <!-- Force Torque sensor -->
-  <xacro:if value="${has_ft_sensor}">
+  <!-- <xacro:if value="${has_ft_sensor}">
     <xacro:include filename="$(find simulator_setup)/robot/tiago/urdf/sensors/ftsensor.urdf.xacro" />
-  </xacro:if>
+  </xacro:if> -->
 
   <!-- Head -->
-  <xacro:include filename="$(find simulator_setup)/robot/tiago/urdf/head/head.urdf.xacro" />
+  <!-- <xacro:include filename="$(find simulator_setup)/robot/tiago/urdf/head/head.urdf.xacro" /> -->
 
   <!-- Materials for visualization -->
   <xacro:include filename="$(find simulator_setup)/robot/tiago/urdf/materials.urdf.xacro" />
@@ -103,8 +103,8 @@
   <xacro:if value="${base_type == 'omni_base'}">
     <xacro:base_sensors name="base" front_laser_model="$(arg laser_model)" rear_laser_model="$(arg laser_model)"/>
   </xacro:if>
-  <xacro:tiago_torso name="torso" parent="base_link"/>
-  <xacro:head name="head" parent="torso_lift_link" camera_model="$(arg camera_model)"
+  <!-- <xacro:tiago_torso name="torso" parent="base_link"/> -->
+  <!-- <xacro:head name="head" parent="torso_lift_link" camera_model="$(arg camera_model)"
 	  description_calibration_dir="$(arg description_calibration_dir)"
 	  extrinsic_calibration_dir="$(arg extrinsic_calibration_dir)"
     no_safety_eps="${no_safety_eps}"/>
@@ -113,15 +113,15 @@
         <origin xyz="0.15505 0.014 -0.151" rpy="0 0 ${-90 * deg_to_rad}" />
       </xacro:tiago_arm>
       <xacro:tiago_end_effector name="${end_effector_name}" parent="${end_effector_link}" type="${end_effector}" reflect="1"/>
-  </xacro:if>
+  </xacro:if> -->
 
   <!-- Force Torque sensor -->
-  <xacro:if value="${has_ft_sensor}">
+  <!-- <xacro:if value="${has_ft_sensor}">
       <xacro:ft_sensor name="wrist" parent="arm_tool_link" />
-  </xacro:if>
+  </xacro:if> -->
 
   <!-- Thermal camera -->
-  <xacro:if value="$(arg has_thermal_camera)">
+  <!-- <xacro:if value="$(arg has_thermal_camera)">
     <joint name="thermal_camera_joint" type="fixed">
         <parent link="${head_link_name}"/>
         <child link="thermal_camera"/>
@@ -134,7 +134,7 @@
             <inertia ixx="0.0001"  ixy="0"  ixz="0" iyy="0.0001" iyz="0" izz="0.0001" />
         </inertial>
     </link>
-  </xacro:if>
+  </xacro:if> -->
 
   <!-- RGBD Laser Link -->
   <joint name="rgbd_laser_joint" type="fixed">

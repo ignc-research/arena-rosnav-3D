@@ -22,12 +22,10 @@
 
   <!-- Set up controllers depending of arm existance -->
   <arg name="controller_list" value="joint_state_controller
-              torso_controller
-              head_controller
               mobile_base_controller"/>
 
   <!-- spawn controller -->
-  <node name="bringup_controllers_spawner_imu" pkg="controller_manager" type="spawner" output="screen" args="imu_sensor_controller" />
+  <!-- <node name="bringup_controllers_spawner_imu" pkg="controller_manager" type="spawner" output="screen" args="imu_sensor_controller" /> -->
 
   <!-- Controllers that come up started -->
   <node name="default_controllers_spawner" pkg="controller_manager" type="spawner" output="screen" args="--timeout 120
