@@ -27,7 +27,7 @@ If necessary, the topics can be adjusted accordingly.
 | :---:                 | :---:           | :---:                                         |
 | *laser_scan*          | float[]         | all scan ranges from the _scan_ topic         |
 | *goal_in_robot_frame* | [float, float]  | [distance, angle] from robot to subgoal       |
-| *global_plan*         | Path            | global path provided by globalPlan topic      |
+| *global_plan*         | np.array        | global path provided by globalPlan topic      |
 | *robot_pose*          | Pose2D          | x and y position of robot based on odometry   |
 | *subgoal*             | Pose2D          | x and y position of subgoal                   |
 | *robot_vel*           | Twist           | Twist message containing velocity of robot    |
