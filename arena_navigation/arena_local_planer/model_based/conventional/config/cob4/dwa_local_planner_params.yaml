@@ -1,4 +1,6 @@
 # params are from https://github.com/ipa320/cob_navigation/tree/indigo_dev/cob_navigation_config/robots/cob4/nav/dwa_local_planner.yaml
+# and https://www.care-o-bot.de/content/dam/careobot/de/documents/technischedaten/Care-O-bot%204_Technische_Daten.pdf
+
 acc_lim_th: 3.2
 acc_lim_x: 2.5
 acc_lim_y: 2.5

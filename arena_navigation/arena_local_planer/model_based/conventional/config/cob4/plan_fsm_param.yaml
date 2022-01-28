@@ -1,4 +1,6 @@
 # NOTE: Not all needed parameters are publically available. If the information was not to be found turtlebots parameters have been used
+# params are from https://github.com/ipa320/cob_navigation/tree/indigo_dev/cob_navigation_config/robots/cob4/nav/dwa_local_planner.yaml
+# and https://www.care-o-bot.de/content/dam/careobot/de/documents/technischedaten/Care-O-bot%204_Technische_Daten.pdf
 
 # subgoal mode selection
 subgoal_mode: &subgoal_mode 0                       # 0: spacial_horizon 1:timed_astar 2: simple sample 3: goal subgoal
@@ -18,7 +20,7 @@ max_vel: &max_vel 1.1                               # m/s   robot max vel
 max_acc: &max_acc 2.5                                   # m/s^2 srobot max acc
 max_jerk: &max_jerk 4.0                                 # m/s^3 robot max jerk # @Elias TODO
 
-avg_vel: &avg_vel 1.75                                   # m/s for timed_astar action set
+avg_vel: &avg_vel 0.75                                   # m/s for timed_astar action set
 min_vel: &min_vel 0.08                                 # m/s for timed_astar action set
 
 

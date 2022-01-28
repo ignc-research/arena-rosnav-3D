@@ -7,6 +7,8 @@ TrajectoryPlannerROS:
   heading_lookahead: 1.0
 
   # params are from https://github.com/ipa320/cob_navigation/tree/indigo_dev/cob_navigation_config/robots/cob4/nav/dwa_local_planner.yaml
+  # and https://www.care-o-bot.de/content/dam/careobot/de/documents/technischedaten/Care-O-bot%204_Technische_Daten.pdf
+
   max_vel_x: 1.1 #default 0.3
   min_vel_x: -1.1 #default -0.3
   max_vel_theta: 0
