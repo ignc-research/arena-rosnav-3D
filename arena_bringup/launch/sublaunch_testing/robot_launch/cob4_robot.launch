@@ -5,8 +5,13 @@
 	<param name="robot_description" command="$(find xacro)/xacro --inorder '$(find simulator_setup)/robot/cob4/urdf/cob4.urdf.xacro'" />
 	
 
-	<node name="odom_pub" pkg="task_generator" type="odom.py"/>
-	<node name="velocity_redirect" pkg="task_generator" type="trans.py"/>
+	<node name="odom_pub" pkg="task_generator" type="odom.py">
+		<param name="base_frame" value="base_footprint"/>
+	
+	</node>
+	<node name="velocity_redirect" pkg="task_generator" type="trans.py">
+<param name="cmd_vel_topic" value="/base/twist_controller/command"/>
+	</node>
 	
 	<!-- configering the lasers	 -->
 	<rosparam command="load" ns="/script_server/base" file="$(find simulator_setup)/robot/cob4/base_configurations.yaml"/>

@@ -63,6 +63,12 @@
     <arg name="base_type_suffix"  value="$(arg base_type_suffix)"/>
     </include>
 
+    <node name="odom_pub" pkg="task_generator" type="odom.py">
+        <param name="base_frame" value="base_footprint"/>
+    </node>
+    <node name="vel_redirect" pkg="task_generator" type="trans.py">
+        <param name="cmd_vel_topic" value="/mobile_base_controller/cmd_vel"/>
+    </node>
     <!-- TF lookup -->
     <!-- Mostly a tf transform streamer to avoid using a transformListener @All not sure if we need this TODO: CHECK-->
     <!-- <node pkg="tf_lookup" type="tf_lookup" name="tf_lookup" output="screen"/> -->

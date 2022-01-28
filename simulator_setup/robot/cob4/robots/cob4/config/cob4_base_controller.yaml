@@ -1,5 +1,13 @@
 ## joint_names
-joint_names: [fl_caster_rotation_joint, fl_caster_r_wheel_joint, fr_caster_rotation_joint, fr_caster_r_wheel_joint, b_caster_rotation_joint, b_caster_r_wheel_joint]
+joint_names:
+  [
+    fl_caster_rotation_joint,
+    fl_caster_r_wheel_joint,
+    fr_caster_rotation_joint,
+    fr_caster_r_wheel_joint,
+    b_caster_rotation_joint,
+    b_caster_r_wheel_joint,
+  ]
 
 ## joint_state_controller
 joint_state_controller:
@@ -23,7 +31,8 @@ twist_controller:
       d_phi_max: 10.0
       dd_phi_max: 40.0
 
-  wheels: &wheels # start front left, counter-clockwise for base_drive_chain compatibility
+  wheels:
+    &wheels # start front left, counter-clockwise for base_drive_chain compatibility
     - steer: fl_caster_rotation_joint
       drive: fl_caster_r_wheel_joint
     - steer: b_caster_rotation_joint
@@ -31,13 +40,3 @@ twist_controller:
       steer_neutral_position: -180.0
     - steer: fr_caster_rotation_joint
       drive: fr_caster_r_wheel_joint
-
-## odometry_controller
-odometry_controller:
-  type: cob_omni_drive_controller/OdometryController
-  publish_rate: 50
-  frame_id: "odom_combined"
-  child_frame_id: "base_footprint"
-  cov_pose: 0.1
-  cov_twist: 0.1
-  wheels: *wheels

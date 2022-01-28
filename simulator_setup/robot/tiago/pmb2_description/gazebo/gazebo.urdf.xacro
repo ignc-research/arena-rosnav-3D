@@ -20,16 +20,10 @@
        name="pmb2">
 
   <gazebo>
-    <plugin filename="libgazebo_ros_planar_move.so" name="object_controller">
-      <commandTopic>cmd_vel</commandTopic>
-      <odometryTopic>odom</odometryTopic>
-      <odometryFrame>odom</odometryFrame>
-      <odometryRate>20</odometryRate>
-      <robotBaseFrame>base_link</robotBaseFrame>
-    </plugin>
+
     <plugin filename="libgazebo_ros_control.so" name="gazebo_ros_control"/>
 
-    <plugin filename="libgazebo_world_odometry.so" name="gazebo_ros_odometry">
+    <!-- <plugin filename="libgazebo_world_odometry.so" name="gazebo_ros_odometry">
       <frameName>world</frameName>
       <bodyName>base_footprint</bodyName>
       <topicName>ground_truth_odom</topicName>
@@ -37,7 +31,7 @@
       <xacro:if value="${is_multiple}">
           <robotNamespace>/${nsp}</robotNamespace>
       </xacro:if>
-    </plugin>
+    </plugin> -->
   </gazebo>
 
   <gazebo reference="base_imu_link">
