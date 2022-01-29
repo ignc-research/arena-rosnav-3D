@@ -3,9 +3,11 @@ import numpy as np
 import sys
 
 from rl_agent.encoder import BaseEncoder
+
 """
     MODELS FOR DIFFERENT ROBOTERS TRAINED IN GULDENRING
 """
+
 
 class GuldenringEncoder(BaseEncoder):
     def __init__(self, agent_name: str, model_dir: str, hyperparams):
@@ -27,7 +29,7 @@ class GuldenringEncoder(BaseEncoder):
     def _load_vecnorm(self):
         return lambda obs: obs
 
-    def get_observation(self, obs):
+    def get_observation(self, obs, *args, **kwargs):
         obs_dict = obs[1]
         scan = obs_dict["laser_scan"]
         rho, theta = obs_dict["goal_in_robot_frame"]
@@ -37,26 +39,28 @@ class GuldenringEncoder(BaseEncoder):
         x = np.cos(theta + np.pi) * rho
 
         complete_observation = np.zeros((1, len(scan) + 8 * 2, 1))
-        complete_observation[0, :len(scan), 0] = scan
-        
+        complete_observation[0, : len(scan), 0] = scan
+
         for i in range(8):
-            complete_observation[0, len(scan) + i * 2:len(scan) + i * 2 + 2, 0] = [x, y]
+            complete_observation[
+                0, len(scan) + i * 2 : len(scan) + i * 2 + 2, 0
+            ] = [x, y]
 
-        guldenring_obs = np.round(np.divide(complete_observation, 0.05))*0.05
-
-        return guldenring_obs
+        return np.round(np.divide(complete_observation, 0.05)) * 0.05
 
     def get_action(self, action):
         """
-            Encodes the action produced by the nn
-            Should always return an array of size 3 with entries
-            [x_vel, y_vel, ang_vel]
+        Encodes the action produced by the nn
+        Should always return an array of size 3 with entries
+        [x_vel, y_vel, ang_vel]
         """
-        assert len(action) == 2, f"Expected an action of size 2 but received {len(action)}: {action}"
-        
+        assert (
+            len(action) == 2
+        ), f"Expected an action of size 2 but received {len(action)}: {action}"
 
         x_vel, ang_vel = action
         return [x_vel, 0, ang_vel]
+
 
 """
     Jackal
@@ -64,8 +68,11 @@ class GuldenringEncoder(BaseEncoder):
     offset: -3/4 * pi
     action: [x_vel, ang_vel]
 """
+
+
 class JackalGuldenringEncoder(GuldenringEncoder):
     pass
+
 
 """
     Turtlebot3
@@ -73,8 +80,11 @@ class JackalGuldenringEncoder(GuldenringEncoder):
     offset: 0
     action: [x_vel, ang_vel]
 """
+
+
 class TurtleBot3GuldenringEncoder(GuldenringEncoder):
     pass
+
 
 """
     AGV
@@ -82,8 +92,11 @@ class TurtleBot3GuldenringEncoder(GuldenringEncoder):
     offset: -pi
     action: [x_vel, ang_vel]
 """
+
+
 class AgvGuldenringEncoder(GuldenringEncoder):
     pass
+
 
 """
     Ridgeback
@@ -91,8 +104,12 @@ class AgvGuldenringEncoder(GuldenringEncoder):
     offset: -3/4 * pi
     action: [x_vel, y_vel, ang_vel]
 """
+
+
 class RidgebackGuldenringEncoder(GuldenringEncoder):
     def get_action(action):
-        assert len(action) == 3, f"Expected an action of size 3 but received: {action}"
+        assert (
+            len(action) == 3
+        ), f"Expected an action of size 3 but received: {action}"
 
         return action

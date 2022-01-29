@@ -33,6 +33,7 @@ DEFAULT_HYPERPARAMETER = os.path.join(
 DEFAULT_NUM_LASER_BEAMS, DEFAULT_LASER_RANGE = 360, 3.5
 GOAL_RADIUS = 0.33
 
+
 class BaseDRLAgent(ABC):
     def __init__(
         self,
@@ -43,36 +44,44 @@ class BaseDRLAgent(ABC):
         *args,
         **kwargs,
     ) -> None:
-        """ [summary]
+        """[summary]
 
-            Args:
-                ns (str, optional):
-                    Robot specific ROS namespace extension. 
-                    Defaults to None.
-                robot_name (str, optional):
-                    Agent name (directory has to be of the same name). 
-                    Defaults to None.
-                hyperparameter_path (str, optional):
-                    Path to json file containing defined hyperparameters.
-                    Defaults to DEFAULT_HYPERPARAMETER.
-                action_space_path (str, optional):
-                    Path to yaml file containing action space settings.
-                    Defaults to DEFAULT_ACTION_SPACE.
+        Args:
+            ns (str, optional):
+                Robot specific ROS namespace extension.
+                Defaults to None.
+            robot_name (str, optional):
+                Agent name (directory has to be of the same name).
+                Defaults to None.
+            hyperparameter_path (str, optional):
+                Path to json file containing defined hyperparameters.
+                Defaults to DEFAULT_HYPERPARAMETER.
+            action_space_path (str, optional):
+                Path to yaml file containing action space settings.
+                Defaults to DEFAULT_ACTION_SPACE.
         """
 
         # Setup node namespace
         self._ns = BaseDRLAgent._create_namespace(ns, robot_name)
         self._sim_ns = robot_name
 
-        # Load robot and model specific parameters 
-        self._hyperparams = BaseDRLAgent._load_hyperparameters(path=hyperparameter_path)
-        self._num_laser_beams, self._laser_range, self._robot_radius = \
-            BaseDRLAgent._get_robot_settings(self._sim_ns)
-        self._discrete_actions, self._continuous_actions, self._is_holonomic = \
-            BaseDRLAgent._read_action_space(action_space_path)
+        # Load robot and model specific parameters
+        self._hyperparams = BaseDRLAgent._load_hyperparameters(
+            path=hyperparameter_path
+        )
+        (
+            self._num_laser_beams,
+            self._laser_range,
+            self._robot_radius,
+        ) = BaseDRLAgent._get_robot_settings(self._sim_ns)
+        (
+            self._discrete_actions,
+            self._continuous_actions,
+            self._is_holonomic,
+        ) = BaseDRLAgent._read_action_space(action_space_path)
 
         self._action_space = self._get_action_space()
-        
+
         self._reward_calculator = self._create_reward_calculator()
 
         self._observation_collector = ObservationCollector(
@@ -131,17 +140,17 @@ class BaseDRLAgent(ABC):
             self, "_obs_norm_func"
         )
         return self._obs_norm_func(merged_obs)
-    
+
     def publish_action(self, action: np.ndarray) -> None:
         """
-            TODO
-            Publishes an action on 'self._action_pub' (ROS topic).
+        TODO
+        Publishes an action on 'self._action_pub' (ROS topic).
 
-            Args:
-                action (np.ndarray):
-                    For none holonomic robots action is [xVel, angularVel]
-                    For holonomic robots action is [xVel, yVel, angularVel]
-                    xVel and yVel in m/s, angularVel in rad/s
+        Args:
+            action (np.ndarray):
+                For none holonomic robots action is [xVel, angularVel]
+                For holonomic robots action is [xVel, yVel, angularVel]
+                xVel and yVel in m/s, angularVel in rad/s
         """
         assert len(action) == 3, f"Expected action of size 3"
 
@@ -154,14 +163,14 @@ class BaseDRLAgent(ABC):
 
     def get_action(self, obs: np.ndarray) -> np.ndarray:
         """
-            Infers an action based on the given observation.
+        Infers an action based on the given observation.
 
-            Args:
-                obs (np.ndarray): Merged observation array.
+        Args:
+            obs (np.ndarray): Merged observation array.
 
-            Returns:
-                np.ndarray:
-                    Action in [linear velocity, angular velocity]
+        Returns:
+            np.ndarray:
+                Action in [linear velocity, angular velocity]
         """
         assert self._agent, "Agent model not initialized!"
         action = self._agent.predict(obs, deterministic=True)[0]
@@ -226,12 +235,8 @@ class BaseDRLAgent(ABC):
 
             return spaces.Discrete(len(self._discrete_actions))
         else:
-            linear_range = self._continuous_actions[
-                "linear_range"
-            ]
-            angular_range = self._continuous_actions[
-                "angular_range"
-            ]
+            linear_range = self._continuous_actions["linear_range"]
+            angular_range = self._continuous_actions["angular_range"]
 
             if not self._is_holonomic:
                 return spaces.Box(
@@ -267,6 +272,7 @@ class BaseDRLAgent(ABC):
         assert self._hyperparams and "reward_fnc" in self._hyperparams
 
         return RewardCalculator(
+            holonomic=self._is_holonomic,
             robot_radius=self._robot_radius,
             safe_dist=1.6 * self._robot_radius,
             goal_radius=GOAL_RADIUS,
@@ -285,14 +291,13 @@ class BaseDRLAgent(ABC):
     @abstractmethod
     def _setup_agent(self) -> None:
         """
-            Sets up the new agent / loads a pretrained one.
+        Sets up the new agent / loads a pretrained one.
 
-            Raises:
-                NotImplementedError: Abstract method.
+        Raises:
+            NotImplementedError: Abstract method.
         """
         raise NotImplementedError
 
-    
     @staticmethod
     def _create_namespace(ns: str, robot_name: str):
         ns = "" if ns is None or ns == "" else ns + "/"
@@ -304,8 +309,8 @@ class BaseDRLAgent(ABC):
     @staticmethod
     def _load_hyperparameters(path: str) -> None:
         """
-            Path should point to a file containing the
-            specific hyperparameters used for training
+        Path should point to a file containing the
+        specific hyperparameters used for training
         """
         try:
             with open(path, "r") as file:
@@ -317,7 +322,7 @@ class BaseDRLAgent(ABC):
     @staticmethod
     def _get_robot_settings(ns: str):
         """
-            Setup robot specific parameters by reading ros params
+        Setup robot specific parameters by reading ros params
         """
         _num_laser_beams = None
         _laser_range = None
@@ -344,15 +349,13 @@ class BaseDRLAgent(ABC):
         return _num_laser_beams, _laser_range, _robot_radius
 
     @staticmethod
-    def _read_action_space(
-         action_space_yaml_path: str
-    ) -> None:
+    def _read_action_space(action_space_yaml_path: str) -> None:
         """
-            Retrieves the robot action space from respective yaml file.
+        Retrieves the robot action space from respective yaml file.
 
-            Args:
-                action_space_yaml_path (str):
-                    Yaml file containing the action space configuration.
+        Args:
+            action_space_yaml_path (str):
+                Yaml file containing the action space configuration.
         """
         assert os.path.isfile(
             action_space_yaml_path
@@ -362,14 +365,14 @@ class BaseDRLAgent(ABC):
             setting_data = yaml.safe_load(fd)
 
             return (
-                setting_data["robot"]["discrete_actions"], 
+                setting_data["robot"]["discrete_actions"],
                 {
                     "linear_range": setting_data["robot"]["continuous_actions"][
                         "linear_range"
                     ],
-                    "angular_range": setting_data["robot"]["continuous_actions"][
-                        "angular_range"
-                    ],
+                    "angular_range": setting_data["robot"][
+                        "continuous_actions"
+                    ]["angular_range"],
                 },
-                setting_data["robot"]["holonomic"]
+                setting_data["robot"]["holonomic"],
             )

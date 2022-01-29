@@ -7,7 +7,10 @@ from os import path
 
 import rl_agent.encoder.rosnav_rosnav as r_rosnav
 import rl_agent.encoder.navrep_rosnav as n_rosnav
-from rl_agent.encoder.guldenring_guldenring import JackalGuldenringEncoder, TurtleBot3GuldenringEncoder
+from rl_agent.encoder.guldenring_guldenring import (
+    JackalGuldenringEncoder,
+    TurtleBot3GuldenringEncoder,
+)
 
 import rl_agent.encoder.guldenring_guldenring_pretrained as gring
 from rl_agent.encoder.navrep_navrep import NavrepPretrainedEncoder
@@ -31,27 +34,26 @@ encoders = {
         "jackal": r_rosnav.JackalEncoder,
         "ridgeback": r_rosnav.RidgebackEncoder,
         "agv-ota": r_rosnav.AgvEncoder,
-        "turtlebot3_burger": r_rosnav.TurtleBot3Encoder
+        "turtlebot3_burger": r_rosnav.TurtleBot3Encoder,
     },
     "navrep_rosnav": {
         "jackal": n_rosnav.JackalEncoder,
         "ridgeback": n_rosnav.RidgebackEncoder,
         "agv-ota": n_rosnav.AgvEncoder,
-        "turtlebot3_burger": n_rosnav.TurtleBot3Encoder
+        "turtlebot3_burger": n_rosnav.TurtleBot3Encoder,
     },
     "guldenring_guldenring": {
         "turtlebot3_burger": TurtleBot3GuldenringEncoder,
-        "jackal": JackalGuldenringEncoder
+        "jackal": JackalGuldenringEncoder,
     },
     "guldenring_guldenring_pretrained": {
         "agv-ota": gring.GuldenringPretrainedEncoder,
         "turtlebot3_burger": gring.TurtleBot3Encoder,
-        "jackal": gring.JackalEncoder
+        "jackal": gring.JackalEncoder,
     },
-    "navrep_navrep": {
-        "rto": NavrepPretrainedEncoder
-    }
+    "navrep_navrep": {"rto": NavrepPretrainedEncoder},
 }
+
 
 class DeploymentDRLAgent(BaseDRLAgent):
     def __init__(
@@ -67,22 +69,22 @@ class DeploymentDRLAgent(BaseDRLAgent):
         **kwargs,
     ) -> None:
         """
-            Initialization procedure for the DRL agent node.
+        Initialization procedure for the DRL agent node.
 
-            Args:
-                agent_name (str):
-                    Agent name (directory has to be of the same name)
-                robot_name (str, optional):
-                    Robot specific ROS namespace extension. Defaults to None.
-                ns (str, optional):
-                    Simulation specific ROS namespace. Defaults to None.
-                action_space_path (str, optional):
-                    Path to yaml file containing action space settings.
-                    Defaults to DEFAULT_ACTION_SPACE.
+        Args:
+            agent_name (str):
+                Agent name (directory has to be of the same name)
+            robot_name (str, optional):
+                Robot specific ROS namespace extension. Defaults to None.
+            ns (str, optional):
+                Simulation specific ROS namespace. Defaults to None.
+            action_space_path (str, optional):
+                Path to yaml file containing action space settings.
+                Defaults to DEFAULT_ACTION_SPACE.
         """
-        assert encoders[
-            trainings_environment + "_" + model_type
-        ][robot_type], f"Encoder {robot_type} not available"
+        assert encoders[trainings_environment + "_" + model_type][
+            robot_type
+        ], f"Encoder {robot_type} not available"
 
         self._is_train_mode = rospy.get_param("/train_mode")
         if not self._is_train_mode:
@@ -91,7 +93,9 @@ class DeploymentDRLAgent(BaseDRLAgent):
         self._name = agent_name
 
         hyperparameter_path = path.join(
-            TRAINED_MODELS_DIR(trainings_environment), self._name, "hyperparameters.json"
+            TRAINED_MODELS_DIR(trainings_environment),
+            self._name,
+            "hyperparameters.json",
         )
 
         super().__init__(
@@ -100,11 +104,15 @@ class DeploymentDRLAgent(BaseDRLAgent):
             hyperparameter_path,
             action_space_path,
         )
-        
-        self.encoder = encoders[trainings_environment + "_" + model_type][robot_type](
-            agent_name, TRAINED_MODELS_DIR(trainings_environment), self._hyperparams
+
+        self.encoder = encoders[trainings_environment + "_" + model_type][
+            robot_type
+        ](
+            agent_name,
+            TRAINED_MODELS_DIR(trainings_environment),
+            self._hyperparams,
         )
-        
+
         self._setup_agent()
 
         # time period for a valid action
@@ -134,10 +142,12 @@ class DeploymentDRLAgent(BaseDRLAgent):
         while not rospy.is_shutdown():
             goal_reached = rospy.get_param("/bool_goal_reached", default=False)
             if not goal_reached:
-                obs = self.get_observations()
+                obs = self.get_observations(last_action=self._last_action)
 
                 encoded_obs = self.encoder.get_observation(obs)
-                encoded_action = self.encoder.get_action(self.get_action(encoded_obs))
+                encoded_action = self.encoder.get_action(
+                    self.get_action(encoded_obs)
+                )
 
                 self._last_action = self._curr_action
                 self._curr_action = encoded_action
@@ -145,6 +155,7 @@ class DeploymentDRLAgent(BaseDRLAgent):
                 self.publish_action(self._last_action)
 
             rate.sleep()
+
 
 def main() -> None:
     # TODO load from args if no params
@@ -154,11 +165,11 @@ def main() -> None:
     agent_name = rospy.get_param("agent_name")
 
     AGENT = DeploymentDRLAgent(
-        trainings_environment=trainings_environment, 
+        trainings_environment=trainings_environment,
         model_type=model_type,
-        robot_type=robot_type, 
-        agent_name=agent_name, 
-        ns=NS_PREFIX
+        robot_type=robot_type,
+        agent_name=agent_name,
+        ns=NS_PREFIX,
     )
 
     try:
@@ -166,6 +177,7 @@ def main() -> None:
         rospy.spin()
     except rospy.ROSInterruptException:
         pass
+
 
 if __name__ == "__main__":
     main()
