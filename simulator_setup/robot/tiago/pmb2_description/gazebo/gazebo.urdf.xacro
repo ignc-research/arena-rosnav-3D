@@ -20,19 +20,10 @@
        name="pmb2">
 
   <gazebo>
-    <plugin filename="libgazebo_ros_control.so" name="gazebo_ros_control">
-      <ns></ns>
-      <robotSimType>pal_hardware_gazebo/PalHardwareGazebo</robotSimType>
-      <xacro:if value="${is_multiple}">
-          <robotNamespace>/${nsp}</robotNamespace>
-      </xacro:if>
-      <xacro:unless value="${is_multiple}">
-          <robotNamespace></robotNamespace>
-      </xacro:unless>
-      <controlPeriod>0.001</controlPeriod>
-    </plugin>
 
-    <plugin filename="libgazebo_world_odometry.so" name="gazebo_ros_odometry">
+    <plugin filename="libgazebo_ros_control.so" name="gazebo_ros_control"/>
+
+    <!-- <plugin filename="libgazebo_world_odometry.so" name="gazebo_ros_odometry">
       <frameName>world</frameName>
       <bodyName>base_footprint</bodyName>
       <topicName>ground_truth_odom</topicName>
@@ -40,7 +31,7 @@
       <xacro:if value="${is_multiple}">
           <robotNamespace>/${nsp}</robotNamespace>
       </xacro:if>
-    </plugin>
+    </plugin> -->
   </gazebo>
 
   <gazebo reference="base_imu_link">

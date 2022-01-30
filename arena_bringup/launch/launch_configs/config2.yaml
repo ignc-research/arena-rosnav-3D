@@ -4,6 +4,7 @@ model:
  - turtlebot3_burger
 scenarios: # TIP: you can get this by running ' echo "$(ls)" ' in your scenario folder 
  - small_warehouse_obs05.json
- - small_warehouse_obs10.json
+ - small_warehouse_obs05.json
+ - small_warehouse_obs05.json
 Visualization: True
 # This would test 3 planers on 5 robot models in 4 different scenarios (therefore running each scenario 15 times)

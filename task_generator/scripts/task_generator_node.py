@@ -5,8 +5,7 @@ import rospy
 import time
 from nav_msgs.msg import Odometry
 from task_generator.tasks import get_predefined_task
-from std_msgs.msg import Int16, String
-from nav_msgs.msg import Odometry
+from std_msgs.msg import Int16, Bool
 from nav_msgs.srv import LoadMap
 from std_srvs.srv import Empty
 from gazebo_msgs.srv import SetModelState, SpawnModelRequest, SpawnModel, DeleteModel
@@ -25,7 +24,7 @@ class TaskGenerator:
         self.sr = rospy.Publisher("/scenario_reset", Int16, queue_size=1)
         self.nr = 0
         mode = rospy.get_param("~task_mode")
-
+        
         scenarios_json_path = rospy.get_param("~scenarios_json_path")
         paths = {"scenario": scenarios_json_path}
         self.task = get_predefined_task("", mode, PATHS=paths)
@@ -60,6 +59,8 @@ class TaskGenerator:
             prefix = "map"
             pat = re.compile(f"{prefix}\d+$", flags=re.ASCII)
             self.filtered_names = [name for name in names if pat.match(name) != None]
+
+        self.pub = rospy.Publisher('End_of_scenario', Bool, queue_size=10)
 
         # if the distance between the robot and goal_pos is smaller than this value, task will be reset
         # self.timeout_= rospy.get_param("~timeout")
@@ -133,6 +134,11 @@ class TaskGenerator:
         self.sr.publish(self.nr)
         if info is not None:
             if info == "End":
+                # communicates to launch_arena (if used) the end of the simulation
+                
+                self.end_msg = Bool()
+                self.end_msg.data = True
+                self.pub.publish(self.end_msg)
                 rospy.signal_shutdown("Finished all episodes of the current scenario")
             else:
                 self.curr_goal_pos_ = info["robot_goal_pos"]

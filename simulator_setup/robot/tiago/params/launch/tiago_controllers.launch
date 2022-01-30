@@ -22,16 +22,14 @@
 
   <!-- Set up controllers depending of arm existance -->
   <arg name="controller_list" value="joint_state_controller
-              torso_controller
-              head_controller
+  wheels_current_limit_controller
               mobile_base_controller"/>
 
   <!-- spawn controller -->
-  <node name="bringup_controllers_spawner_imu" pkg="controller_manager" type="spawner" output="screen" args="imu_sensor_controller" />
+  <!-- <node name="bringup_controllers_spawner_imu" pkg="controller_manager" type="spawner" output="screen" args="imu_sensor_controller" /> -->
 
   <!-- Controllers that come up started -->
-  <node name="default_controllers_spawner" pkg="controller_manager" type="spawner" output="screen" args="--timeout 120
-             $(arg controller_list) " />
+  <node name="default_controllers_spawner" pkg="controller_manager" type="spawner" output="screen" args="$(arg controller_list) " />
              
   <!-- Motion planning @ELIAS uncomment -->
   <!-- <include file="$(find simulator_setup)/robot/tiago/tiago_moveit_config/launch/move_group.launch">

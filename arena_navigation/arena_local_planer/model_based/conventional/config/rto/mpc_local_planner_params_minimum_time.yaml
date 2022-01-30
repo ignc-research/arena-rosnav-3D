@@ -2,13 +2,20 @@ MpcLocalPlannerROS:
   odom_topic:
     odom
 
-    ## Robot settings
+  # params are from https://github.com/dietriro/rto_core/tree/noetic-devel/rto_navigation/config
+  # and https://www.robotshop.com/media/files/content/f/fto/pdf/festo-robotino-mobile-robotic-datasheet.pdf
+
+  # TODO must change parameters for better performance in simulation!
+    # speed is significantly lower than with the teb
+    # sometimes cannot react to pedestrians
+
+  ## Robot settings
   robot:
     type: "unicycle"
     unicycle:
-      max_vel_x: 0.26
-      max_vel_x_backwards: 0.2
-      max_vel_theta: 1.82
+      max_vel_x: 2.78
+      max_vel_x_backwards: 2.78
+      max_vel_theta: 1.0
       acc_lim_x: 2.5 # deactive bounds with zero
       dec_lim_x: 0.2 # deactive bounds with zero
       acc_lim_theta: 3.2 # deactivate bounds with zero
@@ -20,7 +27,7 @@ MpcLocalPlannerROS:
 
   ## Collision avoidance
   collision_avoidance:
-    min_obstacle_dist: 0.2 # Note, this parameter must be chosen w.r.t. the footprint_model
+    min_obstacle_dist: 0.225 # Note, this parameter must be chosen w.r.t. the footprint_model
     enable_dynamic_obstacles: False
     force_inclusion_dist: 0.5
     cutoff_dist: 2.5
@@ -76,7 +83,7 @@ MpcLocalPlannerROS:
     global_plan_overwrite_orientation: true
     global_plan_prune_distance: 1.0
     allow_init_with_backward_motion: True
-    max_global_plan_lookahead_dist: 1.5
+    max_global_plan_lookahead_dist: 5.6
     global_plan_viapoint_sep: 5.5
     force_reinit_new_goal_dist: 1.0
     force_reinit_new_goal_angular: 1.57

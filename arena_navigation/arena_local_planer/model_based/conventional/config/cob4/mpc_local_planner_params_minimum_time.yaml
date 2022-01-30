@@ -2,16 +2,21 @@ MpcLocalPlannerROS:
   odom_topic:
     odom
 
-    ## Robot settings
+  # params are from https://github.com/ipa320/cob_navigation/tree/indigo_dev/cob_navigation_config/robots/cob4/nav/dwa_local_planner.yaml
+  # and https://www.care-o-bot.de/content/dam/careobot/de/documents/technischedaten/Care-O-bot%204_Technische_Daten.pdf
+
+  # TODO need to be tested
+
+  ## Robot settings
   robot:
     type: "unicycle"
     unicycle:
-      max_vel_x: 0.26
+      max_vel_x: 0.4
       max_vel_x_backwards: 0.2
-      max_vel_theta: 1.82
-      acc_lim_x: 2.5 # deactive bounds with zero
+      max_vel_theta: 0.3
+      acc_lim_x: 0.2 # deactive bounds with zero
       dec_lim_x: 0.2 # deactive bounds with zero
-      acc_lim_theta: 3.2 # deactivate bounds with zero
+      acc_lim_theta: 0.2 # deactivate bounds with zero
 
   ## Footprint model for collision avoidance
   footprint_model:

@@ -1,9 +1,11 @@
 from os import path
 
 from rl_agent.encoder import BaseEncoder
+
 """
     ROSNAV MODEL TRAINED IN NAVREP ENVIRONMENT
 """
+
 
 class Encoder(BaseEncoder):
     def __init__(self, agent_name: str, model_dir: str, hyperparams):
@@ -19,7 +21,7 @@ class Encoder(BaseEncoder):
 
     def _load_model(self, model_path: str):
         """Import stable baseline here because it requires
-            a different python version
+        a different python version
         """
         from stable_baselines.ppo2 import PPO2
 
@@ -28,20 +30,22 @@ class Encoder(BaseEncoder):
     def _load_vecnorm(self):
         return lambda obs: obs
 
-    def get_observation(self, obs):
+    def get_observation(self, obs, *args, **kwargs):
         return obs[0].reshape(len(obs[0]), 1)
 
     def get_action(self, action):
         """
-            Encodes the action produced by the nn
-            Should always return an array of size 3 with entries
-            [x_vel, y_vel, ang_vel]
+        Encodes the action produced by the nn
+        Should always return an array of size 3 with entries
+        [x_vel, y_vel, ang_vel]
         """
-        assert len(action) == 2, f"Expected an action of size 2 but received {len(action)}: {action}"
-        
+        assert (
+            len(action) == 2
+        ), f"Expected an action of size 2 but received {len(action)}: {action}"
 
         x_vel, ang_vel = action
         return [x_vel, 0, ang_vel]
+
 
 """
     Jackal
@@ -49,8 +53,11 @@ class Encoder(BaseEncoder):
     offset: -3/4 * pi
     action: [x_vel, ang_vel]
 """
+
+
 class JackalEncoder(Encoder):
     pass
+
 
 """
     Turtlebot3
@@ -58,8 +65,11 @@ class JackalEncoder(Encoder):
     offset: 0
     action: [x_vel, ang_vel]
 """
+
+
 class TurtleBot3Encoder(Encoder):
     pass
+
 
 """
     AGV
@@ -67,8 +77,11 @@ class TurtleBot3Encoder(Encoder):
     offset: -pi
     action: [x_vel, ang_vel]
 """
+
+
 class AgvEncoder(Encoder):
     pass
+
 
 """
     Ridgeback
@@ -76,8 +89,12 @@ class AgvEncoder(Encoder):
     offset: -3/4 * pi
     action: [x_vel, y_vel, ang_vel]
 """
+
+
 class RidgebackEncoder(Encoder):
     def get_action(action):
-        assert len(action) == 3, f"Expected an action of size 3 but received: {action}"
+        assert (
+            len(action) == 3
+        ), f"Expected an action of size 3 but received: {action}"
 
         return action

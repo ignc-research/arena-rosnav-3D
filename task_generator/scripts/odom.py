@@ -12,7 +12,8 @@ from nav_msgs.msg import Odometry
 from gazebo_msgs.srv import GetModelState
 from geometry_msgs.msg import PoseWithCovariance, TwistWithCovariance, TransformStamped
 import tf2_ros
-
+import tf.transformations
+import numpy as np
 
 # TODO: More general robot name ?
 # TODO: See if other robots have different base frame names
@@ -20,6 +21,7 @@ import tf2_ros
 
 if __name__ == "__main__":
     rospy.init_node("odom_pub")
+    base_frame = rospy.get_param("~base_frame", "base_link")
     rate = rospy.Rate(50)  # ROS Rate at 50Hz
     pub = rospy.Publisher("/odom", Odometry, queue_size=10)
     rospy.wait_for_service("/gazebo/get_model_state")
@@ -35,16 +37,31 @@ if __name__ == "__main__":
         t = TransformStamped()
         t.header.stamp = now
         t.header.frame_id = "odom"
-        t.child_frame_id = "base_link"
+        t.child_frame_id = base_frame
         t.transform.translation = resp.pose.position
         t.transform.rotation = resp.pose.orientation
         br.sendTransform(t)
         msg.header.stamp = now
         msg.header.frame_id = "odom"
-        msg.child_frame_id = "base_link"
+        msg.child_frame_id = base_frame
         msg.pose.pose = resp.pose
-        msg.twist.twist = resp.twist
 
+        angles = tf.transformations.euler_from_quaternion(
+            [
+                resp.pose.orientation.x,
+                resp.pose.orientation.y,
+                resp.pose.orientation.z,
+                resp.pose.orientation.w,
+            ]
+        )
+        yaw = angles[2]
+
+        x = np.cos(yaw) * resp.twist.linear.x + np.sin(yaw) * resp.twist.linear.y
+        y = np.cos(yaw) * resp.twist.linear.y - np.sin(yaw) * resp.twist.linear.x
+
+        msg.twist.twist.angular.z = resp.twist.angular.z
+        msg.twist.twist.linear.x = x
+        msg.twist.twist.linear.y = y
         # Covariance was taken from jackal's velocity controller config file
 
         msg.pose.covariance[0] = 0.001

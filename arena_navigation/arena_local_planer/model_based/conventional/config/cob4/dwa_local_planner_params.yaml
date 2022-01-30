@@ -1,46 +1,52 @@
-DWAPlannerROS:
-  # Robot Configuration Parameters
-  max_vel_x: 1
-  min_vel_x: -1
+# params are from https://github.com/ipa320/cob_navigation/tree/indigo_dev/cob_navigation_config/robots/cob4/nav/dwa_local_planner.yaml
+# and https://www.care-o-bot.de/content/dam/careobot/de/documents/technischedaten/Care-O-bot%204_Technische_Daten.pdf
 
-  max_vel_y: 0.0
-  min_vel_y: 0.0
+acc_lim_th: 3.2
+acc_lim_x: 2.5
+acc_lim_y: 2.5
 
-  # The velocity when robot is moving in a straight line
-  max_vel_trans: 0.22
-  min_vel_trans: 0.11
+max_vel_x: 1.1 #default 0.3
+min_vel_x: -1.1 #default -0.3
 
-  max_vel_theta: 2.75
-  min_vel_theta: 1.37
+max_vel_y: 0.2 #increase like max_x?
+min_vel_y: -0.2
 
-  acc_lim_x: 2.5
-  acc_lim_y: 0.0
-  acc_lim_theta: 3.2
+max_trans_vel: 0.3
+min_trans_vel: 0.01
 
-  # Goal Tolerance Parametes
-  xy_goal_tolerance: 0.05
-  yaw_goal_tolerance: 0.17
-  latch_xy_goal_tolerance: false
+max_rot_vel: 0.6
+min_rot_vel: 0.01
 
-  # Forward Simulation Parameters
-  sim_time: 1.5
-  vx_samples: 20
-  vy_samples: 0
-  vth_samples: 40
-  controller_frequency: 5.0
+#param for rotating behaviour
+#max_rotational_vel: 0.04
+#min_in_place_rotational_vel: 0.01
 
-  # Trajectory Scoring Parameters
-  path_distance_bias: 32.0
-  goal_distance_bias: 20.0
-  occdist_scale: 0.02
-  forward_point_distance: 0.325
-  stop_time_buffer: 0.2
-  scaling_speed: 0.25
-  max_scaling_factor: 0.2
 
-  # Oscillation Prevention Parameters
-  oscillation_reset_dist: 0.05
+sim_time: 1.7
+sim_granularity: 0.017
 
-  # Debugging
-  publish_traj_pc: true
-  publish_cost_grid_pc: true
+goal_distance_bias: 32.0
+path_distance_bias: 24.0
+occdist_scale: 0.01
+
+stop_time_buffer: 0.2
+oscillation_reset_dist: 0.05
+
+forward_point_distance: 0.0
+
+scaling_speed: 0.25
+max_scaling_factor: 0.2
+
+vx_samples: 3
+vy_samples: 10
+vtheta_samples: 20
+
+sim_period: 0.1
+
+xy_goal_tolerance: 0.2 #0.3
+yaw_goal_tolerance: 0.17 #0.5
+
+rot_stopped_vel: 0.01
+trans_stopped_vel: 0.01
+
+penalize_negative_x: false

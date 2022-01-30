@@ -6,17 +6,19 @@ TrajectoryPlannerROS:
   heading_scoring: false
   heading_lookahead: 1.0
 
-  max_vel_x: 1 #0.12
-  min_vel_x: 0.09
+  # params are from https://github.com/ipa320/cob_navigation/tree/indigo_dev/cob_navigation_config/robots/cob4/nav/dwa_local_planner.yaml
+  # and https://www.care-o-bot.de/content/dam/careobot/de/documents/technischedaten/Care-O-bot%204_Technische_Daten.pdf
+
+  max_vel_x: 1.1 #default 0.3
+  min_vel_x: -1.1 #default -0.3
   max_vel_theta: 0
   min_in_place_vel_theta: 0
   escape_vel: -0.09
 
-  acc_lim_theta: 0
-  acc_lim_x: 0.12
-  acc_lim_y: 0.12
+  acc_lim_theta: 3.2
+  acc_lim_x: 2.5
+  acc_lim_y: 2.5
 
-#dwa_local_planner
 DWAPlannerROS:
   holonomic_robot: true
   dwa: true
@@ -24,27 +26,27 @@ DWAPlannerROS:
   heading_scoring: false
   heading_lookahead: 1.0
 
-  acc_lim_x: 1
-  acc_lim_y: -1
-  acc_lim_th: 0
-  max_vel_trans: 1
-  min_vel_trans: 0.1
-  max_vel_x: 1 #0.12 0.3
-  min_vel_x: -1
-  max_vel_y: 1
-  min_vel_y: -1
+  acc_lim_x: 2.5
+  acc_lim_y: 2.5
+  acc_lim_th: 3.2
+  max_vel_trans: 0.3
+  min_vel_trans: 0.01
+  max_vel_x: 1.1 #default 0.3
+  min_vel_x: -1.1 #default -0.3
+  max_vel_y: 0.2 #increase like max_x?
+  min_vel_y: -0.2
   max_vel_theta: 0
   min_vel_theta: 0
 
-  yaw_goal_tolerance: 0.15
-  xy_goal_tolerance: 0.15 #0.10 # 10
+  yaw_goal_tolerance: 0.17
+  xy_goal_tolerance: 0.2 #0.10 # 10
   latch_xy_goal_tolerance: false
 
-  sim_time: 2.0 #4.0 #2.0
-  sim_granularity: 0.025 #0.25 #0.025
-  vx_samples: 5 #20  #3
-  vy_samples: 0
-  vth_samples: 10 #40 #5
+  sim_time: 1.7 #4.0 #2.0
+  sim_granularity: 0.017 #0.25 #0.025
+  vx_samples: 3 #20  #3
+  vy_samples: 10
+  vth_samples: 20 #40 #5
   controller_frequency: 5 #20.0  #5
 
   # Trajectory Scoring Parameters
@@ -54,15 +56,15 @@ DWAPlannerROS:
   #  + goal_distance_bias * (distance to local goal from the endpoint of the trajectory in meters)
   #  + occdist_scale * (maximum obstacle cost along the trajectory in obstacle cost (0-254))
 
-  path_distance_bias: 32.0
+  path_distance_bias: 24.0
   #    The weighting for how much the controller should stay close to the path it was given. default: 32.0
-  goal_distance_bias: 24.0
+  goal_distance_bias: 32.0
   #    The weighting for how much the controller should attempt to reach its local goal, also controls speed. default: 24.0
-  occdist_scale: 0.5
+  occdist_scale: 0.01
   #    The weighting for how much the controller should attempt to avoid obstacles. default 0.01
-  forward_point_distance: 0.325
+  forward_point_distance: 0.0
   #    The weighting for how much the controller should attempt to avoid obstacles. default: 0.325
-  stop_time_buffer: 1.0
+  stop_time_buffer: 0.2
   #    The amount of time that the robot must stop before a collision in order for a trajectory to be considered valid in seconds. default 0.2
   scaling_speed: 0.25
   #    The absolute value of the velocity at which to start scaling the robot's footprint, in m/s.  default: 0.25

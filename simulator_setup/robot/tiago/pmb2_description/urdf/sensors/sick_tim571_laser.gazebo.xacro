@@ -18,7 +18,7 @@
       <sensor type="ray" name="${name}">
         <pose>0 0 0 0 0 0</pose>
         <update_rate>${update_rate}</update_rate>
-        <visualize>true</visualize>
+        <visualize>false</visualize>
         <ray>
           <scan>
             <horizontal>
@@ -48,4 +48,3 @@
   </xacro:macro>
 
 </robot>
-
