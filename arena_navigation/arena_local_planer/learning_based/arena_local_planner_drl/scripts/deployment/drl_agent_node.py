@@ -7,7 +7,7 @@ from os import path
 
 import rl_agent.encoder.rosnav_rosnav as r_rosnav
 import rl_agent.encoder.navrep_rosnav as n_rosnav
-from rl_agent.encoder.guldenring_guldenring import JackalGuldenringEncoder, TurtleBot3GuldenringEncoder
+from rl_agent.encoder.guldenring_guldenring import JackalGuldenringEncoder, RtoGuldenringEncoder, TurtleBot3GuldenringEncoder
 
 import rl_agent.encoder.guldenring_guldenring_pretrained as gring
 from rl_agent.encoder.navrep_navrep import NavrepPretrainedEncoder
@@ -41,7 +41,8 @@ encoders = {
     },
     "guldenring_guldenring": {
         "turtlebot3_burger": TurtleBot3GuldenringEncoder,
-        "jackal": JackalGuldenringEncoder
+        "jackal": JackalGuldenringEncoder,
+        "rto": RtoGuldenringEncoder
     },
     "guldenring_guldenring_pretrained": {
         "agv-ota": gring.GuldenringPretrainedEncoder,
@@ -143,6 +144,8 @@ class DeploymentDRLAgent(BaseDRLAgent):
                 self._curr_action = encoded_action
 
                 self.publish_action(self._last_action)
+            else:
+                self.publish_action(self.STAND_STILL_ACTION)
 
             rate.sleep()
 

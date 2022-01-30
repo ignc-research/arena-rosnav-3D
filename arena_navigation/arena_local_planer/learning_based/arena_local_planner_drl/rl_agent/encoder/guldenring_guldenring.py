@@ -65,7 +65,11 @@ class GuldenringEncoder(BaseEncoder):
     action: [x_vel, ang_vel]
 """
 class JackalGuldenringEncoder(GuldenringEncoder):
-    pass
+    def get_action(self, action):
+        assert len(action) == 2, f"Expected an action of size 2 but received {len(action)}: {action}"
+        
+        x_vel, ang_vel = action
+        return [x_vel, 0, 0.3*ang_vel]
 
 """
     Turtlebot3
@@ -74,6 +78,15 @@ class JackalGuldenringEncoder(GuldenringEncoder):
     action: [x_vel, ang_vel]
 """
 class TurtleBot3GuldenringEncoder(GuldenringEncoder):
+    pass
+
+"""
+    Rto
+    N: 360
+    offset: 0
+    action: [x_vel, ang_vel]
+"""
+class RtoGuldenringEncoder(GuldenringEncoder):
     pass
 
 """
