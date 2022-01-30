@@ -151,7 +151,9 @@ class ObservationCollector:
     def get_observation_space(self):
         return self.observation_space
 
-    def get_observations(self, *args, **kwargs):
+    def get_observations(self, kwargs: dict = None):
+        kwargs = kwargs if kwargs else {}
+
         # apply action time horizon
         if self._is_train_mode:
             self.call_service_takeSimStep(

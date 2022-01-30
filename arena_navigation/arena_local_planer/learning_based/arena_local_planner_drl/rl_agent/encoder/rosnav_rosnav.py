@@ -2,7 +2,7 @@ from os import path
 from stable_baselines3 import PPO
 import numpy as np
 import pickle
-
+import rospy
 
 from rl_agent.encoder import BaseEncoder
 
@@ -41,6 +41,10 @@ class RosnavEncoder(BaseEncoder):
         self._action_in_obs = hyperparams.get(
             "actions_in_observationspace", False
         )
+        rospy.set_param("action_in_obs", self._action_in_obs)
+        # import to update the input size of the models
+        import rl_agent.model.feature_extractors
+        import rl_agent.model.custom_policy
 
         assert path.isfile(
             model_path
@@ -66,7 +70,7 @@ class RosnavEncoder(BaseEncoder):
         if not self._action_in_obs:
             merged_obs
         else:
-            return np.hstack(merged_obs, obs_dict["last_action"])
+            return np.hstack([merged_obs, obs_dict["last_action"]])
 
     def get_action(self, action: np.ndarray) -> list:
         """

@@ -117,9 +117,7 @@ class DeploymentDRLAgent(BaseDRLAgent):
 
         # time period for a valid action
         self._action_period = rospy.get_param("/action_frequency", default=10)
-        self._curr_action, self._last_action = np.array([0, 0, 0]), np.array(
-            [0, 0, 0]
-        )
+        self._last_action = np.array([0, 0, 0])
 
         self.STAND_STILL_ACTION = np.array([0, 0, 0])
 
@@ -149,10 +147,8 @@ class DeploymentDRLAgent(BaseDRLAgent):
                     self.get_action(encoded_obs)
                 )
 
-                self._last_action = self._curr_action
-                self._curr_action = encoded_action
-
-                self.publish_action(self._last_action)
+                self.publish_action(encoded_action)
+                self._last_action = encoded_action
 
             rate.sleep()
 

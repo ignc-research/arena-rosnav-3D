@@ -108,7 +108,7 @@ class BaseDRLAgent(ABC):
                 queue_size=1,
             )
 
-    def get_observations(self) -> Tuple[np.ndarray, dict]:
+    def get_observations(self, *args, **kwargs) -> Tuple[np.ndarray, dict]:
         """
             Retrieves the latest synchronized observation.
 
@@ -116,7 +116,9 @@ class BaseDRLAgent(ABC):
                 Tuple, where first entry depicts the observation data concatenated \
                 into one array. Second entry represents the observation dictionary.
         """
-        merged_obs, obs_dict = self._observation_collector.get_observations()
+        merged_obs, obs_dict = self._observation_collector.get_observations(
+            kwargs
+        )
         if self._hyperparams["normalize"]:
             self.normalize_observations(merged_obs)
         return merged_obs, obs_dict
