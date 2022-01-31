@@ -177,3 +177,15 @@ You can also check the launch files of the respective planers like for example [
 5. If you want to use this robot for drl training you must also add the definition of the actionspace of the robot under:\
 `arena_navigation/arena_local_planer/learning_based/arena_local_planner_drl/configs`
 6. If you want to make your implementation publicly available, make sure to update the documentation [here](Usage.md#robots) and [here](https://github.com/ignc-research/arena-rosnav-3D#robots)
+
+## How to include additional robot models into flatland
+To also use a robot model in the 2D flatland simulation, the following steps must be taken:
+1. Create a flatland model. These models follow the naming-convention: `{YOUR_ROBOT_NAME}.model.yaml`. The models can be found [here](https://github.com/ignc-research/arena-rosnav/tree/noetic-devel/simulator_setup/robot). Consider alter the following parameters for your model:
+- __type__: which can be [_circle, polygon_]; change the __radius__ or __points__ parameter accordingly. (The points are often already defined in the `costmap_common_params` file of your robot)
+- __range__: If your robot uses a laser put here the max range of the laser
+- __angle__: If your robots uses a laser, put here the _min_ and _max_ angle of your laser, as well as the laser _increment_
+  > Note: These parameters can be determined for example if you are able to run this repo already in gazebo, by running `rostopic echo scan` in the command line. In the header of your scan message these parameters should already be defined.
+2. Add the parameters to the launch file, like [here](https://github.com/ignc-research/arena-rosnav/blob/36023191f7acf3be60955117f000c89d0930cf76/arena_bringup/launch/start_arena_flatland.launch#L68) since these are needed for the simulation. If your model is not circular, put for its radius the distance between the center and the furthest edge of the robot.
+3. Add an rviz file [here](https://github.com/ignc-research/arena-rosnav/tree/noetic-devel/arena_bringup/rviz) that subscribes to the robot position with {YOUR_ROBOT_NAME}-topic.
+4. Setup your robot navigation stag (this is identical in Gazebo and flatland, therefore refer to step 3 described above)
+5. If you want to use the robot model for rl-training. Also define the action-space of the robot. This can be done [here](https://github.com/ignc-research/arena-rosnav/tree/noetic-devel/arena_navigation/arena_local_planner/learning_based/arena_local_planner_drl/configs). If your robot is holonomic make sure to take this into account. To determine the angular range (the degree by which the robot is able to turn his wheels) you can either check the website of the manufacturer or find this in parameter-file for your local-planner (teb,dwa etc)
