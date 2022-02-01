@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<root xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:macro name="cob_prosilica_gazebo_v0" params="name ros_topic">
+    <gazebo reference="${name}_frame">
+      <sensor type="camera" name="${name}_sensor">
+        <always_on>true</always_on>
+        <update_rate>10.0</update_rate>
+        <camera name="${name}_sensor">
+          <horizontal_fov>0.58</horizontal_fov>
+          <image>
+            <format>B8G8R8</format>
+            <width>1360</width>
+            <height>1024</height>
+          </image>
+          <clip>
+            <near>0.1</near>
+            <far>100</far>
+          </clip>
+          <noise>
+            <type>gaussian</type>
+            <mean>0.0</mean>
+            <stddev>0.0</stddev>
+          </noise>
+        </camera>
+        <plugin name="${name}_controller" filename="libgazebo_ros_camera.so">
+          <updateRate>10.0</updateRate>
+          <cameraName>${name}_sensor</cameraName>
+          <frameName>/${name}_link</frameName>
+          <topicName>${ros_topic}_image_data</topicName>
+          <imageTopicName>/${ros_topic}/image_raw</imageTopicName>
+          <cameraInfoTopicName>/${ros_topic}/camera_info</cameraInfoTopicName>
+          <pollServiceName>/${name}/request_image</pollServiceName>
+          <CxPrime>697.69</CxPrime>
+          <Cx>697.69</Cx>
+          <Cy>530.51</Cy>
+          <focalLength>2278.722731</focalLength>	<!-- focal_length = width_ / (2.0 * tan( HFOV/2.0 )) -->
+          <hackBaseline>0.0</hackBaseline>
+          <distortionK1>0.0</distortionK1>
+          <distortionK2>0.0</distortionK2>
+          <distortionK3>0.0</distortionK3>
+          <distortionT1>0.0</distortionT1>
+          <distortionT2>0.0</distortionT2>
+        </plugin>
+      </sensor>
+      <material value="IPA/LightGrey" />
+    </gazebo>
+  </xacro:macro>
+
+</root>

@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:include filename="$(find simulator_setup)/robot/cob4/cob_description/urdf/common.xacro" />
+  <xacro:include filename="$(find simulator_setup)/robot/cob4/cob_description/urdf/sensors/realsense_zr300.gazebo.xacro" />
+
+  <xacro:macro name="realsense_zr300" params="name parent ros_topic *origin">
+
+    <joint name="${name}_joint" type="fixed">
+      <xacro:insert_block name="origin" />
+      <parent link="${parent}"/>
+      <child link="${name}_link"/>
+    </joint>
+
+    <link name="${name}_link">
+      <xacro:default_inertial/>
+      <visual>
+       <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.01 0.155 0.035"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.01 0.155 0.035"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <!-- extensions -->
+    <xacro:realsense_zr300_gazebo name="${name}" ros_topic="${ros_topic}" />
+  </xacro:macro>
+
+</robot>
+

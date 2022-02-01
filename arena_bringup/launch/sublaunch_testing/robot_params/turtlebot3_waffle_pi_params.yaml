@@ -1,0 +1,12 @@
+# from https://emanual.robotis.com/docs/en/platform/turtlebot3/features/
+radius: 0.208 # [m] from ((281/2)**2 + (306/2)**2)**(1/2) /1000
+speed: 0.26 # [m/s]
+robot_action_rate: 10
+laser_update_rate: 10
+# the following 4 params are from the .gazebo.axro model
+# laser data from: https://github.com/ignc-research/arena-rosnav-3D/blob/ba8aa999d5e9ab24dff759e38a6904e2e3912be6/simulator_setup/robot/turtlebot3_waffle_pi/urdf/turtlebot3_waffle_pi.gazebo.xacro#L128
+laser_min: 0.0 # [rad]
+laser_max: 6.28319 # [rad]
+laser_increment: 0.0 # TODO
+laser_range: 3.5 # depending on model: 5.6 m / 10 m / 25 m 
+laser_beams: 360

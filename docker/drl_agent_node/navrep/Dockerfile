@@ -14,7 +14,7 @@ RUN pyenv install 3.6.2 \
     && pip3 install -r requirements.txt 
 
 #   Clone and install navrep
-RUN git clone https://github.com/ethz-asl/navrep.git
+RUN git clone https://github.com/ReykCS/navrep.git
 WORKDIR /root/navrep
 RUN pip3 install -e . \
     && pip3 install gym==0.19.0 

@@ -1,10 +1,11 @@
-radius: 0.185
-speed: 1.5
-robot_action_rate: 10
-laser_update_rate: 10
-# the following 4 params are from the .gazebo.axro model
-laser_min: -0.001 # angel
-laser_max: 0.001 # angel
-laser_increment: 0.01
-laser_range: 25.0
-laser_beams: 1080 # this param is from the <samples>720</samples> from the .urdf.axro model
+# from https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&ved=2ahUKEwiR3emW1MP1AhWHqaQKHamUAfgQFnoECA4QAQ&url=https%3A%2F%2Fwww.festo-didactic.com%2Fdownload.php%3Fname%3DBrochure%2520-%2520Robotino%2520EN.pdf%26c_id%3D1100%26file%3Dbrochure_robotino_en.pdf&usg=AOvVaw25LBbAmpHcugrgwJ2M1K9y
+radius: 0.225 # [m]
+speed: 2.78 # [m/s]
+robot_action_rate: 10 # TODO
+laser_update_rate: 10 # TODO
+# laser data from https://github.com/ignc-research/arena-rosnav-3D/blob/ba8aa999d5e9ab24dff759e38a6904e2e3912be6/simulator_setup/robot/rto/urdf/sensors/hokuyo.urdf.xacro#L54
+laser_min: -2.0944 # [rad] # TODO
+laser_max: 2.0944 # [rad] # TODO
+laser_increment: 0.0 # TODO
+laser_range: 5.6 # depending on model: 5.6 m / 10 m / 25 m 
+laser_beams: 683 # TODO

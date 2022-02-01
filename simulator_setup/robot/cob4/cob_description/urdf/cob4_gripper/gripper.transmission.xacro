@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:macro name="gripper_transmission" params="name">
+
+    <transmission name="${name}_finger_1_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="${name}_finger_1_joint">
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        <!--hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface-->
+      </joint>
+      <actuator name="${name}_finger_1_motor">
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+
+    <transmission name="${name}_finger_2_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="${name}_finger_2_joint">
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        <!--hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface-->
+      </joint>
+      <actuator name="${name}_finger_2_motor">
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+
+  </xacro:macro>
+
+</robot>

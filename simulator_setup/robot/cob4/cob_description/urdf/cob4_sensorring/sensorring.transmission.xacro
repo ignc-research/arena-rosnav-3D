@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:include filename="$(find simulator_setup)/robot/cob4/cob_description/urdf/common.xacro" />
+
+  <xacro:macro name="sensorring_transmission" params="name active">
+
+    <xacro:if value="${active}">
+      <xacro:default_transmission jname="${name}"/>
+    </xacro:if>
+
+  </xacro:macro>
+
+</robot>

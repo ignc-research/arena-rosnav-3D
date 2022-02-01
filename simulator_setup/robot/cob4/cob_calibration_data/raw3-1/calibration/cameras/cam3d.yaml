@@ -1,0 +1,21 @@
+camera_name: rgb_A00366909204046A
+frame_id: /head_cam3d_link
+image_width: 640
+image_height: 480
+camera_matrix:
+  rows: 3
+  cols: 3
+  data: [547.5605982092275, 0.0, 305.82327858152564, 0.0, 549.0198161821555, 246.44889410612424, 0.0, 0.0, 1.0]
+distortion_model: plumb_bob
+distortion_coefficients:
+  rows: 1
+  cols: 5
+  data: [0.07582090723425015, -0.38004692990677336, 0.003583719093529848, -0.005002958339773594, 0.47342131463861753]
+rectification_matrix:
+  rows: 3
+  cols: 3
+  data: [1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0]
+projection_matrix:
+  rows: 3
+  cols: 4
+  data: [549.7935180664062, 0.0, 302.8187793637844, 0.0, 0.0, 551.7338256835938, 247.48463931931838, 0.0, 0.0, 0.0, 1.0, 0.0]

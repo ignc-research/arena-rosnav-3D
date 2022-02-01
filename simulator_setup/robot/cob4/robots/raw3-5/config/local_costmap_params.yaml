@@ -1,0 +1,56 @@
+# global information
+global_frame: base_link
+robot_base_frame: base_footprint
+update_frequency: 5.0
+publish_frequency: 5.0
+
+# local map settings
+rolling_window: true
+width: 5.0
+height: 5.0
+resolution: 0.07
+
+# footprint and range
+footprint: [[0.39,0.3],[-0.39,0.3],[-0.39,-0.3],[0.39,-0.3]] #[m]
+footprint_padding: 0.02 #[m]
+
+#layers
+plugins:
+
+# The obstacle layer tracks the obstacles as read by the sensor data.  The ObstacleCostmapPlugin marks and
+# raytraces obstacles in two dimensions, while the VoxelCostmapPlugin does so in three dimensions.
+- {name: obstacle_layer,  type: "costmap_2d::VoxelLayer"}
+
+
+obstacle_layer:
+
+  # Definition of the sensors/observation sources
+  observation_sources: laser_scan_front laser_scan_rear
+
+  # Parameters of the source: laser_scan_front
+  laser_scan_front:
+    sensor_frame: base_laser_front_link # The frame of the origin of the sensor, default: ""
+    topic: /base_laser_front/scan       # The topic on which sensor data comes in for this source, default: source_name
+    data_type: LaserScan                # The data type associated with the topic, default: "PointCloud"
+    marking: true                       # Whether or not this observation is used to mark obstacles, default: true
+    clearing: true                      # Whether or not this observation is used to clear out freespace, default: false
+
+  # Parameters of the source: laser_scan_rear
+  laser_scan_rear:
+    sensor_frame: base_laser_rear_link  # The frame of the origin of the sensor, default: ""
+    topic: /base_laser_rear/scan       # The topic on which sensor data comes in for this source, default: source_name
+    data_type: LaserScan                # The data type associated with the topic, default: "PointCloud"
+    marking: true                       # Whether or not this observation is used to mark obstacles, default: true
+    clearing: true                      # Whether or not this observation is used to clear out freespace, default: false
+
+  # The default maximum distance from the robot at which an obstacle will be inserted into the cost map in meters
+  obstacle_range: 3.0
+
+  # The default range in meters at which to raytrace out obstacles from the map using sensor data
+  raytrace_range: 3.0
+
+  # What map type to use. "voxel" or "costmap" are the supported types, with the difference between them being a 3D-view of the world vs. a 2D-view of the world
+  map_type: costmap
+
+  # The maximum height in meters of a sensor reading considered valid.
+  max_obstacle_height: 2.0

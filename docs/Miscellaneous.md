@@ -130,3 +130,62 @@ If you are using models, downloaded from ignitionrobotics you need to copy their
 # How to speed-up gazebo simulation speed
 It is possible to run Gazebo faster than real time. The maximum simulation speed depends on the complexity of the world and the processing power, a speedup between 2 and 300 of the simulation time is possible.
 - To speed up the simulation time to the maximum capacity, go into the world file of the gazebo (for the small warehouse world this would be under `simulator_setup/worlds/small_warehouse/worlds`) and change the `real_time_update_rate` from `<real_time_update_rate>1000</real_time_update_rate>` to `<real_time_update_rate>0</real_time_update_rate>`. This will speed up your simulation and adjust all parameters. (If you want to increase the simulation by a certain factor, see [here](http://gazebosim.org/tutorials?tut=physics_params&cat=physics)). You can further increase the speed by running the simulation headless. To do this, follow the description [here](https://github.com/eliastreis/arena-rosnav-3D/blob/2ecc4640576fce3e39356f5dc806b7d1986ed493/arena_bringup/launch/sublaunch_testing/gazebo_simulator.launch#L17)).
+
+# How to automate the scenario mode (for large scale benchmarking)
+For running multiple scenario files, (on different robots and planers), we provide the `launch_arena.py` file. This will automatically _roslaunch_ the scenario files and save the respective _.csv_ files. Use this as follows:
+
+1. create a _config.yaml_ in which you specify: _planer, robot, scenario, etc._. You can find an example config file [here](https://github.com/ignc-research/arena-rosnav-3D/blob/main/arena_bringup/launch/launch_configs/example_config.yaml). The script will later automatically launch every unique combination of planer, robot and scenario. You can also turn of the visualization (to increase simulation speed, by setting Visualization to `False`)
+2. save the file under: `arena-rosnav-3D/arena_bringup/launch/{NAME-OF-YOUR-CONFIG}.yaml` and copy the path to the config
+3. [OPTIONAL:] Your might want to change further parameters since for example you want to active a different _virtual environement_ for certain planners. You can do this [here](https://github.com/ignc-research/arena-rosnav-3D/blob/main/arena_bringup/launch/launch_arena.py)
+4. Launch the file, by providing your PATH_TO_YOUR_CONFIG (from step 1) as argument:
+```zsh
+roscd arena_bringup && cd launch
+python launch_arena.py --yaml_path {PATH_TO_YOUR_CONFIG}
+```
+> __NOTE__: If you manually terminate the script, ros and gazebo might still continue to run. Terminate them by entering the following commands in the terminal:
+```
+killall -9 gazebo & killall -9 gzserver  & killall -9 gzclient
+rosnode kill --all
+```
+# How to include additional robot models
+> __NOTE__: Since every robot model works differently it is not possible to provide here a comprehensive guide. We provide only some important steps, and tests to ensure your robot model is implemented properly.
+
+__General Tips:__
+
+❗Make sure your: `YOUR_ROBOT_NAME` stays consistent with every use\
+❗Use an underscore for multi-word robot names, like: `robot_name`
+
+__Implementation:__
+1. Gazebo uses the _.urdf_ format to define gazebo-robot model. Add the corresponding fils to: `simulator_setup/robot`.\
+__Note:__ The _.urdf_ model will sometimes read out files from other (support) packages / files. Make sure to update these paths accordingly by looking at all appearances of `package://` and `$(find ` in your newly added files.
+2. Since some robot models require extra packages for example to map the laser scan data. You should make sure to include them im the `robot.launch` file ([here](https://github.com/ignc-research/arena-rosnav-3D/blob/87258d562292db7a006326eac8069998fea717c9/arena_bringup/launch/sublaunch_testing/robots.launch#L2)). You can use the *group_by* parameter to only activate the node in the case of your robot model.
+__Note:__ To check weather your robot is implemented correctly, make sure a laser scan topic is published under the name `scan`. Run: 
+    ```bash
+    rostopic echo scan
+    ```
+    If this is the case, check also weather *tf* is setup correctly, (by opening **rviz** > **Add** > **LaserScan** and writing into 'topic': `/scan`. (If your scan topic is published under some other name, change this to *scan* since, this is required by other arena-rosnav modules)
+
+3. If you want to use _classical_ planers (like _teb_, _dwa_ or _mpc_), you need to add their respective parameters, under:\
+`arena_navigation/arena_local_planer/model_based/conventional/config/{YOUR_ROBOT_NAME}`\
+You can also check the launch files of the respective planers like for example [here](https://github.com/ignc-research/arena-rosnav-3D/blob/main/arena_bringup/launch/sublaunch_testing/move_base/move_base_dwa.launch) to see the needed files. 
+4. Make sure to add also a parameter file (to be published to the parameter sever), under:\
+`arena_bringup/launch/sublaunch_testing/robot_params/{YOUR_ROBOT_NAME}_params.yaml`
+    - The parameters: [*robot_action_rate, laser_update_rate, laser_min, laser_max, laser_range, laser_beams*] can (usually) be found in the _.urdf_ file(s) of the robot model. 
+    - If the *radius* is not given you can approximate the max. radius for example by calculating it by the data given in the 'footprint' section of the `costmap_common_params.yaml` file.
+    - The *speed* parameter can often be found on the website of the manufacturer, or in some additional config files.
+    - The laser increment can be calculated by *(laser_max-laser_min)/laser_beams*
+5. If you want to use this robot for drl training you must also add the definition of the actionspace of the robot under:\
+`arena_navigation/arena_local_planer/learning_based/arena_local_planner_drl/configs`
+6. If you want to make your implementation publicly available, make sure to update the documentation [here](Usage.md#robots) and [here](https://github.com/ignc-research/arena-rosnav-3D#robots)
+
+## How to include additional robot models into flatland
+To also use a robot model in the 2D flatland simulation, the following steps must be taken:
+1. Create a flatland model. These models follow the naming-convention: `{YOUR_ROBOT_NAME}.model.yaml`. The models can be found [here](https://github.com/ignc-research/arena-rosnav/tree/noetic-devel/simulator_setup/robot). Consider alter the following parameters for your model:
+- __type__: which can be [_circle, polygon_]; change the __radius__ or __points__ parameter accordingly. (The points are often already defined in the `costmap_common_params` file of your robot)
+- __range__: If your robot uses a laser put here the max range of the laser
+- __angle__: If your robots uses a laser, put here the _min_ and _max_ angle of your laser, as well as the laser _increment_
+  > Note: These parameters can be determined for example if you are able to run this repo already in gazebo, by running `rostopic echo scan` in the command line. In the header of your scan message these parameters should already be defined.
+2. Add the parameters to the launch file, like [here](https://github.com/ignc-research/arena-rosnav/blob/36023191f7acf3be60955117f000c89d0930cf76/arena_bringup/launch/start_arena_flatland.launch#L68) since these are needed for the simulation. If your model is not circular, put for its radius the distance between the center and the furthest edge of the robot.
+3. Add an rviz file [here](https://github.com/ignc-research/arena-rosnav/tree/noetic-devel/arena_bringup/rviz) that subscribes to the robot position with {YOUR_ROBOT_NAME}-topic.
+4. Setup your robot navigation stag (this is identical in Gazebo and flatland, therefore refer to step 3 described above)
+5. If you want to use the robot model for rl-training. Also define the action-space of the robot. This can be done [here](https://github.com/ignc-research/arena-rosnav/tree/noetic-devel/arena_navigation/arena_local_planner/learning_based/arena_local_planner_drl/configs). If your robot is holonomic make sure to take this into account. To determine the angular range (the degree by which the robot is able to turn his wheels) you can either check the website of the manufacturer or find this in parameter-file for your local-planner (teb,dwa etc)

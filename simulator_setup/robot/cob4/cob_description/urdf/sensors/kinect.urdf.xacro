@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<root xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:include filename="$(find simulator_setup)/robot/cob4/cob_description/urdf/common.xacro" />
+  <xacro:include filename="$(find simulator_setup)/robot/cob4/cob_description/urdf/sensors/kinect.gazebo.xacro" />
+
+  <xacro:macro name="cob_kinect_v0" params="name parent *origin ros_topic update_rate:=20 data_skip:=0 height:=480 width:=640">
+    <joint name="${name}_joint" type="fixed">
+      <xacro:insert_block name="origin" />
+      <parent link="${parent}"/>
+      <child link="${name}_link"/>
+    </joint>
+
+    <link name="${name}_link">
+      <xacro:default_inertial/>
+      <visual>
+        <origin xyz="0 0 -0.03" rpy="0 0 0" />
+        <geometry>
+          <box size="0.02 0.02 0.02"/>
+        </geometry>
+        <material name="IPA/LightGrey" />
+      </visual>
+      <collision>
+        <origin xyz="0 0 -0.03" rpy="0 0 0" />
+        <geometry>
+           <box size="0.02 0.02 0.02"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <!-- extensions -->
+    <xacro:cob_kinect_gazebo_v0 name="${name}" ros_topic="${ros_topic}"
+                                               update_rate="${update_rate}"
+                                               data_skip="${data_skip}"
+                                               height="${height}"
+                                               width="${width}"/>
+  </xacro:macro>
+
+</root>
+

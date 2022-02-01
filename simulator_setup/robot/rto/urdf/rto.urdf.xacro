@@ -1,14 +1,14 @@
 <?xml version="1.0"?>
 <robot name="rto" xmlns:xacro="http://wiki.ros.org/xacro">
-  <xacro:property name="PI" value="3.1415926535897931" />
-
   <xacro:include filename="$(find simulator_setup)/robot/rto/urdf/components/rto_parts.urdf.xacro"/>
   <xacro:include filename="$(find simulator_setup)/robot/rto/urdf/components/rto_body.urdf.xacro"/>
-
-  
-  <xacro:include filename="$(find simulator_setup)/robot/rto/urdf/sensors/hokuyo.urdf.xacro" />
-  <xacro:hokuyo_ust-10lx_mount prefix="front"
-                                topic="scan"
-                                location="1" />
+  <xacro:include filename="$(find simulator_setup)/robot/rto/urdf/sensors/hokuyo.urdf.xacro"/>
   <xacro:rto_body/>
+
+  <xacro:plate parent="base_link" name="plate"/>
+
+  <xacro:hokuyo name="hokuyo" parent="base_link">
+    <origin xyz="0.08 0 0.2015" rpy="0 0 0"/>
+  </xacro:hokuyo>
+
 </robot>

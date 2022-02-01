@@ -1,0 +1,16 @@
+sync:
+  interval_ms: 10
+  overflow: 0
+
+defaults:
+  eds_pkg: cob_hardware_config
+  eds_file: "robots/common/Schunk_0_63.dcf"
+
+  pos_to_device: "rint(pos*1000000*2)" # m -> µm
+  pos_from_device: "obj6064/1000000/2" # actual position [µm] -> m
+  vel_to_device: "rint(vel*1000000*2)" # m -> µm
+  vel_from_device: "obj606C/1000000/2" # actual velocity [µm] -> m
+nodes:
+  motor:
+    joint: gripper_left_finger_left_joint
+    id: 12

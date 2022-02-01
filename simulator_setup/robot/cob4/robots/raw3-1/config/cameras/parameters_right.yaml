@@ -1,0 +1,14 @@
+auto_exposure:     False
+#exposure_auto_max: 80000
+#exposure_auto_target: 40
+exposure:          0.065
+auto_gain:         False
+#gain_auto_target: 40
+gain:              3
+auto_whitebalance: True
+frame_id: head_color_camera_r_link
+stream_bytes_per_second: 124000000
+auto_adjust_stream_bytes_per_second: False
+trigger_mode: streaming
+#packet_size: 9000
+ip_address: 192.168.41.60

@@ -1,0 +1,38 @@
+pub_rate: 1.0 # Optional
+base_path: '' # Optional, prepended to all diagnostic output
+analyzers:
+  computers:
+    type: diagnostic_aggregator/AnalyzerGroup
+    path: Computers
+    analyzers:
+      b1:
+        type: diagnostic_aggregator/DiscardAnalyzer
+        path: b1
+        contains: 'b1'
+
+  io:
+    type: diagnostic_aggregator/AnalyzerGroup
+    path: IO
+    analyzers:
+      joystick:
+        type: diagnostic_aggregator/DiscardAnalyzer
+        path: Joystick
+        contains: 'joy'
+
+  motors:
+    type: diagnostic_aggregator/AnalyzerGroup
+    path: Actuators
+    analyzers:
+      base:
+        type: diagnostic_aggregator/GenericAnalyzer
+        path: Base
+        contains: 'base/'
+
+  sensors:
+    type: diagnostic_aggregator/AnalyzerGroup
+    path: Sensors
+    analyzers:
+      battery:
+        type: diagnostic_aggregator/GenericAnalyzer
+        path: Battery Status
+        contains: 'bms'

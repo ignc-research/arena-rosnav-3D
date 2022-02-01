@@ -1,0 +1,45 @@
+## joint_names
+joint_names: [gripper_right_finger_1_joint, gripper_right_finger_2_joint]
+
+## control_mode_adapter
+max_command_silence: 0.5
+
+## joint_state_controller
+joint_state_controller:
+    type: joint_state_controller/JointStateController
+    publish_rate: 50
+
+## joint trajectory controller
+joint_trajectory_controller:
+  type: position_controllers/JointTrajectoryController
+  joints:
+     - gripper_right_finger_1_joint
+     - gripper_right_finger_2_joint
+  constraints:
+      goal_time: 0.6
+      stopped_velocity_tolerance: 0.05
+      gripper_right_finger_1_joint: {trajectory: 0.1, goal: 0.1}
+      gripper_right_finger_2_joint: {trajectory: 0.1, goal: 0.1}
+  stop_trajectory_duration: 0.5
+  state_publish_rate:  25
+  action_monitor_rate: 10
+  required_drive_mode: 7
+
+
+## position controller
+joint_group_position_controller:
+  type: position_controllers/JointGroupPositionController
+  joints:
+     - gripper_right_finger_1_joint
+     - gripper_right_finger_2_joint
+  required_drive_mode: 1
+
+gripper_right_finger_1_joint_position_controller:
+  type: position_controllers/JointPositionController
+  joint: gripper_right_finger_1_joint
+  required_drive_mode: 1
+gripper_right_finger_2_joint_position_controller:
+  type: position_controllers/JointPositionController
+  joint: gripper_right_finger_2_joint
+  required_drive_mode: 1
+

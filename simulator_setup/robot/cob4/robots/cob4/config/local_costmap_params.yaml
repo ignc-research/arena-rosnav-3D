@@ -1,0 +1,56 @@
+# global information
+global_frame: base_footprint
+robot_base_frame: base_footprint
+update_frequency: 5.0
+publish_frequency: 5.0
+
+# local map settings
+rolling_window: true
+width: 5.0
+height: 5.0
+resolution: 0.05
+
+# footprint and range
+footprint: [[0.43, 0.35], [0.43, -0.35], [-0.43, -0.35],[-0.43, 0.35]] #[m]
+footprint_padding: 0.02 #[m]
+
+#layers
+plugins:
+
+# The obstacle layer tracks the obstacles as read by the sensor data.  The ObstacleCostmapPlugin marks and
+# raytraces obstacles in two dimensions, while the VoxelCostmapPlugin does so in three dimensions.
+- {name: obstacle_layer_0,  type: "costmap_2d::ObstacleLayer"}
+
+obstacle_layer_0:
+
+  enabled: true
+
+  # Definition of the sensors/observation sources
+  observation_sources: scan_unified_filtered
+
+  # Parameters of the source
+  scan_unified_filtered:
+    sensor_frame: base_link             # The frame of the origin of the sensor, default: ""
+    topic: /scan_unified_filtered       # The topic on which sensor data comes in for this source, default: source_name
+    data_type: LaserScan                # The data type associated with the topic, default: "PointCloud"
+    marking: true                       # Whether or not this observation is used to mark obstacles, default: true
+    clearing: true                      # Whether or not this observation is used to clear out freespace, default: false
+    inf_is_valid: false                 # Allows for Inf values in "LaserScan" observation messages. The Inf values are converted to the laser maximum range. default: false
+
+  # The maximum height of any obstacle to be inserted into the costmap in meters
+  max_obstacle_height: 2.0  # default: 2.0
+
+  # The default maximum distance from the robot at which an obstacle will be inserted into the cost map in meters
+  obstacle_range: 15.0  # default: 2.5
+
+  # The default range in meters at which to raytrace out obstacles from the map using sensor data
+  raytrace_range: 30.0  # default: 3.0
+
+  # If false, each pixel has one of 2 states: lethal obstacle or free. If true, each pixel has one of 3 states: lethal obstacle, free, or unknown
+  track_unknown_space: false  # default: false
+
+  # If true, the robot footprint will clear (mark as free) the space in which it travels.
+  footprint_clearing_enabled: false  # default: true
+
+  # Whether keep unknown as unknown or clear it
+  track_unknown: false

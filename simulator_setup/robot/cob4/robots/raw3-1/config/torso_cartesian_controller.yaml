@@ -1,0 +1,82 @@
+## Cartesian controller parameters
+chain_base_link: torso_base_link
+chain_tip_link: torso_knob_link
+root_frame: odom_combined
+
+# twist controller parameters
+twist_controller:
+  controller_interface: cob_twist_controller/ControllerInterfaceVelocity
+  integrator_smoothing: 0.2
+
+  # damping parameters
+  numerical_filtering: false
+  damping_method: 2    #NO 0, CONSTANT 1, MANIPULABILITY 2, LeastSingularValue 3
+  damping_factor: 0.01
+  lambda_max: 0.1
+  w_threshold: 0.005
+  beta: 0.005
+  eps_damping: 0.003
+  eps_truncation: 0.001
+
+  # constraints
+  solver: 3    #Default 0, WLN 1, GPM 2, StackOfTask 3, Task2nd 4
+  priority: 500    #Prio for main task
+  k_H: 1.0    #Self-motion factor for GPM
+
+  # JLA
+  constraint_jla: 1    #OFF 0, ENABLED 1, MID 1, INEQ 2
+  priority_jla: 50
+  k_H_jla: -1.0
+  activation_threshold_jla: 10.0    #in [%]
+  damping_jla: 0.000001
+
+  # CA
+  constraint_ca: 1    #OFF 0, ENABLED 1
+  priority_ca: 100
+  k_H_ca: -1.0
+  activation_threshold_ca: 0.1    #in [m]
+  damping_ca: 0.000001
+
+  # limit enforcing
+  keep_direction: true
+  enforce_input_limits: true
+  enforce_pos_limits: true
+  enforce_vel_limits: true
+  enforce_acc_limits: false
+  limits_tolerance: 5.0    #for position limits [deg]
+  #limits_acc: [10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0]    #[rad/s2]
+  max_lin_twist: 0.5
+  max_rot_twist: 0.5
+
+  # kinematic extensions
+  kinematic_extension: 0    #OFF 0, BaseCompensation 1, BaseActive 2
+  lookat_axis_type: 0   #X_POSITIVE 0, Y_POSITIVE 1, Z_POSITIVE 2, X_NEGATIVE 3, Y_NEGATIVE 4, Z_NEGATIVE 5
+  lookat_offset: {translation: {x: 0.0, y: 0.0, z: 0.0}, rotation: {x: 0.0, y: 0.0, z: 0.0, w: 1.0}}
+  extension_ratio: 0.02
+  max_vel_lin_base: 0.1
+  max_vel_rot_base: 0.1
+
+  # the following links of the chain are considered for collision avoidance
+  collision_check_links: []
+
+# frame_tracker + interactive_marker
+frame_tracker:
+  update_rate: 100.0
+  target_frame: torso_knob_target
+  marker_scale: 0.3
+  movable_trans: true
+  movable_rot: true
+  pid_trans_x: {p: 1.0, i: 0.0, d: 0.0, i_clamp: 0.0}
+  pid_trans_y: {p: 1.0, i: 0.0, d: 0.0, i_clamp: 0.0}
+  pid_trans_z: {p: 1.0, i: 0.0, d: 0.0, i_clamp: 0.0}
+  pid_rot_x: {p: 1.0, i: 0.0, d: 0.0, i_clamp: 0.0}
+  pid_rot_y: {p: 1.0, i: 0.0, d: 0.0, i_clamp: 0.0}
+  pid_rot_z: {p: 1.0, i: 0.0, d: 0.0, i_clamp: 0.0}
+  # abortion criteria - cfg
+  enable_abortion_checking: false
+  cart_min_dist_threshold_lin: 0.4
+  cart_min_dist_threshold_rot: 0.4
+  twist_dead_threshold_lin: 0.05
+  twist_dead_threshold_rot: 0.05
+  twist_deviation_threshold_lin: 0.5
+  twist_deviation_threshold_rot: 0.5

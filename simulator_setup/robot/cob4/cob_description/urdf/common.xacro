@@ -1,0 +1,108 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:property name="M_PI" value="3.1415926535897931" />
+
+  <xacro:macro name="fixed_link" params="name parent *origin">
+    <joint name="${name}_joint" type="fixed">
+      <xacro:insert_block name="origin" />
+      <parent link="${parent}"/>
+      <child link="${name}_link" />
+    </joint>
+    <link name="${name}_link"/>
+  </xacro:macro>
+
+  <!-- geometry macros for modeling geometric primitives with according meshes -->
+  <xacro:macro name="sphere_geometry" params="radius">
+    <geometry>
+      <mesh filename="package://simulator_setup/robot/cob4/cob_description/meshes/unit_sphere.stl" scale="${radius} ${radius} ${radius}"/>
+    </geometry>
+  </xacro:macro>
+
+  <xacro:macro name="cylinder_geometry" params="radius length">
+    <geometry>
+      <mesh filename="package://simulator_setup/robot/cob4/cob_description/meshes/unit_cylinder.stl" scale="${radius} ${radius} ${length}"/>
+    </geometry>
+  </xacro:macro>
+
+  <xacro:macro name="box_geometry" params="x y z">
+    <geometry>
+      <mesh filename="package://simulator_setup/robot/cob4/cob_description/meshes/unit_box.stl" scale="${x} ${y} ${z}"/>
+    </geometry>
+  </xacro:macro>
+
+  <!-- see https://secure.wikimedia.org/wikipedia/en/wiki/List_of_moment_of_inertia_tensors -->
+  <xacro:macro name="sphere_inertial" params="radius mass *origin">
+    <inertial>
+      <mass value="${mass}" />
+      <xacro:insert_block name="origin" />
+      <inertia ixx="${0.4 * mass * radius * radius}" ixy="0.0" ixz="0.0"
+        iyy="${0.4 * mass * radius * radius}" iyz="0.0"
+        izz="${0.4 * mass * radius * radius}" />
+    </inertial>
+  </xacro:macro>
+
+  <xacro:macro name="cylinder_inertial" params="radius length mass *origin">
+    <inertial>
+      <mass value="${mass}" />
+      <xacro:insert_block name="origin" />
+      <inertia ixx="${0.0833333 * mass * (3 * radius * radius + length * length)}" ixy="0.0" ixz="0.0"
+        iyy="${0.0833333 * mass * (3 * radius * radius + length * length)}" iyz="0.0"
+        izz="${0.5 * mass * radius * radius}" />
+    </inertial>
+  </xacro:macro>
+
+  <xacro:macro name="box_inertial" params="x y z mass *origin">
+    <inertial>
+      <mass value="${mass}" />
+      <xacro:insert_block name="origin" />
+      <inertia ixx="${0.0833333 * mass * (y*y + z*z)}" ixy="0.0" ixz="0.0"
+        iyy="${0.0833333 * mass * (x*x + z*z)}" iyz="0.0"
+        izz="${0.0833333 * mass * (x*x + y*y)}" />
+    </inertial>
+  </xacro:macro>
+
+  <xacro:macro name="spherical_cap_inertial" params="r h mass *origin">
+    <inertial>
+      <mass value="${mass}" />
+      <xacro:insert_block name="origin" />
+      <inertia ixx="${(-3*h*h*h/20+3*h*h*r/4-4*h*r*r/3+r*r*r)*3*mass/(3*r-h)+(3/4*(h-2*r)*(h-2*r)/(3*r-h))*(3/4*(h-2*r)*(h-2*r)/(3*r-h))}" ixy="0.0" ixz="0.0"
+        iyy="${(-3*h*h*h/20+3*h*h*r/4-4*h*r*r/3+r*r*r)*3*mass/(3*r-h)+(3/4*(h-2*r)*(h-2*r)/(3*r-h))*(3/4*(h-2*r)*(h-2*r)/(3*r-h))}" iyz="0.0"
+        izz="${mass*h/(10*(3*r-h))*(3*h*h-15*h*r+20*r*r)}" />
+      <origin></origin>
+    </inertial>
+  </xacro:macro>
+
+  <xacro:macro name="hollow_spherical_cap_inertial" params="r h t mass *origin">
+    <inertial>
+      <mass value="${mass}" />
+      <xacro:insert_block name="origin" />
+      <inertia ixx="${mass/20*(20*h*h*h*r-10*h*h*h*t-60*h*h*r*r+30*h*h*r*t+120*h*r*r*r-120*h*r*r*t+60*h*r*t*t-15*h*t*t*t-60*r*r*r*t+100*r*r*t*t-65*r*t*t*t+16*t*t*t*t)/(2*t*t*-3*r*t-3*h*t+6*h*r)+(3/4*(t-2*r)*(2*r*r-4*r*r+2*r*t-t*t)/(6*r*r-3*r*t-3*r*t+2*t*t))*(3/4*(t-2*r)*(2*r*r-4*r*r+2*r*t-t*t)/(6*r*r-3*r*t-3*r*t+2*t*t))}" ixy="0.0" ixz="0.0"
+        iyy="${mass/20*(20*h*h*h*r-10*h*h*h*t-60*h*h*r*r+30*h*h*r*t+120*h*r*r*r-120*h*r*r*t+60*h*r*t*t-15*h*t*t*t-60*r*r*r*t+100*r*r*t*t-65*r*t*t*t+16*t*t*t*t)/(2*t*t*-3*r*t-3*h*t+6*h*r)+(3/4*(t-2*r)*(2*r*r-4*r*r+2*r*t-t*t)/(6*r*r-3*r*t-3*r*t+2*t*t))*(3/4*(t-2*r)*(2*r*r-4*r*r+2*r*t-t*t)/(6*r*r-3*r*t-3*r*t+2*t*t))}" iyz="0.0"
+        izz="${mass/(10*(2*t*t-3*r*t-3*h*t+6*h*r))*(-20*h*h*h*r+10*h*h*h*t+60*h*h*r*r-30*h*h*r*t-60*h*r*r*t+60*h*r*t*t-15*h*t*t*t+20*r*r*t*t-25*r*t*t*t+8*t*t*t*t)}" />
+    </inertial>
+  </xacro:macro>
+
+  <xacro:macro name="default_inertial">
+    <inertial>
+      <mass value="0.01"/>
+      <origin xyz="0 0 0"/>
+      <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001" />
+    </inertial>
+  </xacro:macro>
+
+  <xacro:macro name="default_transmission" params="jname">
+    <transmission name="${jname}_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="${jname}_joint">
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+        <!--hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface-->
+      </joint>
+      <actuator name="${jname}_motor">
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+  </xacro:macro>
+
+</robot>

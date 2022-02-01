@@ -1,0 +1,11 @@
+# From the tiago specs sheet: https://pal-robotics.com/wp-content/uploads/2021/11/TIAGo-Datasheet-2021.pdf
+radius: 0.27 # [m]
+speed: 1.5 # [m/s]
+robot_action_rate: 10
+laser_update_rate: 10
+# the following 4 params are from https://github.com/pal-robotics/pmb2_navigation/blob/kinetic-devel/pmb2_laser_sensors/config/sick_tim561_laser.yaml
+laser_min: -1.57 # [rad]
+laser_max: 1.57 # [rad]
+laser_increment: 0.0 # TODO
+laser_range: 10.0 # depending on model: 5.6 m / 10 m / 25 m
+laser_beams: 0.0 # TODO

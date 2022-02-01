@@ -3,9 +3,16 @@ import numpy as np
 import sys
 
 from rl_agent.encoder import BaseEncoder
+
 """
     NAVREP PRETRAINED MODEL
     Only works for pepper
+"""
+
+"""
+    Not usable anymore because required robot is missing.
+    Robot needs to have 1080 laser samples in 2 pi.
+    Real RTO does not fulfill requirements
 """
 
 class NavrepPretrainedEncoder(BaseEncoder):
@@ -22,7 +29,7 @@ class NavrepPretrainedEncoder(BaseEncoder):
 
     def _load_model(self, model_path: str):
         """Import stable baseline here because it requires
-            a different python version
+        a different python version
         """
         from stable_baselines.ppo2 import PPO2
         import navrep.tools.custom_policy as custom_policy
@@ -40,23 +47,32 @@ class NavrepPretrainedEncoder(BaseEncoder):
         rho, theta = obs_dict["goal_in_robot_frame"]
         robot_vel = obs_dict["robot_vel"]
 
-        print(np.min(scan), np.max(scan))
-
         # Convert Rho, Theta in robot frame coordinates
         y = np.sin(theta + np.pi) * rho
         x = np.cos(theta + np.pi) * rho
 
-        navrep_observation = np.hstack([scan, [x, y], np.maximum(np.minimum(1, [robot_vel.linear.x, robot_vel.linear.y, 0]), -1)])
+        navrep_observation = np.hstack(
+            [
+                scan,
+                [x, y],
+                np.maximum(
+                    np.minimum(1, [robot_vel.linear.x, robot_vel.linear.y, 0]),
+                    -1,
+                ),
+            ]
+        )
 
         return navrep_observation.reshape(len(navrep_observation), 1)
 
     def get_action(self, action):
         """
-            Encodes the action produced by the nn
-            Should always return an array of size 3 with entries
-            [x_vel, y_vel, ang_vel]
+        Encodes the action produced by the nn
+        Should always return an array of size 3 with entries
+        [x_vel, y_vel, ang_vel]
         """
-        assert len(action) == 2, f"Expected an action of size 2 but received {len(action)}: {action}"
-        
+        assert (
+            len(action) == 2
+        ), f"Expected an action of size 2 but received {len(action)}: {action}"
+
         x_vel, y_vel = action
         return [x_vel, y_vel, 0]

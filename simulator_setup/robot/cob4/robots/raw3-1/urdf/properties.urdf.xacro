@@ -1,0 +1,103 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+	<xacro:include filename="$(find simulator_setup)/robot/cob4/robots/raw3-1/urdf/calibration_default.urdf.xacro" />
+	<xacro:include filename="$(find simulator_setup)/robot/cob4/cob_calibration_data/raw3-1/calibration/calibration_offset.urdf.xacro" />>
+
+	<!-- ***************** -->
+	<!-- base calibration -->
+	<!-- ***************** -->
+	<!-- laser front mount positions | relative to base_link -->
+	<xacro:property name="laser_front_x" value="${def_laser_front_x+offset_laser_front_x}"/>
+	<xacro:property name="laser_front_y" value="${def_laser_front_y+offset_laser_front_y}"/>
+	<xacro:property name="laser_front_z" value="${def_laser_front_z+offset_laser_front_z}"/>
+	<xacro:property name="laser_front_roll" value="${def_laser_front_roll+offset_laser_front_roll}"/>
+	<xacro:property name="laser_front_pitch" value="${def_laser_front_pitch+offset_laser_front_pitch}"/>
+	<xacro:property name="laser_front_yaw" value="${def_laser_front_yaw+offset_laser_front_yaw}"/>
+
+	<!-- laser rear mount positions | relative to base_link -->
+	<xacro:property name="laser_rear_x" value="${def_laser_rear_x+offset_laser_rear_x}"/>
+	<xacro:property name="laser_rear_y" value="${def_laser_rear_y+offset_laser_rear_y}"/>
+	<xacro:property name="laser_rear_z" value="${def_laser_rear_z+offset_laser_rear_z}"/>
+	<xacro:property name="laser_rear_roll" value="${def_laser_rear_roll+offset_laser_rear_roll}"/>
+	<xacro:property name="laser_rear_pitch" value="${def_laser_rear_pitch+offset_laser_rear_pitch}"/>
+	<xacro:property name="laser_rear_yaw" value="${def_laser_rear_yaw+offset_laser_rear_yaw}"/>
+
+	<!-- *********************** -->
+	<!-- upper robot calibration -->
+	<!-- *********************** -->
+
+	<!-- tower mount positions | relative to base_link -->
+	<xacro:property name="tower_x" value="${def_tower_x+offset_tower_x}"/>
+	<xacro:property name="tower_y" value="${def_tower_y+offset_tower_y}"/>
+	<xacro:property name="tower_z" value="${def_tower_z+offset_tower_z}"/>
+	<xacro:property name="tower_roll" value="${def_tower_roll+offset_tower_roll}"/>
+	<xacro:property name="tower_pitch" value="${def_tower_pitch+offset_tower_pitch}"/>
+	<xacro:property name="tower_yaw" value="${def_tower_yaw+offset_tower_yaw}"/>
+
+	<!-- torso mount positions | relative to base_link -->
+	<xacro:property name="torso_x" value="${def_torso_x+offset_torso_x}"/>
+	<xacro:property name="torso_y" value="${def_torso_y+offset_torso_y}"/>
+	<xacro:property name="torso_z" value="${def_torso_z+offset_torso_z}"/>
+	<xacro:property name="torso_roll" value="${def_torso_roll+offset_torso_roll}"/>
+	<xacro:property name="torso_pitch" value="${def_torso_pitch+offset_torso_pitch}"/>
+	<xacro:property name="torso_yaw" value="${def_torso_yaw+offset_torso_yaw}"/>
+
+	<!-- head mount positions | relative to head_cover_link -->
+	<xacro:property name="head_x" value="${def_head_x+offset_head_x}"/>
+	<xacro:property name="head_y" value="${def_head_y+offset_head_y}"/>
+	<xacro:property name="head_z" value="${def_head_z+offset_head_z}"/>
+	<xacro:property name="head_roll" value="${def_head_roll+offset_head_roll}"/>
+	<xacro:property name="head_pitch" value="${def_head_pitch+offset_head_pitch}"/>
+	<xacro:property name="head_yaw" value="${def_head_yaw+offset_head_yaw}"/>
+
+	<!-- arm mount positions | relative to base_link -->
+	<xacro:property name="arm_x" value="${def_arm_x+offset_arm_x}"/>
+	<xacro:property name="arm_y" value="${def_arm_y+offset_arm_y}"/>
+	<xacro:property name="arm_z" value="${def_arm_z+offset_arm_z}"/>
+	<xacro:property name="arm_roll" value="${def_arm_roll+offset_arm_roll}"/>
+	<xacro:property name="arm_pitch" value="${def_arm_pitch+offset_arm_pitch}"/>
+	<xacro:property name="arm_yaw" value="${def_arm_yaw+offset_arm_yaw}"/>
+
+	<!-- gripper mount positions | relative to arm_ee_link -->
+	<xacro:property name="gripper_x" value="${def_gripper_x+offset_gripper_x}"/>
+	<xacro:property name="gripper_y" value="${def_gripper_y+offset_gripper_y}"/>
+	<xacro:property name="gripper_z" value="${def_gripper_z+offset_gripper_z}"/>
+	<xacro:property name="gripper_roll" value="${def_gripper_roll+offset_gripper_roll}"/>
+	<xacro:property name="gripper_pitch" value="${def_gripper_pitch+offset_gripper_pitch}"/>
+	<xacro:property name="gripper_yaw" value="${def_gripper_yaw+offset_gripper_yaw}"/>
+
+	<!-- ***************************** -->
+	<!-- camera calibration properties -->
+	<!-- ***************************** -->
+	<!-- left | handeye calibration | relative to head_axis_link -->
+	<xacro:property name="cam_reference_x" value="${def_cam_reference_x+offset_cam_reference_x}"/>
+	<xacro:property name="cam_reference_y" value="${def_cam_reference_y+offset_cam_reference_y}"/>
+	<xacro:property name="cam_reference_z" value="${def_cam_reference_z+offset_cam_reference_z}"/>
+	<xacro:property name="cam_reference_roll" value="${def_cam_reference_roll+offset_cam_reference_roll}"/>
+	<xacro:property name="cam_reference_pitch" value="${def_cam_reference_pitch+offset_cam_reference_pitch}"/>
+	<xacro:property name="cam_reference_yaw" value="${def_cam_reference_yaw+offset_cam_reference_yaw}"/>
+
+	<!-- left | handeye calibration | relative to cam_reference_link -->
+	<xacro:property name="cam_l_x" value="${def_cam_l_x+offset_cam_l_x}"/>
+	<xacro:property name="cam_l_y" value="${def_cam_l_y+offset_cam_l_y}"/>
+	<xacro:property name="cam_l_z" value="${def_cam_l_z+offset_cam_l_z}"/>
+	<xacro:property name="cam_l_roll" value="${def_cam_l_roll+offset_cam_l_roll}"/>
+	<xacro:property name="cam_l_pitch" value="${def_cam_l_pitch+offset_cam_l_pitch}"/>
+	<xacro:property name="cam_l_yaw" value="${def_cam_l_yaw+offset_cam_l_yaw}"/>
+
+	<!-- right | stereo baseline calibration | relative to cam_reference_link -->
+	<xacro:property name="cam_r_x" value="${def_cam_r_x+offset_cam_r_x}"/>
+	<xacro:property name="cam_r_y" value="${def_cam_r_y+offset_cam_r_y}"/>
+	<xacro:property name="cam_r_z" value="${def_cam_r_z+offset_cam_r_z}"/>
+	<xacro:property name="cam_r_roll" value="${def_cam_r_roll+offset_cam_r_roll}"/>
+	<xacro:property name="cam_r_pitch" value="${def_cam_r_pitch+offset_cam_r_pitch}"/>
+	<xacro:property name="cam_r_yaw" value="${def_cam_r_yaw+offset_cam_r_yaw}"/>
+
+	<!-- cam3d | handeye calibration | relative to cam_reference_link -->
+	<xacro:property name="cam3d_x" value="${def_cam3d_x+offset_cam3d_x}"/>
+	<xacro:property name="cam3d_y" value="${def_cam3d_y+offset_cam3d_y}"/>
+	<xacro:property name="cam3d_z" value="${def_cam3d_z+offset_cam3d_z}"/>
+	<xacro:property name="cam3d_roll" value="${def_cam3d_roll+offset_cam3d_roll}"/>
+	<xacro:property name="cam3d_pitch" value="${def_cam3d_pitch+offset_cam3d_pitch}"/>
+	<xacro:property name="cam3d_yaw" value="${def_cam3d_yaw+offset_cam3d_yaw}"/>
+</robot>

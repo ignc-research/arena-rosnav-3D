@@ -1,0 +1,64 @@
+pub_rate: 1.0 # Optional
+base_path: '' # Optional, prepended to all diagnostic output
+analyzers:
+  computers:
+    type: diagnostic_aggregator/AnalyzerGroup
+    path: Computers
+    analyzers:
+      b1:
+        type: diagnostic_aggregator/GenericAnalyzer
+        path: b1
+        contains: '-b1'
+#  network:
+#    type: diagnostic_aggregator/AnalyzerGroup
+#    path: Network
+#    analyzers:
+#      wifi:
+#        type: diagnostic_aggregator/GenericAnalyzer
+#        path: wifi
+#        num_items: 1
+#        expected: ['Wifi Status (ddwrt)']
+
+  io:
+    type: diagnostic_aggregator/AnalyzerGroup
+    path: IO
+    analyzers:
+      joystick:
+        type: diagnostic_aggregator/GenericAnalyzer
+        path: Joystick
+        contains: 'joy'
+
+  sensors:
+    type: diagnostic_aggregator/AnalyzerGroup
+    path: Sensors
+    analyzers:
+      laser_top:
+        type: diagnostic_aggregator/GenericAnalyzer
+        path: Scan Front
+        contains: 'laser_front'
+      laser_rear:
+        type: diagnostic_aggregator/GenericAnalyzer
+        path: Scan Right
+        contains: 'laser_right'
+      laser_front:
+        type: diagnostic_aggregator/GenericAnalyzer
+        path: Scan Left
+        contains: 'laser_left'
+      battery:
+        type: diagnostic_aggregator/GenericAnalyzer
+        path: Battery Status
+        contains: 'bms'
+
+  motors:
+    type: diagnostic_aggregator/AnalyzerGroup
+    path: Actuators
+    analyzers:
+      base:
+        type: diagnostic_aggregator/GenericAnalyzer
+        path: Base
+        contains: 'base/'
+
+  safety:
+    type: diagnostic_aggregator/GenericAnalyzer
+    path: Safety
+    contains: 'safety'

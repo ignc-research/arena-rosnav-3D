@@ -25,3 +25,6 @@
 #     local-name: ../forks/navigation/local_planner/teb
 #     uri: https://github.com/rst-tu-dortmund/teb_local_planner
 #     version: master
+- git:
+    local-name: ../forks/robots
+    uri: https://github.com/eliastreis/3d_support_packages

@@ -1,0 +1,10 @@
+devicestring: /dev/ttyLED
+devicedriver: stageprofi
+baudrate: 38400
+num_leds: 72
+led_offset: 6
+invert_output: false
+pubmarker: true
+marker_frame: /torso_center_link # marker will be publised at [0.5,0,0] with respect to marker_frame
+startup_color: [0.0, 1.0, 0.5, 0.4] #rgba value
+startup_mode: Breath #possible values: None, Static, Breath, BreathColor, Flash, FadeColor

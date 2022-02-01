@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+	<!-- ***************** -->
+	<!-- base calibration -->
+	<!-- ***************** -->
+	<!-- laser front mount positions | relative to base_link -->
+	<xacro:property name="def_laser_front_x" value="0.32501"/>
+	<xacro:property name="def_laser_front_y" value="-0.232"/>
+	<xacro:property name="def_laser_front_z" value="0.178"/>
+	<xacro:property name="def_laser_front_roll" value="${M_PI}"/>
+	<xacro:property name="def_laser_front_pitch" value="0.0"/>
+	<xacro:property name="def_laser_front_yaw" value="${-M_PI/4}"/>
+
+	<!-- laser rear mount positions | relative to base_link -->
+	<xacro:property name="def_laser_rear_x" value="-0.32501"/>
+	<xacro:property name="def_laser_rear_y" value="0.232"/>
+	<xacro:property name="def_laser_rear_z" value="0.178"/>
+	<xacro:property name="def_laser_rear_roll" value="${M_PI}"/>
+	<xacro:property name="def_laser_rear_pitch" value="0.0"/>
+	<xacro:property name="def_laser_rear_yaw" value="${-5*M_PI/4}"/>
+</robot>

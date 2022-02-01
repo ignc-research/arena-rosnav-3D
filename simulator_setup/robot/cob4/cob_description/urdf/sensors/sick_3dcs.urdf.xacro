@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:include filename="$(find simulator_setup)/robot/cob4/cob_description/urdf/sensors/sick_3dcs.gazebo.xacro" />
+
+  <xacro:macro name="sick_3dcs" params="name parent ros_topic *origin">
+    <joint name="${name}_joint" type="fixed">
+      <xacro:insert_block name="origin" />
+      <parent link="${parent}"/>
+      <child link="${name}_link"/>
+    </joint>
+
+    <link name="${name}_link"/>
+
+    <joint name="${name}_frame_joint" type="fixed">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <parent link="${name}_link"/>
+      <child link="${name}_frame"/>
+    </joint>
+
+    <link name="${name}_frame"/>
+
+    <joint name="${name}_optical_frame_joint" type="fixed">
+      <origin xyz="0 0 0" rpy="-${M_PI/2} 0 -${M_PI/2}" />
+      <parent link="${name}_frame"/>
+      <child link="${name}_optical_frame"/>
+    </joint>
+
+    <link name="${name}_optical_frame"/>
+
+    <!-- extensions -->
+    <xacro:sick_3dcs_gazebo name="${name}" ros_topic="${ros_topic}" />
+
+  </xacro:macro>
+
+</robot>
+

@@ -1,0 +1,5 @@
+diagnostics_name: head_cam
+topics: [/head_cam/camera_info]
+hz: 10.0
+hzerror: 1
+

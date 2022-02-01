@@ -14,7 +14,8 @@ RUN pyenv install 3.6.2 \
     && pip3 install -r requirements.txt    
 
 #   Clone and install navrep
-RUN git clone https://github.com/danieldugas/drl_local_planner_ros_stable_baselines.git /root/guldenring_repo
+# RUN git clone https://github.com/danieldugas/drl_local_planner_ros_stable_baselines.git /root/guldenring_repo
+RUN git clone https://github.com/sudo-Boris/drl_local_planner_ros_stable_baselines /root/guldenring_repo
 RUN mkdir /root/guldenring \
     && mv /root/guldenring_repo/rl_agent /root/guldenring/rl_agent \
     && rm -r /root/guldenring_repo

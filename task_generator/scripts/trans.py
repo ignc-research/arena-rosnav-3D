@@ -5,26 +5,17 @@ from nav_msgs.msg import Odometry
 from geometry_msgs.msg import Twist
 
 
-# def odom_callback(data):
-#     # rospy.loginfo(rospy.get_caller_id() + "I heard %s", data.data)
-#     pub = rospy.Publisher("/odom", Odometry, queue_size=10)
-#     pub.publish(data)
+class velocity_redirect:
+    def __init__(self):
+        rospy.init_node("listener", anonymous=True)
+        self.topic = rospy.get_param("~cmd_vel_topic", "/cmd_vel")
+        rospy.Subscriber("/cmd_vel", Twist, self.vel_callback)
+        self.pub = rospy.Publisher(self.topic, Twist, queue_size=10)
 
-
-def vel_callback(data):
-    pub = rospy.Publisher("/jackal_velocity_controller/cmd_vel", Twist, queue_size=10)
-    pub.publish(data)
-
-
-def listener():
-    rospy.init_node("listener", anonymous=True)
-
-    # rospy.Subscriber("/jackal_velocity_controller/odom", Odometry, odom_callback)
-    rospy.Subscriber("/cmd_vel", Twist, vel_callback)
-
-    # spin() simply keeps python from exiting until this node is stopped
-    rospy.spin()
+    def vel_callback(self, data):
+        self.pub.publish(data)
 
 
 if __name__ == "__main__":
-    listener()
+    redirect = velocity_redirect()
+    rospy.spin()

@@ -1,0 +1,50 @@
+## joint_names
+joint_names: [fr_caster_rotation_joint, fl_caster_rotation_joint, br_caster_rotation_joint, bl_caster_rotation_joint, fr_caster_r_wheel_joint, fl_caster_r_wheel_joint, br_caster_r_wheel_joint, bl_caster_r_wheel_joint]
+
+## joint_state_controller
+joint_state_controller:
+  type: joint_state_controller/JointStateController
+  publish_rate: 50
+
+## twist_controller
+twist_controller:
+  type: cob_omni_drive_controller/WheelController
+  required_drive_mode: 3
+  #max_rot_velocity: 1.0
+  #max_trans_velocity: 1.0
+  pub_divider: 1
+  timeout: 0.5
+
+  defaults: # default settings for all wheels, can per overwritten per wheel
+    steer_ctrl: # Parameters for tuning Impedance-Controller
+      spring: 15.0
+      damp: 2.75
+      virt_mass: 0.1 
+      d_phi_max: 12.0
+      dd_phi_max: 40.0
+
+  wheels: &wheels # start front left, counter-clockwise for base_drive_chain compatibility
+    - steer: fl_caster_rotation_joint
+      drive: fl_caster_r_wheel_joint
+      steer_neutral_position: 180.0
+    - steer: bl_caster_rotation_joint
+      drive: bl_caster_r_wheel_joint
+      steer_neutral_position: 180.0
+    - steer: br_caster_rotation_joint
+      drive: br_caster_r_wheel_joint
+      steer_neutral_position: 180.0
+    - steer: fr_caster_rotation_joint
+      drive: fr_caster_r_wheel_joint
+      steer_neutral_position: 180.0
+
+## odometry_controller
+odometry_controller:
+  type: cob_omni_drive_controller/OdometryController
+  publish_rate: 50
+  frame_id: "odom_combined"
+  child_frame_id: "base_footprint"
+  cov_pose: 0.1
+  cov_twist: 0.1
+  defaults: # default settings for all wheels, can per overwritten per wheel
+    wheel_radius: 0.080 # Radius of the wheels in [m]
+  wheels: *wheels

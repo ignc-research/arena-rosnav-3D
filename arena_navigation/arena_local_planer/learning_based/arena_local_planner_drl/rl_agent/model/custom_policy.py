@@ -17,7 +17,11 @@ from rospy.client import get_param
 _RS: Robot state size - placeholder for robot related inputs to the NN
 _L: Number of laser beams - placeholder for the laser beam data 
 """
-_RS = 2  # robot state size
+if not rospy.get_param("action_in_obs", default=False):
+    _RS = 2  # robot state size
+else:
+    _RS = 2 + 3  # rho, theta, linear x, linear y, angular z
+
 
 # _ROBOT_SETTING_PATH = rospkg.RosPack().get_path("simulator_setup")
 # _ROBOT_SETTING_PATH = os.path.join(
@@ -27,7 +31,7 @@ _RS = 2  # robot state size
 # root = tree.getroot()
 # if 'ray' in root.find(".//ray").tag:
 #     _L = int(root.find('.//samples').text) # num of laser beams
-_L = rospy.get_param('laser_beams')
+_L = rospy.get_param("laser_beams")
 
 
 class MLP_ARENA2D(nn.Module):
@@ -54,7 +58,10 @@ class MLP_ARENA2D(nn.Module):
 
         # Body network
         self.body_net = nn.Sequential(
-            nn.Linear(_L + _RS, 64), nn.ReLU(), nn.Linear(64, feature_dim), nn.ReLU()
+            nn.Linear(_L + _RS, 64),
+            nn.ReLU(),
+            nn.Linear(64, feature_dim),
+            nn.ReLU(),
         )
 
         # Policy network

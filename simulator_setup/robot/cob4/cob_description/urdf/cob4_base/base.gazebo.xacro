@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:macro name="base_gazebo" params="name">
+    <gazebo reference="${name}_link">
+      <gravity>true</gravity>
+      <self_collide>false</self_collide>
+      <sensor name='${name}_contact_sensor' type='contact'>
+        <always_on>true</always_on>
+        <update_rate>100.0</update_rate>
+        <contact>
+          <collision>${name}_link_collision</collision>
+          <topic>${name}_bumper</topic>
+        </contact>
+        <plugin name="${name}_gazebo_ros_bumper_controller" filename="libgazebo_ros_bumper.so">
+          <frameName>world</frameName>
+          <bumperTopicName>${name}_bumper</bumperTopicName>
+        </plugin>
+      </sensor>
+    </gazebo>
+
+    <gazebo>
+      <plugin name="p3d_base_controller" filename="libgazebo_ros_p3d.so">
+        <alwaysOn>true</alwaysOn>
+        <updateRate>100.0</updateRate>
+        <bodyName>${name}_link</bodyName>
+        <topicName>${name}_pose_ground_truth</topicName>
+        <frameName>map</frameName>
+        <xyzOffsets>25.7 25.7 0</xyzOffsets> <!-- initialize odometry for fake localization-->
+        <rpyOffsets>0 0 0</rpyOffsets>
+        <gaussianNoise>0.01</gaussianNoise>
+      </plugin>
+      <canonicalBody>${name}_footprint</canonicalBody>
+    </gazebo>
+  </xacro:macro>
+
+</robot>

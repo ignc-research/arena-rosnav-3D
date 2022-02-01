@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro"
+       name="raw3-5" >
+
+  <!-- common stuff -->
+  <xacro:include filename="$(find simulator_setup)/robot/cob4/cob_description/urdf/common.xacro" />
+  <xacro:include filename="$(find simulator_setup)/robot/cob4/cob_description/urdf/materials.urdf.xacro" />
+
+  <xacro:include filename="$(find simulator_setup)/robot/cob4/robots/raw3-5/urdf/properties.urdf.xacro" />
+
+  <!-- raw base -->
+  <xacro:include filename="$(find raw_description)/urdf/base_short/base.urdf.xacro" />
+
+
+  <!-- composition of the robot -->
+  <xacro:raw_base name="base"/>
+
+</robot>

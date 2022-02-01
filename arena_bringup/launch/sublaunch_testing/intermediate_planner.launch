@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <launch>
     <arg name="max_vel"         value="0.22" /> <!--changed by Elias form 3.0 since turtlebot3_burger is not that fast-->
     <arg name="max_acc"         value="2.0" />

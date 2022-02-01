@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<!--
+
+  Copyright (c) 2021 PAL Robotics S.L. All rights reserved.
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+      http://www.apache.org/licenses/LICENSE-2.0
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:macro name="antenna" params="name parent *origin">
+    <link name="${name}_link">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.000001"/>
+        <inertia ixx="0.00000002371" ixy="0.00000006119" ixz="0.00000001179"
+                 iyy="0.00000002833" iyz="0.00000000774"
+                 izz="0.00000003849"/>
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://pmb2_description/meshes/objects/antenna.stl"/>
+        </geometry>
+        <material name="Black"/>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0.085" rpy="0 0 0"/>
+        <geometry>
+          <cylinder radius="0.005" length="0.17"/>
+        </geometry>
+        <material name="Black"/>
+      </collision>
+    </link>
+    <gazebo reference="${name}_link">
+      <material>Gazebo/Black</material>
+    </gazebo>
+
+    <joint name="${name}_joint" type="fixed">
+      <parent link="${parent}"/>
+      <child link="${name}_link"/>
+      <xacro:insert_block name="origin"/>
+    </joint>
+  </xacro:macro>
+
+</robot>

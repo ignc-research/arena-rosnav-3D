@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!--
+
+  Copyright (c) 2015, PAL Robotics, S.L.
+  All rights reserved.
+
+  This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
+  To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or send a letter to
+  Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.
+-->
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <!--File includes-->
+  <xacro:include filename="$(find simulator_setup)/robot/tiago/urdf/deg_to_rad.xacro" />
+
+<xacro:macro name="camera_baseline_constants" params="camera_model" >
+  <xacro:if value="${camera_model == 'orbbec-astra'}">
+    <origin xyz="0.0 0.025 0.0" rpy="0 0 0" />
+  </xacro:if>
+  <xacro:if value="${camera_model == 'orbbec-astra-pro'}">
+    <origin xyz="0.0 0.025 0.0" rpy="0 0 0" />
+  </xacro:if>
+  <xacro:if value="${camera_model == 'asus-xtion'}">
+    <origin xyz="0.0 0.049 0.0" rpy="0 0 0" />
+  </xacro:if>
+</xacro:macro>
+
+</robot>

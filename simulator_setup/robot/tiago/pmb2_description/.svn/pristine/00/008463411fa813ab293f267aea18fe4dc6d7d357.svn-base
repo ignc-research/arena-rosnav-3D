@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>pmb2_description</name>
+  <version>3.0.20</version>
+  <description>
+      Mechanical, kinematic, visual, etc. description of the PMB2 robot.
+      The files in this package are parsed and used by
+      a variety of other components.  Most users will not interact directly
+      with this package.
+  </description>
+  <maintainer email="procopio.stein@pal-robotics.com">Procopio Stein</maintainer>
+  <maintainer email="jeremie.deray@pal-robotics.com">Jeremie Deray</maintainer>
+  <license>Apache License 2.0</license>
+  <author email="bence.magyar@pal-robotics.com">Bence Magyar</author>
+  <author email="enrique.fernandez@pal-robotics.com">Enrique Fernandez</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <exec_depend>xacro</exec_depend>
+
+  <test_depend>rostest</test_depend>
+  <test_depend>urdf_test</test_depend>
+
+</package>

@@ -1,0 +1,95 @@
+## joint_names
+joint_names: [arm_shoulder_pan_joint, arm_shoulder_lift_joint, arm_elbow_joint, arm_wrist_1_joint, arm_wrist_2_joint, arm_wrist_3_joint]
+
+## control_mode_adapter
+max_command_silence: 0.5
+
+## joint_state_controller
+joint_state_controller:
+    type: joint_state_controller/JointStateController
+    publish_rate: 50
+
+## joint trajectory controller
+joint_trajectory_controller:
+  type: position_controllers/JointTrajectoryController
+  joints:
+     - arm_shoulder_pan_joint
+     - arm_shoulder_lift_joint
+     - arm_elbow_joint
+     - arm_wrist_1_joint
+     - arm_wrist_2_joint
+     - arm_wrist_3_joint
+  constraints:
+      goal_time: 1.0
+      stopped_velocity_tolerance: 0.05
+      arm_shoulder_pan_joint: {trajectory: 0.1, goal: 0.1}
+      arm_shoulder_lift_joint: {trajectory: 0.1, goal: 0.1}
+      arm_elbow_joint: {trajectory: 0.1, goal: 0.1}
+      arm_wrist_1_joint: {trajectory: 0.1, goal: 0.1}
+      arm_wrist_2_joint: {trajectory: 0.1, goal: 0.1}
+      arm_wrist_3_joint: {trajectory: 0.1, goal: 0.1}
+  stop_trajectory_duration: 0.5
+  state_publish_rate:  25
+  action_monitor_rate: 10
+
+## position controller
+joint_group_position_controller:
+  type: position_controllers/JointGroupPositionController
+  joints:
+     - arm_shoulder_pan_joint
+     - arm_shoulder_lift_joint
+     - arm_elbow_joint
+     - arm_wrist_1_joint
+     - arm_wrist_2_joint
+     - arm_wrist_3_joint
+
+arm_shoulder_pan_joint_position_controller:
+  type: position_controllers/JointPositionController
+  joint: arm_shoulder_pan_joint
+arm_shoulder_lift_joint_position_controller:
+  type: position_controllers/JointPositionController
+  joint: arm_shoulder_lift_joint
+arm_elbow_joint_position_controller:
+  type: position_controllers/JointPositionController
+  joint: arm_elbow_joint
+arm_wrist_1_joint_position_controller:
+  type: position_controllers/JointPositionController
+  joint: arm_wrist_1_joint
+arm_wrist_2_joint_position_controller:
+  type: position_controllers/JointPositionController
+  joint: arm_wrist_2_joint
+arm_wrist_3_joint_position_controller:
+  type: position_controllers/JointPositionController
+  joint: arm_wrist_3_joint
+
+## velocity controller
+joint_group_velocity_controller:
+  type: velocity_controllers/JointGroupVelocityController
+  joints:
+     - arm_shoulder_pan_joint
+     - arm_shoulder_lift_joint
+     - arm_elbow_joint
+     - arm_wrist_1_joint
+     - arm_wrist_2_joint
+     - arm_wrist_3_joint
+
+arm_shoulder_pan_joint_velocity_controller:
+  type: velocity_controllers/JointVelocityController
+  joint: arm_shoulder_pan_joint
+arm_shoulder_lift_joint_velocity_controller:
+  type: velocity_controllers/JointVelocityController
+  joint: arm_shoulder_lift_joint
+arm_elbow_joint_velocity_controller:
+  type: velocity_controllers/JointVelocityController
+  joint: arm_elbow_joint
+arm_wrist_1_joint_velocity_controller:
+  type: velocity_controllers/JointVelocityController
+  joint: arm_wrist_1_joint
+arm_wrist_2_joint_velocity_controller:
+  type: velocity_controllers/JointVelocityController
+  joint: arm_wrist_2_joint
+arm_wrist_3_joint_velocity_controller:
+  type: velocity_controllers/JointVelocityController
+  joint: arm_wrist_3_joint
+
+## no further controllers available

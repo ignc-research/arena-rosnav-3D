@@ -1,0 +1,99 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro"
+       name="cob4-16" >
+
+  <!-- common stuff -->
+  <xacro:include filename="$(find simulator_setup)/robot/cob4/cob_description/urdf/common.xacro" />
+  <xacro:include filename="$(find simulator_setup)/robot/cob4/cob_description/urdf/materials.urdf.xacro" />
+
+  <!-- calibration -->
+  <xacro:include filename="$(find simulator_setup)/robot/cob4/robots/cob4-16/urdf/properties.urdf.xacro" />
+
+  <!-- base -->
+  <xacro:include filename="$(find simulator_setup)/robot/cob4/cob_description/urdf/cob4_base/base.urdf.xacro" />
+
+  <!-- torso -->
+  <xacro:include filename="$(find simulator_setup)/robot/cob4/cob_description/urdf/cob4_torso/torso.urdf.xacro" />
+
+  <!-- arm -->
+  <xacro:include filename="$(find simulator_setup)/robot/cob4/cob_description/urdf/cob4_arm/cob4_arm.urdf.xacro" />
+
+  <!-- hand -->
+  <xacro:include filename="$(find simulator_setup)/robot/cob4/cob_description/urdf/cob4_gripper/gripper.urdf.xacro" />
+
+  <!-- head -->
+  <xacro:include filename="$(find simulator_setup)/robot/cob4/cob_description/urdf/cob4_head/head.urdf.xacro" />
+
+  <!-- sensorring -->
+  <xacro:include filename="$(find simulator_setup)/robot/cob4/cob_description/urdf/cob4_sensorring/sensorring.urdf.xacro" />
+
+  <!-- sensors -->
+  <xacro:include filename="$(find simulator_setup)/robot/cob4/cob_description/urdf/sensors/realsense.urdf.xacro" />
+  <xacro:include filename="$(find simulator_setup)/robot/cob4/cob_description/urdf/sensors/realsense_zr300.urdf.xacro" />
+  <xacro:include filename="$(find simulator_setup)/robot/cob4/cob_description/urdf/sensors/kinect.urdf.xacro" />
+  <xacro:include filename="$(find simulator_setup)/robot/cob4/cob_description/urdf/sensors/usb_cam.urdf.xacro" />
+  <xacro:include filename="$(find simulator_setup)/robot/cob4/cob_description/urdf/sensors/sick_s300_laser.urdf.xacro"/>
+
+
+  <!-- composition of the robot -->
+  <xacro:base name="base"/>
+  <!-- laser scanners -->
+  <xacro:sick_s300_laser_v0 name="base_laser_front" parent="base">
+    <origin xyz="${laser_front_x} ${laser_front_y} ${laser_front_z}" rpy="${laser_front_roll} ${laser_front_pitch} ${laser_front_yaw}" />
+  </xacro:sick_s300_laser_v0>
+  <xacro:sick_s300_laser_v0 name="base_laser_left" parent="base">
+    <origin xyz="${laser_left_x} ${laser_left_y} ${laser_left_z}" rpy="${laser_left_roll} ${laser_left_pitch} ${laser_left_yaw}" />
+  </xacro:sick_s300_laser_v0>
+  <xacro:sick_s300_laser_v0 name="base_laser_right" parent="base">
+    <origin xyz="${laser_right_x} ${laser_right_y} ${laser_right_z}" rpy="${laser_right_roll} ${laser_right_pitch} ${laser_right_yaw}" />
+  </xacro:sick_s300_laser_v0>
+
+
+  <xacro:torso name="torso" parent="base_link" dof1="${False}" dof2="${True}" dof3="${True}">
+    <origin xyz="${torso_x} ${torso_y} ${torso_z}" rpy="${torso_roll} ${torso_pitch} ${torso_yaw}" />
+  </xacro:torso>
+  <!-- left camera -->
+  <xacro:realsense_zr300 name="torso_cam3d_left" ros_topic="torso_cam3d_left" parent="torso_3_link">
+    <origin xyz="${torso_cam3d_left_x} ${torso_cam3d_left_y} ${torso_cam3d_left_z}" rpy="${torso_cam3d_left_roll} ${torso_cam3d_left_pitch} ${torso_cam3d_left_yaw}" />
+  </xacro:realsense_zr300>
+  <!-- right camera -->
+  <xacro:realsense_zr300 name="torso_cam3d_right" ros_topic="torso_cam3d_right" parent="torso_3_link">
+    <origin xyz="${torso_cam3d_right_x} ${torso_cam3d_right_y} ${torso_cam3d_right_z}" rpy="${torso_cam3d_right_roll} ${torso_cam3d_right_pitch} ${torso_cam3d_right_yaw}" />
+  </xacro:realsense_zr300>
+  <!-- down camera -->
+  <xacro:realsense name="torso_cam3d_down" ros_topic="torso_cam3d_down" parent="torso_3_link">
+    <origin xyz="${torso_cam3d_down_x} ${torso_cam3d_down_y} ${torso_cam3d_down_z}" rpy="${torso_cam3d_down_roll} ${torso_cam3d_down_pitch} ${torso_cam3d_down_yaw}" />
+  </xacro:realsense>
+
+  <xacro:head name="head" parent="torso_3_link" dof1="${True}" dof2="${True}" dof3="${True}">
+    <origin xyz="${head_x} ${head_y} ${head_z}" rpy="${head_roll} ${head_pitch} ${head_yaw}" />
+  </xacro:head>
+  <xacro:usb_cam name="head_cam" parent="head_3_link" ros_topic="head_cam" update_rate="3.5" height="1536" width="2048" > <!-- get this from config/head_cam.yaml -->
+    <origin xyz="${head_cam_x} ${head_cam_y} ${head_cam_z}" rpy="${head_cam_roll} ${head_cam_pitch} ${head_cam_yaw}" />
+  </xacro:usb_cam>
+
+  <xacro:sensorring name="sensorring" parent="head_3_link" active="${True}">
+    <origin xyz="${sensorring_x} ${sensorring_y} ${sensorring_z}" rpy="${sensorring_roll} ${sensorring_pitch} ${sensorring_yaw}" />
+  </xacro:sensorring>
+  <!-- cameras -->
+  <xacro:cob_kinect_v0 name="sensorring_cam3d" ros_topic="sensorring_cam3d" parent="sensorring_link" update_rate="30" data_skip="9">
+    <origin xyz="${sensorring_cam3d_x} ${sensorring_cam3d_y} ${sensorring_cam3d_z}" rpy="${sensorring_cam3d_roll} ${sensorring_cam3d_pitch} ${sensorring_cam3d_yaw}" />
+  </xacro:cob_kinect_v0>
+
+  <xacro:cob4_arm name="arm_right" parent="torso_3_link" has_podest="false">
+    <origin xyz="${arm_right_x} ${arm_right_y} ${arm_right_z}" rpy="${arm_right_roll} ${arm_right_pitch} ${arm_right_yaw}" />
+  </xacro:cob4_arm>
+
+  <xacro:cob4_arm name="arm_left" parent="torso_3_link" has_podest="false">
+    <origin xyz="${arm_left_x} ${arm_left_y} ${arm_left_z}" rpy="${arm_left_roll} ${arm_left_pitch} ${arm_left_yaw}" />
+  </xacro:cob4_arm>
+
+  <xacro:gripper name="gripper_right" parent="arm_right_7_link">
+    <origin xyz="${gripper_right_x} ${gripper_right_y} ${gripper_right_z}" rpy="${gripper_right_roll} ${gripper_right_pitch} ${gripper_right_yaw}" />
+  </xacro:gripper>
+
+  <xacro:gripper name="gripper_left" parent="arm_left_7_link">
+    <origin xyz="${gripper_left_x} ${gripper_left_y} ${gripper_left_z}" rpy="${gripper_left_roll} ${gripper_left_pitch} ${gripper_left_yaw}" />
+  </xacro:gripper>
+
+</robot>

@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro"
+       name="raw3-3" >
+
+  <!-- common stuff -->
+  <xacro:include filename="$(find simulator_setup)/robot/cob4/cob_description/urdf/common.xacro" />
+  <xacro:include filename="$(find simulator_setup)/robot/cob4/cob_description/urdf/materials.urdf.xacro" />
+
+  <xacro:include filename="$(find simulator_setup)/robot/cob4/robots/raw3-3/urdf/properties.urdf.xacro" />
+  <!-- raw base -->
+  <xacro:include filename="$(find raw_description)/urdf/base_short/base.urdf.xacro" />
+
+  <!-- raw tower -->
+  <!--xacro:include filename="$(find raw_description)/urdf/tower_symetric/tower.urdf.xacro" /-->
+
+  <!-- sensors -->
+  <xacro:include filename="$(find simulator_setup)/robot/cob4/cob_description/urdf/sensors/sick_s300_laser.urdf.xacro"/>
+
+
+  <!-- composition of the robot -->
+  <xacro:raw_base name="base"/>
+  <!-- base laser front -->
+  <xacro:sick_s300_laser_v0 name="base_laser_front" parent="base">
+    <origin xyz="${laser_front_x} ${laser_front_y} ${laser_front_z}" rpy="${laser_front_roll} ${laser_front_pitch} ${laser_front_yaw}" />
+  </xacro:sick_s300_laser_v0>
+  <!-- base laser rear -->
+  <xacro:sick_s300_laser_v0 name="base_laser_rear" parent="base">
+    <origin xyz="${laser_rear_x} ${laser_rear_y} ${laser_rear_z}" rpy="${laser_rear_roll} ${laser_rear_pitch} ${laser_rear_yaw}" />
+  </xacro:sick_s300_laser_v0>
+
+
+<!--
+  <xacro:tower_symetric name="tower" parent="base_link">
+      <origin xyz="${tower_x} ${tower_y} ${tower_z}" rpy="${tower_roll} ${tower_pitch} ${tower_yaw}" />
+  </xacro:tower_symetric>
+-->
+
+  <!-- scan top mount -->
+  <joint name="base_laser_top_joint" type="fixed" >
+    <origin xyz="0.28 0.0 0.885" rpy="0.0 0.0 0.0" />
+    <parent link="base_link" />
+    <child link="base_laser_top_link" />
+  </joint>
+
+  <link name="base_laser_top_link">
+    <xacro:default_inertial />
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+      <geometry>
+        <box size="0.10 0.03 0.03" />
+      </geometry>
+      <material name="IPA/Black" />
+    </visual>
+  </link>
+  <!-- END: scan top mount -->
+
+</robot>

@@ -1,0 +1,140 @@
+pub_rate: 1.0 # Optional
+base_path: '' # Optional, prepended to all diagnostic output
+analyzers:
+  computers:
+    type: diagnostic_aggregator/AnalyzerGroup
+    path: Computers
+    analyzers:
+      b1:
+        type: diagnostic_aggregator/GenericAnalyzer
+        path: b1
+        contains: 'b1'
+      t1:
+        type: diagnostic_aggregator/GenericAnalyzer
+        path: t1
+        contains: 't1'
+      t2:
+        type: diagnostic_aggregator/GenericAnalyzer
+        path: t2
+        contains: 't2'
+      t3:
+        type: diagnostic_aggregator/GenericAnalyzer
+        path: t3
+        contains: 't3'
+      s1:
+        type: diagnostic_aggregator/GenericAnalyzer
+        path: s1
+        contains: 's1'
+      h1:
+        type: diagnostic_aggregator/GenericAnalyzer
+        path: h1
+        contains: 'h1'
+#  network:
+#    type: diagnostic_aggregator/AnalyzerGroup
+#    path: Network
+#    analyzers:
+#      wifi:
+#        type: diagnostic_aggregator/GenericAnalyzer
+#        path: wifi
+#        num_items: 1
+#        expected: ['Wifi Status (ddwrt)']
+
+  io:
+    type: diagnostic_aggregator/AnalyzerGroup
+    path: IO
+    analyzers:
+      joystick:
+        type: diagnostic_aggregator/GenericAnalyzer
+        path: Joystick
+        contains: 'joy'
+      sound:
+        type: diagnostic_aggregator/GenericAnalyzer
+        path: Sound
+        contains: 'sound'
+      light:
+        type: diagnostic_aggregator/GenericAnalyzer
+        path: Light
+        contains: 'light'
+      mimic:
+        type: diagnostic_aggregator/GenericAnalyzer
+        path: Mimic
+        contains: 'mimic'
+
+  sensors:
+    type: diagnostic_aggregator/AnalyzerGroup
+    path: Sensors
+    analyzers:
+      laser_top:
+        type: diagnostic_aggregator/GenericAnalyzer
+        path: Scan Front
+        contains: 'laser_front'
+      laser_rear:
+        type: diagnostic_aggregator/GenericAnalyzer
+        path: Scan Right
+        contains: 'laser_right'
+      laser_front:
+        type: diagnostic_aggregator/GenericAnalyzer
+        path: Scan Left
+        contains: 'laser_left'
+      torso_cam3d_left:
+        type: diagnostic_aggregator/GenericAnalyzer
+        path: Torso Cam3d Left
+        contains: 'torso_cam3d_left'
+      torso_cam3d_right:
+        type: diagnostic_aggregator/GenericAnalyzer
+        path: Torso Cam3d Right
+        contains: 'torso_cam3d_right'
+      torso_cam3d_down:
+        type: diagnostic_aggregator/GenericAnalyzer
+        path: Torso Cam3d Down
+        contains: 'torso_cam3d_down'
+      sensorring_cam3d:
+        type: diagnostic_aggregator/GenericAnalyzer
+        path: Sensorring Cam3d
+        contains: 'sensorring_cam3d'
+      head_cam:
+        type: diagnostic_aggregator/GenericAnalyzer
+        path: Head Cam
+        contains: 'head_cam'
+      battery:
+        type: diagnostic_aggregator/GenericAnalyzer
+        path: Battery Status
+        contains: 'bms'
+
+  motors:
+    type: diagnostic_aggregator/AnalyzerGroup
+    path: Actuators
+    analyzers:
+      head:
+        type: diagnostic_aggregator/GenericAnalyzer
+        path: Head
+        contains: 'head/'
+      sensorring:
+        type: diagnostic_aggregator/GenericAnalyzer
+        path: Sensorring
+        contains: 'sensorring/'
+      arm_left:
+        type: diagnostic_aggregator/GenericAnalyzer
+        path: Arm Left
+        contains: 'arm_left/'
+      arm_right:
+        type: diagnostic_aggregator/GenericAnalyzer
+        path: Arm Right
+        contains: 'arm_right/'
+      gripper_left:
+        type: diagnostic_aggregator/GenericAnalyzer
+        path: Gripper Left
+        contains: 'gripper_left'
+      gripper_right:
+        type: diagnostic_aggregator/GenericAnalyzer
+        path: Gripper Right
+        contains: 'gripper_right'
+      base:
+        type: diagnostic_aggregator/GenericAnalyzer
+        path: Base
+        contains: 'base/'
+
+  safety:
+    type: diagnostic_aggregator/GenericAnalyzer
+    path: Safety
+    contains: 'safety'

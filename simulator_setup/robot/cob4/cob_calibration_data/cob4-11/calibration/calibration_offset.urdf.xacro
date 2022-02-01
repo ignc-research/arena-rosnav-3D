@@ -1,0 +1,30 @@
+<?xml version="1.0" ?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+	<!-- ***************** -->
+	<!-- base calibration -->
+	<!-- ***************** -->
+	<!-- laser front mount positions | relative to base_link -->
+	<xacro:property name="offset_laser_front_x" value="0.0"/>
+	<xacro:property name="offset_laser_front_y" value="0.0"/>
+	<xacro:property name="offset_laser_front_z" value="0.0"/>
+	<xacro:property name="offset_laser_front_roll" value="0.0"/>
+	<xacro:property name="offset_laser_front_pitch" value="0.0"/>
+	<xacro:property name="offset_laser_front_yaw" value="0.0"/>
+
+	<!-- laser rear mount positions | relative to base_link -->
+	<xacro:property name="offset_laser_left_x" value="0.0"/>
+	<xacro:property name="offset_laser_left_y" value="0.0"/>
+	<xacro:property name="offset_laser_left_z" value="0.0"/>
+	<xacro:property name="offset_laser_left_roll" value="0.0"/>
+	<xacro:property name="offset_laser_left_pitch" value="0.0"/>
+	<xacro:property name="offset_laser_left_yaw" value="0.0"/>
+
+	<!-- laser top mount positions | relative to base_link -->
+	<xacro:property name="offset_laser_right_x" value="0.0"/>
+	<xacro:property name="offset_laser_right_y" value="0.0"/>
+	<xacro:property name="offset_laser_right_z" value="0.0"/>
+	<xacro:property name="offset_laser_right_roll" value="0.0"/>
+	<xacro:property name="offset_laser_right_pitch" value="0.0"/>
+	<xacro:property name="offset_laser_right_yaw" value="0.0"/>
+
+</robot>

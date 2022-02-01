@@ -1,0 +1,16 @@
+<launch>
+  <arg name="laser_model"/>
+  <arg name="rgbd_sensors"/>
+  <arg name="multi" default=""/>
+
+  <!-- Robot description -->
+  <param name="robot_description"
+      command="xacro '$(find pmb2_description)/robots/pmb2.urdf.xacro'
+    laser_model:=$(arg laser_model)
+    rgbd_sensors:=$(arg rgbd_sensors)
+    $(arg multi)"
+      />
+
+  <!-- Joint limits -->
+  <rosparam command="load" file="$(find pmb2_description)/config/joint_limits.yaml"/>
+</launch>

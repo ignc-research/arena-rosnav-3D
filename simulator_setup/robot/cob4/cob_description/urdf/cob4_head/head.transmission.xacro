@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:include filename="$(find simulator_setup)/robot/cob4/cob_description/urdf/common.xacro"/>
+
+  <xacro:macro name="head_transmission" params="name dof1 dof2 dof3">
+
+    <xacro:if value="${dof1}">
+      <xacro:default_transmission jname="${name}_1"/>
+    </xacro:if>
+    <xacro:if value="${dof2}"> 
+      <xacro:default_transmission jname="${name}_2"/>
+    </xacro:if>
+    <xacro:if value="${dof3}">
+      <xacro:default_transmission jname="${name}_3"/>
+    </xacro:if>
+
+  </xacro:macro>
+
+</robot>

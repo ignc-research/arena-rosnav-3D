@@ -1,0 +1,169 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:include filename="$(find simulator_setup)/robot/cob4/cob_description/urdf/common.xacro" />
+  <xacro:include filename="$(find simulator_setup)/robot/cob4/cob_description/urdf/cob4_gripper/gripper.gazebo.xacro" />
+  <xacro:include filename="$(find simulator_setup)/robot/cob4/cob_description/urdf/cob4_gripper/gripper.transmission.xacro" />
+
+  <xacro:macro name="gripper" params="name parent *origin">
+
+    <!-- joint between base_link and gripper_base_link -->
+    <joint name="${name}_base_joint" type="fixed" >
+      <xacro:insert_block name="origin" />
+      <parent link="${parent}" />
+      <child link="${name}_base_link" />
+    </joint>
+
+    <link name="${name}_base_link">
+      <xacro:default_inertial/>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <box size="0.001 0.001 0.001" />
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <box size="0.001 0.001 0.001" />
+        </geometry>
+      </collision>
+    </link>
+
+    <!-- joint between base_link and gripper_palm_link -->
+    <joint name="${name}_palm_joint" type="fixed">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <parent link="${name}_base_link"/>
+      <child link="${name}_palm_link"/>
+    </joint>
+
+    <link name="${name}_palm_link">
+      <xacro:default_inertial/>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://simulator_setup/robot/cob4/cob_description/meshes/cob4_gripper/palm.dae" />
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://simulator_setup/robot/cob4/cob_description/meshes/cob4_gripper/palm.stl" />
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="${name}_grasp_joint" type="fixed">
+      <origin xyz="0 0 0.11" rpy="0 -${M_PI/2} 0" />
+      <parent link="${name}_base_link"/>
+      <child link="${name}_grasp_link"/>
+    </joint>
+
+    <link name="${name}_grasp_link">
+      <xacro:default_inertial/>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <box size="0.001 0.001 0.001" />
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <box size="0.001 0.001 0.001" />
+        </geometry>
+      </collision>
+    </link>
+
+    <!-- joint between base_link and gripper_base_link -->
+    <joint name="${name}_camera_joint" type="fixed" >
+      <origin xyz="0 0 0" rpy="0 ${M_PI/2} 0" />
+      <parent link="${name}_palm_link" />
+      <child link="${name}_camera_link" />
+    </joint>
+
+    <link name="${name}_camera_link">
+      <xacro:default_inertial/>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <box size="0.001 0.001 0.001" />
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <box size="0.001 0.001 0.001" />
+        </geometry>
+      </collision>
+    </link>
+
+    <!-- joint between gripper_palm_link and gripper_finger_1_link -->
+    <joint name="${name}_finger_1_joint" type="revolute">
+      <origin xyz="-0.04409 0.02163  0" rpy="0 0 -0.2" />
+      <parent link="${name}_camera_link"/>
+      <child link="${name}_finger_1_link"/>
+      <axis xyz="0 0 1" />
+      <dynamics damping="0.0" friction="0.0"/>
+      <limit effort="200" lower="-1.047" upper="0.872" velocity="0.5"/>
+    </joint>
+
+
+    <link name="${name}_finger_1_link">
+      <xacro:default_inertial/>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://simulator_setup/robot/cob4/cob_description/meshes/cob4_gripper/finger_1.dae" />
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://simulator_setup/robot/cob4/cob_description/meshes/cob4_gripper/finger_1.stl" />
+        </geometry>
+      </collision>
+    </link>
+
+    <!-- joint between gripper_finger_1_link and gripper_finger_2_link -->
+    <joint name="${name}_finger_2_joint" type="revolute">
+      <origin xyz="-0.0712 0 0" rpy="0 0 0.3" />
+      <parent link="${name}_finger_1_link"/>
+      <child link="${name}_finger_2_link"/>
+      <axis xyz="0 0 1" />
+      <dynamics damping="0.0" friction="0.0"/>
+      <limit effort="200" lower="-${M_PI/2}" upper="${M_PI/2}" velocity="0.5"/>
+    </joint>
+
+    <link name="${name}_finger_2_link">
+      <xacro:default_inertial/>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://simulator_setup/robot/cob4/cob_description/meshes/cob4_gripper/finger_2.dae" />
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://simulator_setup/robot/cob4/cob_description/meshes/cob4_gripper/finger_2.stl" />
+        </geometry>
+      </collision>
+    </link>
+
+
+    <!-- extensions -->
+    <xacro:gripper_gazebo name="${name}" />
+    <xacro:gripper_transmission name="${name}" />
+
+    <!-- ros_control plugin -->
+    <gazebo>
+      <plugin name="${name}_ros_control" filename="libhwi_switch_gazebo_ros_control.so">
+        <robotNamespace>${name}</robotNamespace>
+        <filterJointsParam>joint_names</filterJointsParam>
+      </plugin>
+    </gazebo>
+
+  </xacro:macro>
+
+</robot>

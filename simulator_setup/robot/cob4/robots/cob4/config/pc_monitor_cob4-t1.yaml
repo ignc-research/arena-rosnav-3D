@@ -1,0 +1,11 @@
+check_ipmi_tool: False
+check_core_temps: True
+num_cores: 4
+core_load_warn: 90
+core_load_error: 110
+load1_threshold: 10
+load5_threshold: 10
+core_temp_warn: 95 #Celsius
+core_temp_error: 97 #Celsius
+mem_warn: 25 #MB
+mem_error: 1 #MB

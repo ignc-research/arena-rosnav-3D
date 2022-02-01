@@ -1,0 +1,4 @@
+diagnostics_name: torso_cam3d_left
+topics: [/torso_cam3d_left/rgb/camera_info, /torso_cam3d_left/depth/camera_info]
+hz: 15
+hzerror: 5

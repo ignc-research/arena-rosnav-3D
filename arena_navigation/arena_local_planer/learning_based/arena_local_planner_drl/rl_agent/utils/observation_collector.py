@@ -151,7 +151,9 @@ class ObservationCollector:
     def get_observation_space(self):
         return self.observation_space
 
-    def get_observations(self):
+    def get_observations(self, kwargs: dict = None):
+        kwargs = kwargs if kwargs else {}
+
         # apply action time horizon
         if self._is_train_mode:
             self.call_service_takeSimStep(
@@ -191,7 +193,8 @@ class ObservationCollector:
             "global_plan": self._globalplan,
             "robot_pose": self._robot_pose,
             "subgoal": self._subgoal,
-            "robot_vel": self._robot_vel
+            "robot_vel": self._robot_vel,
+            "last_action": kwargs.get("last_action", np.array([0, 0, 0])),
         }
 
         self._laser_deque.clear()
@@ -330,6 +333,7 @@ class ObservationCollector:
     def callback_scan(self, msg_laserscan):
         if len(self._laser_deque) == self.max_deque_size:
             self._laser_deque.popleft()
+        print(len(msg_laserscan))
         self._laser_deque.append(msg_laserscan)
 
     def callback_robot_state(self, msg_robotstate):

@@ -1,0 +1,79 @@
+sync:
+  interval_ms: 20
+  overflow: 0
+heartbeat:
+  rate: 20
+  msg: "77f#05"
+
+defaults:
+  eds_pkg: cob_hardware_config
+  eds_file: "robots/common/ElmoSimplIQ.dcf"
+  dcf_overlay:
+    "606A": "1" # read velocity from velocity sensor
+    "607F": "240000" # max profile velocity
+    "6083": "1000000" # profile acceleration
+    "6084": "1000000" # profile deceleration
+    "6085": "1000000" # quick stop deceleration
+  motor_allocator: cob_elmo_homing::ElmoMotor402::Allocator
+  motor_layer:
+    monitor_mode: false
+
+drive_wheel: &drive_wheel
+  dcf_overlay: # "ObjectID" : "ParameterValue" (both as strings)
+  # "6098": "35" # homing method
+    "607Bsub1": "-1290240000" # min position range limit XM[1]
+    "607Bsub2": "1290240000" # max position range limit XM[2]
+    "607Dsub1": "-1290240000" # min position software limit VL[3]
+    "607Dsub2": "1290240000" # max position software limit VH[3]
+  pos_to_device: "rint(pos * 4096 * 21 * 1 / (2 * pi))" # rev * gear * belt / (2 * pi)
+  vel_to_device: "rint(vel * 4096 * 21 * 1 / (2 * pi))" # rev * gear * belt / (2 * pi)
+  pos_from_device: "obj6064 * 2 * pi / ( 4096 * 21 * 1)" # 2 * pi / (rev * gear * belt)
+  vel_from_device: "obj606c * 2 * pi / ( 4096 * 21 * 1)" # 2 * pi / (rev * gear * belt)
+  motor_layer:
+   homing_event: 0 # -> digin
+   homing_speed: 0
+   homing_offset: 0
+
+steer_wheel: &steer_wheel
+  dcf_overlay:
+    "607Bsub1": "-480000000" # min position range limit XM[1]
+    "607Bsub2": "480000000" # max position range limit XM[2]
+    "607Dsub1": "-480000000" # min position software limit VL[3]
+    "607Dsub2": "480000000" # max position software limit VH[3]
+  pos_to_device: "rint(pos * 8000 * 1 * 4 / (2 * pi))" # rev * gear * belt / (2 * pi)
+  vel_to_device: "rint(vel * 8000 * 1 * 4 / (2 * pi))" # rev * gear * belt / (2 * pi)
+  pos_from_device: "obj6064 * 2 * pi / ( 8000 * 1 * 4)" # 2 * pi / (rev * gear * belt)
+  vel_from_device: "obj606c * 2 * pi / ( 8000 * 1 * 4)" # 2 * pi / (rev * gear * belt)
+
+nodes:
+  ##Wheel 1
+  fl_caster_rotation_joint:
+    <<: *steer_wheel
+    id: 1
+  fl_caster_r_wheel_joint:
+    <<: *drive_wheel
+    id: 2
+
+  ##Wheel 2
+  bl_caster_rotation_joint:
+    <<: *steer_wheel
+    id: 3
+  bl_caster_r_wheel_joint:
+    <<: *drive_wheel
+    id: 4
+
+  ##Wheel 3
+  br_caster_rotation_joint:
+    <<: *steer_wheel
+    id: 5
+  br_caster_r_wheel_joint:
+    <<: *drive_wheel
+    id: 6  
+
+  ##Wheel 4
+  fr_caster_rotation_joint:
+    <<: *steer_wheel
+    id: 7
+  fr_caster_r_wheel_joint:
+    <<: *drive_wheel
+    id: 8

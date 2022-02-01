@@ -3,13 +3,15 @@ from turtle import down
 import numpy as np
 import sys
 from scipy import interpolate
-from arena_navigation.arena_local_planer.learning_based.arena_local_planner_drl.rl_agent.encoder.factory import EncoderFactory
 
+from rl_agent.encoder.factory import EncoderFactory
 from rl_agent.encoder import BaseEncoder
+
 """
     GULDENRING PRETRAINED MODELS
     Only works for agv-ota
 """
+
 
 class GuldenringPretrainedEncoder(BaseEncoder):
     def __init__(self, agent_name: str, model_dir: str, hyperparams):
@@ -33,7 +35,7 @@ class GuldenringPretrainedEncoder(BaseEncoder):
     def _load_vecnorm(self):
         return lambda obs: obs
 
-    def get_observation(self, obs):
+    def get_observation(self, obs, *args, **kwargs):
         obs_dict = obs[1]
         scan = obs_dict["laser_scan"]
         rho, theta = obs_dict["goal_in_robot_frame"]
@@ -50,24 +52,24 @@ class GuldenringPretrainedEncoder(BaseEncoder):
         complete_observation[0, :90, 0] = downsampled_scan
 
         for i in range(8):
-            complete_observation[0, 90 + i * 2:90 + i * 2 + 2, 0] = [x, y]
+            complete_observation[0, 90 + i * 2 : 90 + i * 2 + 2, 0] = [x, y]
 
-        guldenring_obs = np.round(np.divide(complete_observation, 0.05))*0.05
-        
-        return guldenring_obs
+        return np.round(np.divide(complete_observation, 0.05)) * 0.05
 
     def get_action(self, action):
         """
-            Encodes the action produced by the nn
-            Should always return an array of size 3 with entries
-            [x_vel, y_vel, ang_vel]
+        Encodes the action produced by the nn
+        Should always return an array of size 3 with entries
+        [x_vel, y_vel, ang_vel]
         """
-        assert len(action) == 2, f"Expected an action of size 2 but received {len(action)}: {action}"
-        
+        assert (
+            len(action) == 2
+        ), f"Expected an action of size 2 but received {len(action)}: {action}"
+
         x_vel, ang_vel = action
         return [x_vel, 0, ang_vel]
 
-@EncoderFactory.register("guldenring", "gunldenring", "turtlebot3")
+@EncoderFactory.register("guldenring", "guldenring_pretrained", "turtlebot3_burger")
 class TurtleBot3Encoder(GuldenringPretrainedEncoder):
     def get_observation(self, obs):
         obs_dict = obs[1]
@@ -87,13 +89,13 @@ class TurtleBot3Encoder(GuldenringPretrainedEncoder):
         complete_observation[0, 45:90, 0] = downsampled_scan[:45]
 
         for i in range(8):
-            complete_observation[0, 90 + i * 2:90 + i * 2 + 2, 0] = [x, y]
+            complete_observation[0, 90 + i * 2 : 90 + i * 2 + 2, 0] = [x, y]
 
-        guldenring_obs = np.round(np.divide(complete_observation, 0.05))*0.05
-        
+        guldenring_obs = np.round(np.divide(complete_observation, 0.05)) * 0.05
+
         return guldenring_obs
 
-@EncoderFactory.register("guldenring", "gunldenring", "jackal")
+@EncoderFactory.register("guldenring", "guldenring_pretrained", "jackal")
 class JackalEncoder(GuldenringPretrainedEncoder):
     def get_observation(self, obs):
         obs_dict = obs[1]
@@ -122,8 +124,8 @@ class JackalEncoder(GuldenringPretrainedEncoder):
         complete_observation[0, :90, 0] = upsampled
 
         for i in range(8):
-            complete_observation[0, 90 + i * 2:90 + i * 2 + 2, 0] = [x, y]
+            complete_observation[0, 90 + i * 2 : 90 + i * 2 + 2, 0] = [x, y]
 
-        guldenring_obs = np.round(np.divide(complete_observation, 0.05))*0.05
-        
+        guldenring_obs = np.round(np.divide(complete_observation, 0.05)) * 0.05
+
         return guldenring_obs

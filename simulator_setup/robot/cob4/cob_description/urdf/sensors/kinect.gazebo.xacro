@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<root xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:macro name="cob_kinect_gazebo_v0" params="name ros_topic
+                                                   update_rate:=20 data_skip:=0 height:=480 width:=640">
+    <gazebo reference="${name}_link">
+      <sensor type="depth" name="${name}_frame_sensor">
+        <always_on>true</always_on>
+        <update_rate>${update_rate/(data_skip+1)}</update_rate>
+        <camera>
+          <horizontal_fov>${62.0*M_PI/180.0}</horizontal_fov>
+          <image>
+            <format>B8G8R8</format>
+            <width>${height}</width>
+            <height>${width}</height>
+          </image>
+          <clip>
+            <near>0.1</near>
+            <far>100</far>
+          </clip>
+          <noise>
+            <type>gaussian</type>
+            <mean>0.0</mean>
+            <stddev>0.0</stddev>
+          </noise>
+        </camera>
+        <plugin name="${name}_controller" filename="libgazebo_ros_openni_kinect.so">
+          <updateRate>${update_rate/(data_skip+1)}</updateRate>
+          <cameraName>${ros_topic}</cameraName>
+          <frameName>${name}_color_optical_frame</frameName>
+          <imageTopicName>rgb/image_raw</imageTopicName>
+          <cameraInfoTopicName>rgb/camera_info</cameraInfoTopicName>
+          <pointCloudTopicName>depth_registered/points</pointCloudTopicName>
+          <depthImageTopicName>depth_registered/image_raw</depthImageTopicName>
+          <depthImageCameraInfoTopicName>depth_registered/camera_info</depthImageCameraInfoTopicName>
+          <pointCloudCutoff>0.5</pointCloudCutoff>
+          <pointCloudCutoffMax>5.0</pointCloudCutoffMax>
+          <baseline>0.2</baseline>
+          <hackBaseline>0.0</hackBaseline>
+          <distortionK1>0.0</distortionK1>
+          <distortionK2>0.0</distortionK2>
+          <distortionK3>0.0</distortionK3>
+          <distortionT1>0.0</distortionT1>
+          <distortionT2>0.0</distortionT2>
+          <CxPrime>0.0</CxPrime>
+          <Cx>0.0</Cx>
+          <Cy>0.0</Cy>
+          <focalLength>0.0</focalLength>
+        </plugin>
+      </sensor>
+      <material>IPA/LightGrey</material>
+    </gazebo>
+  </xacro:macro>
+
+</root>
+
+
