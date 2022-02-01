@@ -6,6 +6,11 @@ import rospkg
 from os import path
 
 from rl_agent.encoder.factory import EncoderFactory
+import rl_agent.encoder.guldenring_guldenring_pretrained
+import rl_agent.encoder.navrep_navrep
+import rl_agent.encoder.navrep_rosnav
+import rl_agent.encoder.guldenring_guldenring
+import rl_agent.encoder.rosnav_rosnav
 from rl_agent.base_agent_wrapper import BaseDRLAgent
 
 robot_model = rospy.get_param("model")
