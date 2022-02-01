@@ -87,7 +87,6 @@ class JackalGuldenringEncoder(GuldenringEncoder):
 """
 
 @EncoderFactory.register("guldenring", "guldenring", "turtlebot3_burger")
-
 class TurtleBot3GuldenringEncoder(GuldenringEncoder):
     pass
 

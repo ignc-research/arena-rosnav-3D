@@ -6,7 +6,6 @@ import rospkg
 from os import path
 
 from rl_agent.encoder.factory import EncoderFactory
-
 from rl_agent.base_agent_wrapper import BaseDRLAgent
 
 robot_model = rospy.get_param("model")
