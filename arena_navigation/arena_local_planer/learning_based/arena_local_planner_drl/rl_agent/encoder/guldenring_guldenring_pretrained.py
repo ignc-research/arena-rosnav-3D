@@ -3,6 +3,7 @@ from turtle import down
 import numpy as np
 import sys
 from scipy import interpolate
+from arena_navigation.arena_local_planer.learning_based.arena_local_planner_drl.rl_agent.encoder.factory import EncoderFactory
 
 from rl_agent.encoder import BaseEncoder
 """
@@ -66,6 +67,7 @@ class GuldenringPretrainedEncoder(BaseEncoder):
         x_vel, ang_vel = action
         return [x_vel, 0, ang_vel]
 
+@EncoderFactory.register("guldenring", "gunldenring", "turtlebot3")
 class TurtleBot3Encoder(GuldenringPretrainedEncoder):
     def get_observation(self, obs):
         obs_dict = obs[1]
@@ -91,6 +93,7 @@ class TurtleBot3Encoder(GuldenringPretrainedEncoder):
         
         return guldenring_obs
 
+@EncoderFactory.register("guldenring", "gunldenring", "jackal")
 class JackalEncoder(GuldenringPretrainedEncoder):
     def get_observation(self, obs):
         obs_dict = obs[1]
