@@ -4,5 +4,7 @@
   <node name="controller_spawner" pkg="controller_manager" type="spawner" args="jackal_joint_publisher jackal_velocity_controller">
   </node>
   <node name="odom_pub" pkg="task_generator" type="odom.py"/>
-  <node name="velocity_redirect" pkg="task_generator" type="trans.py"/>
+  <node name="velocity_redirect" pkg="task_generator" type="trans.py">
+    <param name="cmd_vel_topic" value="/jackal_velocity_controller/cmd_vel" />
+  </node>
 </launch>
