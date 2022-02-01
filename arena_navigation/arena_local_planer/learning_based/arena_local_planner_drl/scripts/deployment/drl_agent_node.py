@@ -10,6 +10,7 @@ import rl_agent.encoder.navrep_rosnav as n_rosnav
 from rl_agent.encoder.guldenring_guldenring import (
     JackalGuldenringEncoder,
     TurtleBot3GuldenringEncoder,
+    RtoGuldenringEncoder
 )
 
 import rl_agent.encoder.guldenring_guldenring_pretrained as gring
@@ -48,6 +49,7 @@ encoders = {
     "guldenring_guldenring": {
         "turtlebot3_burger": TurtleBot3GuldenringEncoder,
         "jackal": JackalGuldenringEncoder,
+        "rto": RtoGuldenringEncoder
     },
     "guldenring_guldenring_pretrained": {
         "agv-ota": gring.GuldenringPretrainedEncoder,

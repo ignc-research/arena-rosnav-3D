@@ -5,7 +5,9 @@
 """
 
 import yaml
-import os, time
+import sys
+import os
+import time
 import rospkg
 import subprocess
 import rospy
@@ -64,6 +66,7 @@ def wait_until_finish():
 
 def terminate_simulation():
     # terminate gazebo
+    subprocess.call("killall -q gzclient & killall -q gzserver", shell=True)
     subprocess.Popen(
         "killall -9 gazebo & killall -9 gzserver  & killall -9 gzclient",
         shell=True,
@@ -75,8 +78,7 @@ def terminate_simulation():
     while not rospy.is_shutdown():
         time.sleep(1)
     time.sleep(1)
-
-
+    # sys.exit(0)
 
 
 if __name__ == '__main__':
