@@ -36,6 +36,9 @@ encoders = {
         "ridgeback": r_rosnav.RidgebackEncoder,
         "agv-ota": r_rosnav.AgvEncoder,
         "turtlebot3_burger": r_rosnav.TurtleBot3Encoder,
+        "rto": r_rosnav.RtoEncoder,
+        "tiago": r_rosnav.TiagoEncoder,
+        "cob4": r_rosnav.Cob4Encoder,
     },
     "navrep_rosnav": {
         "jackal": n_rosnav.JackalEncoder,

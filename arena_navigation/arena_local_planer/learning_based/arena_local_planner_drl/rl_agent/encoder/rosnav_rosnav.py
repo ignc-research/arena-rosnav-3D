@@ -86,51 +86,80 @@ class RosnavEncoder(BaseEncoder):
         return [x_vel, 0, ang_vel]
 
 
-"""
+class JackalEncoder(RosnavEncoder):
+    """
     Jackal
-    N: 720 
+    N: 720
     offset: -3/4 * pi
     action: [x_vel, ang_vel]
-"""
+    """
 
-
-class JackalEncoder(RosnavEncoder):
     pass
 
 
-"""
+class TurtleBot3Encoder(RosnavEncoder):
+    """
     Turtlebot3
     N: 360
     offset: 0
     action: [x_vel, ang_vel]
-"""
+    """
 
-
-class TurtleBot3Encoder(RosnavEncoder):
     pass
 
 
-"""
+class AgvEncoder(RosnavEncoder):
+    """
     AGV
     N: 720
     offset: -pi
     action: [x_vel, ang_vel]
-"""
+    """
 
-
-class AgvEncoder(RosnavEncoder):
     pass
 
 
-"""
+class RtoEncoder(RosnavEncoder):
+    """
+    RTO
+    N: 720
+    offset: -pi
+    action: [x_vel, y_vel, ang_vel]
+    """
+
+    pass
+
+
+class TiagoEncoder(RosnavEncoder):
+    """
+    Tiago
+    N: 720
+    offset: -pi
+    action: [x_vel, ang_vel]
+    """
+
+    pass
+
+
+class Cob4Encoder(RosnavEncoder):
+    """
+    Care-O-Bot 4
+    N: 720
+    offset: -pi
+    action: [x_vel, ang_vel]
+    """
+
+    pass
+
+
+class RidgebackEncoder(RosnavEncoder):
+    """
     Ridgeback
     N: 720
     offset: -3/4 * pi
     action: [x_vel, y_vel, ang_vel]
-"""
+    """
 
-
-class RidgebackEncoder(RosnavEncoder):
     def get_action(self, action):
         assert (
             len(action) == 3
