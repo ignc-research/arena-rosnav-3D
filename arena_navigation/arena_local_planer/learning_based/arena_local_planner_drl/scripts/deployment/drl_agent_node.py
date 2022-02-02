@@ -5,17 +5,12 @@ import rospkg
 
 from os import path
 
-import rl_agent.encoder.rosnav_rosnav as r_rosnav
-import rl_agent.encoder.navrep_rosnav as n_rosnav
-from rl_agent.encoder.guldenring_guldenring import (
-    JackalGuldenringEncoder,
-    TurtleBot3GuldenringEncoder,
-    RtoGuldenringEncoder
-)
-
-import rl_agent.encoder.guldenring_guldenring_pretrained as gring
-from rl_agent.encoder.navrep_navrep import NavrepPretrainedEncoder
-
+from rl_agent.encoder.factory import EncoderFactory
+import rl_agent.encoder.guldenring_guldenring_pretrained
+import rl_agent.encoder.navrep_navrep
+import rl_agent.encoder.navrep_rosnav
+import rl_agent.encoder.guldenring_guldenring
+import rl_agent.encoder.rosnav_rosnav
 from rl_agent.base_agent_wrapper import BaseDRLAgent
 
 robot_model = rospy.get_param("model")
@@ -30,41 +25,11 @@ DEFAULT_ACTION_SPACE = path.join(
     f"default_settings_{robot_model}.yaml",
 )
 
-encoders = {
-    "rosnav_rosnav": {
-        "jackal": r_rosnav.JackalEncoder,
-        "ridgeback": r_rosnav.RidgebackEncoder,
-        "agv-ota": r_rosnav.AgvEncoder,
-        "turtlebot3_burger": r_rosnav.TurtleBot3Encoder,
-        "rto": r_rosnav.RtoEncoder,
-        "tiago": r_rosnav.TiagoEncoder,
-        "cob4": r_rosnav.Cob4Encoder,
-    },
-    "navrep_rosnav": {
-        "jackal": n_rosnav.JackalEncoder,
-        "ridgeback": n_rosnav.RidgebackEncoder,
-        "agv-ota": n_rosnav.AgvEncoder,
-        "turtlebot3_burger": n_rosnav.TurtleBot3Encoder,
-    },
-    "guldenring_guldenring": {
-        "turtlebot3_burger": TurtleBot3GuldenringEncoder,
-        "jackal": JackalGuldenringEncoder,
-        "rto": RtoGuldenringEncoder
-    },
-    "guldenring_guldenring_pretrained": {
-        "agv-ota": gring.GuldenringPretrainedEncoder,
-        "turtlebot3_burger": gring.TurtleBot3Encoder,
-        "jackal": gring.JackalEncoder,
-    },
-    "navrep_navrep": {"rto": NavrepPretrainedEncoder},
-}
-
-
 class DeploymentDRLAgent(BaseDRLAgent):
     def __init__(
         self,
         trainings_environment: str,
-        model_type: str = "rosnav",
+        network_type: str = "rosnav",
         robot_type: str = "rosnav",
         agent_name: str = "turtlebot3_burger",
         ns: str = None,
@@ -87,10 +52,7 @@ class DeploymentDRLAgent(BaseDRLAgent):
                 Path to yaml file containing action space settings.
                 Defaults to DEFAULT_ACTION_SPACE.
         """
-        assert encoders[trainings_environment + "_" + model_type][
-            robot_type
-        ], f"Encoder {robot_type} not available"
-
+        
         self._is_train_mode = rospy.get_param("/train_mode")
         if not self._is_train_mode:
             rospy.init_node("DRL_local_planner", anonymous=True)
@@ -110,9 +72,7 @@ class DeploymentDRLAgent(BaseDRLAgent):
             action_space_path,
         )
 
-        self.encoder = encoders[trainings_environment + "_" + model_type][
-            robot_type
-        ](
+        self.encoder = EncoderFactory.instantiate(trainings_environment, network_type, robot_type)(
             agent_name,
             TRAINED_MODELS_DIR(trainings_environment),
             self._hyperparams,

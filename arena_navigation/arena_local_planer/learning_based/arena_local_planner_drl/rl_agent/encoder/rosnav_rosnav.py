@@ -1,10 +1,10 @@
 from os import path
-from stable_baselines3 import PPO
 import numpy as np
 import pickle
 import rospy
 
 from rl_agent.encoder import BaseEncoder
+from rl_agent.encoder.factory import EncoderFactory
 
 """
     ROSNAV MODEL TRAINED IN ROSNAV ENVIRONMENT
@@ -58,7 +58,11 @@ class RosnavEncoder(BaseEncoder):
 
             self._obs_norm_func = self._load_vecnorm(vecnorm_path)
 
-    def _load_model(self, model_path: str) -> PPO:
+    def _load_model(self, model_path: str):
+        # KEEP THIS IMPORT HERE
+        # Moving this on top will break navrep and guldenring
+        from stable_baselines3 import PPO
+
         return PPO.load(model_path).policy
 
     def _load_vecnorm(self, vecnorm_path: str):
@@ -86,6 +90,16 @@ class RosnavEncoder(BaseEncoder):
         return [x_vel, 0, ang_vel]
 
 
+class RosnavHolonomicEncoder(RosnavEncoder):
+    def get_action(self, action):
+        assert (
+            len(action) == 3
+        ), f"Expected an action of size 3 but received: {action}"
+
+        return action
+
+
+@EncoderFactory.register("rosnav", "rosnav", "jackal")
 class JackalEncoder(RosnavEncoder):
     """
     Jackal
@@ -97,6 +111,7 @@ class JackalEncoder(RosnavEncoder):
     pass
 
 
+@EncoderFactory.register("rosnav", "rosnav", "turtlebot3_burger")
 class TurtleBot3Encoder(RosnavEncoder):
     """
     Turtlebot3
@@ -108,6 +123,7 @@ class TurtleBot3Encoder(RosnavEncoder):
     pass
 
 
+@EncoderFactory.register("rosnav", "rosnav", "agv-ota")
 class AgvEncoder(RosnavEncoder):
     """
     AGV
@@ -119,17 +135,7 @@ class AgvEncoder(RosnavEncoder):
     pass
 
 
-class RtoEncoder(RosnavEncoder):
-    """
-    RTO
-    N: 720
-    offset: -pi
-    action: [x_vel, y_vel, ang_vel]
-    """
-
-    pass
-
-
+@EncoderFactory.register("rosnav", "rosnav", "tiago")
 class TiagoEncoder(RosnavEncoder):
     """
     Tiago
@@ -141,18 +147,32 @@ class TiagoEncoder(RosnavEncoder):
     pass
 
 
-class Cob4Encoder(RosnavEncoder):
+@EncoderFactory.register("rosnav", "rosnav", "rto")
+class RtoEncoder(RosnavHolonomicEncoder):
     """
-    Care-O-Bot 4
+    RTO
     N: 720
     offset: -pi
-    action: [x_vel, ang_vel]
+    action: [x_vel, y_vel, ang_vel]
     """
 
     pass
 
 
-class RidgebackEncoder(RosnavEncoder):
+@EncoderFactory.register("rosnav", "rosnav", "cob4")
+class Cob4Encoder(RosnavHolonomicEncoder):
+    """
+    Care-O-Bot 4
+    N: 720
+    offset: -pi
+    action: [x_vel, y_vel, ang_vel]
+    """
+
+    pass
+
+
+@EncoderFactory.register("rosnav", "rosnav", "ridgeback")
+class RidgebackEncoder(RosnavHolonomicEncoder):
     """
     Ridgeback
     N: 720
@@ -160,9 +180,4 @@ class RidgebackEncoder(RosnavEncoder):
     action: [x_vel, y_vel, ang_vel]
     """
 
-    def get_action(self, action):
-        assert (
-            len(action) == 3
-        ), f"Expected an action of size 3 but received: {action}"
-
-        return action
+    pass

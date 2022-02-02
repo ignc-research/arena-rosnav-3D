@@ -4,6 +4,7 @@ import numpy as np
 import sys
 from scipy import interpolate
 
+from rl_agent.encoder.factory import EncoderFactory
 from rl_agent.encoder import BaseEncoder
 
 """
@@ -68,7 +69,7 @@ class GuldenringPretrainedEncoder(BaseEncoder):
         x_vel, ang_vel = action
         return [x_vel, 0, ang_vel]
 
-
+@EncoderFactory.register("guldenring", "guldenring_pretrained", "turtlebot3_burger")
 class TurtleBot3Encoder(GuldenringPretrainedEncoder):
     def get_observation(self, obs):
         obs_dict = obs[1]
@@ -94,7 +95,7 @@ class TurtleBot3Encoder(GuldenringPretrainedEncoder):
 
         return guldenring_obs
 
-
+@EncoderFactory.register("guldenring", "guldenring_pretrained", "jackal")
 class JackalEncoder(GuldenringPretrainedEncoder):
     def get_observation(self, obs):
         obs_dict = obs[1]

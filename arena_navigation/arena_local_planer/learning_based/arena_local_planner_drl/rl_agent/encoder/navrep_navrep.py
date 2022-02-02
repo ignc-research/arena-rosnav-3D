@@ -9,6 +9,11 @@ from rl_agent.encoder import BaseEncoder
     Only works for pepper
 """
 
+"""
+    Not usable anymore because required robot is missing.
+    Robot needs to have 1080 laser samples in 2 pi.
+    Real RTO does not fulfill requirements
+"""
 
 class NavrepPretrainedEncoder(BaseEncoder):
     def __init__(self, agent_name: str, model_dir: str, hyperparams):
@@ -41,8 +46,6 @@ class NavrepPretrainedEncoder(BaseEncoder):
         scan = obs_dict["laser_scan"]
         rho, theta = obs_dict["goal_in_robot_frame"]
         robot_vel = obs_dict["robot_vel"]
-
-        print(np.min(scan), np.max(scan))
 
         # Convert Rho, Theta in robot frame coordinates
         y = np.sin(theta + np.pi) * rho
