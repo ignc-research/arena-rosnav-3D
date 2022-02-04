@@ -2,6 +2,7 @@ from os import path
 import numpy as np
 import sys
 
+from rl_agent.encoder.factory import EncoderFactory
 from rl_agent.encoder import BaseEncoder
 
 """
@@ -69,7 +70,7 @@ class GuldenringEncoder(BaseEncoder):
     action: [x_vel, ang_vel]
 """
 
-
+@EncoderFactory.register("guldenring", "guldenring", "jackal")
 class JackalGuldenringEncoder(GuldenringEncoder):
     def get_action(self, action):
         assert len(action) == 2, f"Expected an action of size 2 but received {len(action)}: {action}"
@@ -85,7 +86,7 @@ class JackalGuldenringEncoder(GuldenringEncoder):
     action: [x_vel, ang_vel]
 """
 
-
+@EncoderFactory.register("guldenring", "guldenring", "turtlebot3_burger")
 class TurtleBot3GuldenringEncoder(GuldenringEncoder):
     pass
 
@@ -96,6 +97,7 @@ class TurtleBot3GuldenringEncoder(GuldenringEncoder):
     offset: 0
     action: [x_vel, ang_vel]
 """
+@EncoderFactory.register("guldenring", "guldenring", "rto")
 class RtoGuldenringEncoder(GuldenringEncoder):
     pass
 
@@ -107,6 +109,7 @@ class RtoGuldenringEncoder(GuldenringEncoder):
 """
 
 
+@EncoderFactory.register("guldenring", "guldenring", "agv-ota")
 class AgvGuldenringEncoder(GuldenringEncoder):
     pass
 
@@ -119,6 +122,7 @@ class AgvGuldenringEncoder(GuldenringEncoder):
 """
 
 
+@EncoderFactory.register("guldenring", "guldenring", "ridgeback")
 class RidgebackGuldenringEncoder(GuldenringEncoder):
     def get_action(action):
         assert (

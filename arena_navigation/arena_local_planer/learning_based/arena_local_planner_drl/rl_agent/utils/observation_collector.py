@@ -333,6 +333,7 @@ class ObservationCollector:
     def callback_scan(self, msg_laserscan):
         if len(self._laser_deque) == self.max_deque_size:
             self._laser_deque.popleft()
+        print(len(msg_laserscan))
         self._laser_deque.append(msg_laserscan)
 
     def callback_robot_state(self, msg_robotstate):
