@@ -12,6 +12,7 @@ import rospkg
 import subprocess
 import rospy
 import rostopic
+import rospy.core
 import numpy as np
 from argparse import ArgumentParser
 from std_msgs.msg import Bool
@@ -52,7 +53,6 @@ def get_world_name_from_scenario_name(path: str):
 def start_simulation(planer, model, scenario, settings):
     world_name = get_world_name_from_scenario_name(scenario)
     launch_command = f"roslaunch arena_bringup start_arena_gazebo.launch local_planner:={planer} model:={model} scenario_file:={scenario} task_mode:=scenario world:={world_name} {settings}"
-    print(launch_command)
     subprocess.Popen(launch_command, shell=True)
 
 
@@ -60,19 +60,25 @@ def wait_until_finish():
     """Waiting for the task-generator to publish, that he is finished with running the scenario
     """
     rospy.init_node('listener', anonymous=True)
+    time.sleep(10)
+    
+
+    rospy.wait_for_message('clock', Bool)
     rospy.wait_for_message('End_of_scenario', Bool)
     rospy.signal_shutdown("End of scenario")
 
 
 def terminate_simulation():
+    
+    # terminate rosnodes
+    subprocess.Popen("rosnode kill --all", shell=True)
+
     # terminate gazebo
-    subprocess.call("killall -q gzclient & killall -q gzserver", shell=True)
     subprocess.Popen(
         "killall -9 gazebo & killall -9 gzserver  & killall -9 gzclient",
         shell=True,
     )
-    # terminate rosnodes
-    subprocess.Popen("rosnode kill --all", shell=True)
+
 
     # wait until ros core is shut down
     while not rospy.is_shutdown():
@@ -91,6 +97,7 @@ if __name__ == '__main__':
         for model in data['model']:
             # Note to avoid some combinations: if planer == 'teb' and model == 'jackal': break
             for scenario in data['scenarios']:
+                import rospy
                 start_simulation(planer, model, scenario, settings)
                 wait_until_finish()
                 terminate_simulation()

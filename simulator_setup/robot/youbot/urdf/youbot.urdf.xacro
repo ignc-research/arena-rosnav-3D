@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<robot xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor"
+       xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller"
+       xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface"
+       xmlns:xacro="http://www.ros.org/wiki/xacro/#interface"
+       name="youbot" >
+  
+  <!-- The following xacro:included files set up definitions of parts of the robot body -->
+  <!-- misc common stuff? -->
+  <xacro:include filename="$(find youbot_description)/urdf/common.xacro" />
+
+  <!-- youbot base -->
+  <xacro:include filename="$(find youbot_description)/urdf/youbot_base/base.urdf.xacro" />
+
+  <!-- youbot plate -->
+  <xacro:include filename="$(find youbot_description)/urdf/youbot_plate/plate.urdf.xacro" /> 
+
+  <!-- youbot arm -->
+  <xacro:include filename="$(find youbot_description)/urdf/youbot_arm/arm.urdf.xacro"/>
+
+  <!-- youbot gripper -->
+  <xacro:include filename="$(find youbot_description)/urdf/youbot_gripper/gripper.urdf.xacro" />
+ 
+  <!-- controller manager -->
+  <xacro:include filename="$(find youbot_description)/controller/ros_controller.urdf.xacro" />
+  
+  <!-- materials for visualization -->
+  <xacro:include filename="$(find youbot_description)/urdf/materials.urdf.xacro" />
+
+  <!-- sensors -->
+  <xacro:include filename="$(find youbot_description)/urdf/sensors/hokuyo_urg04_laser.urdf.xacro"/>
+						     
+  <!-- Now we can start using the macros xacro:included above to define the actual youbot -->
+
+  <!-- The first use of a macro.  This one was defined in base.urdf.xacro above.
+       A macro like this will expand to a set of link and joint definitions, and to additional
+       Gazebo-related extensions (sensor plugins, etc).  The macro takes an argument, name, 
+       that equals "base", and uses it to generate names for its component links and joints 
+       (e.g., base_link).  The xacro:included origin block is also an argument to the macro.  By convention, 
+       the origin block defines where the component is w.r.t its parent (in this case the parent 
+       is the world frame). For more, see http://www.ros.org/wiki/xacro -->
+
+  <!-- foot for arm-->
+  <xacro:youbot_base name="base"/>
+
+  <xacro:youbot_plate name="plate" parent="base_link">
+    <origin xyz="-0.159 0 0.046" rpy="0 0 0" />
+  </xacro:youbot_plate>
+
+  <xacro:youbot_arm name="arm" parent="base_link">
+    <origin xyz="0.143 0 0.046" rpy="0 0 0" />
+  </xacro:youbot_arm>
+
+  <xacro:youbot_gripper name="gripper" parent="arm_link_5">
+    <origin xyz="0 0 0" rpy="0 0 0" />
+  </xacro:youbot_gripper>
+
+  <!-- base laser front -->
+  <xacro:hokuyo_urg04_laser name="base_laser_front" parent="base" ros_topic="scan_front" update_rate="10" min_angle="-1.57" max_angle="1.57">
+    <origin xyz="0.3 0 -0.03" rpy="0 0 0"/>
+  </xacro:hokuyo_urg04_laser>
+
+</robot>

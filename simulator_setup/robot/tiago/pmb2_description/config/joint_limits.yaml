@@ -1,7 +1,0 @@
-joint_limits:
-  wheel_left_joint:
-    has_acceleration_limits: true
-    max_acceleration: &max_wheel_acc 10.0 # rad/s^2 (60/(2*pi) rpm)
-  wheel_right_joint:
-    has_acceleration_limits: true
-    max_acceleration: *max_wheel_acc
