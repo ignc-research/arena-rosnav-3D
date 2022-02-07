@@ -72,7 +72,7 @@ class RosnavEncoder(BaseEncoder):
     def get_observation(self, obs: np.ndarray, *args, **kwargs):
         merged_obs, obs_dict = obs
         if not self._action_in_obs:
-            merged_obs
+            return merged_obs
         else:
             return np.hstack([merged_obs, obs_dict["last_action"]])
 
