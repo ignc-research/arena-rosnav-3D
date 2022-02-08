@@ -61,8 +61,7 @@ def wait_until_finish():
     """
     
     while True:
-        d
-
+        pass
 
 def terminate_simulation():
 
