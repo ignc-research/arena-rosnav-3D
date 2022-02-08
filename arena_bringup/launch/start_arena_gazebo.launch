@@ -82,6 +82,7 @@
   <!-- Managing our Robots-->
   <include file="$(find arena_bringup)/launch/sublaunch_testing/robots.launch">
     <arg name="model" value="$(arg model)"/>
+    <arg name="real" value="$(arg real)"/>
   </include>
 
 
