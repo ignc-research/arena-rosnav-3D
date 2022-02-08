@@ -57,6 +57,7 @@ private:
     double subgoal_tolerance_;      // meter
     double subgoal_pub_period_;
     double planning_horizen_;
+    bool is_real;
 
     /* ROS utils */
     ros::NodeHandle node_;

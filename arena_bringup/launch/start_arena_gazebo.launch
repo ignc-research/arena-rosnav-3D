@@ -43,6 +43,7 @@
   <arg name="simulation_factor" default="1"/>
   <arg name="pedsim_update_rate" default="30.0"/>
   <arg name="scene_file" default="$(find simulator_setup)/scenarios/ped_scenarios/$(arg world).xml"/>
+  <arg name="real" default="false"/>
 
   <param name="additional_map" value="$(arg additional_map)"/>
   <param name="local_planner" value="$(arg local_planner)"/>
@@ -66,6 +67,8 @@
   <param name="robot_description" command="$(find xacro)/xacro $(find simulator_setup)/robot/$(arg model)/urdf/$(arg model).urdf.xacro"/>
   <param name="obs_vel" value="$(arg obs_vel)" />
   <param name="action_frequency" value="$(arg action_frequency)"/>
+  <param name="real" value="$(arg real)"/>
+
 
   <!-- Adding actors to world  -->
   <group if="$(eval arg('train_mode') == false)">
