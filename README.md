@@ -61,9 +61,9 @@ We support different robots:
 |:--:       |              :--:|             :--:|          :--:|
 | *turtlebot3_burger* | *jackal* | *ridgeback* | *agv-ota* |
 
-|<img width="250" src="/img/robots/rto.jpg">|<img width="250" src="/img/robots/tiago.jpeg">|<img width="250"  src="/img/robots/turtlebot3_waffle_pi.jpg">|<img width="250" src="/img/robots/cob4.jpg">|
+|<img width="250" src="/img/robots/rto.jpg">|<img width="250" src="/img/robots/youbot.jpg">|<img width="250"  src="/img/robots/turtlebot3_waffle_pi.jpg">|<img width="250" src="/img/robots/cob4.jpg">|
 |:--:       |              :--:|             :--:|          :--:|
-| *Robotino(rto)* | *tiago* | *turtlebot3_waffle_pi* | *Car-O-Bot4 (cob4)* |
+| *Robotino(rto)* | *youbot* | *turtlebot3_waffle_pi* | *Car-O-Bot4 (cob4)* |
 
 All robots are equipped with a laser scanner. The robots differ in size, laser-range etc. See below table for more detailed information on each robot:
 
@@ -75,7 +75,7 @@ All robots are equipped with a laser scanner. The robots differ in size, laser-r
 | *ridgeback*           | 1.1  | 0.5  | 2.0  | 0.625 | True | 10.0 | True  |
 | *agv-ota*             | 0.5  | 0.0  | 0.4  | 0.629 | True | 5.0  | False |
 | *rto*                 | 2.78  | 2.78  | 1.0 | 0.225 | False | 5.6  | True |
-| *tiago*               |  1.5 |  0.0 |  2.0 | 0.27 | False | 25.0  | False |
+| *youbot*              |  0.8 |  0.8 |  1.2 | 0.347 | False | 5.6  | True |
 | *turtlebot3_waffle_pi*| 0.26  | 0.0  | 1.82  | 0.208 | False | 3.5  | False |
 | *Car-O-Bot4 (cob4)*   |  1.1 |  0.2 | 0.8 | 0.36 | True |  29.5 | True |
 

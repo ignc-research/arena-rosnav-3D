@@ -47,16 +47,16 @@
     <origin xyz="-0.159 0 0.046" rpy="0 0 0" />
   </xacro:youbot_plate>
 
-  <xacro:youbot_arm name="arm" parent="base_link">
+  <!-- <xacro:youbot_arm name="arm" parent="base_link">
     <origin xyz="0.143 0 0.046" rpy="0 0 0" />
   </xacro:youbot_arm>
 
   <xacro:youbot_gripper name="gripper" parent="arm_link_5">
     <origin xyz="0 0 0" rpy="0 0 0" />
-  </xacro:youbot_gripper>
+  </xacro:youbot_gripper> -->
 
   <!-- base laser front -->
-  <xacro:hokuyo_urg04_laser name="base_laser_front" parent="base" ros_topic="scan_front" update_rate="10" min_angle="-1.57" max_angle="1.57">
+  <xacro:hokuyo_urg04_laser name="base_laser_front" parent="base" ros_topic="scan" update_rate="10" min_angle="-1.57079637051" max_angle="1.56466042995">
     <origin xyz="0.3 0 -0.03" rpy="0 0 0"/>
   </xacro:hokuyo_urg04_laser>
 
