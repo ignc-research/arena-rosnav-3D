@@ -2,47 +2,35 @@ MpcLocalPlannerROS:
   odom_topic:
     odom
 
-  # params are from https://github.com/ipa320/cob_navigation/tree/indigo_dev/cob_navigation_config/robots/cob4/nav/dwa_local_planner.yaml
-  # and https://www.care-o-bot.de/content/dam/careobot/de/documents/technischedaten/Care-O-bot%204_Technische_Daten.pdf
-
-  # TODO need to be tested
-
-  ## Robot settings
+    ## Robot settings
   robot:
     type: "unicycle"
     unicycle:
-      max_vel_x: 0.4
-      max_vel_x_backwards: 0.2
-      max_vel_theta: 0.3
-      acc_lim_x: 0.2 # deactive bounds with zero
-      dec_lim_x: 0.2 # deactive bounds with zero
-      acc_lim_theta: 0.2 # deactivate bounds with zero
+      max_vel_x: 1.1
+      max_vel_x_backwards: 1.1
+      max_vel_theta: 0.8
+      max_vel_y: 0.2
+      acc_lim_x: 2.5 # deactive bounds with zero
+      dec_lim_x: 2.5 # deactive bounds with zero
+      acc_lim_y: 2.5
+      acc_lim_theta: 0.8 # deactivate bounds with zero
 
   ## Footprint model for collision avoidance
   footprint_model:
-    type: "point"
-    is_footprint_dynamic: False
-
-  ## Collision avoidance
-  collision_avoidance:
-    min_obstacle_dist: 0.2 # Note, this parameter must be chosen w.r.t. the footprint_model
-    enable_dynamic_obstacles: False
-    force_inclusion_dist: 0.5
-    cutoff_dist: 2.5
-    include_costmap_obstacles: True
-    costmap_obstacles_behind_robot_dist: 1.5
+    type: "polygon"
+    vertices: [[0.4, 0.0], [0.35, 0.35], [-0.2, 0.4], [-0.45, 0.0], [-0.2, -0.4], [0.35, -0.35]]
 
   ## Planning grid
   grid:
     type: "fd_grid"
-    grid_size_ref: 20
-    dt_ref: 0.3
-    xf_fixed: [True, True, True]
+    grid_size_ref: 20 # Set horizon length here (T = (grid_size_ref-1) * dt_ref); Note, also check max_global_plan_lookahead_dist
+    dt_ref: 0.3 # and here the corresponding temporal resolution
+    xf_fixed: [False, False, False] # Unfix final state -> we use terminal cost below
     warm_start: True
     collocation_method: "forward_differences"
     cost_integration_method: "left_sum"
     variable_grid:
-      enable: True
+      enable: False # We want a fixed grid
       min_dt: 0.0;
       max_dt: 10.0;
       grid_adaptation:
@@ -54,19 +42,15 @@ MpcLocalPlannerROS:
   ## Planning options
   planning:
     objective:
-      type: "minimum_time" # minimum_time requires grid/variable_grid/enable=True and grid/xf_fixed set properly
+      type: "quadratic_form" # minimum_time requires grid/variable_grid/enable=True and grid/xf_fixed set properly
       quadratic_form:
-        state_weights: [2.0, 2.0, 2.0]
-        control_weights: [1.0, 1.0]
+        state_weights: [2.0, 2.0, 0.25]
+        control_weights: [0.1, 0.05]
         integral_form: False
-      minimum_time_via_points:
-        position_weight: 10.5
-        orientation_weight: 0.0
-        via_points_ordered: False
     terminal_cost:
-      type: "none" # can be "none"
+      type: "quadratic" # can be "none"
       quadratic:
-        final_state_weights: [2.0, 2.0, 2.0]
+        final_state_weights: [10.0, 10.0, 0.5]
     terminal_constraint:
       type: "none" # can be "none"
       l2_ball:
@@ -75,14 +59,13 @@ MpcLocalPlannerROS:
 
   ## Controller options
   controller:
-    outer_ocp_iterations: 5
+    outer_ocp_iterations: 1
     xy_goal_tolerance: 0.2
     yaw_goal_tolerance: 0.1
     global_plan_overwrite_orientation: true
     global_plan_prune_distance: 1.0
     allow_init_with_backward_motion: True
-    max_global_plan_lookahead_dist: 1.5
-    global_plan_viapoint_sep: 5.5
+    max_global_plan_lookahead_dist: 1.0 # Check horizon length
     force_reinit_new_goal_dist: 1.0
     force_reinit_new_goal_angular: 1.57
     force_reinit_num_steps: 0

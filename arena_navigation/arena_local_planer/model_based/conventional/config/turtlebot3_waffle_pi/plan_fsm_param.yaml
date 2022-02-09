@@ -14,12 +14,12 @@ planning_time_horizon: &planning_time_horizon 3.0       # sec look ahead time
 planning_horizen: &planning_horizen 1.0                # m   look ahead distance
 sensor_range: &sensor_range 3.5                         # m   laser sensor range
 
-max_vel: &max_vel 0.26                                 # m/s   robot max vel
+max_vel: &max_vel 0.28                                 # m/s   robot max vel
 max_acc: &max_acc 2.5                                   # m/s^2 srobot max acc
 max_jerk: &max_jerk 4.0                                 # m/s^3 robot max jerk
 
 avg_vel: &avg_vel 0.15                                   # m/s for timed_astar action set
-min_vel: &min_vel -0.26                                 # m/s for timed_astar action set
+min_vel: &min_vel -0.28                                 # m/s for timed_astar action set
 
 
 robot_radius: &robot_radius 0.208                         # m

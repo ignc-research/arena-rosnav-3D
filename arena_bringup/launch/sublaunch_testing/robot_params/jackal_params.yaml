@@ -5,6 +5,6 @@ laser_update_rate: 10
 # the following 4 params are from the .gazebo.axro model
 laser_min: -2.35619 # angel
 laser_max: 2.35619 # angel
-laser_increment: 0.01
+laser_increment: 0.00654497222
 laser_range: 30.0
 laser_beams: 720  # this param is from the <samples>720</samples> from the .urdf.axro model

@@ -1,14 +1,14 @@
 DWAPlannerROS:
   # Robot Configuration Parameters
   # params are from https://github.com/ROBOTIS-GIT/turtlebot3/blob/master/turtlebot3_navigation/param/dwa_local_planner_params_waffle_pi.yaml
-  max_vel_x: 0.26
-  min_vel_x: -0.26
+  max_vel_x: 0.28
+  min_vel_x: -0.28
 
   max_vel_y: 0.0
   min_vel_y: 0.0
 
   # The velocity when robot is moving in a straight line
-  max_vel_trans: 0.26
+  max_vel_trans: 0.28
   min_vel_trans: 0.13
 
   max_vel_theta: 1.82
