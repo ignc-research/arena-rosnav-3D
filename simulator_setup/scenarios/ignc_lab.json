@@ -1,0 +1,46 @@
+{
+  "pedsim_agents": [
+    {
+      "name": "1",
+      "id": 0,
+      "pos": [1.0, 1.0],
+      "type": "adult",
+      "yaml_file": "/home/reyk/Schreibtisch/Uni/VIS/arena-rosnav-3d/src/arena-rosnav-3D/simulator_setup/dynamic_obstacles/person_two_legged.model.yaml",
+      "number_of_peds": 1,
+      "vmax": 0.2,
+      "start_up_mode": "default",
+      "wait_time": 0.0,
+      "trigger_zone_radius": 0.0,
+      "chatting_probability": 0.0,
+      "tell_story_probability": 0.0,
+      "group_talking_probability": 0.0,
+      "talking_and_walking_probability": 0.0,
+      "requesting_service_probability": 0.0,
+      "requesting_guide_probability": 0.0,
+      "requesting_follower_probability": 0.0,
+      "max_talking_distance": 5,
+      "max_servicing_radius": 5,
+      "talking_base_time": 10,
+      "tell_story_base_time": 0.0,
+      "group_talking_base_time": 10,
+      "talking_and_walking_base_time": 6,
+      "receiving_service_base_time": 20,
+      "requesting_service_base_time": 30,
+      "force_factor_desired": 1,
+      "force_factor_obstacle": 1,
+      "force_factor_social": 5,
+      "force_factor_robot": 0,
+      "waypoints": [
+        [1.0, 1.0],
+        [2.0, 2.0]
+      ],
+      "waypoint_mode": 0
+    }
+  ],
+  "static_obstacles": [],
+  "robot_position": [0.0, 0.0],
+  "robot_goal": [0.0, -3.0],
+  "resets": 0,
+  "map_path": "/home/reyk/Schreibtisch/Uni/VIS/arena-rosnav-3d/src/arena-rosnav-3D/simulator_setup/maps/small_warehouse/map.yaml",
+  "format": "arena-tools"
+}

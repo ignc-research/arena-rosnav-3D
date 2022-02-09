@@ -1,5 +1,6 @@
 from os import path
 
+from rl_agent.encoder.factory import EncoderFactory
 from rl_agent.encoder import BaseEncoder
 
 """
@@ -46,6 +47,14 @@ class Encoder(BaseEncoder):
         x_vel, ang_vel = action
         return [x_vel, 0, ang_vel]
 
+class HolonomicEncoder(Encoder):
+    def get_action(action):
+        assert (
+            len(action) == 3
+        ), f"Expected an action of size 3 but received: {action}"
+
+        return action
+
 
 """
     Jackal
@@ -54,7 +63,7 @@ class Encoder(BaseEncoder):
     action: [x_vel, ang_vel]
 """
 
-
+@EncoderFactory.register("navrep", "rosnav", "jackal")
 class JackalEncoder(Encoder):
     pass
 
@@ -67,6 +76,7 @@ class JackalEncoder(Encoder):
 """
 
 
+@EncoderFactory.register("navrep", "rosnav", "turtlebot3_burger")
 class TurtleBot3Encoder(Encoder):
     pass
 
@@ -79,6 +89,7 @@ class TurtleBot3Encoder(Encoder):
 """
 
 
+@EncoderFactory.register("navrep", "rosnav", "agv-ota")
 class AgvEncoder(Encoder):
     pass
 
@@ -91,10 +102,11 @@ class AgvEncoder(Encoder):
 """
 
 
-class RidgebackEncoder(Encoder):
-    def get_action(action):
-        assert (
-            len(action) == 3
-        ), f"Expected an action of size 3 but received: {action}"
+@EncoderFactory.register("navrep", "rosnav", "ridgeback")
+class RidgebackEncoder(HolonomicEncoder):
+    pass
 
-        return action
+
+@EncoderFactory.register("navrep", "rosnav", "rto")
+class RtoEncoder(HolonomicEncoder):
+    pass

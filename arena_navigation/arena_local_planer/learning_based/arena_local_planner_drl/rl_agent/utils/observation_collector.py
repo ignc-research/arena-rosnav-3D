@@ -295,26 +295,27 @@ class ObservationCollector:
 
     def callback_odom_scan(self, scan, odom):
         self._scan = self.process_scan_msg(scan)
-        # odom
-        self._robot_pose, self._robot_vel = self.process_robot_state_msg(odom)
-
-        # map -> base_footprint tf = robot pose
-        # try:
-        #     tf = self.tfBuffer.lookup_transform(
-        #         "map", "base_footprint", rospy.Time()
-        #     )
-        # except (
-        #     tf2_ros.LookupException,
-        #     tf2_ros.ConnectivityException,
-        #     tf2_ros.ExtrapolationException,
-        # ):
-        #     # self.rate.sleep()
-        #     print("No map to base_footprint transform!")
-        #     return
-
-        # self._robot_pose, self._robot_vel = self.process_robot_state_tf(
-        #     tf, odom
-        # )
+        
+        if rospy.get_param("/real", default=False):
+            # map -> base_footprint tf = robot pose
+            try:
+                tf = self.tfBuffer.lookup_transform(
+                    "map", "base_footprint", rospy.Time()
+                )
+            except (
+                tf2_ros.LookupException,
+                tf2_ros.ConnectivityException,
+                tf2_ros.ExtrapolationException,
+            ):
+                # self.rate.sleep()
+                print("No map to base_footprint transform!")
+                return
+            self._robot_pose, self._robot_vel = self.process_robot_state_tf(
+                tf, odom
+            )
+        else:
+            # odom
+            self._robot_pose, self._robot_vel = self.process_robot_state_msg(odom)        
 
     def callback_clock(self, msg_Clock):
         self._clock = msg_Clock.clock.to_sec()
@@ -333,6 +334,7 @@ class ObservationCollector:
     def callback_scan(self, msg_laserscan):
         if len(self._laser_deque) == self.max_deque_size:
             self._laser_deque.popleft()
+        print(len(msg_laserscan))
         self._laser_deque.append(msg_laserscan)
 
     def callback_robot_state(self, msg_robotstate):
@@ -363,6 +365,7 @@ class ObservationCollector:
     def process_robot_state_msg(self, msg_Odometry):
         pose3d = msg_Odometry.pose.pose
         twist = msg_Odometry.twist.twist
+
         return self.pose3D_to_pose2D(pose3d), twist
 
     def process_pose_msg(self, msg_PoseWithCovarianceStamped):

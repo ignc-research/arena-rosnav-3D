@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launch>
   <arg name="train_mode" default="false"/>
-  <arg name="local_planner" default="dwa"         doc = "local_planner type [teb, dwa, mpc, rlca, cadrl, arena, rosnav]"/>
+  <arg name="local_planner" default="rosnav"         doc = "local_planner type [teb, dwa, mpc, rlca, cadrl, arena, rosnav]"/>
   <arg name="rviz_file" default="nav_LP"/>
   <arg name="disable_scenario" default="false"/>
   <arg name="reset" default="true"/>
@@ -43,6 +43,7 @@
   <arg name="simulation_factor" default="1"/>
   <arg name="pedsim_update_rate" default="30.0"/>
   <arg name="scene_file" default="$(find simulator_setup)/scenarios/ped_scenarios/$(arg world).xml"/>
+  <arg name="real" default="false"/>
 
   <param name="additional_map" value="$(arg additional_map)"/>
   <param name="local_planner" value="$(arg local_planner)"/>
@@ -66,6 +67,8 @@
   <param name="robot_description" command="$(find xacro)/xacro $(find simulator_setup)/robot/$(arg model)/urdf/$(arg model).urdf.xacro"/>
   <param name="obs_vel" value="$(arg obs_vel)" />
   <param name="action_frequency" value="$(arg action_frequency)"/>
+  <param name="real" value="$(arg real)"/>
+
 
   <!-- Adding actors to world  -->
   <group if="$(eval arg('train_mode') == false)">
@@ -79,6 +82,7 @@
   <!-- Managing our Robots-->
   <include file="$(find arena_bringup)/launch/sublaunch_testing/robots.launch">
     <arg name="model" value="$(arg model)"/>
+    <arg name="real" value="$(arg real)"/>
   </include>
 
 
@@ -164,7 +168,8 @@
     <node name="pedsim_visualizer" type="pedsim_visualizer_node" pkg="pedsim_visualizer" output="screen" if="$(arg enable_pedvis)"/>
   </group>
 
-
   <!-- start_rviz -->
   <node name="gazebo_rviz" pkg="rviz" type="rviz" args="-d $(find arena_bringup)/rviz/$(arg rviz_file).rviz" if="$(arg use_rviz)"/>
+
+  <node name='mass_launch' pkg='mass_launch' type='listener_node.py'/>
 </launch>

@@ -4,13 +4,14 @@ Panels:
     Name: Displays
     Property Tree Widget:
       Expanded:
+        - /Map1
         - /obstacles1
         - /Plan Manager1/subgoal1
         - /Tracking-Visuals1/TrackedPersons1
         - /Tracking-Visuals1/TrackedPersons1/History as line1
         - /Tracking-Visuals1/TrackedGroups1
       Splitter Ratio: 0.4374079406261444
-    Tree Height: 928
+    Tree Height: 781
   - Class: rviz/Selection
     Name: Selection
   - Class: rviz/Tool Properties
@@ -41,7 +42,8 @@ Visualization Manager:
       Enabled: true
       Marker Topic: /visualizer/path
       Name: Path_Marker
-      Namespaces: {}
+      Namespaces:
+        {}
       Queue Size: 100
       Value: true
     - Class: rviz/Group
@@ -51,9 +53,51 @@ Visualization Manager:
           Frame Timeout: 15
           Frames:
             All Enabled: false
+            arm_link_0:
+              Value: true
+            arm_link_1:
+              Value: true
+            arm_link_2:
+              Value: true
+            arm_link_3:
+              Value: true
+            arm_link_4:
+              Value: true
+            arm_link_5:
+              Value: true
+            base_footprint:
+              Value: true
+            base_laser_front_link:
+              Value: true
+            base_link:
+              Value: true
+            caster_link_bl:
+              Value: true
+            caster_link_br:
+              Value: true
+            caster_link_fl:
+              Value: true
+            caster_link_fr:
+              Value: true
+            gripper_finger_link_l:
+              Value: true
+            gripper_finger_link_r:
+              Value: true
+            gripper_palm_link:
+              Value: true
             map:
               Value: true
             odom:
+              Value: true
+            plate_link:
+              Value: true
+            wheel_link_bl:
+              Value: true
+            wheel_link_br:
+              Value: true
+            wheel_link_fl:
+              Value: true
+            wheel_link_fr:
               Value: true
           Marker Alpha: 1
           Marker Scale: 1
@@ -66,11 +110,33 @@ Visualization Manager:
               odom:
                 base_footprint:
                   base_link:
-                    base_scan: {}
-                    caster_back_link: {}
-                    imu_link: {}
-                    wheel_left_link: {}
-                    wheel_right_link: {}
+                    arm_link_0:
+                      arm_link_1:
+                        arm_link_2:
+                          arm_link_3:
+                            arm_link_4:
+                              arm_link_5:
+                                gripper_palm_link:
+                                  gripper_finger_link_l:
+                                    {}
+                                  gripper_finger_link_r:
+                                    {}
+                    base_laser_front_link:
+                      {}
+                    caster_link_bl:
+                      wheel_link_bl:
+                        {}
+                    caster_link_br:
+                      wheel_link_br:
+                        {}
+                    caster_link_fl:
+                      wheel_link_fl:
+                        {}
+                    caster_link_fr:
+                      wheel_link_fr:
+                        {}
+                    plate_link:
+                      {}
           Update Interval: 0
           Value: true
         - Alpha: 1
@@ -83,35 +149,102 @@ Visualization Manager:
             Expand Link Details: false
             Expand Tree: false
             Link Tree Style: Links in Alphabetic Order
+            arm_link_0:
+              Alpha: 1
+              Show Axes: false
+              Show Trail: false
+              Value: true
+            arm_link_1:
+              Alpha: 1
+              Show Axes: false
+              Show Trail: false
+              Value: true
+            arm_link_2:
+              Alpha: 1
+              Show Axes: false
+              Show Trail: false
+              Value: true
+            arm_link_3:
+              Alpha: 1
+              Show Axes: false
+              Show Trail: false
+              Value: true
+            arm_link_4:
+              Alpha: 1
+              Show Axes: false
+              Show Trail: false
+              Value: true
+            arm_link_5:
+              Alpha: 1
+              Show Axes: false
+              Show Trail: false
+              Value: true
             base_footprint:
               Alpha: 1
               Show Axes: false
               Show Trail: false
+            base_laser_front_link:
+              Alpha: 1
+              Show Axes: false
+              Show Trail: false
+              Value: true
             base_link:
               Alpha: 1
               Show Axes: false
               Show Trail: false
               Value: true
-            base_scan:
+            caster_link_bl:
+              Alpha: 1
+              Show Axes: false
+              Show Trail: false
+            caster_link_br:
+              Alpha: 1
+              Show Axes: false
+              Show Trail: false
+            caster_link_fl:
+              Alpha: 1
+              Show Axes: false
+              Show Trail: false
+            caster_link_fr:
+              Alpha: 1
+              Show Axes: false
+              Show Trail: false
+            gripper_finger_link_l:
               Alpha: 1
               Show Axes: false
               Show Trail: false
               Value: true
-            caster_back_link:
+            gripper_finger_link_r:
               Alpha: 1
               Show Axes: false
               Show Trail: false
               Value: true
-            imu_link:
-              Alpha: 1
-              Show Axes: false
-              Show Trail: false
-            wheel_left_link:
+            gripper_palm_link:
               Alpha: 1
               Show Axes: false
               Show Trail: false
               Value: true
-            wheel_right_link:
+            plate_link:
+              Alpha: 1
+              Show Axes: false
+              Show Trail: false
+              Value: true
+            wheel_link_bl:
+              Alpha: 1
+              Show Axes: false
+              Show Trail: false
+              Value: true
+            wheel_link_br:
+              Alpha: 1
+              Show Axes: false
+              Show Trail: false
+              Value: true
+            wheel_link_fl:
+              Alpha: 1
+              Show Axes: false
+              Show Trail: false
+              Value: true
+            wheel_link_fr:
               Alpha: 1
               Show Axes: false
               Show Trail: false
@@ -146,14 +279,16 @@ Visualization Manager:
           Enabled: true
           Marker Topic: /cadrl/goal_path_marker
           Name: Marker
-          Namespaces: {}
+          Namespaces:
+            {}
           Queue Size: 100
           Value: true
         - Class: rviz/MarkerArray
           Enabled: true
           Marker Topic: /cadrl/other_agents_markers
           Name: MarkerArray
-          Namespaces: {}
+          Namespaces:
+            {}
           Queue Size: 100
           Value: true
       Enabled: false
@@ -174,22 +309,22 @@ Visualization Manager:
           Class: rviz/Map
           Color Scheme: map
           Draw Behind: false
-          Enabled: false
+          Enabled: true
           Name: Global_costmap
           Topic: /move_base/global_costmap/costmap
           Unreliable: false
           Use Timestamp: false
-          Value: false
+          Value: true
         - Alpha: 0.699999988079071
           Class: rviz/Map
           Color Scheme: costmap
           Draw Behind: false
-          Enabled: false
+          Enabled: true
           Name: Local_costmap
           Topic: /move_base/local_costmap/costmap
           Unreliable: false
           Use Timestamp: false
-          Value: false
+          Value: true
       Enabled: true
       Name: Map
     - Class: rviz/Group
@@ -380,7 +515,8 @@ Visualization Manager:
       Enabled: true
       Marker Topic: /action
       Name: Marker
-      Namespaces: {}
+      Namespaces:
+        {}
       Queue Size: 100
       Value: true
     - Class: rviz/Group
@@ -393,14 +529,16 @@ Visualization Manager:
           Enabled: true
           Marker Topic: /cadrl/goal_path_marker
           Name: Marker
-          Namespaces: {}
+          Namespaces:
+            {}
           Queue Size: 100
           Value: true
         - Class: rviz/MarkerArray
           Enabled: true
           Marker Topic: /other_agents_markers
           Name: MarkerArray
-          Namespaces: {}
+          Namespaces:
+            {}
           Queue Size: 100
           Value: true
       Enabled: true
@@ -459,28 +597,32 @@ Visualization Manager:
           Enabled: true
           Marker Topic: /vis_goal
           Name: goal
-          Namespaces: {}
+          Namespaces:
+            {}
           Queue Size: 100
           Value: true
         - Class: rviz/Marker
           Enabled: true
           Marker Topic: /planning_vis/subgoal
           Name: subgoal
-          Namespaces: {}
+          Namespaces:
+            {}
           Queue Size: 100
           Value: true
         - Class: rviz/Marker
           Enabled: true
           Marker Topic: /vis_landmarks_
           Name: landmarks
-          Namespaces: {}
+          Namespaces:
+            {}
           Queue Size: 100
           Value: true
         - Class: rviz/Marker
           Enabled: true
           Marker Topic: /vis_triangle
           Name: triangulation_map
-          Namespaces: {}
+          Namespaces:
+            {}
           Queue Size: 100
           Value: true
         - Alpha: 1
@@ -645,14 +787,16 @@ Visualization Manager:
       Enabled: true
       Marker Topic: /time_space/vis_visted_samples
       Name: samples
-      Namespaces: {}
+      Namespaces:
+        {}
       Queue Size: 1
       Value: true
     - Class: rviz/Marker
       Enabled: true
       Marker Topic: /planning_vis/goal
       Name: Marker
-      Namespaces: {}
+      Namespaces:
+        {}
       Queue Size: 100
       Value: true
     - Alpha: 1
@@ -683,7 +827,8 @@ Visualization Manager:
       Enabled: true
       Marker Topic: /planning_vis/subgoal
       Name: Marker
-      Namespaces: {}
+      Namespaces:
+        {}
       Queue Size: 100
       Value: true
     - Alpha: 1

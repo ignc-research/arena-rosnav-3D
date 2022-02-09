@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>mass_launch</name>
+  <version>0.0.0</version>
+  <description>The mass_launch package</description>
+  <maintainer email="elias@open.open"></maintainer>
+  <license>open</license>
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <export>
+  </export>
+</package>
