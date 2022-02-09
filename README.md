@@ -82,7 +82,7 @@ All robots are equipped with a laser scanner. The robots differ in size, laser-r
 For additional / more detailed information about each robot:
 
 + [See the parameters needed for the **Navigation stack**](arena_navigation/arena_local_planer/model_based/conventional/config)
-+ [See additional robot parameters like laser min/max [_rad_]](arena_bringup/launch/sublaunch_testing/robot_params)
++ [See additional robot parameters like laser min/max [_rad_]](wiki/Laser-scanner-parameters)
 + See [_HERE_](arena_navigation/arena_local_planer/learning_based/arena_local_planner_drl/configs) for the definition of the robots action_spaces (needed for rl-based-training)
 
 > ___NOTE___: The _emergency-stop_ capability is currently still being development, it will however be available on all robots.
