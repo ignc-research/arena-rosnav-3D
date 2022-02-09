@@ -51,7 +51,6 @@
 
   <export>
     <gazebo_ros plugin_path="${prefix}/worlds/aws_house/lib" gazebo_media_path="${prefix}/worlds/aws_house" gazebo_model_path="${prefix}/worlds/aws_house/models"/>
-    <gazebo_ros plugin_path="${prefix}/worlds/ignc/lib" gazebo_media_path="${prefix}/worlds/ignc" gazebo_model_path="${prefix}/worlds/ignc/models"/>
     <gazebo_ros plugin_path="${prefix}/worlds/turtlebot3_house/lib" gazebo_media_path="${prefix}/worlds/turtlebot3_house" gazebo_model_path="${prefix}/worlds/turtlebot3_house/models"/>
     <gazebo_ros plugin_path="${prefix}/worlds/small_warehouse/lib" gazebo_media_path="${prefix}/worlds/small_warehouse" gazebo_model_path="${prefix}/worlds/small_warehouse/models"/>
     <gazebo_ros plugin_path="${prefix}/worlds/factory/lib" gazebo_media_path="${prefix}/worlds/factory" gazebo_model_path="${prefix}/worlds/factory/models"/>
