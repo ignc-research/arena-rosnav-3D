@@ -53,7 +53,7 @@ class DeploymentDRLAgent(BaseDRLAgent):
                 Defaults to DEFAULT_ACTION_SPACE.
         """
         
-        self._is_train_mode = rospy.get_param("/train_mode")
+        self._is_train_mode = rospy.get_param("/train_mode", default=False)
         if not self._is_train_mode:
             rospy.init_node("DRL_local_planner", anonymous=True)
 
@@ -81,7 +81,7 @@ class DeploymentDRLAgent(BaseDRLAgent):
         self._setup_agent()
 
         # time period for a valid action
-        self._action_period = rospy.get_param("/action_frequency", default=10)
+        self._action_period = rospy.get_param("/action_frequency", default=5)
         self._last_action = np.array([0, 0, 0])
 
         self.STAND_STILL_ACTION = np.array([0, 0, 0])
