@@ -6,8 +6,8 @@ MpcLocalPlannerROS:
   robot:
     type: "unicycle"
     unicycle:
-      max_vel_x: 0.4
-      max_vel_x_backwards: 0.2
+      max_vel_x: 0.22
+      max_vel_x_backwards: 0.22
       max_vel_theta: 0.3
       acc_lim_x: 0.2 # deactive bounds with zero
       dec_lim_x: 0.2 # deactive bounds with zero
