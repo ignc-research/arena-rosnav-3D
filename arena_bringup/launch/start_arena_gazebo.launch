@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launch>
   <arg name="train_mode" default="false"/>
-  <arg name="local_planner" default="rosnav"         doc = "local_planner type [teb, dwa, mpc, rlca, cadrl, arena, rosnav]"/>
+  <arg name="local_planner" default="dwa"         doc = "local_planner type [teb, dwa, mpc, rlca, cadrl, arena, rosnav]"/>
   <arg name="rviz_file" default="nav_LP"/>
   <arg name="disable_scenario" default="false"/>
   <arg name="reset" default="true"/>
@@ -12,7 +12,7 @@
   <arg name="trainings_environment" default="rosnav" doc="Determines the environment in which the network is trained. How to load the network mostly differs for different environments. Currently rosnav and navrep are supported" />
   <arg name="world" default="small_warehouse" doc ="world type [turtlebot3_house, small_warehouse, aws_house, outside, ignc_lab]" unless="$(arg outside)"/>
   <arg name="world" default="outside" if = "$(arg outside)"/>
-  <arg name="model" default="turtlebot3_burger"      doc = "model type [turtlebot3_burger, jackal, ridgeback, agv-ota, rto, tiago, turtlebot3_waffle_pi]"/>
+  <arg name="model" default="jackal"      doc = "model type [turtlebot3_burger, jackal, ridgeback, agv-ota, rto, tiago, turtlebot3_waffle_pi]"/>
   <arg name="agent_name" default="$(arg model)"     doc = "DRL agent name to be deployed" unless="$(eval arg('local_planner') != 'rosnav')"/>
   <arg name="scenario_file" default="$(arg world).json"/>
   <arg name="num_static_obs" default="3"/>

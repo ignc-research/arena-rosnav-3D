@@ -115,7 +115,50 @@ roslaunch arena_bringup start_arena_gazebo.launch model:=ridgeback
 ---
 
 # Navigation
-To use the local planer `cadrl` refer to the documentation [here](/docs/Installation.md#cadrl)
+Arena-rosnav-3d supports different local planner and task-modes. Select your planner to move to the respective documentation.
+
+- [teb](#local-planner-teb-dwa-mpc-rlca)
+- [dwa](#local-planner-teb-dwa-mpc-rlca)
+- [mpc](#local-planner-teb-dwa-mpc-rlca)
+- [rlca](#local-planner-teb-dwa-mpc-rlca)
+- [cadrl](#local-planner-cadrl)
+- [drl](#local-planner-drl)
+- [navrep]()
+- [gring]()
+
+Take note of the different task modes, which define how the start and goal position of the robot, as well as the trajectories of the obstacles will be set. Here we support the task modes:
+
+- **random**: Here the start and goal position of the robot and the trajectories of the dynamic obstacles is determined randomly by arena-rosnavs *task-generator* node.
+    ```bash
+    roslaunch arena_bringup start_arena_gazebo.launch task_mode:=random
+    ```
+
+- **scenario**: Here start and goal position of the robot, as well as the trajectory of dynamic obstacles are predefined in scenario files, which need to be selected at start up. You can define you own scenarios using the [arena-tools](https://github.com/ignc-research/arena-tools) repository. Here to start the scenario mode:
+    ```bash
+    roslaunch arena_bringup start_arena_gazebo.launch task_mode:=scenario scenario_file:=small_warehouse_obs05.json
+    ```
+- **manual**: Here you can set the start and goal position of the robot manually, using rviz `Goal Pose` button. Dynamic obstacles are not spawned.
+    ```bash
+    roslaunch arena_bringup start_arena_gazebo.launch task_mode:=manual
+    ```
+
+## Local-planner: teb, dwa, mpc, rlca
+You can start these planners by setting the `local_planner` parameter in the launch file. As example, here how to start *teb*:
+
+```bash
+roslaunch arena_bringup start_arena_gazebo.launch local_planner:=teb
+```
+> **NOTE**: The planer *rlca* is currently only available for the robots: *turtlebot3_burger*, *turtlebot3_waffle_pi*
+
+## Local-planner: cadrl
+When first using the `cadrl`, refer to the documentation [here](/docs/Installation.md#cadrl) since you will need to create a different virtual environment.
+
+To start the *cadrl* planner run:
+```bash
+workon cadrl
+roslaunch arena_bringup start_arena_gazebo.launch local_planner:=cadrl
+```
+## Local-planner: drl
 
 The rosnav planner hereby is our DRL agent. To extend the training and depoyment package(s) please refer to the [DRL_Pipeline.md](/docs/Miscellaneous.md#How-to-include-further-scenarios).
 
