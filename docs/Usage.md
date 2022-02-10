@@ -117,12 +117,12 @@ roslaunch arena_bringup start_arena_gazebo.launch model:=ridgeback
 # Navigation
 Arena-rosnav-3d supports different local planner and task-modes. Select your planner to move to the respective documentation.
 
-- [teb]()
-- [dwa]()
-- [mpc]()
-- [rlca]()
-- [cadrl]()
-- [drl]()
+- [teb](#local-planner-teb-dwa-mpc-rlca)
+- [dwa](#local-planner-teb-dwa-mpc-rlca)
+- [mpc](#local-planner-teb-dwa-mpc-rlca)
+- [rlca](#local-planner-teb-dwa-mpc-rlca)
+- [cadrl](#local-planner-cadrl)
+- [drl](#local-planner-drl)
 - [navrep]()
 - [gring]()
 
@@ -133,7 +133,7 @@ Take note of the different task modes, which define how the start and goal posit
     roslaunch arena_bringup start_arena_gazebo.launch task_mode:=random
     ```
 
-- **scenario**: Here start and goal position of the robot, as well as the trajecotry of dynamic obastacles are predefined in scenario files, which need to be selected at start up. You can define you own scenarios using the [arena-tools](https://github.com/ignc-research/arena-tools) repository. Here to start the scenario mode:
+- **scenario**: Here start and goal position of the robot, as well as the trajectory of dynamic obstacles are predefined in scenario files, which need to be selected at start up. You can define you own scenarios using the [arena-tools](https://github.com/ignc-research/arena-tools) repository. Here to start the scenario mode:
     ```bash
     roslaunch arena_bringup start_arena_gazebo.launch task_mode:=scenario scenario_file:=small_warehouse_obs05.json
     ```
