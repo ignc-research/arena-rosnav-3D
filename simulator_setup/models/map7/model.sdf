@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='ASCII'?>
+<sdf version="1.6">
+  <model name="map7">
+    <static>true</static>
+    <link name="body">
+      <visual name="visual">
+        <pose frame="">0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://map7/meshes/map7.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <collision name="collision1">
+        <geometry>
+          <mesh>
+            <uri>model://map7/meshes/map7.dae</uri>
+          </mesh>
+        </geometry>
+      </collision>
+    </link>
+  </model>
+</sdf>

@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+<sdf version="1.4">
+<world name="default">
+<include>
+<uri>model://sun</uri>
+</include>
+<scene>
+<ambient>0.0 0.0 0.0 1.0</ambient>
+<shadows>0</shadows>
+</scene>
+<model name="my_mesh">
+<static>true</static><link name="body"><visual name="visual">
+<pose frame=''>0 0 0 0 0 0</pose>
+<geometry>
+<mesh><uri>file:///home/elias/catkin_ws/src/arena-rosnav-3D/simulator_setup/worlds/map2/worlds/map2.dae</uri></mesh>
+</geometry>
+</visual><collision name="collision1">
+<geometry>
+<mesh><uri>file:///home/elias/catkin_ws/src/arena-rosnav-3D/simulator_setup/worlds/map2/worlds/map2.dae</uri></mesh>
+</geometry>
+</collision></link>
+</model>
+</world>
+</sdf>
