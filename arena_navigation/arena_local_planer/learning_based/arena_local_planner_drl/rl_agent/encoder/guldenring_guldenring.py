@@ -63,6 +63,15 @@ class GuldenringEncoder(BaseEncoder):
         return [x_vel, 0, ang_vel]
 
 
+class HolonomicRobotEncoder(GuldenringEncoder):
+    def get_action(action):
+        assert (
+            len(action) == 3
+        ), f"Expected an action of size 3 but received: {action}"
+
+        return action
+
+
 """
     Jackal
     N: 720 
@@ -87,7 +96,7 @@ class JackalGuldenringEncoder(GuldenringEncoder):
 """
 
 @EncoderFactory.register("guldenring", "guldenring", "turtlebot3_burger")
-class TurtleBot3GuldenringEncoder(GuldenringEncoder):
+class TurtleBot3BurgerGuldenringEncoder(GuldenringEncoder):
     pass
 
 
@@ -123,10 +132,17 @@ class AgvGuldenringEncoder(GuldenringEncoder):
 
 
 @EncoderFactory.register("guldenring", "guldenring", "ridgeback")
-class RidgebackGuldenringEncoder(GuldenringEncoder):
-    def get_action(action):
-        assert (
-            len(action) == 3
-        ), f"Expected an action of size 3 but received: {action}"
+class RidgebackGuldenringEncoder(HolonomicRobotEncoder):
+    pass
 
-        return action
+
+# Robots for which models need to be trained
+class Cob4Encoder(HolonomicRobotEncoder):
+    pass
+
+class Youbot(HolonomicRobotEncoder):
+    pass
+
+class TurtleBot3WaffleGuldenringEncoder(GuldenringEncoder):
+    pass
+

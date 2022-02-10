@@ -112,7 +112,18 @@ class JackalEncoder(RosnavEncoder):
 
 
 @EncoderFactory.register("rosnav", "rosnav", "turtlebot3_burger")
-class TurtleBot3Encoder(RosnavEncoder):
+class TurtleBot3BurgerEncoder(RosnavEncoder):
+    """
+    Turtlebot3
+    N: 360
+    offset: 0
+    action: [x_vel, ang_vel]
+    """
+
+    pass
+
+@EncoderFactory.register("rosnav", "rosnav", "turtlebot3_burger_pi")
+class TurtleBot3WafflePiEncoder(RosnavEncoder):
     """
     Turtlebot3
     N: 360
@@ -146,6 +157,9 @@ class TiagoEncoder(RosnavEncoder):
 
     pass
 
+"""
+    HOLONOMIC ROBOTS
+"""
 
 @EncoderFactory.register("rosnav", "rosnav", "rto")
 class RtoEncoder(RosnavHolonomicEncoder):
@@ -180,4 +194,14 @@ class RidgebackEncoder(RosnavHolonomicEncoder):
     action: [x_vel, y_vel, ang_vel]
     """
 
+    pass
+
+@EncoderFactory.register("rosnav", "rosnav", "youbot")
+class YoubotEncoder(RosnavHolonomicEncoder):
+    """
+    Youbot
+    N: 512
+    offset: -pi / 2
+    action: [x_vel, y_vel, ang_vel]
+    """
     pass
