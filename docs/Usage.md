@@ -191,7 +191,7 @@ roslaunch arena_bringup start_arena_gazebo.launch world:=turtlebot3_house model:
 
 Whereas the arguments _trainings_environment_ and _network_type_ can be omited for this use case, cause they are set by default.
 
-## Models from different trainings environments
+## Models from different training environments
 
 Since _Navrep_ and _Guldenring_ are using a different Python version it is required to start the DRL Node seperately when using models trained in one of these environments.
 
