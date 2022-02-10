@@ -18,14 +18,14 @@
                     <pose frame=''>0 0 -1 0 0 0</pose>
                     <geometry>
                         <mesh>
-                            <uri>file:///home/elias/catkin_ws/src/arena-rosnav-3D/simulator_setup/worlds/map5/worlds/map5.dae</uri>
+                            <uri>//map5.dae</uri>
                         </mesh>
                     </geometry>
                 </visual>
                 <collision name="collision1">
                     <geometry>
                         <mesh>
-                            <uri>file:///home/elias/catkin_ws/src/arena-rosnav-3D/simulator_setup/worlds/map5/worlds/map5.dae</uri>
+                            <uri>//map5.dae</uri>
                         </mesh>
                     </geometry>
                 </collision>
