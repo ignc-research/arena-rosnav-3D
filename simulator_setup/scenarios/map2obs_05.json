@@ -4,8 +4,8 @@
             "name": "1",
             "id": 0,
             "pos": [
-                2.57,
-                10.24
+                1.85,
+                10.97
             ],
             "type": "adult",
             "yaml_file": "/home/elias/catkin_ws/src/arena-rosnav-3D/simulator_setup/dynamic_obstacles/person_two_legged.model.yaml",
@@ -35,16 +35,12 @@
             "force_factor_robot": 0.0,
             "waypoints": [
                 [
-                    2.23,
-                    10.06
+                    12.76,
+                    3.05
                 ],
                 [
-                    9.25,
-                    10.45
-                ],
-                [
-                    2.28,
-                    9.96
+                    1.71,
+                    11.16
                 ]
             ],
             "waypoint_mode": 0
@@ -53,8 +49,8 @@
             "name": "2",
             "id": 0,
             "pos": [
-                9.2,
-                7.66
+                13.44,
+                17.92
             ],
             "type": "adult",
             "yaml_file": "/home/elias/catkin_ws/src/arena-rosnav-3D/simulator_setup/dynamic_obstacles/person_two_legged.model.yaml",
@@ -84,12 +80,12 @@
             "force_factor_robot": 0.0,
             "waypoints": [
                 [
-                    9.2,
-                    12.58
+                    21.11,
+                    12.47
                 ],
                 [
-                    9.06,
-                    7.53
+                    12.84,
+                    18.11
                 ]
             ],
             "waypoint_mode": 0
@@ -98,8 +94,8 @@
             "name": "3",
             "id": 0,
             "pos": [
-                15.5,
-                14.19
+                1.93,
+                6.64
             ],
             "type": "adult",
             "yaml_file": "/home/elias/catkin_ws/src/arena-rosnav-3D/simulator_setup/dynamic_obstacles/person_two_legged.model.yaml",
@@ -129,12 +125,12 @@
             "force_factor_robot": 0.0,
             "waypoints": [
                 [
-                    23.4,
-                    14.06
+                    10.14,
+                    1.81
                 ],
                 [
-                    15.19,
-                    14.01
+                    1.48,
+                    6.68
                 ]
             ],
             "waypoint_mode": 0
@@ -143,8 +139,8 @@
             "name": "4",
             "id": 0,
             "pos": [
-                5.14,
-                6.38
+                14.68,
+                23.02
             ],
             "type": "adult",
             "yaml_file": "/home/elias/catkin_ws/src/arena-rosnav-3D/simulator_setup/dynamic_obstacles/person_two_legged.model.yaml",
@@ -174,12 +170,12 @@
             "force_factor_robot": 0.0,
             "waypoints": [
                 [
-                    7.87,
-                    3.97
+                    23.42,
+                    16.95
                 ],
                 [
-                    4.95,
-                    6.45
+                    14.62,
+                    23.29
                 ]
             ],
             "waypoint_mode": 0
@@ -188,8 +184,8 @@
             "name": "5",
             "id": 0,
             "pos": [
-                14.73,
-                23.04
+                13.75,
+                21.09
             ],
             "type": "adult",
             "yaml_file": "/home/elias/catkin_ws/src/arena-rosnav-3D/simulator_setup/dynamic_obstacles/person_two_legged.model.yaml",
@@ -219,12 +215,12 @@
             "force_factor_robot": 0.0,
             "waypoints": [
                 [
-                    22.65,
-                    22.86
+                    23.27,
+                    13.24
                 ],
                 [
-                    14.69,
-                    23.01
+                    13.77,
+                    21.12
                 ]
             ],
             "waypoint_mode": 0
@@ -232,14 +228,14 @@
     ],
     "static_obstacles": [],
     "robot_position": [
-        2.79,
-        1.84
+        1.87,
+        1.61
     ],
     "robot_goal": [
-        23.55,
-        22.5
+        22.78,
+        23.42
     ],
     "resets": 4,
-    "map_path": "/home/elias/catkin_ws/src/arena-rosnav-3D/simulator_setup/maps/map7/map.yaml",
+    "map_path": "/home/elias/catkin_ws/src/arena-rosnav-3D/simulator_setup/maps/map2/map.yaml",
     "format": "arena-tools"
 }
