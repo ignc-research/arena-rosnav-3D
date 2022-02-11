@@ -29,7 +29,7 @@ class DeploymentDRLAgent(BaseDRLAgent):
     def __init__(
         self,
         trainings_environment: str,
-        network_type: str = "rosnav",
+        network_type: str,
         robot_type: str = "rosnav",
         agent_name: str = "turtlebot3_burger",
         ns: str = None,
@@ -127,7 +127,7 @@ def main() -> None:
 
     AGENT = DeploymentDRLAgent(
         trainings_environment=trainings_environment,
-        model_type=model_type,
+        network_type=model_type,
         robot_type=robot_type,
         agent_name=agent_name,
         ns=NS_PREFIX,
