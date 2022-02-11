@@ -98,7 +98,7 @@ class ObservationCollector:
         # need to evaulate each possibility
         if self._ext_time_sync:
             self._scan_sub = message_filters.Subscriber(
-                f"{self.ns_prefix}scan", LaserScan
+                f"{self.ns_prefix}scan_new", LaserScan
             )
             self._robot_state_sub = message_filters.Subscriber(
                 f"{self.ns_prefix}odom", Odometry
@@ -297,18 +297,25 @@ class ObservationCollector:
         self._scan = self.process_scan_msg(scan)
         
         if rospy.get_param("/real", default=False):
-            # map -> base_footprint tf = robot pose
+            # map -> base_footprint/ base_link tf = robot pose
             try:
-                tf = self.tfBuffer.lookup_transform(
-                    "map", "base_footprint", rospy.Time()
-                )
+                if rospy.get_param("model") == 'turtlebot3_burger':
+                    child_frame = "base_footprint"
+                    tf = self.tfBuffer.lookup_transform(
+                        "map", child_frame, rospy.Time()
+                    )
+                else:
+                    child_frame = "base_link"
+                    tf = self.tfBuffer.lookup_transform(
+                        "map", child_frame, rospy.Time()
+                    )
             except (
                 tf2_ros.LookupException,
                 tf2_ros.ConnectivityException,
                 tf2_ros.ExtrapolationException,
             ):
                 # self.rate.sleep()
-                print("No map to base_footprint transform!")
+                print("No map to " + child_frame + " transform!")
                 return
             self._robot_pose, self._robot_vel = self.process_robot_state_tf(
                 tf, odom
