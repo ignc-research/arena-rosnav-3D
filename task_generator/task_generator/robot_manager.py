@@ -56,7 +56,7 @@ class RobotManager:
         request.model_xml = self.ROBOT_DESCRIPTION
         request.robot_namespace = self.ns_prefix + self.ns
         request.initial_pose = Pose()
-        request.initial_pose.position.z = 0.05
+        request.initial_pose.position.z = 0.1
         request.reference_frame = "world"
         self._srv_spawn_model(request)
 
@@ -69,7 +69,7 @@ class RobotManager:
         start_pos = ModelState()
         start_pos.model_name = "turtlebot3"
         start_pos.pose = pose
-        start_pos.pose.position.z = 0.05
+        start_pos.pose.position.z = 0.1
         rospy.wait_for_service("/gazebo/set_model_state")
         try:
             set_state = rospy.ServiceProxy(

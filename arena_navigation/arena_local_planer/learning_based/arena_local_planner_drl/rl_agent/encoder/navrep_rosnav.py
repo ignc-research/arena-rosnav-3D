@@ -77,7 +77,20 @@ class JackalEncoder(Encoder):
 
 
 @EncoderFactory.register("navrep", "rosnav", "turtlebot3_burger")
-class TurtleBot3Encoder(Encoder):
+class TurtleBot3BurgerEncoder(Encoder):
+    pass
+
+
+"""
+    AGV
+    N: 720
+    offset: -pi
+    action: [x_vel, ang_vel]
+"""
+
+# No model available
+#@EncoderFactory.register("navrep", "rosnav", "turtlebot3_burger")
+class TurtleBot3WaffleEncoder(Encoder):
     pass
 
 
@@ -109,4 +122,12 @@ class RidgebackEncoder(HolonomicEncoder):
 
 @EncoderFactory.register("navrep", "rosnav", "rto")
 class RtoEncoder(HolonomicEncoder):
+    pass
+
+@EncoderFactory.register("navrep", "rosnav", "youbot")
+class YoubotEncoder(HolonomicEncoder):
+    pass
+
+@EncoderFactory.register("navrep", "rosnav", "cob4")
+class Cob4Encoder(HolonomicEncoder):
     pass

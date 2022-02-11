@@ -29,7 +29,7 @@ class DeploymentDRLAgent(BaseDRLAgent):
     def __init__(
         self,
         trainings_environment: str,
-        network_type: str = "rosnav",
+        network_type: str,
         robot_type: str = "rosnav",
         agent_name: str = "turtlebot3_burger",
         ns: str = None,
@@ -53,7 +53,7 @@ class DeploymentDRLAgent(BaseDRLAgent):
                 Defaults to DEFAULT_ACTION_SPACE.
         """
         
-        self._is_train_mode = rospy.get_param("/train_mode")
+        self._is_train_mode = rospy.get_param("/train_mode", default=False)
         if not self._is_train_mode:
             rospy.init_node("DRL_local_planner", anonymous=True)
 
@@ -81,7 +81,7 @@ class DeploymentDRLAgent(BaseDRLAgent):
         self._setup_agent()
 
         # time period for a valid action
-        self._action_period = rospy.get_param("/action_frequency", default=10)
+        self._action_period = rospy.get_param("/action_frequency", default=5)
         self._last_action = np.array([0, 0, 0])
 
         self.STAND_STILL_ACTION = np.array([0, 0, 0])
@@ -114,7 +114,7 @@ class DeploymentDRLAgent(BaseDRLAgent):
 
                 self.publish_action(encoded_action)
                 self._last_action = encoded_action
-
+            else: self.publish_action(self.STAND_STILL_ACTION)
             rate.sleep()
 
 
@@ -127,7 +127,7 @@ def main() -> None:
 
     AGENT = DeploymentDRLAgent(
         trainings_environment=trainings_environment,
-        model_type=model_type,
+        network_type=model_type,
         robot_type=robot_type,
         agent_name=agent_name,
         ns=NS_PREFIX,

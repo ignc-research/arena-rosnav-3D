@@ -1,3 +1,11 @@
+if [ -x "$(command -v docker)" ]; then
+    echo "Update docker"
+    # command
+else
+    echo "Install docker"
+    # command
+fi
+
 args=$@
 
 # Default args to all directories

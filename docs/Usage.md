@@ -68,27 +68,25 @@ For more information on how to use this feature please refer to [arena-tools](ht
 
 We support different robots:
 |<img width="250" src="/img/robots/turtlebot3-burger.jpg">|<img width="250" src="/img/robots/jackal.jpg">|<img width="250"  src="/img/robots/ridgeback.jpg">|<img width="250" src="/img/robots/agv-ota.png">|
-|:--:       |              :--:|             :--:|          :--:| 
-| *turtlebot3_burger* | *jackal* | *ridgeback* | *agv-ota* |
+|:--: | :--:| :--:| :--:|
+| _turtlebot3_burger_ | _jackal_ | _ridgeback_ | _agv-ota_ |
 
-|<img width="250" src="/img/robots/rto.jpg">|<img width="250" src="/img/robots/tiago.jpeg">|<img width="250"  src="/img/robots/turtlebot3_waffle_pi.jpg">|<img width="250" src="/img/robots/cob4.jpg">|
-|:--:       |              :--:|             :--:|          :--:| 
-| *Robotino(rto)* | *tiago* | *turtlebot3_waffle_pi* | *Car-O-Bot4 (cob4)* |
+| <img width="250" src="/img/robots/rto.jpg"> | <img width="250" src="/img/robots/tiago.jpeg"> | <img width="250"  src="/img/robots/turtlebot3_waffle_pi.jpg"> | <img width="250" src="/img/robots/cob4.jpg"> |
+| :-----------------------------------------: | :--------------------------------------------: | :-----------------------------------------------------------: | :------------------------------------------: |
+|               _Robotino(rto)_               |                    _tiago_                     |                    _turtlebot3_waffle_pi_                     |             _Car-O-Bot4 (cob4)_              |
 
 All robots are equipped with a laser scanner. The robots differ in size, laser-range etc. See below table for more detailed information on each robot:
 
-
-| Name  | Max Speed (v_x) [_m/s_]  | Max Speed (v_y) [_m/s_]  | Max Rotational Speed (θ_y) [_rad/s_]  | Radius [_m_] | Emergency-Stop¹ | Laser-range [_m_] | Holonomic² |
-| :--- | :---:|  :---: |:---: |:---: |:---:|   :---:| :---:| 
-| *turtlebot3-burger*   | 0.22 | 0.0  | 2.84  | 0.113 | True | 3.5  | False |
-| *jackal*              | 2.0  | 0.0  | 4.0  | 0.267 | True | 30.0 | False |
-| *ridgeback*           | 1.1  | 0.5  | 2.0  | 0.625 | True | 10.0 | True  |
-| *agv-ota*             | 0.5  | 0.0  | 0.4  | 0.629 | True | 5.0  | False |
-| *rto³*                 | 2.78  | todo  |  todo | 0.225 | todo | todo  | todo |
-| *tiago*               |  1.5 |  todo |  todo | 0.27 | todo | todo  | todo|
-| *turtlebot3_waffle_pi*| 0.26  | 0.0  | 1.82  | 0.208 | False | 3.5  | False |
-| *Car-O-Bot4 (cob4)³*   |  1.1 |  todo | todo | 0.36 | True |  todo | todo |
-
+| Name                   | Max Speed (v*x) [\_m/s*] | Max Speed (v*y) [\_m/s*] | Max Rotational Speed (θ*y) [\_rad/s*] | Radius [_m_] | Emergency-Stop¹ | Laser-range [_m_] | Holonomic² |
+| :--------------------- | :----------------------: | :----------------------: | :-----------------------------------: | :----------: | :-------------: | :---------------: | :--------: |
+| _turtlebot3-burger_    |           0.22           |           0.0            |                 2.84                  |    0.113     |      True       |        3.5        |   False    |
+| _jackal_               |           2.0            |           0.0            |                  4.0                  |    0.267     |      True       |       30.0        |   False    |
+| _ridgeback_            |           1.1            |           0.5            |                  2.0                  |    0.625     |      True       |       10.0        |    True    |
+| _agv-ota_              |           0.5            |           0.0            |                  0.4                  |    0.629     |      True       |        5.0        |   False    |
+| _rto³_                 |           2.78           |           todo           |                 todo                  |    0.225     |      todo       |       todo        |    todo    |
+| _tiago_                |           1.5            |           todo           |                 todo                  |     0.27     |      todo       |       todo        |    todo    |
+| _turtlebot3_waffle_pi_ |           0.26           |           0.0            |                 1.82                  |    0.208     |      False      |        3.5        |   False    |
+| _Car-O-Bot4 (cob4)³_   |           1.1            |           todo           |                 todo                  |     0.36     |      True       |       todo        |    todo    |
 
 For additional / more detailed information about each robot:
 
@@ -100,11 +98,9 @@ For additional / more detailed information about each robot:
 
 To select a robot model for your simulation run (in this case _ridgeback_):
 
-
 ```bash
 roslaunch arena_bringup start_arena_gazebo.launch model:=ridgeback
 ```
-
 
 ¹ _Stops moving when an object has been detected in the safety zone of the robot_
 
@@ -115,9 +111,67 @@ roslaunch arena_bringup start_arena_gazebo.launch model:=ridgeback
 ---
 
 # Navigation
-To use the local planer `cadrl` refer to the documentation [here](/docs/Installation.md#cadrl)
 
-The rosnav planner hereby is our DRL agent. To extend the training and depoyment package(s) please refer to the [DRL_Pipeline.md](/docs/Miscellaneous.md#How-to-include-further-scenarios).
+Arena-rosnav-3d supports different local planner and task-modes. Select your planner to move to the respective documentation.
+
+- [teb](#local-planner-teb-dwa-mpc-rlca)
+- [dwa](#local-planner-teb-dwa-mpc-rlca)
+- [mpc](#local-planner-teb-dwa-mpc-rlca)
+- [rlca](#local-planner-teb-dwa-mpc-rlca)
+- [cadrl](#local-planner-cadrl)
+- [drl](#local-planner-drl)
+- [navrep]()
+- [gring]()
+
+Take note of the different task modes, which define how the start and goal position of the robot, as well as the trajectories of the obstacles will be set. Here we support the task modes:
+
+- **random**: Here the start and goal position of the robot and the trajectories of the dynamic obstacles is determined randomly by arena-rosnavs _task-generator_ node.
+
+  ```bash
+  roslaunch arena_bringup start_arena_gazebo.launch task_mode:=random
+  ```
+
+- **scenario**: Here start and goal position of the robot, as well as the trajectory of dynamic obstacles are predefined in scenario files, which need to be selected at start up. You can define you own scenarios using the [arena-tools](https://github.com/ignc-research/arena-tools) repository. Here to start the scenario mode:
+  ```bash
+  roslaunch arena_bringup start_arena_gazebo.launch task_mode:=scenario scenario_file:=small_warehouse_obs05.json
+  ```
+- **manual**: Here you can set the start and goal position of the robot manually, using rviz `Goal Pose` button. Dynamic obstacles are not spawned.
+  ```bash
+  roslaunch arena_bringup start_arena_gazebo.launch task_mode:=manual
+  ```
+
+## Local-planner: teb, dwa, mpc, rlca, arena
+
+You can start these planners by setting the `local_planner` parameter in the launch file. As example, here how to start _teb_:
+
+```bash
+roslaunch arena_bringup start_arena_gazebo.launch local_planner:=teb
+```
+
+> **NOTE**: The planer _rlca_ is currently only available for the robots: _turtlebot3_burger_, _turtlebot3_waffle_pi_
+
+## Local-planner: cadrl
+
+When first using the `cadrl`, refer to the documentation [here](/docs/Installation.md#cadrl) since you will need to create a different virtual environment.
+
+To start the _cadrl_ planner run:
+
+```bash
+workon cadrl
+roslaunch arena_bringup start_arena_gazebo.launch local_planner:=cadrl
+```
+
+## Local-planner: rosnav
+
+When first using `rosnav` make sure to run the following commands:
+```bash
+pip install gym
+cd ~/catkin_ws/src/forks/stable-baselines3 && pip install -e .
+```
+
+When first using `navrep` and `guldenring` make sure to follow the install documentation [here](/docker/drl_agent_node) first.
+
+<!-- The rosnav planner hereby is our DRL agent. To extend the training and deployment package(s) please refer to the [DRL_Pipeline.md](/docs/Miscellaneous.md#How-to-include-further-scenarios). -->
 
 # Parameters
 
@@ -131,19 +185,25 @@ The rosnav planner hereby is our DRL agent. To extend the training and depoyment
 | Name                  | Type                                                | Default           | Description                                                                                                                                                                         |
 | --------------------- | --------------------------------------------------- | ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | network_type          | rosnav \| navrep \| guldenring                      | rosnav            | This is mainly needed to pick the right encoder. You can find a detailed documentation of how to add a new encoder and what this parameter exactly means [here](#TODO)              |
-| trainings_environment | rosnav \| navrep \| guldenring                      | rosnav            | Indicates in which trainings environment the model you want to test has been trained. For all inputs except _rosnav_ the drl node is not started automatically.                    |
-| agent_name            | string                                              | tb3               | Must exactly match the name of your model file. The model file needs to be in a directory named like the trainings_environment. More on this [here](#TODO)                          |
+| trainings_environment | rosnav \| navrep \| guldenring                      | rosnav            | Indicates in which trainings environment the model you want to test has been trained. For all inputs except _rosnav_ the drl node is not started automatically.                     |
+| agent_name            | string                                              | tb3               | Must exactly match the name of your model file. The model file needs to be in a directory named like the trainings_environment. More on this [here](https://github.com/ignc-research/arena-rosnav-3D/tree/main/arena_navigation/arena_local_planer/learning_based/arena_local_planner_drl/agents)                          |
 | model                 | turtlebot3_burger \| jackal \| ridgeback \| agv-ota | turtlebot3_burger | All roboter models we provide. Each roboter model has different velocities and scan sizes. Therefore, it is crucial that the model parameter matches the roboter your model is for. |
 
 ## Example
 
-If you want to have a rosnav model called _rosnav_model_ controll the _turtlebot3_burger_ robot your program call should look like this:
+If you want to have a rosnav model called _rosnav_model_ control the _turtlebot3_burger_ robot your program call should look like this:
 
 ```bash
-roslaunch arena_bringup start_arena_gazebo.launch world:=turtlebot3_house model:=turtlebot3_robot agent_name:=rosnav_model trainings_environment:=rosnav network_type:=rosnav
+roslaunch arena_bringup start_arena_gazebo.launch model:=turtlebot3_burger local_planner:=rosnav world:=map5 scenario_file:=map5_obs_05.json agent_name:=turtlebot3_burger trainings_environment:=rosnav network_type:=rosnav
 ```
 
-Whereas the arguments _trainings_environment_ and _network_type_ can be omited for this use case, cause they are set by default.
+Whereas the arguments _trainings_environment_ and _network_type_ can be omitted for this use case, cause they are set by default.
+
+
+<!-- ## Models from different training environments
+Since _Navrep_ and _Guldenring_ are using a different Python version it is required to start the DRL Node seperately when using models trained in one of these environments.
+
+Therefore, you can either start the node inside a virtual environment or use our provided Docker Containers. You can find a detailed documentation on how to build and run the Dockers [here](/docker/drl_agent_node) -->
 
 ---
 

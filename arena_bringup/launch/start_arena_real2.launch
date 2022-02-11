@@ -10,7 +10,7 @@
   <arg name="odom_frame_id" value="odom"/>
   <arg name="base_frame_id" value="base_footprint"/>
   <arg name="train_mode" default="false"/>
-  <arg name="action_frequency" default="20"/>
+  <arg name="action_frequency" default="10"/>
   <arg name="real" default="true"/>
 
 
@@ -18,7 +18,7 @@
   <arg name="model" default="turtlebot3_burger"      doc = "model type [turtlebot3_burger, jackal, ridgeback, agv-ota, rto, tiago, turtlebot3_waffle_pi]"/>
   <arg name="network_type" default="rosnav" doc="Model type that is used. Will determine the observation and action space. Currently only rosnav is supported" />
   <arg name="trainings_environment" default="rosnav" doc="Determines the environment in which the network is trained. How to load the network mostly differs for different environments. Currently rosnav and navrep are supported" />
-  <arg name="agent_name" default="turtlebot3_burger_new"     doc = "DRL agent name to be deployed" unless="$(eval arg('local_planner') != 'rosnav')"/>
+  <arg name="agent_name" default="turtlebot3_burger"     doc = "DRL agent name to be deployed" unless="$(eval arg('local_planner') != 'rosnav')"/>
   
   <param name="model" value="$(arg model)" />
   <param name="agent_name" value="$(arg agent_name)" unless="$(eval arg('local_planner') != 'rosnav')"/>
@@ -31,7 +31,7 @@
   <!-- <param name="update_rate" value="$(arg update_rate)" /> -->
 
   <!-- Turtlebot3 -->
-  <include file="$(find turtlebot3_bringup)/launch/turtlebot3_remote.launch">
+  <include file="$(find turtlebot3_bringup)/launch/turtlebot3_remote.launch"  if="$(eval arg('model') == 'turtlebot3_burger')" >
     <arg name="model" value="$(arg tb3_model)" />
   </include>
 
