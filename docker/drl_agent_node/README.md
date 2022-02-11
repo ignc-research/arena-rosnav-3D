@@ -14,8 +14,10 @@ We provide a shell skript for you to simplify the docker build process.
 Just run:
 
 ```bash
-chmod -x build_docker.sh && ./build_docker.sh
+cd ~/catkin_ws/src/arena-rosnav-3D/docker/drl_agent_node
+chmod +x build_docker.sh && ./build_docker.sh
 ```
+> **NOTE**: If this script returns: 'Install docker', install docker on your system first, see the documentation [here](https://github.com/ignc-research/arena-rosnav-3D/tree/main/docker#install-latest-version-of-docker). (You only need to install and setup docker, therefore, only follow the steps in the first section).
 
 To start the build process.
 When calling `build_docker.sh` with no arguments the script will build all docker containers in the `drl_agent_node` directory.
@@ -48,6 +50,8 @@ You can now start the docker by calling:
 
 ```bash
 docker run -ti --network host <name_of_your_container>
+# Example
+docker run -ti --network host navrep
 ```
 
 This will launch your container with the drl node files added at build time of the main container.
