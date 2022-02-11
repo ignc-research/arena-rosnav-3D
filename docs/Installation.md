@@ -117,7 +117,7 @@ mkvirtualenv --python=python3.8 rosnav
 
 ```
 pip3 install --extra-index-url https://rospypi.github.io/simple/ rospy rosbag tf tf2_ros --ignore-installed
-pip3 install pyyaml catkin_pkg netifaces pathlib filelock pyqt5 mpi4py torch lxml scipy defusedxml
+pip3 install pyyaml catkin_pkg gym netifaces pathlib filelock pyqt5 mpi4py torch lxml scipy defusedxml
 
 
 ```
@@ -200,7 +200,7 @@ mkvirtualenv --python=python3.6 cadrl
 
 ```
 pip install --extra-index-url https://rospypi.github.io/simple/ rospy rosbag tf tf2_ros --ignore-installed
-pip install pyyaml catkin_pkg netifaces pathlib filelock pyqt5 mpi4py lxml scipy defusedxml matplotlib tensorflow==1.4
+pip install pyyaml catkin_pkg gym netifaces pathlib filelock pyqt5 mpi4py lxml scipy defusedxml matplotlib tensorflow==1.4
 ```
 
 

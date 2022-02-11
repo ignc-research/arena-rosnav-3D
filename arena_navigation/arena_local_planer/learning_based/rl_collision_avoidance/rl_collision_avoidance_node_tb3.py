@@ -125,8 +125,6 @@ class NN_tb3:
 
         scan[np.isnan(scan)] = 6.0
         scan[np.isinf(scan)] = 6.0
-        print(scan)
-        print(len(scan))
         raw_beam_num = len(scan)
         sparse_beam_num = self.beam_mum
         step = float(raw_beam_num) / sparse_beam_num

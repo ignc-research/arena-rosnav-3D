@@ -140,7 +140,7 @@ Take note of the different task modes, which define how the start and goal posit
   roslaunch arena_bringup start_arena_gazebo.launch task_mode:=manual
   ```
 
-## Local-planner: teb, dwa, mpc, rlca
+## Local-planner: teb, dwa, mpc, rlca, arena
 
 You can start these planners by setting the `local_planner` parameter in the launch file. As example, here how to start _teb_:
 
@@ -161,9 +161,17 @@ workon cadrl
 roslaunch arena_bringup start_arena_gazebo.launch local_planner:=cadrl
 ```
 
-## Local-planner: drl
+## Local-planner: rosnav
 
-The rosnav planner hereby is our DRL agent. To extend the training and depoyment package(s) please refer to the [DRL_Pipeline.md](/docs/Miscellaneous.md#How-to-include-further-scenarios).
+When first using `rosnav` make sure to run the following commands:
+```bash
+pip install gym
+cd ~/catkin_ws/src/forks/stable-baselines3 && pip install -e .
+```
+
+When first using `navrep` and `guldenring` make sure to follow the install documentation [here](/docker/drl_agent_node) first.
+
+<!-- The rosnav planner hereby is our DRL agent. To extend the training and deployment package(s) please refer to the [DRL_Pipeline.md](/docs/Miscellaneous.md#How-to-include-further-scenarios). -->
 
 # Parameters
 
@@ -178,24 +186,24 @@ The rosnav planner hereby is our DRL agent. To extend the training and depoyment
 | --------------------- | --------------------------------------------------- | ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | network_type          | rosnav \| navrep \| guldenring                      | rosnav            | This is mainly needed to pick the right encoder. You can find a detailed documentation of how to add a new encoder and what this parameter exactly means [here](#TODO)              |
 | trainings_environment | rosnav \| navrep \| guldenring                      | rosnav            | Indicates in which trainings environment the model you want to test has been trained. For all inputs except _rosnav_ the drl node is not started automatically.                     |
-| agent_name            | string                                              | tb3               | Must exactly match the name of your model file. The model file needs to be in a directory named like the trainings_environment. More on this [here](#TODO)                          |
+| agent_name            | string                                              | tb3               | Must exactly match the name of your model file. The model file needs to be in a directory named like the trainings_environment. More on this [here](https://github.com/ignc-research/arena-rosnav-3D/tree/main/arena_navigation/arena_local_planer/learning_based/arena_local_planner_drl/agents)                          |
 | model                 | turtlebot3_burger \| jackal \| ridgeback \| agv-ota | turtlebot3_burger | All roboter models we provide. Each roboter model has different velocities and scan sizes. Therefore, it is crucial that the model parameter matches the roboter your model is for. |
 
 ## Example
 
-If you want to have a rosnav model called _rosnav_model_ controll the _turtlebot3_burger_ robot your program call should look like this:
+If you want to have a rosnav model called _rosnav_model_ control the _turtlebot3_burger_ robot your program call should look like this:
 
 ```bash
-roslaunch arena_bringup start_arena_gazebo.launch world:=turtlebot3_house model:=turtlebot3_robot agent_name:=rosnav_model trainings_environment:=rosnav network_type:=rosnav
+roslaunch arena_bringup start_arena_gazebo.launch model:=turtlebot3_burger local_planner:=rosnav world:=map5 scenario_file:=map5_obs_05.json agent_name:=turtlebot3_burger trainings_environment:=rosnav network_type:=rosnav
 ```
 
-Whereas the arguments _trainings_environment_ and _network_type_ can be omited for this use case, cause they are set by default.
+Whereas the arguments _trainings_environment_ and _network_type_ can be omitted for this use case, cause they are set by default.
 
-## Models from different training environments
 
+<!-- ## Models from different training environments
 Since _Navrep_ and _Guldenring_ are using a different Python version it is required to start the DRL Node seperately when using models trained in one of these environments.
 
-Therefore, you can either start the node inside a virtual environment or use our provided Docker Containers. You can find a detailed documentation on how to build and run the Dockers [here](/docker/drl_agent_node)
+Therefore, you can either start the node inside a virtual environment or use our provided Docker Containers. You can find a detailed documentation on how to build and run the Dockers [here](/docker/drl_agent_node) -->
 
 ---
 
