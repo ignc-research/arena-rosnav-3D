@@ -26,7 +26,7 @@
 
 
     <!--  publish the state of a robot to tf2 -->
-    <group if="$(eval arg('real') != 'true')">
+    <group if="$(eval arg('real') == 'false')">
         <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
             <param name="publish_frequency" type="double" value="50.0" />
         </node>
