@@ -4,7 +4,7 @@
   <arg name="map_file" default="$(find simulator_setup)/maps/ignc-lab-rto-laser/ignc-test3.yaml"/>
   <arg name="open_rviz" default="true"/>
   <arg name="move_forward_only" default="false"/>
-  <arg name="rviz_file" default="rto"/>
+  <arg name="rviz_file" default="nav_LP"/>
   <arg name="scan_topic" default="/scan_new"/>
 
   <arg name="global_frame_id" value="map"/>
@@ -31,8 +31,14 @@
 
   <!-- <param name="update_rate" value="$(arg update_rate)" /> -->
 
+  <!-- Managing our Robots-->
+  <include file="$(find arena_bringup)/launch/sublaunch_testing/robots.launch">
+    <arg name="model" value="$(arg model)"/>
+    <arg name="real" value="$(arg real)"/>
+  </include>
+
   <!-- Load Robot specific parameter -->
-  <rosparam file="$(find arena_bringup)/launch/sublaunch_testing/robot_params/$(arg model)_params.yaml" />
+  <rosparam file="$(find arena_bringup)/launch/sublaunch_testing/robot_params/$(arg model)-tlabs_params.yaml" />
 
   <!-- Map server -->
   <node pkg="map_server" name="map_server" type="map_server" args="$(arg map_file)">
@@ -52,10 +58,10 @@
     <!-- <arg name="speed" value="$(param speed)"/> -->
   </include>
 
-  <!-- rviz 
+  <!-- rviz  -->
   <group if="$(arg open_rviz)"> 
     <node pkg="rviz" type="rviz" name="rviz" required="true"
           args="-d $(find arena_bringup)/rviz/$(arg rviz_file).rviz"/>
-  </group>-->
+  </group>
 
 </launch>
