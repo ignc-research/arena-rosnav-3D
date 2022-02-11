@@ -7,5 +7,5 @@ laser_update_rate: 10
 laser_min: -2.3998301029205322 # [rad] # 2.0944 
 laser_max: 2.3998301029205322 # [rad] #2.0944
 laser_increment: 0.00613294
-laser_range: 5.6 # [m]
+laser_range: 50.0 # 5.6 # [m]
 laser_beams: 552 #683
