@@ -1,0 +1,22 @@
+<launch>
+  <!-- Arguments -->
+  <arg name="model" default="rto"      doc = "model type [turtlebot3_burger, jackal, ridgeback, agv-ota, rto, tiago, turtlebot3_waffle_pi]"/>
+  <arg name="map_file" default="$(find simulator_setup)/maps/ignc-lab-rto-laser/ignc-test3.yaml"/>
+  <arg name="global_frame_id" value="map"/>
+  <arg name="scan_topic" default="/scan_new"/>
+
+
+  <!-- Load Robot specific parameter -->
+  <rosparam file="$(find arena_bringup)/launch/sublaunch_testing/robot_params/$(arg model)_params.yaml" />
+
+  <!-- Map server -->
+  <node pkg="map_server" name="map_server" type="map_server" args="$(arg map_file)">
+    <param name="frame_id" value="$(arg global_frame_id)"/>
+  </node>
+
+  <!-- AMCL -->
+  <node pkg="amcl" type="amcl" name="amcl">
+    <remap from="scan" to="$(arg scan_topic)" />
+  </node>
+
+</launch>
