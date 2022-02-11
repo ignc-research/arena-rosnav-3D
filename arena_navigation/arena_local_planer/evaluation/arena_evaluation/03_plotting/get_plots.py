@@ -445,7 +445,7 @@ class plotter():
                                 data = pd.concat([data,dat])
                     if metric == "success": # bar plots for success metric
                         ax.zorder = 5
-                        ax = sns.barplot(x="obstacle_number", y="Success", hue="Planner", palette = obs_in_one_color_scheme, data=data, ci=None, alpha=self.config["plot_barplot_alpha"])
+                        ax = sns.barplot(x="obstacle_number", y="Success", hue="Planner", palette = obs_in_one_color_scheme, data=data, ci=None, alpha=self.config["plot_obs_in_one_alpha"])
                         ax.set_xlabel(self.config["plot_quantitative_labels"]["obstacle_number"], fontsize = self.config["plot_quantitative_axes_label_size"])
                         ax.set_ylabel(self.config["plot_quantitative_labels"][metric], fontsize = self.config["plot_quantitative_axes_label_size"])
                         ax.tick_params(axis='both', which='major', labelsize=self.config["plot_qualitative_axes_ticks_size"])
@@ -467,12 +467,12 @@ class plotter():
                                 ax.legend(loc=self.config["plot_quantitative_legend_location"], fontsize=self.config["plot_quantitative_legend_fontsize"])
                                 ax.get_legend().remove()                          
                         else:
-                            if not self.config["plot_barplot_errorbars"]:
+                            if not self.config["plot_obs_in_one_errorbars"]:
                                 ci = None
                             else:
                                 ci = "sd"
                             ax.zorder = 5
-                            ax = sns.barplot(x="obstacle_number", y=metric, hue="Planner", palette = obs_in_one_color_scheme, data=data, ci=ci, saturation=self.config["plot_barplot_alpha"],capsize=self.config["plot_barplot_capsize"],errcolor=self.config["plot_barplot_errorcolor"])
+                            ax = sns.barplot(x="obstacle_number", y=metric, hue="Planner", palette = obs_in_one_color_scheme, data=data, ci=ci, saturation=self.config["plot_obs_in_one_alpha"],capsize=self.config["plot_obs_in_one_capsize"],errcolor=self.config["plot_obs_in_one_errorcolor"])
                             ax.set_xlabel(self.config["plot_quantitative_labels"]["obstacle_number"], fontsize = self.config["plot_quantitative_axes_label_size"])
                             ax.set_ylabel(self.config["plot_quantitative_labels"][metric], fontsize = self.config["plot_quantitative_axes_label_size"])
                             ax.tick_params(axis='both', which='major', labelsize=self.config["plot_qualitative_axes_ticks_size"])
