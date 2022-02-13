@@ -64,7 +64,7 @@ class GuldenringEncoder(BaseEncoder):
 
 
 class HolonomicRobotEncoder(GuldenringEncoder):
-    def get_action(action):
+    def get_action(self, action):
         assert (
             len(action) == 3
         ), f"Expected an action of size 3 but received: {action}"
@@ -104,10 +104,10 @@ class TurtleBot3BurgerGuldenringEncoder(GuldenringEncoder):
     Rto
     N: 360
     offset: 0
-    action: [x_vel, ang_vel]
+    action: [x_vel, y_vel, ang_vel]
 """
 @EncoderFactory.register("guldenring", "guldenring", "rto")
-class RtoGuldenringEncoder(GuldenringEncoder):
+class RtoGuldenringEncoder(HolonomicRobotEncoder):
     pass
 
 """
