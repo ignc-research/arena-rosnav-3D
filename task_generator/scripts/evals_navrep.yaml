@@ -1,7 +1,7 @@
 trainings_env: navrep
 network_type: rosnav
 shouldLaunchDocker: true
-dockerName: guldenring
+dockerName: navrep
 scenarios:
   - robot: youbot
     worlds:
