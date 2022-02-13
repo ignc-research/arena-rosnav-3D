@@ -35,7 +35,7 @@
   <arg name="additional_map" default="false"/>
   <arg name="waypoint_generator" default="classic"/>
   <arg name="obs_vel" default="0.3" />
-  <arg name="action_frequency" default="5"/>
+  <arg name="action_frequency" default="10"/>
   <arg name="global_frame_id" value="map"/>
   <arg name="odom_frame_id" value="odom"/>
   <arg name="base_frame_id" value="base_footprint"/>
