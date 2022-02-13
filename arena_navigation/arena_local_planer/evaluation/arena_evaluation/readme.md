@@ -68,15 +68,25 @@ specify_data: true
 specified_data_filename: <your_dataset>.json
 ```
 
-NOTE: Do NOT change the `get_plots_config_default.yaml`!
-
-We recommend using the code below:
+For runnning the script recommend using the code below:
 ```
 workon rosnav
 roscd arena_evaluation/03_plotting
 python get_plots.py
 ```
 
+### Mandatory fields:
+- `labels`
+- `color_scheme`
+
+Make sure for those fields **all** your local planner or planner-waypoint-generator combinations with the robot they were used on are defined. Examples:
+- labels:
+    - rlca_jackal: RLCA
+    - rlca_turtlebot3_burger: RLCA
+- color_scheme:
+    - rlca_jackal
+    
+### Fields explained ###
 The script generates quantitative (pathing) and quantitative (metrics) plots into a directory in `/03_plotting` with the naming convention `plots_<timestamp>`.
 There are many configurations that can be set int `get_plots_config.yaml`. They will be listed below:
 
