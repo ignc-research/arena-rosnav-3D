@@ -114,7 +114,8 @@ class DeploymentDRLAgent(BaseDRLAgent):
 
                 self.publish_action(encoded_action)
                 self._last_action = encoded_action
-            else: self.publish_action(self.STAND_STILL_ACTION)
+            else: 
+                self.publish_action(self.STAND_STILL_ACTION)
             rate.sleep()
 
 
