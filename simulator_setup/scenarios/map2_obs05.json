@@ -235,7 +235,7 @@
         10.28,
         10.92
     ],
-    "resets": 9,
+    "resets": 4,
     "map_path": "/home/elias/catkin_ws/src/arena-rosnav-3D/simulator_setup/maps/map2/map.yaml",
     "format": "arena-tools"
 }
