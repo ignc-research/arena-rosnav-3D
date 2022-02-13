@@ -8,7 +8,7 @@
                 11.19
             ],
             "type": "adult",
-            "yaml_file": "/home/elias/catkin_ws/src/arena-rosnav-3D/simulator_setup/dynamic_obstacles/person_two_legged.model.yaml",
+            "yaml_file": "/home/linh/catkin_ws/src/arena-rosnav-3D/simulator_setup/dynamic_obstacles/person_two_legged.model.yaml",
             "number_of_peds": 1,
             "vmax": 0.3,
             "start_up_mode": "default",
@@ -53,7 +53,7 @@
                 7.85
             ],
             "type": "adult",
-            "yaml_file": "/home/elias/catkin_ws/src/arena-rosnav-3D/simulator_setup/dynamic_obstacles/person_two_legged.model.yaml",
+            "yaml_file": "/home/linh/catkin_ws/src/arena-rosnav-3D/simulator_setup/dynamic_obstacles/person_two_legged.model.yaml",
             "number_of_peds": 1,
             "vmax": 0.3,
             "start_up_mode": "default",
@@ -98,7 +98,7 @@
                 2.66
             ],
             "type": "adult",
-            "yaml_file": "/home/elias/catkin_ws/src/arena-rosnav-3D/simulator_setup/dynamic_obstacles/person_two_legged.model.yaml",
+            "yaml_file": "/home/linh/catkin_ws/src/arena-rosnav-3D/simulator_setup/dynamic_obstacles/person_two_legged.model.yaml",
             "number_of_peds": 1,
             "vmax": 0.3,
             "start_up_mode": "default",
@@ -143,7 +143,7 @@
                 19.84
             ],
             "type": "adult",
-            "yaml_file": "/home/elias/catkin_ws/src/arena-rosnav-3D/simulator_setup/dynamic_obstacles/person_two_legged.model.yaml",
+            "yaml_file": "/home/linh/catkin_ws/src/arena-rosnav-3D/simulator_setup/dynamic_obstacles/person_two_legged.model.yaml",
             "number_of_peds": 1,
             "vmax": 0.3,
             "start_up_mode": "default",
@@ -188,7 +188,7 @@
                 16.69
             ],
             "type": "adult",
-            "yaml_file": "/home/elias/catkin_ws/src/arena-rosnav-3D/simulator_setup/dynamic_obstacles/person_two_legged.model.yaml",
+            "yaml_file": "/home/linh/catkin_ws/src/arena-rosnav-3D/simulator_setup/dynamic_obstacles/person_two_legged.model.yaml",
             "number_of_peds": 1,
             "vmax": 0.3,
             "start_up_mode": "default",
@@ -233,7 +233,7 @@
                 12.73
             ],
             "type": "adult",
-            "yaml_file": "/home/elias/catkin_ws/src/arena-rosnav-3D/simulator_setup/dynamic_obstacles/person_two_legged.model.yaml",
+            "yaml_file": "/home/linh/catkin_ws/src/arena-rosnav-3D/simulator_setup/dynamic_obstacles/person_two_legged.model.yaml",
             "number_of_peds": 1,
             "vmax": 0.3,
             "start_up_mode": "default",
@@ -278,7 +278,7 @@
                 2.47
             ],
             "type": "adult",
-            "yaml_file": "/home/elias/catkin_ws/src/arena-rosnav-3D/simulator_setup/dynamic_obstacles/person_two_legged.model.yaml",
+            "yaml_file": "/home/linh/catkin_ws/src/arena-rosnav-3D/simulator_setup/dynamic_obstacles/person_two_legged.model.yaml",
             "number_of_peds": 1,
             "vmax": 0.3,
             "start_up_mode": "default",
@@ -323,7 +323,7 @@
                 20.58
             ],
             "type": "adult",
-            "yaml_file": "/home/elias/catkin_ws/src/arena-rosnav-3D/simulator_setup/dynamic_obstacles/person_two_legged.model.yaml",
+            "yaml_file": "/home/linh/catkin_ws/src/arena-rosnav-3D/simulator_setup/dynamic_obstacles/person_two_legged.model.yaml",
             "number_of_peds": 1,
             "vmax": 0.3,
             "start_up_mode": "default",
@@ -368,7 +368,7 @@
                 8.65
             ],
             "type": "adult",
-            "yaml_file": "/home/elias/catkin_ws/src/arena-rosnav-3D/simulator_setup/dynamic_obstacles/person_two_legged.model.yaml",
+            "yaml_file": "/home/linh/catkin_ws/src/arena-rosnav-3D/simulator_setup/dynamic_obstacles/person_two_legged.model.yaml",
             "number_of_peds": 1,
             "vmax": 0.3,
             "start_up_mode": "default",
@@ -421,7 +421,7 @@
                 20.28
             ],
             "type": "adult",
-            "yaml_file": "/home/elias/catkin_ws/src/arena-rosnav-3D/simulator_setup/dynamic_obstacles/person_two_legged.model.yaml",
+            "yaml_file": "/home/linh/catkin_ws/src/arena-rosnav-3D/simulator_setup/dynamic_obstacles/person_two_legged.model.yaml",
             "number_of_peds": 1,
             "vmax": 0.3,
             "start_up_mode": "default",
@@ -477,10 +477,10 @@
         3.31
     ],
     "robot_goal": [
-        21.36,
-        19.5
+        6.77,
+        20.06
     ],
     "resets": 4,
-    "map_path": "/home/elias/catkin_ws/src/arena-rosnav-3D/simulator_setup/maps/map5/map.yaml",
+    "map_path": "/home/linh/code/navigation/3d_ws/src/arena-rosnav-3D/simulator_setup/maps/map5/map.yaml",
     "format": "arena-tools"
 }
