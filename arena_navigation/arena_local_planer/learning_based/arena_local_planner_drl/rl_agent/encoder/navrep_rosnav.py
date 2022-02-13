@@ -48,7 +48,7 @@ class Encoder(BaseEncoder):
         return [x_vel, 0, ang_vel]
 
 class HolonomicEncoder(Encoder):
-    def get_action(action):
+    def get_action(self, action):
         assert (
             len(action) == 3
         ), f"Expected an action of size 3 but received: {action}"

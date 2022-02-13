@@ -32,6 +32,7 @@
                 </collision>
             </link>
         </model>
+
         <actor name="person_0_0">
             <pose> 6.92 11.19 0.0 0.0 0.0 0.0 </pose>
             <skin>
@@ -293,4 +294,5 @@
             </script>
         </actor>
     </world>
+
 </sdf>
