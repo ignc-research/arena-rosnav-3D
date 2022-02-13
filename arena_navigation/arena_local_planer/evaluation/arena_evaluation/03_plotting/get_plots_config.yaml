@@ -47,13 +47,17 @@ path_arrow_color: black
 path_arrow_size: 5
 path_size: 0.1
 plot_barplot_alpha: 1.0
-plot_barplot_capsize: 0.1
-plot_barplot_errorbars: false
+plot_barplot_capsize: 0.3
+plot_barplot_errorbars: true
 plot_barplot_errorcolor: black
 plot_barplot_width: 0.5
 plot_collision_zones: true
 plot_collisions: true
-plot_obs_in_one: false
+plot_obs_in_one: true
+plot_obs_in_one_alpha: 1.0
+plot_obs_in_one_capsize: 0.1
+plot_obs_in_one_errorbars: true
+plot_obs_in_one_errorcolor: black
 plot_progression: false
 plot_qualitative: false
 plot_qualitative_axes: true
@@ -64,7 +68,7 @@ plot_qualitative_legend_fontsize: 12
 plot_qualitative_legend_location: upper left
 plot_qualitative_title: true
 plot_qualitative_title_size: 18
-plot_quantitative: false
+plot_quantitative: true
 plot_quantitative_axes_label_size: 16
 plot_quantitative_axes_tick_size: 16
 plot_quantitative_labels:
