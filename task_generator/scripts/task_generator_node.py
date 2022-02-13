@@ -140,9 +140,6 @@ class TaskGenerator:
                 self.end_msg.data = True
                 self.pub.publish(self.end_msg)
                 rospy.signal_shutdown("Finished all episodes of the current scenario")
-
-
-
             else:
                 self.curr_goal_pos_ = info["robot_goal_pos"]
         rospy.loginfo("".join(["="] * 80))
