@@ -13,7 +13,7 @@ import rl_agent.encoder.guldenring_guldenring
 import rl_agent.encoder.rosnav_rosnav
 from rl_agent.base_agent_wrapper import BaseDRLAgent
 
-robot_model = rospy.get_param("model")
+robot_model = rospy.get_param("model", "turtlebot3_burger")
 """ TEMPORARY GLOBAL CONSTANTS """
 NS_PREFIX = ""
 TRAINED_MODELS_DIR = lambda env: path.join(
@@ -121,10 +121,10 @@ class DeploymentDRLAgent(BaseDRLAgent):
 
 def main() -> None:
     # TODO load from args if no params
-    trainings_environment = rospy.get_param("trainings_environment")
-    model_type = rospy.get_param("network_type")
-    robot_type = rospy.get_param("model")
-    agent_name = rospy.get_param("agent_name")
+    trainings_environment = rospy.get_param("trainings_environment", "rosnav")
+    model_type = rospy.get_param("network_type", "rosnav")
+    robot_type = rospy.get_param("model", "turtlebot3_burger")
+    agent_name = rospy.get_param("agent_name", "turtlebot3_burger")
 
     AGENT = DeploymentDRLAgent(
         trainings_environment=trainings_environment,

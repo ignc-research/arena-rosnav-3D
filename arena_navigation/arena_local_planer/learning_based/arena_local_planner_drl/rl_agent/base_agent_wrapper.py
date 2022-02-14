@@ -18,7 +18,7 @@ from rl_agent.utils.observation_collector import (
 from rl_agent.utils.reward import RewardCalculator
 from rospy.client import get_param
 
-robot_model = rospy.get_param("model")
+robot_model = rospy.get_param("model", "turtlebot3_burger")
 DEFAULT_ACTION_SPACE = os.path.join(
     rospkg.RosPack().get_path("arena_local_planner_drl"),
     "configs",
