@@ -201,7 +201,7 @@ class NN_tb3:
         )
         action = scaled_action[0]
         action[0] = rospy.get_param('speed') * action[0]  # the maximum speed of cmd_vel 0.3
-        action[1] = rospy.get_param('rot_speed') * action[1]
+        action[1] = action[1]
         self.control_vel(action)
         # self.update_action(action)
 
@@ -247,7 +247,7 @@ def run():
     LASER_HIST = 3
     NUM_ENV = 1  # the number of agents in the environment
     OBS_SIZE = 512  # number of leaserbeam
-    action_bound = [[0, -1], [1, 1]]  # the limitation of velocity
+    action_bound = [[-1, -1], [1, 1]]  # the limitation of velocity
 
     # Set env and agent policy
     env = StageWorld(
