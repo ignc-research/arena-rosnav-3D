@@ -101,6 +101,6 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 
     parser.add_argument("-f", "--eval_file")
-    parser.add_argument("-r", "--use_recorder", action="store_true", type=bool)
+    parser.add_argument("-r", "--use_recorder", action="store_true")
 
     main(parser.parse_args())
