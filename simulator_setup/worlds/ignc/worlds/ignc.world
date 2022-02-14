@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <sdf version="1.7">
-  <world name="ignc">
+  <world name="default">
     <light name="sun" type="directional">
       <cast_shadows>1</cast_shadows>
       <pose>0 0 10 0 -0 0</pose>
@@ -89,7 +89,7 @@
       <heading_deg>0</heading_deg>
     </spherical_coordinates>
     <model name="ignc">
-      <pose>0.948377 1.86696 0 0 -0 0</pose>
+      <pose>2.08816 0.279592 0 0 -0 0</pose>
       <link name="Wall_10">
         <collision name="Wall_10_Collision">
           <geometry>
@@ -1173,10 +1173,10 @@
       <static>1</static>
     </model>
     <state world_name="default">
-      <sim_time>119 701000000</sim_time>
-      <real_time>119 864332367</real_time>
-      <wall_time>1644830385 881076783</wall_time>
-      <iterations>119701</iterations>
+      <sim_time>88 752000000</sim_time>
+      <real_time>89 472355083</real_time>
+      <wall_time>1644844710 83778117</wall_time>
+      <iterations>88752</iterations>
       <model name="ground_plane">
         <pose>0 0 0 0 -0 0</pose>
         <scale>1 1 1</scale>
@@ -1188,148 +1188,148 @@
         </link>
       </model>
       <model name="ignc">
-        <pose>0 0 0 0 -0 0</pose>
+        <pose>0 1 0 0 -0 0</pose>
         <scale>1 1 1</scale>
         <link name="Wall_10">
-          <pose>0.653337 1.85324 0 0 -0 1.58281</pose>
+          <pose>0.653337 2.85324 0 0 -0 1.58281</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
         <link name="Wall_12">
-          <pose>3.43021 3.77824 0 0 -0 0</pose>
+          <pose>3.43021 4.77824 0 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
         <link name="Wall_18">
-          <pose>6.30521 -4.02176 0 0 -0 3.14159</pose>
+          <pose>6.30521 -3.02176 0 0 -0 3.14159</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
         <link name="Wall_20">
-          <pose>0.630206 -3.47176 0 0 -0 1.5708</pose>
+          <pose>0.630206 -2.47176 0 0 -0 1.5708</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
         <link name="Wall_21">
-          <pose>0.330206 -2.92176 0 0 -0 3.14159</pose>
+          <pose>0.330206 -1.92176 0 0 -0 3.14159</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
         <link name="Wall_22">
-          <pose>0.030206 -3.47176 0 0 0 -1.5708</pose>
+          <pose>0.030206 -2.47176 0 0 0 -1.5708</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
         <link name="Wall_23">
-          <pose>-2.30038 -4.02176 0 0 -0 3.14159</pose>
+          <pose>-2.30038 -3.02176 0 0 -0 3.14159</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
         <link name="Wall_38">
-          <pose>1.45334 -0.071761 0 0 -0 0</pose>
+          <pose>1.45334 0.928239 0 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
         <link name="Wall_4">
-          <pose>-5.67985 1.95812 0 0 0 -1.56584</pose>
+          <pose>-5.67985 2.95812 0 0 0 -1.56584</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
         <link name="Wall_40">
-          <pose>6.23021 1.85324 0 0 0 -1.5708</pose>
+          <pose>6.23021 2.85324 0 0 0 -1.5708</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
         <link name="Wall_43">
-          <pose>5.43021 -0.071761 0 0 -0 3.14159</pose>
+          <pose>5.43021 0.928239 0 0 -0 3.14159</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
         <link name="Wall_46">
-          <pose>9.15521 -0.071761 0 0 -0 0</pose>
+          <pose>9.15521 0.928239 0 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
         <link name="Wall_5">
-          <pose>-5.36979 -0.071761 0 0 -0 0</pose>
+          <pose>-5.36979 0.928239 0 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
         <link name="Wall_56">
-          <pose>12.0905 -2.04981 0 0 0 -1.56557</pose>
+          <pose>12.0905 -1.04981 0 0 0 -1.56557</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
         <link name="Wall_6">
-          <pose>-5.06979 1.97824 0 0 -0 1.5708</pose>
+          <pose>-5.06979 2.97824 0 0 -0 1.5708</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
         <link name="Wall_68">
-          <pose>-4.63097 -3.09676 0 0 -0 1.5708</pose>
+          <pose>-4.63097 -2.09676 0 0 -0 1.5708</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
         <link name="Wall_69">
-          <pose>-5.55597 -2.17176 0 0 -0 3.14159</pose>
+          <pose>-5.55597 -1.17176 0 0 -0 3.14159</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
         <link name="Wall_7">
-          <pose>-4.39479 4.02824 0 0 -0 0</pose>
+          <pose>-4.39479 5.02824 0 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
         <link name="Wall_70">
-          <pose>-6.48097 -3.09676 0 0 0 -1.5708</pose>
+          <pose>-6.48097 -2.09676 0 0 0 -1.5708</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
         <link name="Wall_71">
-          <pose>-9.28097 -4.02176 0 0 -0 3.14159</pose>
+          <pose>-9.28097 -3.02176 0 0 -0 3.14159</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
         <link name="Wall_76">
-          <pose>-12.091 -0.011989 0 0 -0 1.5733</pose>
+          <pose>-12.091 0.988011 0 0 -0 1.5733</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
         <link name="Wall_79">
-          <pose>-8.92609 3.99778 0 0 -0 0</pose>
+          <pose>-8.92609 4.99778 0 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
         <link name="Wall_8">
-          <pose>-3.71979 1.97824 0 0 0 -1.5708</pose>
+          <pose>-3.71979 2.97824 0 0 0 -1.5708</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
         <link name="Wall_9">
-          <pose>-1.52166 -0.071761 0 0 -0 0</pose>
+          <pose>-1.52166 0.928239 0 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
@@ -1341,115 +1341,10 @@
     </state>
     <gui fullscreen="0">
       <camera name="user_camera">
-        <pose>2.47547 -0.8873 31.7642 0 1.4858 1.58424</pose>
+        <pose>-0.734429 -0.852968 32.2995 -2e-06 1.5498 1.56818</pose>
         <view_controller>orbit</view_controller>
         <projection_type>perspective</projection_type>
       </camera>
     </gui>
-  <actor name="person_0_0"><pose> -8.01 2.91 0.0 0.0 0.0 0.0 </pose><skin><filename>model://actor/meshes/SKIN_man_green_shirt.dae</filename></skin><animation name="animation"><filename>model://actor/meshes/ANIMATION_walking.dae</filename><interpolate_x>true</interpolate_x></animation><plugin name="actor_collisions_plugin" filename="libActorCollisionsPlugin.so">
-      <scaling collision="LHipJoint_LeftUpLeg_collision" scale="           0.01           0.001           0.001       "/>
-      <scaling collision="LeftUpLeg_LeftLeg_collision" scale="           8.0           8.0           1.0       "/>
-      <scaling collision="LeftLeg_LeftFoot_collision" scale="           8.0           8.0           1.0       "/>
-      <scaling collision="LeftFoot_LeftToeBase_collision" scale="           4.0           4.0           1.5       "/>
-      <scaling collision="RHipJoint_RightUpLeg_collision" scale="           0.01           0.001           0.001       "/>
-      <scaling collision="RightUpLeg_RightLeg_collision" scale="           8.0           8.0           1.0       "/>
-      <scaling collision="RightLeg_RightFoot_collision" scale="           8.0           8.0           1.0       "/>
-      <scaling collision="RightFoot_RightToeBase_collision" scale="           4.0           4.0           1.5       "/>
-      <scaling collision="LowerBack_Spine_collision" scale="           12.0           20.0           5.0       " pose="0.05 0 0 0 -0.2 0"/>
-      <scaling collision="Spine_Spine1_collision" scale="           0.01           0.001           0.001       "/>
-      <scaling collision="Neck_Neck1_collision" scale="           0.01           0.001           0.001       "/>
-      <scaling collision="Neck1_Head_collision" scale="           5.0           5.0           3.0       "/>
-      <scaling collision="LeftShoulder_LeftArm_collision" scale="           0.01           0.001           0.001       "/>
-      <scaling collision="LeftArm_LeftForeArm_collision" scale="           5.0           5.0           1.0       "/>
-      <scaling collision="LeftForeArm_LeftHand_collision" scale="           5.0           5.0           1.0       "/>
-      <scaling collision="LeftFingerBase_LeftHandIndex1_collision" scale="           4.0           4.0           3.0       "/>
-      <scaling collision="RightShoulder_RightArm_collision" scale="           0.01           0.001           0.001       "/>
-      <scaling collision="RightArm_RightForeArm_collision" scale="           5.0           5.0           1.0       "/>
-      <scaling collision="RightForeArm_RightHand_collision" scale="           5.0           5.0           1.0       "/>
-      <scaling collision="RightFingerBase_RightHandIndex1_collision" scale="           4.0           4.0           3.0       "/>
-      </plugin><script><trajectory id="0_0" type="animation"><waypoint><time>1.5</time><pose> -11.48 -1.91  0.0 0.0 0.0 0.943352720321783 </pose></waypoint><waypoint><time>19.929235922243596</time><pose> -7.97 2.93 0.0 0.0 0.0 0.943352720321783 </pose></waypoint><waypoint><time>21.429235922243596</time><pose> -7.97 2.93  0.0 0.0 0.0 -2.1982399332680105 </pose></waypoint><waypoint><time>39.85847184448719</time><pose> -11.48 -1.91 0.0 0.0 0.0 -2.1982399332680105 </pose></waypoint></trajectory></script></actor><actor name="person_1_0"><pose> -8.1 -2.88 0.0 0.0 0.0 0.0 </pose><skin><filename>model://actor/meshes/SKIN_man_green_shirt.dae</filename></skin><animation name="animation"><filename>model://actor/meshes/ANIMATION_walking.dae</filename><interpolate_x>true</interpolate_x></animation><plugin name="actor_collisions_plugin" filename="libActorCollisionsPlugin.so">
-      <scaling collision="LHipJoint_LeftUpLeg_collision" scale="           0.01           0.001           0.001       "/>
-      <scaling collision="LeftUpLeg_LeftLeg_collision" scale="           8.0           8.0           1.0       "/>
-      <scaling collision="LeftLeg_LeftFoot_collision" scale="           8.0           8.0           1.0       "/>
-      <scaling collision="LeftFoot_LeftToeBase_collision" scale="           4.0           4.0           1.5       "/>
-      <scaling collision="RHipJoint_RightUpLeg_collision" scale="           0.01           0.001           0.001       "/>
-      <scaling collision="RightUpLeg_RightLeg_collision" scale="           8.0           8.0           1.0       "/>
-      <scaling collision="RightLeg_RightFoot_collision" scale="           8.0           8.0           1.0       "/>
-      <scaling collision="RightFoot_RightToeBase_collision" scale="           4.0           4.0           1.5       "/>
-      <scaling collision="LowerBack_Spine_collision" scale="           12.0           20.0           5.0       " pose="0.05 0 0 0 -0.2 0"/>
-      <scaling collision="Spine_Spine1_collision" scale="           0.01           0.001           0.001       "/>
-      <scaling collision="Neck_Neck1_collision" scale="           0.01           0.001           0.001       "/>
-      <scaling collision="Neck1_Head_collision" scale="           5.0           5.0           3.0       "/>
-      <scaling collision="LeftShoulder_LeftArm_collision" scale="           0.01           0.001           0.001       "/>
-      <scaling collision="LeftArm_LeftForeArm_collision" scale="           5.0           5.0           1.0       "/>
-      <scaling collision="LeftForeArm_LeftHand_collision" scale="           5.0           5.0           1.0       "/>
-      <scaling collision="LeftFingerBase_LeftHandIndex1_collision" scale="           4.0           4.0           3.0       "/>
-      <scaling collision="RightShoulder_RightArm_collision" scale="           0.01           0.001           0.001       "/>
-      <scaling collision="RightArm_RightForeArm_collision" scale="           5.0           5.0           1.0       "/>
-      <scaling collision="RightForeArm_RightHand_collision" scale="           5.0           5.0           1.0       "/>
-      <scaling collision="RightFingerBase_RightHandIndex1_collision" scale="           4.0           4.0           3.0       "/>
-      </plugin><script><trajectory id="1_0" type="animation"><waypoint><time>1.5</time><pose> -7.27 2.99  0.0 0.0 0.0 -1.6886903858169897 </pose></waypoint><waypoint><time>19.837702599959616</time><pose> -7.97 -2.92 0.0 0.0 0.0 -1.6886903858169897 </pose></waypoint><waypoint><time>21.337702599959616</time><pose> -7.97 -2.92  0.0 0.0 0.0 1.4529022677728034 </pose></waypoint><waypoint><time>39.67540519991923</time><pose> -7.27 2.99 0.0 0.0 0.0 1.4529022677728034 </pose></waypoint></trajectory></script></actor><actor name="person_2_0"><pose> 1.46 0.92 0.0 0.0 0.0 0.0 </pose><skin><filename>model://actor/meshes/SKIN_man_green_shirt.dae</filename></skin><animation name="animation"><filename>model://actor/meshes/ANIMATION_walking.dae</filename><interpolate_x>true</interpolate_x></animation><plugin name="actor_collisions_plugin" filename="libActorCollisionsPlugin.so">
-      <scaling collision="LHipJoint_LeftUpLeg_collision" scale="           0.01           0.001           0.001       "/>
-      <scaling collision="LeftUpLeg_LeftLeg_collision" scale="           8.0           8.0           1.0       "/>
-      <scaling collision="LeftLeg_LeftFoot_collision" scale="           8.0           8.0           1.0       "/>
-      <scaling collision="LeftFoot_LeftToeBase_collision" scale="           4.0           4.0           1.5       "/>
-      <scaling collision="RHipJoint_RightUpLeg_collision" scale="           0.01           0.001           0.001       "/>
-      <scaling collision="RightUpLeg_RightLeg_collision" scale="           8.0           8.0           1.0       "/>
-      <scaling collision="RightLeg_RightFoot_collision" scale="           8.0           8.0           1.0       "/>
-      <scaling collision="RightFoot_RightToeBase_collision" scale="           4.0           4.0           1.5       "/>
-      <scaling collision="LowerBack_Spine_collision" scale="           12.0           20.0           5.0       " pose="0.05 0 0 0 -0.2 0"/>
-      <scaling collision="Spine_Spine1_collision" scale="           0.01           0.001           0.001       "/>
-      <scaling collision="Neck_Neck1_collision" scale="           0.01           0.001           0.001       "/>
-      <scaling collision="Neck1_Head_collision" scale="           5.0           5.0           3.0       "/>
-      <scaling collision="LeftShoulder_LeftArm_collision" scale="           0.01           0.001           0.001       "/>
-      <scaling collision="LeftArm_LeftForeArm_collision" scale="           5.0           5.0           1.0       "/>
-      <scaling collision="LeftForeArm_LeftHand_collision" scale="           5.0           5.0           1.0       "/>
-      <scaling collision="LeftFingerBase_LeftHandIndex1_collision" scale="           4.0           4.0           3.0       "/>
-      <scaling collision="RightShoulder_RightArm_collision" scale="           0.01           0.001           0.001       "/>
-      <scaling collision="RightArm_RightForeArm_collision" scale="           5.0           5.0           1.0       "/>
-      <scaling collision="RightForeArm_RightHand_collision" scale="           5.0           5.0           1.0       "/>
-      <scaling collision="RightFingerBase_RightHandIndex1_collision" scale="           4.0           4.0           3.0       "/>
-      </plugin><script><trajectory id="2_0" type="animation"><waypoint><time>1.5</time><pose> 5.42 0.81  0.0 0.0 0.0 3.119040086939489 </pose></waypoint><waypoint><time>13.303383028387932</time><pose> 1.43 0.9 0.0 0.0 0.0 3.119040086939489 </pose></waypoint><waypoint><time>14.803383028387932</time><pose> 1.43 0.9  0.0 0.0 0.0 -0.022552566650304345 </pose></waypoint><waypoint><time>26.606766056775864</time><pose> 5.42 0.81 0.0 0.0 0.0 -0.022552566650304345 </pose></waypoint></trajectory></script></actor><actor name="person_3_0"><pose> -3.26 -3.39 0.0 0.0 0.0 0.0 </pose><skin><filename>model://actor/meshes/SKIN_man_green_shirt.dae</filename></skin><animation name="animation"><filename>model://actor/meshes/ANIMATION_walking.dae</filename><interpolate_x>true</interpolate_x></animation><plugin name="actor_collisions_plugin" filename="libActorCollisionsPlugin.so">
-      <scaling collision="LHipJoint_LeftUpLeg_collision" scale="           0.01           0.001           0.001       "/>
-      <scaling collision="LeftUpLeg_LeftLeg_collision" scale="           8.0           8.0           1.0       "/>
-      <scaling collision="LeftLeg_LeftFoot_collision" scale="           8.0           8.0           1.0       "/>
-      <scaling collision="LeftFoot_LeftToeBase_collision" scale="           4.0           4.0           1.5       "/>
-      <scaling collision="RHipJoint_RightUpLeg_collision" scale="           0.01           0.001           0.001       "/>
-      <scaling collision="RightUpLeg_RightLeg_collision" scale="           8.0           8.0           1.0       "/>
-      <scaling collision="RightLeg_RightFoot_collision" scale="           8.0           8.0           1.0       "/>
-      <scaling collision="RightFoot_RightToeBase_collision" scale="           4.0           4.0           1.5       "/>
-      <scaling collision="LowerBack_Spine_collision" scale="           12.0           20.0           5.0       " pose="0.05 0 0 0 -0.2 0"/>
-      <scaling collision="Spine_Spine1_collision" scale="           0.01           0.001           0.001       "/>
-      <scaling collision="Neck_Neck1_collision" scale="           0.01           0.001           0.001       "/>
-      <scaling collision="Neck1_Head_collision" scale="           5.0           5.0           3.0       "/>
-      <scaling collision="LeftShoulder_LeftArm_collision" scale="           0.01           0.001           0.001       "/>
-      <scaling collision="LeftArm_LeftForeArm_collision" scale="           5.0           5.0           1.0       "/>
-      <scaling collision="LeftForeArm_LeftHand_collision" scale="           5.0           5.0           1.0       "/>
-      <scaling collision="LeftFingerBase_LeftHandIndex1_collision" scale="           4.0           4.0           3.0       "/>
-      <scaling collision="RightShoulder_RightArm_collision" scale="           0.01           0.001           0.001       "/>
-      <scaling collision="RightArm_RightForeArm_collision" scale="           5.0           5.0           1.0       "/>
-      <scaling collision="RightForeArm_RightHand_collision" scale="           5.0           5.0           1.0       "/>
-      <scaling collision="RightFingerBase_RightHandIndex1_collision" scale="           4.0           4.0           3.0       "/>
-      </plugin><script><trajectory id="3_0" type="animation"><waypoint><time>1.5</time><pose> -4.33 0.75  0.0 0.0 0.0 -1.3356212711473285 </pose></waypoint><waypoint><time>14.019232820981642</time><pose> -3.35 -3.34 0.0 0.0 0.0 -1.3356212711473285 </pose></waypoint><waypoint><time>15.519232820981642</time><pose> -3.35 -3.34  0.0 0.0 0.0 1.8059713824424648 </pose></waypoint><waypoint><time>28.038465641963285</time><pose> -4.33 0.75 0.0 0.0 0.0 1.8059713824424648 </pose></waypoint></trajectory></script></actor><actor name="person_4_0"><pose> 1.9 -3.42 0.0 0.0 0.0 0.0 </pose><skin><filename>model://actor/meshes/SKIN_man_green_shirt.dae</filename></skin><animation name="animation"><filename>model://actor/meshes/ANIMATION_walking.dae</filename><interpolate_x>true</interpolate_x></animation><plugin name="actor_collisions_plugin" filename="libActorCollisionsPlugin.so">
-      <scaling collision="LHipJoint_LeftUpLeg_collision" scale="           0.01           0.001           0.001       "/>
-      <scaling collision="LeftUpLeg_LeftLeg_collision" scale="           8.0           8.0           1.0       "/>
-      <scaling collision="LeftLeg_LeftFoot_collision" scale="           8.0           8.0           1.0       "/>
-      <scaling collision="LeftFoot_LeftToeBase_collision" scale="           4.0           4.0           1.5       "/>
-      <scaling collision="RHipJoint_RightUpLeg_collision" scale="           0.01           0.001           0.001       "/>
-      <scaling collision="RightUpLeg_RightLeg_collision" scale="           8.0           8.0           1.0       "/>
-      <scaling collision="RightLeg_RightFoot_collision" scale="           8.0           8.0           1.0       "/>
-      <scaling collision="RightFoot_RightToeBase_collision" scale="           4.0           4.0           1.5       "/>
-      <scaling collision="LowerBack_Spine_collision" scale="           12.0           20.0           5.0       " pose="0.05 0 0 0 -0.2 0"/>
-      <scaling collision="Spine_Spine1_collision" scale="           0.01           0.001           0.001       "/>
-      <scaling collision="Neck_Neck1_collision" scale="           0.01           0.001           0.001       "/>
-      <scaling collision="Neck1_Head_collision" scale="           5.0           5.0           3.0       "/>
-      <scaling collision="LeftShoulder_LeftArm_collision" scale="           0.01           0.001           0.001       "/>
-      <scaling collision="LeftArm_LeftForeArm_collision" scale="           5.0           5.0           1.0       "/>
-      <scaling collision="LeftForeArm_LeftHand_collision" scale="           5.0           5.0           1.0       "/>
-      <scaling collision="LeftFingerBase_LeftHandIndex1_collision" scale="           4.0           4.0           3.0       "/>
-      <scaling collision="RightShoulder_RightArm_collision" scale="           0.01           0.001           0.001       "/>
-      <scaling collision="RightArm_RightForeArm_collision" scale="           5.0           5.0           1.0       "/>
-      <scaling collision="RightForeArm_RightHand_collision" scale="           5.0           5.0           1.0       "/>
-      <scaling collision="RightFingerBase_RightHandIndex1_collision" scale="           4.0           4.0           3.0       "/>
-      </plugin><script><trajectory id="4_0" type="animation"><waypoint><time>1.5</time><pose> 1.68 -0.58  0.0 0.0 0.0 -1.4578044795124259 </pose></waypoint><waypoint><time>9.460326515389296</time><pose> 2.0 -3.4 0.0 0.0 0.0 -1.4578044795124259 </pose></waypoint><waypoint><time>10.960326515389296</time><pose> 2.0 -3.4  0.0 0.0 0.0 1.6837881740773673 </pose></waypoint><waypoint><time>18.920653030778592</time><pose> 1.68 -0.58 0.0 0.0 0.0 1.6837881740773673 </pose></waypoint></trajectory></script></actor></world>
+  </world>
 </sdf>
