@@ -23,6 +23,8 @@
   <arg name="viz_pub_rate" default="30" />
   <!-- With ot without Gazebo Visualization, without viz, use_rviz=false, headless:=true, gui:=false-->
   <arg name="use_rviz" default="true"/>
+  <!-- <arg name="headless" default="true"/>
+  <arg name="gui" default="false"/> -->
   <arg name="headless" default="false"/>
   <arg name="gui" default="true"/>
   <arg name="map_path" default="$(find simulator_setup)/maps/$(arg world)/map.yaml" />
