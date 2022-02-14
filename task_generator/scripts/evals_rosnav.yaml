@@ -6,7 +6,7 @@ scenarios:
   - robot: turtlebot3_burger
     worlds:
       - world: ignc
-        scenario: ignc_obs05_1.json
+        scenario: ignc_obs05.json
       # - world: map2
       #   scenario: map2_obs05.json
       # - world: map5
@@ -26,7 +26,7 @@ scenarios:
       # - world: small_warehouse
       #   scenario: small_warehouse_obs05.json
       - world: ignc
-        scenario: ignc_obs05_1.json
+        scenario: ignc_obs05.json
       # - world: map2
       #   scenario: map2_obs05.json
       # - world: map5
@@ -46,7 +46,7 @@ scenarios:
   - robot: jackal
     worlds:
       - world: ignc
-        scenario: ignc_obs05_1.json
+        scenario: ignc_obs05.json
       # - world: map2
       #   scenario: map2_obs05.json
       # - world: map5
@@ -66,7 +66,7 @@ scenarios:
       # - world: small_warehouse
       #   scenario: small_warehouse_obs05.json
       - world: ignc
-        scenario: ignc_obs05_1.json
+        scenario: ignc_obs05.json
       # - world: map2
       #   scenario: map2_obs05.json
       # - world: map5
