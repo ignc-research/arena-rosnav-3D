@@ -1,0 +1,22 @@
+# - DO NOT USE THIS FOR EVALUATION
+# - DO NOT CHANGE ANYTHING IN HERE, INSTEAD COPY THE FILE
+
+# When you want to test a drl agent it is mandatory that the agents filename
+# exectly equals the roboter name
+# As a workaround you could add the agent_name to the additional arguments
+
+local_planner: str
+# All additional arguments that should be included in the startup command
+# Is a list of dictionaries with two entries, value and name
+# If you dont want to set any other arguments just remove this field
+additionalArguments:
+  - value: str
+    name: str
+# Array of dictionaries, each dictionary denotes one robot and all the scenarios
+# which should be evaluated for this robot
+scenarios:
+  - robot: str
+    # All worlds and scenario files for which the roboter should be tests
+    worlds:
+      - world: str
+        scenario: str # full name with .json at the and
