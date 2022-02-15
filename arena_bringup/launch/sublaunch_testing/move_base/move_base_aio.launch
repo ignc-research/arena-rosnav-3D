@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+	<arg name="model" default="turtlebot3_burger"/>
+	<param name="robot_model" value="$(arg model)" />
+
+	<!-- start move_base -->
+	<!-- Using move base is a work around as the AIO base local planner interface performs worse in 3D -->
+	<include file="$(find arena_bringup)/launch/sublaunch_testing/move_base/move_base_teb.launch">
+		<arg name="model" value="$(arg model)"/>
+		<arg name="cmd_vel_topic" value="/cmd_vel_move_base_teb"/>
+  	</include>
+
+  	<!-- Node to publish static scan (only based on robot position and map) -->
+	<node name="light_scan_sim" pkg="light_scan_sim" type="light_scan_sim_node" output="screen">
+		<param name="laser/topic" value="/static_scan" />
+		<param name="laser/hz" value="20" />
+		<param name="laser/noise" value="0.0" />
+		<rosparam file="$(find all_in_one_planner)/light_scan_sim/scan_configs/$(arg model)_params.yaml" command="load" />
+	</node>
+
+	<!-- Launch aio node -->
+	<node pkg="all_in_one_planner" type="all_in_one_node.py" name="all_in_one_planner" output="screen"/>
+
+</launch>
