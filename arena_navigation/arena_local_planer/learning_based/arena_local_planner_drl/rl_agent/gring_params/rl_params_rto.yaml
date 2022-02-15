@@ -3,4 +3,4 @@ rl_agent:
   state_mode: 1 # 0: image, 1: laserscan
   
   resolution: 0.05
-  scan_size: 683
+  scan_size: 552 # 683 for rto_old

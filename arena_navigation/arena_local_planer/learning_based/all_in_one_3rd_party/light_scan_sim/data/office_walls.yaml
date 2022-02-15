@@ -1,0 +1,8 @@
+frame_id: "/map"
+segments:
+  - type: 0  # Regular wall
+    start: [-1.335, 3.534]
+    end: [-1.369, -0.895]
+  - type: 2  # Glass
+    start: [-1.535, 3.534]
+    end: [-1.569, 1.895]

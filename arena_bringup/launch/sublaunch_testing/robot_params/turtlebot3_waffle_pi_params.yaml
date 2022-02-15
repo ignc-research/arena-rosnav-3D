@@ -10,3 +10,4 @@ laser_max: 6.28319 # [rad]
 laser_increment: 0.0175019223243
 laser_range: 3.5 # [m]
 laser_beams: 360
+rot_speed: 1.82 # [rad/s]

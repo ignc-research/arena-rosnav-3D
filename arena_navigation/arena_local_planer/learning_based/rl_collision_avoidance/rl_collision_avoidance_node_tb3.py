@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 
+from re import S
+
+import scipy as sp
 import rospy
 from std_msgs.msg import Float32, ColorRGBA, Int32, String
 from geometry_msgs.msg import PoseStamped, Twist, Vector3, Point
@@ -122,9 +125,9 @@ class NN_tb3:
         scan = np.concatenate(
             (sub_array[3], sub_array[0], sub_array[1], sub_array[2])
         )  # adapt scan info when min and max angel equal to [-1.57,4.69] (rlca is [-3.14,3.14])
-
-        scan[np.isnan(scan)] = 6.0
-        scan[np.isinf(scan)] = 6.0
+        max_range = rospy.get_param('laser_range')
+        scan[np.isnan(scan)] = max_range
+        scan[np.isinf(scan)] = max_range
         raw_beam_num = len(scan)
         sparse_beam_num = self.beam_mum
         step = float(raw_beam_num) / sparse_beam_num
@@ -197,7 +200,8 @@ class NN_tb3:
             self.env, obs_state_list, self.policy, self.action_bound
         )
         action = scaled_action[0]
-        action[0] = 0.3 * action[0]  # the maximum speed of cmd_vel 0.3
+        action[0] = rospy.get_param('speed') * action[0]  # the maximum speed of cmd_vel 0.3
+        action[1] = action[1]
         self.control_vel(action)
         # self.update_action(action)
 
@@ -239,12 +243,11 @@ class NN_tb3:
 
 
 def run():
-
     # Set parameters of env
     LASER_HIST = 3
     NUM_ENV = 1  # the number of agents in the environment
     OBS_SIZE = 512  # number of leaserbeam
-    action_bound = [[0, -1], [1, 1]]  # the limitation of velocity
+    action_bound = [[-1, -1], [1, 1]]  # the limitation of velocity
 
     # Set env and agent policy
     env = StageWorld(

@@ -1,0 +1,6 @@
+range/min: 0.12
+range/max: 3.5
+angle/min: 0
+angle/max: 6.26573201466
+angle/increment: 0.01745329251
+laser/frame: base_scan

@@ -1,0 +1,19 @@
+materials:
+  - name: "Wall"
+    min_return: 1.0  # Base hance of returning on collision
+    max_return: 1.0
+    angular_return: 0.0
+    type: opaque  # on failed return, beam is absorbed
+    color: [0.25, 0.25, 0.25]  # Dark grey
+  - name: "Stealth Tech"
+    min_return: 0.0
+    max_return: 1.0
+    angular_return: -0.05  # each degree from perpendicular modifies return chance by this (0% chance at 20 degrees)
+    type: opaque
+    color: [0, 0, 0]  # Black
+  - name: "Glass"
+    min_return: 0.1
+    max_return: 0.9
+    angular_return: -0.05
+    type: transparent  # On failed return, beam continues through
+    color: [0.53, 0.81, 0.92]  # Sky Blue

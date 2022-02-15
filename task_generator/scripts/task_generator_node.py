@@ -135,7 +135,7 @@ class TaskGenerator:
         if info is not None:
             if info == "End":
                 # communicates to launch_arena (if used) the end of the simulation
-                
+                print("SENDING END MESSAGE")
                 self.end_msg = Bool()
                 self.end_msg.data = True
                 self.pub.publish(self.end_msg)
