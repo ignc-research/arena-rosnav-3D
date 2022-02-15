@@ -51,6 +51,8 @@ RUN apt-get -y update && apt-get install -y \
     python3-empy \
     python3-setuptools \
     libarmadillo-dev \
+    ros-noetic-pcl-conversions\
+
 && echo $'\n\
 source /opt/ros/noetic/setup.sh' >> /root/.bashrc
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y tzdata \
@@ -88,7 +90,7 @@ RUN source /root/.bashrc \
 RUN . /opt/ros/noetic/setup.sh \
 && cd $HOME \
 && mkdir -p catkin_ws/src && cd catkin_ws/src \
-&& git clone https://github.com/ignc-research/arena-rosnav-3D.git \
+&& git clone https://github.com/ignc-research/arena-rosnav-3D.git -b arena-benchmark \
 && cd .. \
 && catkin_make -DCMAKE_BUILD_TYPE=Release -DPYTHON_EXECUTABLE=/usr/bin/python3 \
 && source devel/setup.bash \
