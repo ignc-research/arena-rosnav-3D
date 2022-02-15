@@ -1,4 +1,4 @@
-# Woking with Docker
+# Working with Docker
 Using Docker, you can run this repo on any operating system. Please follow these steps to install arena-rosnav-3D via Docker:
 #### Install latest version of docker
 
