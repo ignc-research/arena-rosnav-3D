@@ -1,7 +1,9 @@
-trainings_env: rosnav
-network_type: rosnav
-shouldLaunchDocker: false
-dockerName: navrep
+local_planner: rosnav
+additionalArguments:
+  - value: rosnav
+    name: trainings_environment
+  - value: rosnav
+    name: network_type
 scenarios:
   - robot: turtlebot3_burger
     worlds:
@@ -54,7 +56,7 @@ scenarios:
       # - world: map7
       #   scenario: map7_obs05.json
       # - world: ignc
-        # scenario: ignc_obs10_1.json
+      # scenario: ignc_obs10_1.json
       # - world: map2
       #   scenario: map2_obs10.json
       # - world: map5
@@ -76,7 +78,7 @@ scenarios:
       # - world: small_warehouse
       #   scenario: small_warehouse_obs10.json
       # - world: ignc
-        # scenario: ignc_obs10_1.json
+      # scenario: ignc_obs10_1.json
       # - world: map2
       #   scenario: map2_obs10.json
       # - world: map5
