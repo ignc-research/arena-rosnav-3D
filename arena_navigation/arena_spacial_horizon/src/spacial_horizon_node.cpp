@@ -27,7 +27,7 @@ void SpacialHorizon::init(ros::NodeHandle &nh)
 
     public_nh.getParam("/real", is_real);
     if(is_real){
-        amcl_pose_sub_ = public_nh.subscribe("amcl_pose", 1, &SpacialHorizon::amcl_poseCallback, this);
+        amcl_pose_sub_ = public_nh.subscribe("initialpose", 1, &SpacialHorizon::amcl_poseCallback, this);
     }else{
         odom_sub_ = public_nh.subscribe("odom", 1, &SpacialHorizon::odomCallback, this);
     }
