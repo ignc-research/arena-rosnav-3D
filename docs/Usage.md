@@ -114,10 +114,11 @@ roslaunch arena_bringup start_arena_gazebo.launch model:=ridgeback
 
 Arena-rosnav-3d supports different local planner and task-modes. Select your planner to move to the respective documentation.
 
-- [teb](#local-planner-teb-dwa-mpc-rlca)
-- [dwa](#local-planner-teb-dwa-mpc-rlca)
-- [mpc](#local-planner-teb-dwa-mpc-rlca)
-- [rlca](#local-planner-teb-dwa-mpc-rlca)
+- [teb](#local-planner-teb-dwa-mpc-rlca-arena-aio)
+- [dwa](#local-planner-teb-dwa-mpc-rlca-arena-aio)
+- [mpc](#local-planner-teb-dwa-mpc-rlca-arena-aio)
+- [rlca](#local-planner-teb-dwa-mpc-rlca-arena-aio)
+- [aio](#local-planner-teb-dwa-mpc-rlca-arena-aio)
 - [cadrl](#local-planner-cadrl)
 - [drl](#local-planner-drl)
 - [navrep]()
@@ -140,7 +141,7 @@ Take note of the different task modes, which define how the start and goal posit
   roslaunch arena_bringup start_arena_gazebo.launch task_mode:=manual
   ```
 
-## Local-planner: teb, dwa, mpc, rlca, arena
+## Local-planner: teb, dwa, mpc, rlca, arena, aio
 
 You can start these planners by setting the `local_planner` parameter in the launch file. As example, here how to start _teb_:
 
