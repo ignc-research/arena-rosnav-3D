@@ -27,6 +27,7 @@ void SpacialHorizon::init(ros::NodeHandle &nh)
 
     public_nh.getParam("/real", is_real);
     if(is_real){
+        // amcl_pose_sub_ = public_nh.subscribe("initialpose", 1, &SpacialHorizon::amcl_poseCallback, this);
         amcl_pose_sub_ = public_nh.subscribe("amcl_pose", 1, &SpacialHorizon::amcl_poseCallback, this);
     }else{
         odom_sub_ = public_nh.subscribe("odom", 1, &SpacialHorizon::odomCallback, this);
@@ -102,7 +103,7 @@ bool SpacialHorizon::getSubgoalSpacialHorizon(Eigen::Vector2d &subgoal){
         return true;
     }
 
-    getGlobalPath_MoveBase();
+    // getGlobalPath_MoveBase();
 
     // select the nearst waypoint on global path
     int subgoal_id=0;
@@ -186,9 +187,14 @@ void SpacialHorizon::getGlobalPath_MoveBase(){
 
 void SpacialHorizon::fillPathRequest(nav_msgs::GetPlan::Request &request){
 	request.start.header.frame_id ="map";
-	request.start.pose.position.x = odom_pos_[0];//x coordinate of the initial position
-	request.start.pose.position.y = odom_pos_[1];//y coordinate of the initial position
-	request.start.pose.orientation.w = 1.0;//direction
+    if(is_real){
+        request.start.pose.position.x = initial_pose_[0];//x coordinate of the initial position
+        request.start.pose.position.y = initial_pose_[1];//y coordinate of the initial position
+    }else{
+        request.start.pose.position.x = odom_pos_[0];//x coordinate of the initial position
+        request.start.pose.position.y = odom_pos_[1];//y coordinate of the initial position
+    }
+    request.start.pose.orientation.w = 1.0;//direction
 	request.goal.header.frame_id = "map";
 	request.goal.pose.position.x = end_pos_[0];//End point coordinates
 	request.goal.pose.position.y = end_pos_[1];
