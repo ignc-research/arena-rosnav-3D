@@ -130,7 +130,9 @@ pip3 install pyyaml catkin_pkg gym netifaces pathlib filelock pyqt5 mpi4py torch
 cd $HOME
 mkdir -p catkin_ws/src && cd catkin_ws/src
 git clone https://github.com/ignc-research/arena-rosnav-3D.git
-cd ..
+cd arena-rosnav-3D
+rosws update
+cd ../..
 catkin_make -DCMAKE_BUILD_TYPE=Release -DPYTHON_EXECUTABLE=/usr/bin/python3
 source devel/setup.bash
 ```
