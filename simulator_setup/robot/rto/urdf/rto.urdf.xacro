@@ -8,7 +8,7 @@
   <xacro:plate parent="base_link" name="plate"/>
 
   <xacro:hokuyo name="hokuyo" parent="base_link">
-    <origin xyz="0.08 0 0.2015" rpy="0 0 0"/>
+    <origin xyz="0.08 0 0.3" rpy="0 0 0"/>
   </xacro:hokuyo>
 
 </robot>
