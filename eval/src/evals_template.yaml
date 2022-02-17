@@ -13,6 +13,7 @@ additionalArguments:
   - value: str
     name: str
 
+#
 docker:
   name: str
   # Path to the package starting at arena-rosnav-3D

@@ -17,7 +17,7 @@
     <!-- Launch CADRL node ,neural net ros wrapper -->
   
 	<arg name="robot_speed" default="2"/>
-    <node pkg="cadrl_ros" type="cadrl_node_3d.py" name="cadrl_node" output="screen" ns="/cadrl">
+    <!-- <node pkg="cadrl_ros" type="cadrl_node_3d.py" name="cadrl_node" output="screen" ns="/cadrl">
         
         <remap from="~other_vels" to="other_vels"/>
         <remap from="~nn_cmd_vel" to="/cmd_vel"/>
@@ -38,7 +38,7 @@
         
         <param name="~robot_speed" value="$(arg robot_speed)"/>
 
-    </node>
+    </node> -->
 
 
     <!-- pedsim agent state to cluster msg converter -->

@@ -1,0 +1,90 @@
+local_planner: cadrl
+docker:
+  name: cadrl
+  localPath: arena_navigation/arena_local_planer/model_based/cadrl_ros
+  dockerPath: root/src/cadrl_ros
+scenarios:
+  - robot: turtlebot3_burger
+    worlds:
+      - world: small_warehouse
+        scenario: small_warehouse_obs05.json
+      - world: small_warehouse
+        scenario: small_warehouse_obs10.json
+      - world: ignc
+        scenario: ignc_obs05.json
+      - world: map2
+        scenario: map2_obs05.json
+      - world: map5
+        scenario: map5_obs05.json
+      - world: map7
+        scenario: map7_obs05.json
+      - world: ignc
+        scenario: ignc_obs10.json
+      - world: map2
+        scenario: map2_obs10.json
+      - world: map5
+        scenario: map5_obs10.json
+      - world: map7
+        scenario: map7_obs10.json
+  - robot: rto
+    worlds:
+      - world: small_warehouse
+        scenario: small_warehouse_obs05.json
+      - world: ignc
+        scenario: ignc_obs05.json
+      - world: map2
+        scenario: map2_obs05.json
+      - world: map5
+        scenario: map5_obs05.json
+      - world: map7
+        scenario: map7_obs05.json
+      - world: small_warehouse
+        scenario: small_warehouse_obs10.json
+      - world: ignc
+        scenario: ignc_obs10.json
+      - world: map2
+        scenario: map2_obs10.json
+      - world: map5
+        scenario: map5_obs10.json
+      - world: map7
+        scenario: map7_obs10.json
+  # - robot: jackal
+  #   worlds:
+  #     - world: ignc
+  #       scenario: ignc_obs05.json
+  #     - world: map2
+  #       scenario: map2_obs05.json
+  #     - world: map5
+  #       scenario: map5_obs05.json
+  #     - world: map7
+  #       scenario: map7_obs05.json
+  #     - world: ignc
+  #       scenario: ignc_obs10.json
+  #     - world: map2
+  #       scenario: map2_obs10.json
+  #     - world: map5
+  #       scenario: map5_obs10.json
+  #     - world: map7
+  #       scenario: map7_obs10.json
+  # - robot: youbot
+  #   worlds:
+  #     - world: small_warehouse
+  #       scenario: small_warehouse_obs05.json
+  #     - world: ignc
+  #       scenario: ignc_obs05.json
+  #     - world: map2
+  #       scenario: map2_obs05.json
+  #     - world: map5
+  #       scenario: map5_obs05.json
+  #     - world: map7
+  #       scenario: map7_obs05.json
+  #     - world: small_warehouse
+  #       scenario: small_warehouse_obs10.json
+  #     - world: ignc
+  #       scenario: ignc_obs10.json
+  #     - world: map2
+  #       scenario: map2_obs10.json
+  #     - world: map5
+  #       scenario: map5_obs10.json
+  #     - world: map7
+  #       scenario: map7_obs10.json

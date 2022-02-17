@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launch>
     <!-- move base -->
-    <arg name="model" default="turtlebot3_burger"/>
+    <!-- <arg name="model" default="turtlebot3_burger"/>
     <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
         <rosparam file="$(find conventional)/config/$(arg model)/costmap_common_params.yaml" command="load" ns="global_costmap" />
         <rosparam file="$(find conventional)/config/$(arg model)/costmap_common_params.yaml" command="load" ns="local_costmap" />
         <rosparam file="$(find conventional)/config/$(arg model)/local_costmap_params.yaml" command="load" />
         <rosparam file="$(find conventional)/config/$(arg model)/global_costmap_params.yaml" command="load" />
-    </node>
+    </node> -->
 
     <!-- spacial_horizon -->
-    <node pkg="arena_spacial_horizon" type="spacial_horizon_node" name="spacial_horizon_node" >
-        <rosparam file="$(find conventional)/config/$(arg model)/plan_fsm_param.yaml" command="load" /> <!-- ns="fsm"-->
-    </node>
+    <!-- <node pkg="arena_spacial_horizon" type="spacial_horizon_node" name="spacial_horizon_node" > -->
+        <!-- <rosparam file="$(find conventional)/config/$(arg model)/plan_fsm_param.yaml" command="load" /> ns="fsm" -->
+    <!-- </node> -->
 
     <!-- Launch CADRL node ,neural net ros wrapper -->
+
+	<arg name="robot_speed" default="2"/>
   
-	<!-- <arg name="robot_speed" default="2"/>
     <node pkg="cadrl_ros" type="cadrl_node_3d.py" name="cadrl_node" output="screen" ns="/cadrl">
         
         <remap from="~other_vels" to="other_vels"/>
@@ -38,7 +39,7 @@
         
         <param name="~robot_speed" value="$(arg robot_speed)"/>
 
-    </node> -->
+    </node>
 
 
     <!-- pedsim agent state to cluster msg converter -->
