@@ -1,6 +1,6 @@
 range/min: 0.1
 range/max: 30
-angle/min: -2.35618
-angle/max: 2.35618
-angle/increment: 0.00654497212
+angle/min: -2.35619
+angle/max: 2.349645028
+angle/increment: 0.00654497222
 laser/frame: front_laser
