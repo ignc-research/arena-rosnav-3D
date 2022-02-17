@@ -7,6 +7,7 @@ from std_msgs.msg import Bool
 import subprocess
 import time
 import signal
+import traceback
 import argparse
 
 __all__ = ["main", "evaluate_scenario"]
@@ -168,4 +169,5 @@ if __name__ == "__main__":
     try: 
         main(parser.parse_args())
     except:
+        traceback.print_exc()
         os.system("killall roslaunch")
