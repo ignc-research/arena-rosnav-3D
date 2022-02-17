@@ -16,13 +16,6 @@
           <!-- load params -->
           <rosparam file="$(arg config_path)" command="load"/>
 
-          <!-- Set namespace specific parameters -->
-          <!-- global costmap params -->
-         <param name="global_costmap/global_frame" value="$(arg global_frame)"/>
-         <param name="global_costmap/robot_base_frame" value="$(arg base_footprint)"/>
-
-         <param name="global_costmap/scan/sensor_frame" value="$(arg scan_frame)"/>
-
          <!-- remaps due to namespace -->
          <remap from="/clock" to="/$(arg ns)/clock"/>
          <remap from="map" to="/$(arg ns)/map"/>
@@ -35,14 +28,6 @@
             name="$(arg node_name)" output="screen">
           <!-- load params -->
           <rosparam file="$(arg config_path)" command="load"/>
-
-          <!-- Set namespace specific parameters -->
-          <!-- global costmap params -->
-         <param name="global_costmap/global_frame" value="map"/>
-         <param name="global_costmap/robot_base_frame" value="base_footprint"/>
-
-         <param name="global_costmap/scan/sensor_frame" value="laser_link"/>
-
          <!-- remaps due to namespace -->
          <remap from="map" to="/map"/>
 

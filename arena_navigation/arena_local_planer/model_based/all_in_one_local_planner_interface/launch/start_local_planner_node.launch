@@ -19,15 +19,6 @@
           <!-- load params -->
           <rosparam file="$(arg config_path)" command="load"/>
 
-          <!-- Set namespace specific parameters -->
-          <!-- local costmap params -->
-          <param name="local_costmap/scan/sensor_frame" value="$(arg scan_frame)"/>
-          <param name="local_costmap/global_frame" value="$(arg robot_frame)"/>
-          <param name="local_costmap/robot_base_frame" value="$(arg base_footprint)"/>
-
-          <!-- param only relevant for teb -->
-          <param name="$teb_local_planner/map_frame" value="$(arg robot_frame)"/>
-
           <!-- remaps due to namespace -->
           <remap from="/clock" to="/$(arg ns)/clock"/>
           <remap from="map" to="/$(arg ns)/map"/>
@@ -40,15 +31,6 @@
             name="$(arg node_name)" output="screen">
           <!-- load params -->
           <rosparam file="$(arg config_path)" command="load"/>
-
-          <!-- Set namespace specific parameters -->
-          <!-- local costmap params -->
-          <param name="local_costmap/scan/sensor_frame" value="laser_link"/>
-          <param name="local_costmap/global_frame" value="map"/>
-          <param name="local_costmap/robot_base_frame" value="base_footprint"/>
-
-          <!-- param only relevant for teb -->
-          <param name="$teb_local_planner/map_frame" value="odom"/>
 
           <!-- remaps due to namespace -->
           <remap from="map" to="/map"/>

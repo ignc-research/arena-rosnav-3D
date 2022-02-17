@@ -6,18 +6,18 @@ reset_costmap_automatically: False
 reset_costmap_interval: 5  # Time between automatic costmap resets in seconds
 
 teb_local_planner:
-  max_vel_x: 1.4
-  max_vel_x_backwards: 0.5
-  max_vel_y: 0.0
-  max_vel_theta: 1.57
-  min_vel_theta: -1.57
-  acc_lim_x: 1.2
-  acc_lim_theta: 1.5
+  max_vel_x: 2.78
+  max_vel_x_backwards: 1.5
+  max_vel_y: 2.78
+  max_vel_theta: 1.0
+  acc_lim_x: 2.5
+  acc_lim_y: 2.5
+  acc_lim_theta: 3.2
   min_turning_radius: 0.0 # diff-drive robot (can turn on place!)
+  holonomic_robot: true
 
   footprint_model:
-    type: "polygon"
-    vertices: [ [ -0.21, -0.165 ], [ -0.21, 0.165 ], [ 0.21, 0.165 ], [ 0.21, -0.165 ] ]
+    type: "point"
 
   # Obstacles
   min_obstacle_dist: 0.3
@@ -39,10 +39,8 @@ teb_local_planner:
   costmap_converter_rate: 10 # Twice the update rate of the all in one planner --> TEB should always have the new update for obstacles
 
 local_costmap:
-  global_frame: map
-  robot_base_frame: base_link
   update_frequency: 10.0
-  publish_frequency: 2 # Publishing only relevant for visualization
+  publish_frequency: 1 # Publishing only relevant for visualization
 
   rolling_window: true
   width: 4
@@ -60,7 +58,7 @@ local_costmap:
     map_type: costmap
 
     observation_sources: scan
-    scan: { data_type: LaserScan, marking: true, topic: scan, clearing: true, sensor_frame: front_laser}
+    scan: {data_type: LaserScan, marking: true, topic: scan, clearing: true, sensor_frame: hokuyo_link}
 
   inflation_layer:
     inflation_radius: 0.3
