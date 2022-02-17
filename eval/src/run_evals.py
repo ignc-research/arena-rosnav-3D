@@ -7,6 +7,7 @@ from std_msgs.msg import Bool
 import subprocess
 import time
 import signal
+import traceback
 import argparse
 
 __all__ = ["main", "evaluate_scenario"]
@@ -18,12 +19,12 @@ class EvalDeclerationFile:
         local_planner: str, 
         additional_args: Union[Any, None], # None or a List with dicts containing "value": str, "name": str
         scenarios: Any, # Array of Dict with entries "robot": str and worlds: Array of Dict with "world": str, "scenario": str
-        docker_name: Union[None, str]
+        docker: Union[None, str]
     ) -> None:
         self.local_planner = local_planner
         self.arguments = additional_args
         self.scenarios = scenarios
-        self.docker_name = docker_name
+        self.docker = docker
     
     def get_startup_command_creator(self, use_recorder: bool, use_rviz: bool, verbose: bool) -> str:
         return (lambda robot, world, scenario:
@@ -40,11 +41,11 @@ class EvalDeclerationFile:
         return " ".join([f"{arg['name']}:={arg['value']}" for arg in self.arguments])
 
     def build_docker_command(self) -> Union[str, None]:
-        if not self.docker_name:
+        if not self.docker:
             return None
         
         rosnav_3d_path = os.path.join(rospkg.RosPack().get_path("eval"), "..")
-        return f"{rosnav_3d_path}/docker/drl_agent_node/start_docker.sh {rosnav_3d_path} {self.docker_name}"
+        return f"docker run -ti -v {rosnav_3d_path}/{self.docker['localPath']}:/{self.docker['dockerPath']} --network host {self.docker['name']}"
         
     @staticmethod
     def read_eval_file(file_name: str):
@@ -62,7 +63,7 @@ class EvalDeclerationFile:
             evals = yaml.safe_load(file)
 
             additional_arguments = try_read_key(evals, "additionalArguments")
-            docker_name = try_read_key(evals, "dockerName")
+            docker_name = try_read_key(evals, "docker")
 
             return EvalDeclerationFile(
                 evals["local_planner"],
@@ -168,4 +169,5 @@ if __name__ == "__main__":
     try: 
         main(parser.parse_args())
     except:
+        traceback.print_exc()
         os.system("killall roslaunch")

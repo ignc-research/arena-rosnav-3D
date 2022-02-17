@@ -97,15 +97,24 @@ class AioNode:
 
     def publish_cmd_vel(self):
         action_msg = Twist()
-        action_msg.linear.x = self.cmd_vel[0]
-        action_msg.angular.z = self.cmd_vel[1]
+        if len(self.cmd_vel) == 2:
+            action_msg.linear.x = self.cmd_vel[0]
+            action_msg.angular.z = self.cmd_vel[1]
+        else:
+            action_msg.linear.x = self.cmd_vel[0]
+            action_msg.linear.y = self.cmd_vel[1]
+            action_msg.angular.z = self.cmd_vel[2]
         self.pub_twist.publish(action_msg)
 
     def aio_control_sequence(self, _):
-        time_start = time.time()
         start_time = rospy.get_rostime()
 
-        merged_obs, obs_dict = self.observation_collector.get_observations()
+        if self._global_planner_counter % self._update_global_plan_frequency == 0:
+            make_new_global_plan = True
+        else:
+            make_new_global_plan = False
+
+        merged_obs, obs_dict = self.observation_collector.get_observations(make_new_global_plan)
 
         goal_reached = rospy.get_param("/bool_goal_reached", default=False)
         if not goal_reached:
@@ -130,7 +139,6 @@ class AioNode:
     def on_shutdown(self):
         rospy.loginfo("[%s] Shutting down Node.")
         self.local_planner_manager.close_planners()
-        self.observation_collector.close()
         self.stop_moving()
 
     def _extract_step_parameters(self, config_path: str):

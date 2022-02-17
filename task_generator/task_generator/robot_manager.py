@@ -104,11 +104,15 @@ class RobotManager:
         goal.header.frame_id = "map"
         goal.pose = pose
 
-        # Make sure move_base is ready to take goals/make plan
-        rospy.wait_for_service("/move_base/make_plan")
+        # wait for aio global planner
+        if self.planer == 'aio':
+            rospy.wait_for_service("/global_planner/makeGlobalPlan")
+        else:
+            # Make sure move_base is ready to take goals/make plan
+            rospy.wait_for_service("/move_base/make_plan")
 
         # these planer need the nav-goal pulished to the /move_base_simple/goal topic
-        if self.planer in ["teb", "dwa", "mpc", "aio"]:
+        if self.planer in ["teb", "dwa", "mpc"]:
             self.pub_mvb_goal.publish(goal)
         else:
             self._goal_pub.publish(goal)

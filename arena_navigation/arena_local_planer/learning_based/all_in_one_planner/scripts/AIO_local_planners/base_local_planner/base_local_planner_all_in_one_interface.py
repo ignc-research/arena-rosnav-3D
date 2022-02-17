@@ -45,6 +45,7 @@ class BaseLocalPlannerAgent(ModelBase):
             if not self._local_planner_rdy:
                 rospy.logwarn("Couldn't find local planner " + self._name + "!")
         if observation_dict['new_global_plan']:
+
             global_plan = observation_dict['global_plan_raw']
             request_msg = all_in_one_local_planner_interface.srv.GetVelCmdWithGlobalPlanRequest(global_plan=global_plan)
             response_msg: all_in_one_local_planner_interface.srv.GetVelCmdWithGlobalPlanResponse = self._getVelServiceGlobalPlan(
@@ -53,13 +54,13 @@ class BaseLocalPlannerAgent(ModelBase):
             response_msg: all_in_one_local_planner_interface.srv.GetVelCmdResponse = self._getVelService()
 
         if not response_msg.successful:
-            response_msg.vel.linear.x = 0.03
-            rospy.logwarn("TEB couldn't find feasable path, set linear velocity to 0.02!")
+            response_msg.vel.linear.x = 0.06
+            rospy.logwarn("TEB couldn't find feasable path, set linear velocity to 0.06!")
 
         if response_msg.costmaps_resetted:
             rospy.logwarn("Local Costmap resetted!")
 
-        return np.array([response_msg.vel.linear.x, response_msg.vel.angular.z])
+        return np.array([response_msg.vel.linear.x, response_msg.vel.linear.y, response_msg.vel.angular.z])
 
     def wait_for_agent(self) -> bool:
         service_name_get_vel_global_plan = "/" + self._name + "/" + "getVelCommandWithGlobalPlan"

@@ -1,11 +1,18 @@
 import json
+import os
+import subprocess
+import time
 from collections import deque
 from copy import deepcopy
 
+# services
+import all_in_one_global_planner_interface.srv
 import nav_msgs
 import numpy as np
+import rospkg
 import rospy
-# services
+import rosservice
+import std_srvs.srv
 import visualization_msgs.msg
 from geometry_msgs.msg import Pose2D, PoseStamped, Pose
 from geometry_msgs.msg import Twist
@@ -24,6 +31,7 @@ class ObservationCollectorAllInOne:
         # hardcoded laser settings of AIO planner
         self._laser_num_beams = rospy.get_param("laser_beams")
         self.max_range_aio_planner = rospy.get_param("laser_range")
+        self.robot_radius = rospy.get_param("radius")
 
         self._reduced_num_laser_beams, self._laser_stack_size, self._add_robot_velocity, self._use_dynamic_scan = \
             self._extract_obs_space_info(all_in_one_config)
@@ -59,9 +67,11 @@ class ObservationCollectorAllInOne:
         self._globalplan_raw = nav_msgs.msg.Path()
         self._twist = Twist()
 
+        self._new_global_plan = False
+
         self._drl_subgoal_horizon = 2.7
 
-        self._AIO_subgoal_horizon = 0.7
+        self._AIO_subgoal_horizon = 1.1
 
         # synchronization parameters
         self._first_sync_obs = True  # whether to return first sync'd obs or most recent
@@ -82,8 +92,9 @@ class ObservationCollectorAllInOne:
         self._robot_state_sub = rospy.Subscriber('/odom', Odometry, self.callback_robot_state, tcp_nodelay=True)
         self._goal_sub = rospy.Subscriber('/goal', PoseStamped, self.callback_goal)
 
-        self._globalplan_sub = rospy.Subscriber('/move_base/TebLocalPlannerROS/global_plan', nav_msgs.msg.Path, self.callback_global_plan,
-                                                tcp_nodelay=True)
+        # self._globalplan_sub = rospy.Subscriber('/move_base/TebLocalPlannerROS/global_plan', nav_msgs.msg.Path,
+        #                                         self.callback_global_plan,
+        #                                         tcp_nodelay=True)
 
         # visualization publishers
         self._dynamic_scan_pub = rospy.Publisher('all_in_one_planner/scan_dynamic', LaserScan, queue_size=1)
@@ -96,7 +107,9 @@ class ObservationCollectorAllInOne:
         else:
             self._needs_last_three_laser = False
 
-    def get_observations(self):
+        self._start_global_planner()
+
+    def get_observations(self, make_new_global_plan: bool = False):
         # get synced observations from queue
         laser_scan, laser_scan_static, robot_pose, twist = self.get_sync_obs()
 
@@ -120,11 +133,20 @@ class ObservationCollectorAllInOne:
             scan_static = np.zeros(self._laser_num_beams, dtype=float)
             dynamic_scan = np.zeros(self._laser_num_beams, dtype=float)
 
-        # extract subgoal from new global plan
-        self._subgoal = self._extract_subgoal(self._globalplan, self._drl_subgoal_horizon)
-        self._subgoal_reward = self._extract_subgoal(self._globalplan, self._AIO_subgoal_horizon)
-        # visualize subgoal
-        self._visualize_subgoal(self._subgoal)
+        # create new global plan if necessary, extract subgoal and calculate distance to global plan
+        if make_new_global_plan or self._global_plan_service is None:
+            if self._global_plan_service is None:
+                service_available = self._wait_for_global_plan_service()
+            else:
+                service_available = True
+            if service_available:
+                self._make_new_global_plan(self._robot_pose)
+                self._new_global_plan = True
+                # extract subgoal from new global plan
+                self._subgoal = self._extract_subgoal(self._globalplan, self._drl_subgoal_horizon)
+                self._subgoal_reward = self._extract_subgoal(self._globalplan, self._AIO_subgoal_horizon)
+                # visualize subgoal
+                self._visualize_subgoal(self._subgoal)
 
         # Convert goals to robot frame
         rho_local, theta_local = ObservationCollectorAllInOne._get_goal_pose_in_robot_frame(
@@ -179,6 +201,7 @@ class ObservationCollectorAllInOne:
                     'goal_in_robot_frame_xy': [local_goal_x, local_goal_y],
                     'global_plan': self._globalplan,
                     'global_plan_raw': self._globalplan_raw,
+                    'new_global_plan': self._new_global_plan,
                     'robot_pose': self._robot_pose,
                     'robot_twist': self._twist,
                     'global_goal': np.array([self._goal.x, self._goal.y]),
@@ -200,9 +223,14 @@ class ObservationCollectorAllInOne:
         self._laser_static_deque.clear()
         self._rs_deque.clear()
 
+        self._new_global_plan = False
+
         return merged_obs, obs_dict
 
     def reset(self):
+        if self._reset_global_costmap_service is not None:
+            self._reset_global_costmap_service()
+
         if self._stacked_obs_space:
             self._obs_stacked = np.zeros((self._laser_stack_size, self._laser_vec_size))
             self._obs_stacked_empty = True
@@ -217,11 +245,15 @@ class ObservationCollectorAllInOne:
 
     def get_dynamic_scan(self, static_scan: np.ndarray, scan: np.ndarray):
         diff_scan = np.abs(scan - static_scan)
-        dynamic_scan = np.where(diff_scan < 0.5, self.max_range_aio_planner, scan)
+        dynamic_scan = np.where(diff_scan < 0.6, self.max_range_aio_planner, scan)
 
-        dynamic_scan = self.filter_outliers(dynamic_scan, self.max_range_aio_planner)
+        # filter very large and very small values
+        dynamic_scan = np.where(dynamic_scan > 3, self.max_range_aio_planner, dynamic_scan)
+        dynamic_scan = np.where(dynamic_scan < self.robot_radius, self.max_range_aio_planner, dynamic_scan)
 
-        dynamic_scan = np.where(dynamic_scan > 4, self.max_range_aio_planner, dynamic_scan)
+        # filter outliers
+        outlier_min_are = int(0.025 * self._laser_num_beams)
+        dynamic_scan = self.filter_outliers(dynamic_scan, self.max_range_aio_planner, outlier_min_are)
 
         # publish dynamic scan for visualization
         self._dyn_scan_msg.ranges = dynamic_scan
@@ -294,6 +326,7 @@ class ObservationCollectorAllInOne:
         return
 
     def callback_global_plan(self, msg_global_plan: nav_msgs.msg.Path):
+        self._new_global_plan = True
         self._globalplan = ObservationCollectorAllInOne.process_global_plan_msg(msg_global_plan)
         self._globalplan_raw = msg_global_plan
         return
@@ -348,6 +381,63 @@ class ObservationCollectorAllInOne:
         pose2d = self.pose3D_to_pose2D(msg_Subgoal.pose)
         return pose2d
 
+    def _start_global_planner(self):
+        # Generate local planner node
+        robot_model = rospy.get_param("robot_model")
+        config_path = os.path.join(rospkg.RosPack().get_path('all_in_one_planner'), 'global_planner_config',
+                                   'global_planner_' + robot_model + '.yaml')
+        package = 'all_in_one_global_planner_interface'
+        launch_file = 'start_global_planner_node.launch'
+
+        arg1 = "ns:=_"
+        arg4 = "use_ns:=false"
+
+        arg2 = "node_name:=" + 'global_planner'
+        arg3 = "config_path:=" + config_path
+
+        # Use subprocess to execute .launch file
+        self._global_planner_process = subprocess.Popen(["roslaunch", package, launch_file, arg1, arg2, arg3, arg4])
+
+        self._global_plan_service = None
+        self._reset_global_costmap_service = None
+
+    def _wait_for_global_plan_service(self) -> bool:
+        # wait until service is available
+        make_plan_service_name = "/global_planner" + "/" + "makeGlobalPlan"
+        reset_costmap_service_name = "/global_planner" + "/" + "resetGlobalCostmap"
+        service_list = rosservice.get_service_list()
+        max_tries = 10
+        for i in range(max_tries):
+            if make_plan_service_name in service_list and reset_costmap_service_name in service_list:
+                break
+            else:
+                time.sleep(0.3)
+
+        if make_plan_service_name in service_list and reset_costmap_service_name in service_list:
+            self._global_plan_service = rospy.ServiceProxy(make_plan_service_name,
+                                                           all_in_one_global_planner_interface.srv.MakeNewPlan,
+                                                           persistent=True)
+            self._reset_global_costmap_service = rospy.ServiceProxy(reset_costmap_service_name,
+                                                                    std_srvs.srv.Empty,
+                                                                    persistent=True)
+            return True
+        else:
+            return False
+
+    def _make_new_global_plan(self, robot_pose):
+        goal_msg = PoseStamped()
+        goal_msg.pose = self._goal3D
+        goal_msg.header.frame_id = "map"
+        globalplan_raw = self._global_plan_service(goal_msg).global_plan
+
+        if not len(globalplan_raw.poses) == 0:
+            self._globalplan_raw = globalplan_raw
+            self._globalplan = self.process_global_plan_msg(self._globalplan_raw)
+
+            # change frame_id from /map to map
+            for pose in self._globalplan_raw.poses:
+                pose.header.frame_id = "map"
+
     def _calc_reduced_laser_vec(self, laser_scan: np.array):
         return list(map(np.min, np.array_split(laser_scan, self._reduced_num_laser_beams)))
 
@@ -385,12 +475,12 @@ class ObservationCollectorAllInOne:
             return Pose2D(end_xy[0], end_xy[1], 0)
 
         i = 1
-        next_pose_xy = global_plan[i]
-        while np.linalg.norm(start_xy - next_pose_xy) < lookahead_dist and i < global_plan.size - 1:
+        dist = 0
+        while dist < lookahead_dist and i < global_plan.size - 1:
+            dist += np.linalg.norm(global_plan[i] - global_plan[i - 1])
             i += 1
-            next_pose_xy = global_plan[i]
 
-        return Pose2D(next_pose_xy[0], next_pose_xy[1], 0)
+        return Pose2D(global_plan[i - 1][0], global_plan[i - 1][1], 0)
 
     @staticmethod
     def _extract_obs_space_info(all_in_one_config_path: str):
@@ -465,43 +555,24 @@ class ObservationCollectorAllInOne:
         return rho, theta
 
     @staticmethod
-    def filter_outliers(scan: np.ndarray, max_range: float):
-        # remove scan outlier areas of size 1 and 2
-
+    def filter_outliers(scan: np.ndarray, max_range: float, outlier_range: int):
+        # remove scan outlier areas of size outlier_range
         filtered_scan = deepcopy(scan)
-        diff_tolerance = 0.2
+        outlier_indices = []
+        area_size_counter = 1
 
-        def left_edge(array):
-            return abs(array[0] - array[1]) > diff_tolerance
+        for i in range(1, scan.size):
+            if abs(scan[i - 1] - scan[i]) > 0.1:
+                if area_size_counter <= outlier_range and abs(scan[i] - max_range) > 0.1:
+                    # outliers detected --> to remove list
+                    outlier_indices + list(range(i - area_size_counter, i))
+                else:
+                    # dynamic scan has max range value or are sufficiently large --> don't change
+                    area_size_counter = 1
+            else:
+                # same area --> increase counter
+                area_size_counter += 1
 
-        def right_edge(array):
-            return abs(array[2] - array[1]) > diff_tolerance
-
-        def left_long_edge(array):
-            return abs(array[0] - array[2]) > diff_tolerance
-
-        def right_long_edge(array):
-            return abs(array[2] - array[4]) > diff_tolerance
-
-        # easy way to remove outliers
-        for i in range(2, scan.size - 2):
-            short_slice = scan[i - 1:i + 2]
-
-            is_left_edge = left_edge(short_slice)
-            is_right_edge = right_edge(short_slice)
-
-            is_outlier = False
-
-            if is_left_edge or is_right_edge:
-                long_slice = scan[i - 2:i + 3]
-                if is_left_edge and is_right_edge:
-                    is_outlier = True
-                elif is_left_edge and right_long_edge(long_slice):
-                    is_outlier = True
-                elif is_right_edge and left_long_edge(long_slice):
-                    is_outlier = True
-
-                if is_outlier:
-                    filtered_scan[i] = max_range
+        filtered_scan[outlier_indices] = max_range
 
         return filtered_scan
