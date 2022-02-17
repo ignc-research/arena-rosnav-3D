@@ -18,17 +18,41 @@ class ScanMapper:
 
         # Subscribers (callback functions are triggered on incoming data and written to 'data' as defined by ROS)
         self._robot_state_sub = rospy.Subscriber(
-            "/scan", LaserScan, self.callback_change_laserscan
+            "/scan_new", LaserScan, self.callback_change_laserscan
         )
 
         # Publishers
-        self._new_scan_pub = rospy.Publisher("/scan_mapped", LaserScan, queue_size=1)
+        self._new_scan_pub = rospy.Publisher("/scan_new2", LaserScan, queue_size=1)
 
     def callback_change_laserscan(self, data):
-        print("test")
-        data.angle_min = rospy.get_param("angle_min")
-        data.angle_max = rospy.get_param("angle_max")
-        data.angle_increment = rospy.get_param("increment")
+        #print("test")
+
+        ### TB3 Clip scan ranges to 3.5m
+        # scan_list = list(data.ranges)
+        # for i, element in enumerate(scan_list):
+        #     if element > 3.5 or element == 0 
+        #         scan_list[i] = 3.5
+        # data.ranges = tuple(scan_list)
+        #print(data.ranges)
+
+        ### RTO Clip scan ranges to 3.5m
+        scan_list = list(data.ranges)
+        for i, element in enumerate(scan_list):
+            if element == "inf":
+                scan_list[i] = 15
+        data.ranges = tuple(scan_list)
+        #print(data.ranges)
+
+        intensity_list = list(data.intensities)
+        for i, element in enumerate(intensity_list):
+            #if element == 0:
+            intensity_list[i] = 0
+        data.intensities = tuple(intensity_list)
+
+        ### Map to other scan represenations
+        #data.angle_min = rospy.get_param("angle_min")
+        #data.angle_max = rospy.get_param("angle_max")
+        #data.angle_increment = rospy.get_param("increment")
         self._new_scan_pub.publish(data)
 
 
