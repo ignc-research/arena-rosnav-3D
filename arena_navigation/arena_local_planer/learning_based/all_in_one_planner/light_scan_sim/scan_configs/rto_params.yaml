@@ -1,0 +1,6 @@
+range/min: 0.1
+range/max: 50.0
+angle/min: -2.39983
+angle/max: 2.39983
+angle/increment: 0.0087
+laser/frame: hokuyo_link
