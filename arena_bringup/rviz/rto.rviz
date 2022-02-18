@@ -60,24 +60,42 @@ Visualization Manager:
       Frame Timeout: 15
       Frames:
         All Enabled: false
+        arm_link_0:
+          Value: true
+        arm_link_5:
+          Value: true
         base_footprint:
           Value: false
+        base_laser_front_link:
+          Value: true
         base_link:
           Value: false
-        base_scan:
-          Value: false
-        caster_back_link:
-          Value: false
-        imu_link:
-          Value: false
+        caster_link_bl:
+          Value: true
+        caster_link_br:
+          Value: true
+        caster_link_fl:
+          Value: true
+        caster_link_fr:
+          Value: true
+        gripper_palm_link:
+          Value: true
+        laser:
+          Value: true
         map:
           Value: true
         odom:
           Value: true
-        wheel_left_link:
-          Value: false
-        wheel_right_link:
-          Value: false
+        plate_link:
+          Value: true
+        wheel_link_bl:
+          Value: true
+        wheel_link_br:
+          Value: true
+        wheel_link_fl:
+          Value: true
+        wheel_link_fr:
+          Value: true
       Marker Alpha: 1
       Marker Scale: 1
       Name: TF
@@ -89,15 +107,24 @@ Visualization Manager:
           odom:
             base_footprint:
               base_link:
-                base_scan:
+                arm_link_0:
                   {}
-                caster_back_link:
-                  {}
-                imu_link:
-                  {}
-                wheel_left_link:
-                  {}
-                wheel_right_link:
+                base_laser_front_link:
+                  laser:
+                    {}
+                caster_link_bl:
+                  wheel_link_bl:
+                    {}
+                caster_link_br:
+                  wheel_link_br:
+                    {}
+                caster_link_fl:
+                  wheel_link_fl:
+                    {}
+                caster_link_fr:
+                  wheel_link_fr:
+                    {}
+                plate_link:
                   {}
       Update Interval: 0
       Value: true
@@ -358,35 +385,103 @@ Visualization Manager:
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
+        arm_link_0:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        arm_link_1:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        arm_link_2:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        arm_link_3:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        arm_link_4:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        arm_link_5:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         base_footprint:
           Alpha: 1
           Show Axes: false
           Show Trail: false
+          Value: true
+        base_laser_front_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         base_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        base_scan:
+        caster_link_bl:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        caster_link_br:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        caster_link_fl:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        caster_link_fr:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        gripper_finger_link_l:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        caster_back_link:
+        gripper_finger_link_r:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        imu_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        wheel_left_link:
+        gripper_palm_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        wheel_right_link:
+        plate_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        wheel_link_bl:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        wheel_link_br:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        wheel_link_fl:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        wheel_link_fr:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -453,7 +548,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 22.369319915771484
+      Distance: 12.658616065979004
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -461,17 +556,17 @@ Visualization Manager:
         Value: false
       Field of View: 0.7853981852531433
       Focal Point:
-        X: 1.3870824575424194
-        Y: -1.0175597667694092
-        Z: -0.5126821994781494
+        X: -1.8615072965621948
+        Y: -5.202637672424316
+        Z: 1.0945212841033936
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 1.5347963571548462
+      Pitch: 1.4597963094711304
       Target Frame: <Fixed Frame>
-      Yaw: 1.5703938007354736
+      Yaw: 3.32039475440979
     Saved: ~
 Window Geometry:
   Displays:
