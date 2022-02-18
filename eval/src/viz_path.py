@@ -99,8 +99,6 @@ class VizPath():
         # marker.color = ColorRGBA(r=1.0,a=1.0)
         marker.color = color_dict[self.color]
         marker.lifetime = rospy.Duration(0)
-        
-        self.markers.markers.append(marker)
         self.pub_pose_marker.publish(marker)
 
     def on_shutdown(self):
