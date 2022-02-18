@@ -17,7 +17,7 @@
 
   <!-- Path visualization -->
   <arg name="viz_path" default="true"/>
-  <arg name="color" default="red"/>
+  <arg name="path_color" default="red"/>
 
   <arg name="local_planner" default="rosnav"         doc = "local_planner type [teb, dwa, mpc, rlca, cadrl, arena, rosnav]"/>
   <arg name="model" default="rto"      doc = "model type [turtlebot3_burger, jackal, ridgeback, agv-ota, rto, tiago, turtlebot3_waffle_pi]"/>
@@ -33,7 +33,7 @@
   <param name="action_frequency" value="$(arg action_frequency)"/>
   <param name="real" value="$(arg real)"/>
   <param name="viz_path" value="$(arg viz_path)"/>
-  <param name="color" value="$(arg color)"/>
+  <param name="path_color" value="$(arg path_color)"/>
 
   <!-- <param name="update_rate" value="$(arg update_rate)" /> -->
 

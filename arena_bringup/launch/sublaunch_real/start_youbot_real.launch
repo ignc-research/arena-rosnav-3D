@@ -1,27 +1,26 @@
 <launch>
   <!-- Arguments -->
-  <arg name="tb3_model" default="$(env TURTLEBOT3_MODEL)" doc="model type [burger, waffle, waffle_pi]"/>
-  <arg name="map_file" default="$(find simulator_setup)/maps/ignc_lab_corridor/map.yaml"/>
+  
+  <arg name="map_file" default="$(find simulator_setup)/maps/ignc/lab-room1-youbot.yaml"/>
+  <!-- <arg name="map_file" default="$(find simulator_setup)/maps/ignc-lab-rto-laser/ignc-test3.yaml"/> -->
   <arg name="open_rviz" default="true"/>
   <arg name="move_forward_only" default="false"/>
   <arg name="rviz_file" default="nav_LP"/>
+  <arg name="scan_topic" default="/scan_new"/>
 
   <arg name="global_frame_id" value="map"/>
   <arg name="odom_frame_id" value="odom"/>
   <arg name="base_frame_id" value="base_footprint"/>
   <arg name="train_mode" default="false"/>
-  <arg name="action_frequency" default="10"/>
+  <arg name="action_frequency" default="5"/> 
   <arg name="real" default="true"/>
 
-  <!-- Path visualization -->
-  <arg name="viz_path" default="true"/>
-  <arg name="path_color" default="red"/>
 
   <arg name="local_planner" default="rosnav"         doc = "local_planner type [teb, dwa, mpc, rlca, cadrl, arena, rosnav]"/>
-  <arg name="model" default="turtlebot3_burger"      doc = "model type [turtlebot3_burger, jackal, ridgeback, agv-ota, rto, tiago, turtlebot3_waffle_pi]"/>
+  <arg name="model" default="youbot"      doc = "model type [turtlebot3_burger, jackal, ridgeback, agv-ota, rto, tiago, turtlebot3_waffle_pi]"/>
   <arg name="network_type" default="rosnav" doc="Model type that is used. Will determine the observation and action space. Currently only rosnav is supported" />
   <arg name="trainings_environment" default="rosnav" doc="Determines the environment in which the network is trained. How to load the network mostly differs for different environments. Currently rosnav and navrep are supported" />
-  <arg name="agent_name" default="turtlebot3_burger_new"     doc = "DRL agent name to be deployed" unless="$(eval arg('local_planner') != 'rosnav')"/>
+  <arg name="agent_name" default="youbot"     doc = "DRL agent name to be deployed" unless="$(eval arg('local_planner') != 'rosnav')"/>
   
   <param name="model" value="$(arg model)" />
   <param name="agent_name" value="$(arg agent_name)" unless="$(eval arg('local_planner') != 'rosnav')"/>
@@ -30,20 +29,8 @@
   <param name="train_mode" value="$(arg train_mode)" />
   <param name="action_frequency" value="$(arg action_frequency)"/>
   <param name="real" value="$(arg real)"/>
-  <param name="viz_path" value="$(arg viz_path)"/>
-  <param name="path_color" value="$(arg path_color)"/>
 
   <!-- <param name="update_rate" value="$(arg update_rate)" /> -->
-
-  <!-- Turtlebot3 -->
-  <include file="$(find turtlebot3_bringup)/launch/turtlebot3_remote.launch"  if="$(eval arg('model') == 'turtlebot3_burger')" >
-    <arg name="model" value="$(arg tb3_model)" />
-  </include>
-
-  <group if="$(eval arg('viz_path') == true)">
-    <node pkg="eval" name="viz_path" type="viz_path.py" />
-    <!-- <param name="local_planner" value="$(arg local_planner)"/> -->
-  </group>
 
   <!-- Managing our Robots-->
   <include file="$(find arena_bringup)/launch/sublaunch_testing/robots.launch">
@@ -51,25 +38,35 @@
     <arg name="real" value="$(arg real)"/>
   </include>
 
+  <!-- Load Robot specific parameter -->
+  <rosparam file="$(find arena_bringup)/launch/sublaunch_testing/robot_params/$(arg model)_params.yaml" />
+
+  <!-- Clip Scan of Real YB to 5.6m -->
+  <node pkg="sim_2_real" type="scan_mapping.py" name="scan_mapping" output="screen">
+  </node>
+
   <!-- Map server -->
   <node pkg="map_server" name="map_server" type="map_server" args="$(arg map_file)">
     <param name="frame_id" value="$(arg global_frame_id)"/>
   </node>
 
-  <!-- AMCL -->
-  <include file="$(find turtlebot3_navigation)/launch/amcl.launch"/>
+  <!-- AMCL  -->
+  <node pkg="amcl" type="amcl" name="amcl">
+    <remap from="scan" to="$(arg scan_topic)" />
+  </node>
 
-  <!-- rviz -->
-  <group if="$(arg open_rviz)"> 
-    <node pkg="rviz" type="rviz" name="rviz" required="true"
-          args="-d $(find arena_bringup)/rviz/$(arg rviz_file).rviz"/>
-  </group>
-
-  <!-- start local planner -->
+  <!-- Local planner -->
   <include file="$(find arena_bringup)/launch/sublaunch_testing/move_base/move_base_$(arg local_planner).launch">
     <arg name="model" value="$(arg model)"/>
-    <arg name="agent_name" value="$(arg model)" if="$(eval arg('local_planner') == 'rosnav')" />
+    <arg name="agent_name" value="$(arg agent_name)" if="$(eval arg('local_planner') == 'rosnav')" />
     <arg name="trainings_environment" value="$(arg trainings_environment)" if="$(eval arg('local_planner') == 'rosnav')" />
     <!-- <arg name="speed" value="$(param speed)"/> -->
   </include>
+
+  <!-- rviz  
+  <group if="$(arg open_rviz)"> 
+    <node pkg="rviz" type="rviz" name="rviz" required="true"
+          args="-d $(find arena_bringup)/rviz/$(arg rviz_file).rviz"/>
+  </group>-->
+
 </launch>

@@ -2,6 +2,7 @@
 
 import rospy
 from sensor_msgs.msg import LaserScan
+from numpy import nan, math
 
 
 class ScanMapper:
@@ -18,11 +19,11 @@ class ScanMapper:
 
         # Subscribers (callback functions are triggered on incoming data and written to 'data' as defined by ROS)
         self._robot_state_sub = rospy.Subscriber(
-            "/scan_new", LaserScan, self.callback_change_laserscan
+            "/base_scan", LaserScan, self.callback_change_laserscan
         )
 
         # Publishers
-        self._new_scan_pub = rospy.Publisher("/scan_new2", LaserScan, queue_size=1)
+        self._new_scan_pub = rospy.Publisher("/scan_new", LaserScan, queue_size=1)
 
     def callback_change_laserscan(self, data):
         #print("test")
@@ -35,13 +36,15 @@ class ScanMapper:
         # data.ranges = tuple(scan_list)
         #print(data.ranges)
 
-        ### RTO Clip scan ranges to 3.5m
+        ### RTO Clip scan ranges to 15m YOUBOT 5.6m
         scan_list = list(data.ranges)
         for i, element in enumerate(scan_list):
-            if element == "inf":
-                scan_list[i] = 15
+            if math.isnan(element) == True or math.isinf(element)== True:
+                scan_list[i] = 4
         data.ranges = tuple(scan_list)
-        #print(data.ranges)
+        #print(scan_list[1])
+
+
 
         intensity_list = list(data.intensities)
         for i, element in enumerate(intensity_list):
