@@ -157,7 +157,10 @@ class plotter():
                     for key in vel_keys:
                         if self.data[key]["obstacle_number"] == obstacle_number:
                             obs_keys.append(key) # append key if obstacle_number matches current obstacle_number
-                    
+
+                    if len(obs_keys) == 0:
+                        continue
+
                     ### plotting part ###
                     fig, ax = plt.subplots()
 
@@ -339,6 +342,9 @@ class plotter():
                             dat["planner"] = self.data[key]["planner"]
                             data = pd.concat([data,dat])
 
+                    if len(obs_keys) == 0:
+                        continue
+
                     # plotting part
                     for metric in metrics:
                         if metric in self.config["leave_out_metric"]:
@@ -424,6 +430,9 @@ class plotter():
                 for key in map_keys:
                     if self.data[key]["velocity"] == velocity:
                         vel_keys.append(key) # append key if velocity matches current velocity
+
+                if len(vel_keys) == 0:
+                    continue
 
                 # plotting part
                 obs_in_one_color_scheme = {self.config["labels"][k]:v for k,v in self.config["color_scheme"].items()}               
