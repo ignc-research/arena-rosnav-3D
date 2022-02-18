@@ -28,6 +28,9 @@ class VizPath():
     ):
 
         self.color = color
+        self.tfBuffer = tf2_ros.Buffer()
+        self.listener = tf2_ros.TransformListener(self.tfBuffer)
+        
 
         # subs
         self.pose = rospy.Subscriber(
@@ -77,29 +80,31 @@ class VizPath():
         self.num_poses = 0
         self.pub_pose_marker.publish(marker)
 
-    def tf_to_point(tf):
+    def tf_to_point(self, tf):
         point = Point()
         point.x = tf.transform.translation.x
         point.y = tf.transform.translation.y
         point.z = tf.transform.translation.z
+        print(point)
 
         return point
 
     def visualize_pose(self,pos,orientation):
-        marker = Marker()
-        marker.header.stamp = rospy.Time.now()
-        marker.header.frame_id = 'map'
-        marker.ns = 'agent'
-        marker.id = self.num_poses
-        marker.type = marker.CUBE
-        marker.action = marker.ADD
-        marker.pose.position = pos
-        marker.pose.orientation = orientation
-        marker.scale = Vector3(x=0.2,y=0.2,z=0.2)
-        # marker.color = ColorRGBA(r=1.0,a=1.0)
-        marker.color = color_dict[self.color]
-        marker.lifetime = rospy.Duration(0)
-        self.pub_pose_marker.publish(marker)
+        goal_reached = rospy.get_param("/bool_goal_reached", default=False)
+        if not goal_reached:
+            marker = Marker()
+            marker.header.stamp = rospy.Time.now()
+            marker.header.frame_id = 'map'
+            marker.ns = 'agent'
+            marker.id = self.num_poses
+            marker.type = marker.CUBE
+            marker.action = marker.ADD
+            marker.pose.position = pos
+            marker.pose.orientation = orientation
+            marker.scale = Vector3(x=0.2,y=0.2,z=0.2)
+            marker.color = color_dict[self.color]
+            marker.lifetime = rospy.Duration(0)
+            self.pub_pose_marker.publish(marker)
 
     def on_shutdown(self):
         rospy.loginfo("[%s] Shutting down path visualizer.")
