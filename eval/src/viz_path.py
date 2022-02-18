@@ -42,7 +42,6 @@ class VizPath():
         self.pub_pose_marker = rospy.Publisher('/viz_agent_pose',Marker,queue_size=1)
 
         self.num_poses = 0
-        self.markers = MarkerArray()
 
     def pose_callback(self, odom):
         self.num_poses += 1
@@ -75,7 +74,7 @@ class VizPath():
         marker = Marker()
         marker.header.frame_id = 'map'
         marker.action = marker.DELETEALL
-        self.markers.markers.append(marker)
+        self.num_poses = 0
         self.pub_pose_marker.publish(marker)
 
     def tf_to_point(tf):
