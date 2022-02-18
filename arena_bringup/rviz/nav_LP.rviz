@@ -11,6 +11,7 @@ Panels:
         - /Tracking-Visuals1/TrackedPersons1/History as line1
         - /Tracking-Visuals1/TrackedGroups1
         - /AIO1/Dynamic Scan1
+        - /Agent path taken1
       Splitter Ratio: 0.4374079406261444
     Tree Height: 469
   - Class: rviz/Selection
@@ -66,8 +67,6 @@ Visualization Manager:
               Value: true
             map:
               Value: true
-            map_image:
-              Value: true
             odom:
               Value: true
             wheel_left_link:
@@ -82,8 +81,6 @@ Visualization Manager:
           Show Names: true
           Tree:
             map:
-              map_image:
-                {}
               odom:
                 base_footprint:
                   base_link:
@@ -491,7 +488,7 @@ Visualization Manager:
           Marker Topic: /vis_goal
           Name: goal
           Namespaces:
-            {}
+            "": true
           Queue Size: 100
           Value: true
         - Class: rviz/Marker
@@ -689,7 +686,7 @@ Visualization Manager:
       Marker Topic: /planning_vis/goal
       Name: Marker
       Namespaces:
-        {}
+        "": true
       Queue Size: 100
       Value: true
     - Alpha: 1
@@ -858,7 +855,7 @@ Visualization Manager:
           Marker Topic: /all_in_one_planner/all_in_one_action_trajectory_vis
           Name: Planner Selection over Path
           Namespaces:
-            "": true
+            {}
           Queue Size: 100
           Value: true
         - Class: rviz/Marker
@@ -866,7 +863,7 @@ Visualization Manager:
           Marker Topic: /all_in_one_planner/all_in_one_action_vis
           Name: Planner Selection
           Namespaces:
-            "": true
+            {}
           Queue Size: 100
           Value: true
         - Alpha: 1
@@ -902,11 +899,19 @@ Visualization Manager:
           Marker Topic: /all_in_one_planner/vis_subgoal
           Name: Subgoal
           Namespaces:
-            "": true
+            {}
           Queue Size: 100
           Value: true
       Enabled: true
       Name: AIO
+    - Class: rviz/Marker
+      Enabled: true
+      Marker Topic: /viz_agent_pose
+      Name: Agent path taken
+      Namespaces:
+        agent: true
+      Queue Size: 100
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 0; 0; 0
@@ -934,7 +939,7 @@ Visualization Manager:
   Value: true
   Views:
     Current:
-      Angle: -8.734956741333008
+      Angle: -7.874952793121338
       Class: rviz/TopDownOrtho
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
@@ -944,18 +949,18 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Scale: 95.99639129638672
+      Scale: 23.100688934326172
       Target Frame: <Fixed Frame>
-      X: 1.514678716659546
-      Y: -1.1523773670196533
+      X: -2.0102946758270264
+      Y: -4.066023826599121
     Saved: ~
 Window Geometry:
   Displays:
-    collapsed: false
+    collapsed: true
   Height: 704
-  Hide Left Dock: false
+  Hide Left Dock: true
   Hide Right Dock: false
-  QMainWindow State: 000000ff00000000fd00000004000000000000016a00000266fc0200000005fb0000001200530065006c0065006300740069006f006e00000001e10000009b0000005c00fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000003be0000025d00000198000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000003d00000266000000c900ffffff000000010000010f00000270fc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a00560069006500770073000000002800000270000000a400fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e10000019700000003000004a00000003efc0100000002fb0000000800540069006d00650000000000000004a0000004f300fffffffb0000000800540069006d00650100000000000004500000000000000000000001170000026600000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd00000004000000000000016a00000266fc0200000005fb0000001200530065006c0065006300740069006f006e00000001e10000009b0000005c00fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000003be0000025d00000198000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073000000003d00000266000000c900ffffff000000010000010f00000270fc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a00560069006500770073000000002800000270000000a400fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e10000019700000003000004a00000003efc0100000002fb0000000800540069006d00650000000000000004a0000004f300fffffffb0000000800540069006d00650100000000000004500000000000000000000002870000026600000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Selection:
     collapsed: false
   Time:
