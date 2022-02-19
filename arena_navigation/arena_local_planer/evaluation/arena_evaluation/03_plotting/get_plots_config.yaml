@@ -106,7 +106,7 @@ plot_qualitative_title: true
 plot_qualitative_title_size: 18
 plot_quantitative: true
 plot_quantitative_axes_label_size: 16
-plot_quantitative_axes_tick_size: 16
+plot_quantitative_axes_tick_size: 10
 plot_quantitative_labels:
   angle_over_length: Angle over Length
   collision: Collisions

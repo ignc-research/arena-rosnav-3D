@@ -374,14 +374,14 @@ class plotter():
                                 ax.get_legend().remove()
                             ax.set_xlabel(self.config["plot_quantitative_labels"]["planner"], fontsize = self.config["plot_quantitative_axes_label_size"])
                             ax.set_ylabel(self.config["plot_quantitative_labels"][metric], fontsize = self.config["plot_quantitative_axes_label_size"])
-                            ax.tick_params(axis='both', which='major', labelsize=self.config["plot_qualitative_axes_ticks_size"])
+                            ax.tick_params(axis='both', which='major', labelsize=self.config["plot_quantitative_axes_tick_size"])
                         else:
                             if self.config["plot_quantitative_violin"]:
                                 ax.zorder = 5
                                 ax = sns.violinplot(x="planner", y=metric, data = data, inner = self.config["plot_quantitative_violin_inner"], palette = self.config["color_scheme"])
                                 ax.set_xlabel(self.config["plot_quantitative_labels"]["planner"], fontsize = self.config["plot_quantitative_axes_label_size"])
                                 ax.set_ylabel(self.config["plot_quantitative_labels"][metric], fontsize = self.config["plot_quantitative_axes_label_size"])
-                                ax.tick_params(axis='both', which='major', labelsize=self.config["plot_qualitative_axes_ticks_size"])
+                                ax.tick_params(axis='both', which='major', labelsize=self.config["plot_quantitative_axes_tick_size"])
                             else:
                                 if not self.config["plot_barplot_errorbars"]:
                                     ci = None
@@ -392,7 +392,7 @@ class plotter():
                                 ax.set_xlabel(self.config["plot_quantitative_labels"]["planner"], fontsize = self.config["plot_quantitative_axes_label_size"])
                                 ax.set_ylabel(self.config["plot_quantitative_labels"][metric], fontsize = self.config["plot_quantitative_axes_label_size"])
                                 ax.set_xticklabels([self.config["labels"][x.get_text()] for x in ax.get_xticklabels()], fontsize = self.config["plot_quantitative_axes_tick_size"])                            
-                                ax.tick_params(axis='both', which='major', labelsize=self.config["plot_qualitative_axes_ticks_size"])
+                                ax.tick_params(axis='both', which='major', labelsize=self.config["plot_quantitative_axes_tick_size"])
                         # title 
                         if self.config["plot_quantitative_suptitle"]:
                             plt.suptitle("{0}".format(self.config["plot_quantitative_labels"][metric]), fontsize = self.config["plot_quantitative_suptitle_size"], fontweight = "bold")
@@ -457,7 +457,7 @@ class plotter():
                         ax = sns.barplot(x="obstacle_number", y="Success", hue="Planner", palette = obs_in_one_color_scheme, data=data, ci=None, alpha=self.config["plot_obs_in_one_alpha"])
                         ax.set_xlabel(self.config["plot_quantitative_labels"]["obstacle_number"], fontsize = self.config["plot_quantitative_axes_label_size"])
                         ax.set_ylabel(self.config["plot_quantitative_labels"][metric], fontsize = self.config["plot_quantitative_axes_label_size"])
-                        ax.tick_params(axis='both', which='major', labelsize=self.config["plot_qualitative_axes_ticks_size"])
+                        ax.tick_params(axis='both', which='major', labelsize=self.config["plot_quantitative_axes_tick_size"])
                         if self.config["plot_quantitative_legend"]:
                             ax.legend(loc=self.config["plot_quantitative_legend_location"], fontsize=self.config["plot_quantitative_legend_fontsize"])
                         else:
@@ -469,7 +469,7 @@ class plotter():
                             ax = sns.violinplot(x="obstacle_number", y=metric, hue="Planner", palette = obs_in_one_color_scheme, data=data, inner = self.config["plot_quantitative_violin_inner"])
                             ax.set_xlabel(self.config["plot_quantitative_labels"]["obstacle_number"], fontsize = self.config["plot_quantitative_axes_label_size"])
                             ax.set_ylabel(self.config["plot_quantitative_labels"][metric], fontsize = self.config["plot_quantitative_axes_label_size"])
-                            ax.tick_params(axis='both', which='major', labelsize=self.config["plot_qualitative_axes_ticks_size"])
+                            ax.tick_params(axis='both', which='major', labelsize=self.config["plot_quantitative_axes_tick_size"])
                             if self.config["plot_quantitative_legend"]:
                                 ax.legend(loc=self.config["plot_quantitative_legend_location"], fontsize=self.config["plot_quantitative_legend_fontsize"])    
                             else:
@@ -484,7 +484,7 @@ class plotter():
                             ax = sns.barplot(x="obstacle_number", y=metric, hue="Planner", palette = obs_in_one_color_scheme, data=data, ci=ci, saturation=self.config["plot_obs_in_one_alpha"],capsize=self.config["plot_obs_in_one_capsize"],errcolor=self.config["plot_obs_in_one_errorcolor"])
                             ax.set_xlabel(self.config["plot_quantitative_labels"]["obstacle_number"], fontsize = self.config["plot_quantitative_axes_label_size"])
                             ax.set_ylabel(self.config["plot_quantitative_labels"][metric], fontsize = self.config["plot_quantitative_axes_label_size"])
-                            ax.tick_params(axis='both', which='major', labelsize=self.config["plot_qualitative_axes_ticks_size"])
+                            ax.tick_params(axis='both', which='major', labelsize=self.config["plot_quantitative_axes_tick_size"])
                             if self.config["plot_quantitative_legend"]:
                                 ax.legend(loc=self.config["plot_quantitative_legend_location"], fontsize=self.config["plot_quantitative_legend_fontsize"])
                             else:
