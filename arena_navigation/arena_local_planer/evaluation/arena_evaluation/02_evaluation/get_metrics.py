@@ -27,10 +27,15 @@ class get_metrics():
         files = glob.glob("{0}/*.csv".format(self.data_dir)) # get all the csv files paths in the directory where this script is located
         planners = []
         if len(files) == 0:
-            print("INFO: No files to evaluate were found the requestID directory. Terminating script.")
+            print("ERROR: No files to evaluate were found the requestID directory. Terminating script.")
             sys.exit()
         for file in files: # summarize all the csv files and add to dictionary
             file_name = file.split("/")[-1].split("--")[:-1] # cut off date and time and .csv ending
+            if len(file_name) == 0:
+                print("-------------------------------------------------------------------------------------------------")
+                print("ERROR: " + file + " does not match the naming convention. Skipping this file")
+                files.remove(file)
+                continue
             planners.append(file_name[0])
             file_name = "--".join(file_name) # join together to only include local planner, map and obstacle number
             print("-------------------------------------------------------------------------------------------------")
@@ -47,7 +52,7 @@ class get_metrics():
         with open(self.dir_path+"/data_{}.json".format(self.now), "w") as outfile:
             json.dump(data, outfile)
         with open(self.dir_path+"/data_{}.txt".format(self.now), "w") as outfile:
-            outfile.write(",".join(list(np.unique(planners))))
+            outfile.write("\n".join(list(np.unique(planners))))
         print("-------------------------------------------------------------------------------------------------")
         print("INFO: End data transformation and evaluation: {}".format(time.strftime("%y-%m-%d_%H:%M:%S")))
         return data
