@@ -24,7 +24,7 @@ class plotter():
         self.args = parsing()
         self.dir_path = os.path.dirname(os.path.abspath(__file__)) # get path for current file, does not work if os.chdir() was used
         self.data_dir = os.path.dirname(self.dir_path) + "/02_evaluation" # parent_directory_path + directory name where csv files are located
-        self.now = time.strftime("%y-%m-%d_%H:%M:%S")
+        self.now = time.strftime("%y-%m-%d_%H-%M-%S")
         try:
             os.mkdir(self.dir_path + "/data")
         except:
@@ -270,7 +270,7 @@ class plotter():
                         ax.set_xticklabels([])
                         ax.set_yticks(y_locs)
                         ax.set_yticklabels([])
-                    plt.savefig(self.plot_dir + "/qualitative_plots/qualitative_plot_{0}_{1}_{2}_{3}".format(map,obstacle_number,velocity,self.now), bbox_inches='tight')
+                    plt.savefig(self.plot_dir + "/qualitative_plots/qualitative_plot_{0}_{1}_{2}".format(map,obstacle_number,velocity), bbox_inches='tight')
                     plt.close()
 
     def plot_scenario(self, keys, img,  map_resolution, map_origin):
