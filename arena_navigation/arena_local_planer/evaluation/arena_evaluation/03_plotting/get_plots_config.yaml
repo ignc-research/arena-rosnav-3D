@@ -75,7 +75,7 @@ leave_out_metric:
 leave_out_planner:
 - rlca_subsampling
 - drl_subsampling
-most_recent_file: data_22-02-20_14:03:12_rto_complete.json
+most_recent_file: data_22-02-20_17:20:15_jackal_complete.json
 obstacle_color: black
 obstacle_radius: 0.3
 path_alpha: 0.3
@@ -83,7 +83,7 @@ path_arrow_color: black
 path_arrow_size: 5
 path_size: 0.1
 plot_barplot_alpha: 1.0
-plot_barplot_capsize: 0.3
+plot_barplot_capsize: 0.4
 plot_barplot_errorbars: true
 plot_barplot_errorcolor: black
 plot_barplot_width: 0.5
@@ -91,7 +91,8 @@ plot_collision_zones: true
 plot_collisions: true
 plot_obs_in_one: true
 plot_obs_in_one_alpha: 1.0
-plot_obs_in_one_capsize: 0.1
+plot_obs_in_one_axes_tick_size: 16
+plot_obs_in_one_capsize: 0.05
 plot_obs_in_one_errorbars: true
 plot_obs_in_one_errorcolor: black
 plot_progression: false
