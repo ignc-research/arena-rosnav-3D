@@ -27,13 +27,13 @@ color_scheme:
   navrep_turtlebot3_burger: tab:purple
   navrep_youbot: tab:purple
   rlca_turtlebot3_burger: tab:blue
-  rosnav_jackal: tab:orange
-  rosnav_rto: tab:orange
-  rosnav_turtlebot3_burger: tab:orange
-  teb_jackal: tab:cyan
-  teb_rto: tab:cyan
-  teb_turtlebot3_burger: tab:cyan
-  teb_youbot: tab:cyan
+  rosnav_jackal: tab:cyan
+  rosnav_rto: tab:cyan
+  rosnav_turtlebot3_burger: tab:cyan
+  teb_jackal: tab:orange
+  teb_rto: tab:orange
+  teb_turtlebot3_burger: tab:orange
+  teb_youbot: tab:orange
 goal_marker: '*'
 goal_point_color: tab:brown
 goal_size: 20
@@ -75,7 +75,7 @@ leave_out_metric:
 leave_out_planner:
 - rlca_subsampling
 - drl_subsampling
-most_recent_file: data_22-02-19_16:21:45_turtlebot_incomplete.json
+most_recent_file: data_22-02-20_14:03:12_rto_complete.json
 obstacle_color: black
 obstacle_radius: 0.3
 path_alpha: 0.3
