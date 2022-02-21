@@ -186,8 +186,8 @@ class plotter():
                                 linewidth = 2)
 
                             x,y = to_ros_coords(paths[episode], img, map_resolution, map_origin)
-                            x = x[1:-1] # NOTE: sometimes episode is wrongly assigned _> skip first and last coordinates
-                            y = y[1:-1]
+                            x = x[3:-3] # NOTE: sometimes episode is wrongly assigned _> skip first and last coordinates
+                            y = y[3:-3]
                             plt.plot(x,y,
                             "-",
                             color = self.config["color_scheme"][planner],
