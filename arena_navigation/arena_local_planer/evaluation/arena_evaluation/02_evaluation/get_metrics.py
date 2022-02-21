@@ -208,7 +208,8 @@ class get_metrics():
         episodes = np.unique(df["episode"])
         for episode in episodes:
             times = list(df.loc[df["episode"]==episode,"time"])
-            time_list.append((times[-1]-times[0])*0.3) # sim to real time factor, currently hardcoded TODO: implement realtime factor
+            # time_list.append((times[-1]-times[0])*0.3) # sim to real time factor, currently hardcoded TODO: implement realtime factor
+            time_list.append((times[-1]-times[0])) # no real time factor
         return time_list
 
     def get_path_length(self,df):
@@ -232,7 +233,7 @@ class get_metrics():
             if summary_df.loc[episode,"collision"] > self.config["collision_treshold"]:
                 success_list.append(False)
                 done_reason_list.append("collision")
-            elif summary_df.loc[episode,"time"] > self.config["time_out_treshold"]:
+            elif summary_df.loc[episode,"time"] >= self.config["time_out_treshold"]-3:
                 success_list.append(False)
                 done_reason_list.append("time_out")
             else:
