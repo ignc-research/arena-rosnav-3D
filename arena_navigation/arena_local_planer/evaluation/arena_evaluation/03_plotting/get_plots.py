@@ -195,12 +195,12 @@ class plotter():
                             linewidth = self.config["path_size"]/map_resolution,zorder=1)
 
                             if self.config["plot_progression"]:
-                                x_progression = x[0::self.config["progression_steps"]]
-                                y_progression = y[0::self.config["progression_steps"]]
+                                x_progression = x[0::self.config["plot_progression_steps"]]
+                                y_progression = y[0::self.config["plot_progression_steps"]]
                                 plt.scatter(x_progression,y_progression,
                                 color = self.config["color_scheme"][planner],
                                 alpha = self.config["path_alpha"],
-                                s = self.config["progression_size"]/map_resolution,zorder=1)
+                                s = self.config["plot_progression_size"]/map_resolution,zorder=1)
 
                         # plot collisions
                         if self.config["plot_collisions"]:
@@ -437,7 +437,12 @@ class plotter():
                     continue
 
                 # plotting part
-                obs_in_one_color_scheme = {self.config["labels"][k]:v for k,v in self.config["color_scheme"].items()}               
+                
+                # grid
+                if self.config["plot_quantitative_ygrid"]:
+                    sns.set_style("whitegrid")
+                obs_in_one_color_scheme = {self.config["labels"][k]:v for k,v in self.config["color_scheme"].items()}          
+
                 for metric in metrics:
                     if metric in self.config["leave_out_metric"]:
                         continue
@@ -504,9 +509,6 @@ class plotter():
                             plt.title("Map: {0} Velocity: {1}.{2}".format(map, velocity.replace("vel","")[0], velocity.replace("vel","")[1]), fontsize = self.config["plot_quantitative_title_size"])
                         else:
                             plt.title("Map: {0}".format(map), fontsize = self.config["plot_quantitative_title_size"])
-                    # grid
-                    if self.config["plot_quantitative_ygrid"]:
-                        sns.set_style("whitegrid")
 
                     plt.savefig(self.plot_dir + "/obs_in_one_plots/{0}_{1}_obs_in_one_{2}".format(metric,map,velocity), bbox_inches='tight')
                     plt.close()
