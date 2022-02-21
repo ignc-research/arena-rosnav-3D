@@ -299,7 +299,7 @@ class ObservationCollector:
         if rospy.get_param("/real", default=False):
             # map -> base_footprint/ base_link tf = robot pose
             try:
-                if rospy.get_param("model") == 'turtlebot3_burger':
+                if rospy.get_param("model") == 'turtlebot3_burger' or rospy.get_param("model") == 'youbot':
                     child_frame = "base_footprint"
                     tf = self.tfBuffer.lookup_transform(
                         "map", child_frame, rospy.Time()

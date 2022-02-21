@@ -24,7 +24,7 @@ class plotter():
         self.args = parsing()
         self.dir_path = os.path.dirname(os.path.abspath(__file__)) # get path for current file, does not work if os.chdir() was used
         self.data_dir = os.path.dirname(self.dir_path) + "/02_evaluation" # parent_directory_path + directory name where csv files are located
-        self.now = time.strftime("%y-%m-%d_%H:%M:%S")
+        self.now = time.strftime("%y-%m-%d_%H-%M-%S")
         try:
             os.mkdir(self.dir_path + "/data")
         except:
@@ -157,7 +157,10 @@ class plotter():
                     for key in vel_keys:
                         if self.data[key]["obstacle_number"] == obstacle_number:
                             obs_keys.append(key) # append key if obstacle_number matches current obstacle_number
-                    
+
+                    if len(obs_keys) == 0:
+                        continue
+
                     ### plotting part ###
                     fig, ax = plt.subplots()
 
@@ -267,7 +270,7 @@ class plotter():
                         ax.set_xticklabels([])
                         ax.set_yticks(y_locs)
                         ax.set_yticklabels([])
-                    plt.savefig(self.plot_dir + "/qualitative_plots/qualitative_plot_{0}_{1}_{2}_{3}".format(map,obstacle_number,velocity,self.now), bbox_inches='tight')
+                    plt.savefig(self.plot_dir + "/qualitative_plots/qualitative_plot_{0}_{1}_{2}".format(map,obstacle_number,velocity), bbox_inches='tight')
                     plt.close()
 
     def plot_scenario(self, keys, img,  map_resolution, map_origin):
@@ -339,13 +342,22 @@ class plotter():
                             dat["planner"] = self.data[key]["planner"]
                             data = pd.concat([data,dat])
 
+                    if len(obs_keys) == 0:
+                        continue
+
                     # plotting part
+
+                    # grid
+                    if self.config["plot_quantitative_ygrid"]:
+                        sns.set_style("whitegrid")
+
                     for metric in metrics:
                         if metric in self.config["leave_out_metric"]:
                             continue
                         if metric in ["done_reason", "curvature"]:
                             continue
                         fig, ax = plt.subplots()
+
                         if metric == "success": # bar plots for success metric
                             planner_list = []
                             success_list = []
@@ -368,14 +380,14 @@ class plotter():
                                 ax.get_legend().remove()
                             ax.set_xlabel(self.config["plot_quantitative_labels"]["planner"], fontsize = self.config["plot_quantitative_axes_label_size"])
                             ax.set_ylabel(self.config["plot_quantitative_labels"][metric], fontsize = self.config["plot_quantitative_axes_label_size"])
-                            ax.tick_params(axis='both', which='major', labelsize=self.config["plot_qualitative_axes_ticks_size"])
+                            ax.tick_params(axis='both', which='major', labelsize=self.config["plot_quantitative_axes_tick_size"])
                         else:
                             if self.config["plot_quantitative_violin"]:
                                 ax.zorder = 5
                                 ax = sns.violinplot(x="planner", y=metric, data = data, inner = self.config["plot_quantitative_violin_inner"], palette = self.config["color_scheme"])
                                 ax.set_xlabel(self.config["plot_quantitative_labels"]["planner"], fontsize = self.config["plot_quantitative_axes_label_size"])
                                 ax.set_ylabel(self.config["plot_quantitative_labels"][metric], fontsize = self.config["plot_quantitative_axes_label_size"])
-                                ax.tick_params(axis='both', which='major', labelsize=self.config["plot_qualitative_axes_ticks_size"])
+                                ax.tick_params(axis='both', which='major', labelsize=self.config["plot_quantitative_axes_tick_size"])
                             else:
                                 if not self.config["plot_barplot_errorbars"]:
                                     ci = None
@@ -386,7 +398,7 @@ class plotter():
                                 ax.set_xlabel(self.config["plot_quantitative_labels"]["planner"], fontsize = self.config["plot_quantitative_axes_label_size"])
                                 ax.set_ylabel(self.config["plot_quantitative_labels"][metric], fontsize = self.config["plot_quantitative_axes_label_size"])
                                 ax.set_xticklabels([self.config["labels"][x.get_text()] for x in ax.get_xticklabels()], fontsize = self.config["plot_quantitative_axes_tick_size"])                            
-                                ax.tick_params(axis='both', which='major', labelsize=self.config["plot_qualitative_axes_ticks_size"])
+                                ax.tick_params(axis='both', which='major', labelsize=self.config["plot_quantitative_axes_tick_size"])
                         # title 
                         if self.config["plot_quantitative_suptitle"]:
                             plt.suptitle("{0}".format(self.config["plot_quantitative_labels"][metric]), fontsize = self.config["plot_quantitative_suptitle_size"], fontweight = "bold")
@@ -400,10 +412,6 @@ class plotter():
                                 plt.title("Map: {0} Obstacles: {1}".format(map, int(obstacle_number.replace("obs",""))), fontsize = self.config["plot_quantitative_title_size"])
                             else:
                                 plt.title("Map: {0} Obstacles: {1} Velocity: {1}.{2} ".format(map, int(obstacle_number.replace("obs","")), velocity.replace("vel","")[0], velocity.replace("vel","")[1]), fontsize = self.config["plot_quantitative_title_size"])
-
-                        # grid
-                        if self.config["plot_quantitative_ygrid"]:
-                            sns.set_style("whitegrid")
 
                         plt.savefig(self.plot_dir + "/quantitative_plots/{0}_{1}_{2}_{3}".format(metric,map,obstacle_number,velocity), bbox_inches='tight')
                         plt.close()
@@ -424,6 +432,9 @@ class plotter():
                 for key in map_keys:
                     if self.data[key]["velocity"] == velocity:
                         vel_keys.append(key) # append key if velocity matches current velocity
+
+                if len(vel_keys) == 0:
+                    continue
 
                 # plotting part
                 obs_in_one_color_scheme = {self.config["labels"][k]:v for k,v in self.config["color_scheme"].items()}               
@@ -448,7 +459,7 @@ class plotter():
                         ax = sns.barplot(x="obstacle_number", y="Success", hue="Planner", palette = obs_in_one_color_scheme, data=data, ci=None, alpha=self.config["plot_obs_in_one_alpha"])
                         ax.set_xlabel(self.config["plot_quantitative_labels"]["obstacle_number"], fontsize = self.config["plot_quantitative_axes_label_size"])
                         ax.set_ylabel(self.config["plot_quantitative_labels"][metric], fontsize = self.config["plot_quantitative_axes_label_size"])
-                        ax.tick_params(axis='both', which='major', labelsize=self.config["plot_qualitative_axes_ticks_size"])
+                        ax.tick_params(axis='both', which='major', labelsize=self.config["plot_obs_in_one_axes_tick_size"])
                         if self.config["plot_quantitative_legend"]:
                             ax.legend(loc=self.config["plot_quantitative_legend_location"], fontsize=self.config["plot_quantitative_legend_fontsize"])
                         else:
@@ -460,7 +471,7 @@ class plotter():
                             ax = sns.violinplot(x="obstacle_number", y=metric, hue="Planner", palette = obs_in_one_color_scheme, data=data, inner = self.config["plot_quantitative_violin_inner"])
                             ax.set_xlabel(self.config["plot_quantitative_labels"]["obstacle_number"], fontsize = self.config["plot_quantitative_axes_label_size"])
                             ax.set_ylabel(self.config["plot_quantitative_labels"][metric], fontsize = self.config["plot_quantitative_axes_label_size"])
-                            ax.tick_params(axis='both', which='major', labelsize=self.config["plot_qualitative_axes_ticks_size"])
+                            ax.tick_params(axis='both', which='major', labelsize=self.config["plot_obs_in_one_axes_tick_size"])
                             if self.config["plot_quantitative_legend"]:
                                 ax.legend(loc=self.config["plot_quantitative_legend_location"], fontsize=self.config["plot_quantitative_legend_fontsize"])    
                             else:
@@ -475,7 +486,7 @@ class plotter():
                             ax = sns.barplot(x="obstacle_number", y=metric, hue="Planner", palette = obs_in_one_color_scheme, data=data, ci=ci, saturation=self.config["plot_obs_in_one_alpha"],capsize=self.config["plot_obs_in_one_capsize"],errcolor=self.config["plot_obs_in_one_errorcolor"])
                             ax.set_xlabel(self.config["plot_quantitative_labels"]["obstacle_number"], fontsize = self.config["plot_quantitative_axes_label_size"])
                             ax.set_ylabel(self.config["plot_quantitative_labels"][metric], fontsize = self.config["plot_quantitative_axes_label_size"])
-                            ax.tick_params(axis='both', which='major', labelsize=self.config["plot_qualitative_axes_ticks_size"])
+                            ax.tick_params(axis='both', which='major', labelsize=self.config["plot_obs_in_one_axes_tick_size"])
                             if self.config["plot_quantitative_legend"]:
                                 ax.legend(loc=self.config["plot_quantitative_legend_location"], fontsize=self.config["plot_quantitative_legend_fontsize"])
                             else:
