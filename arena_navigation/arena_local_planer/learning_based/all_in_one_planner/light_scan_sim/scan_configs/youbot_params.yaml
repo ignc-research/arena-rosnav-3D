@@ -1,0 +1,6 @@
+range/min: 0.1
+range/max: 5.6
+angle/min: -1.5707999467849731
+angle/max: 1.558536014
+angle/increment: 0.00612393906
+laser/frame: base_laser_front_link

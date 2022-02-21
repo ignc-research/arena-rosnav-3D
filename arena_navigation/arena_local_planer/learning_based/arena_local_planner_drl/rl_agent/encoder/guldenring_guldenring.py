@@ -140,6 +140,7 @@ class RidgebackGuldenringEncoder(HolonomicRobotEncoder):
 class Cob4Encoder(HolonomicRobotEncoder):
     pass
 
+@EncoderFactory.register("guldenring", "guldenring", "youbot")
 class Youbot(HolonomicRobotEncoder):
     pass
 

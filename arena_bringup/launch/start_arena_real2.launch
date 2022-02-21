@@ -13,6 +13,9 @@
   <arg name="action_frequency" default="10"/>
   <arg name="real" default="true"/>
 
+  <!-- Path visualization -->
+  <arg name="viz_path" default="true"/>
+  <arg name="path_color" default="red"/>
 
   <arg name="local_planner" default="rosnav"         doc = "local_planner type [teb, dwa, mpc, rlca, cadrl, arena, rosnav]"/>
   <arg name="model" default="turtlebot3_burger"      doc = "model type [turtlebot3_burger, jackal, ridgeback, agv-ota, rto, tiago, turtlebot3_waffle_pi]"/>
@@ -27,6 +30,8 @@
   <param name="train_mode" value="$(arg train_mode)" />
   <param name="action_frequency" value="$(arg action_frequency)"/>
   <param name="real" value="$(arg real)"/>
+  <param name="viz_path" value="$(arg viz_path)"/>
+  <param name="path_color" value="$(arg path_color)"/>
 
   <!-- <param name="update_rate" value="$(arg update_rate)" /> -->
 
@@ -34,6 +39,11 @@
   <include file="$(find turtlebot3_bringup)/launch/turtlebot3_remote.launch"  if="$(eval arg('model') == 'turtlebot3_burger')" >
     <arg name="model" value="$(arg tb3_model)" />
   </include>
+
+  <group if="$(eval arg('viz_path') == true)">
+    <node pkg="eval" name="viz_path" type="viz_path.py" />
+    <!-- <param name="local_planner" value="$(arg local_planner)"/> -->
+  </group>
 
   <!-- Managing our Robots-->
   <include file="$(find arena_bringup)/launch/sublaunch_testing/robots.launch">

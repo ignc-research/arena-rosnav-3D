@@ -1,23 +1,26 @@
 <launch>
   <!-- Arguments -->
   
-  <arg name="map_file" default="$(find simulator_setup)/maps/ignc_lab_corridor/map.yaml"/>
+  <arg name="map_file" default="$(find simulator_setup)/maps/ignc/lab-complete-new-rto.yaml"/>
   <!-- <arg name="map_file" default="$(find simulator_setup)/maps/ignc-lab-rto-laser/ignc-test3.yaml"/> -->
   <arg name="open_rviz" default="true"/>
   <arg name="move_forward_only" default="false"/>
   <arg name="rviz_file" default="nav_LP"/>
-  <arg name="scan_topic" default="/scan_new"/>
+  <arg name="scan_topic" default="/scan_new2"/>
 
   <arg name="global_frame_id" value="map"/>
   <arg name="odom_frame_id" value="odom"/>
-  <arg name="base_frame_id" value="base_footprint"/>
+  <arg name="base_frame_id" value="base_link"/>
   <arg name="train_mode" default="false"/>
   <arg name="action_frequency" default="10"/> 
   <arg name="real" default="true"/>
 
+  <!-- Path visualization -->
+  <arg name="viz_path" default="true"/>
+  <arg name="path_color" default="red"/>
 
   <arg name="local_planner" default="rosnav"         doc = "local_planner type [teb, dwa, mpc, rlca, cadrl, arena, rosnav]"/>
-  <arg name="model" default="turtlebot3_burger"      doc = "model type [turtlebot3_burger, jackal, ridgeback, agv-ota, rto, tiago, turtlebot3_waffle_pi]"/>
+  <arg name="model" default="rto"      doc = "model type [turtlebot3_burger, jackal, ridgeback, agv-ota, rto, tiago, turtlebot3_waffle_pi]"/>
   <arg name="network_type" default="rosnav" doc="Model type that is used. Will determine the observation and action space. Currently only rosnav is supported" />
   <arg name="trainings_environment" default="rosnav" doc="Determines the environment in which the network is trained. How to load the network mostly differs for different environments. Currently rosnav and navrep are supported" />
   <arg name="agent_name" default="rto"     doc = "DRL agent name to be deployed" unless="$(eval arg('local_planner') != 'rosnav')"/>
@@ -29,6 +32,8 @@
   <param name="train_mode" value="$(arg train_mode)" />
   <param name="action_frequency" value="$(arg action_frequency)"/>
   <param name="real" value="$(arg real)"/>
+  <param name="viz_path" value="$(arg viz_path)"/>
+  <param name="path_color" value="$(arg path_color)"/>
 
   <!-- <param name="update_rate" value="$(arg update_rate)" /> -->
 
@@ -38,8 +43,17 @@
     <arg name="real" value="$(arg real)"/>
   </include>
 
+  <group if="$(eval arg('viz_path') == true)">
+    <node pkg="eval" name="viz_path" type="viz_path.py" />
+    <!-- <param name="local_planner" value="$(arg local_planner)"/> -->
+  </group>
+
   <!-- Load Robot specific parameter -->
   <rosparam file="$(find arena_bringup)/launch/sublaunch_testing/robot_params/$(arg model)_tlabs_params.yaml" />
+
+  <!-- Clip Scan of Real RTO to 50m -->
+  <node pkg="sim_2_real" type="scan_mapping.py" name="scan_mapping" output="screen">
+  </node>
 
   <!-- Map server -->
   <node pkg="map_server" name="map_server" type="map_server" args="$(arg map_file)">
@@ -59,10 +73,10 @@
     <!-- <arg name="speed" value="$(param speed)"/> -->
   </include>
 
-  <!-- rviz  -->
+  <!-- rviz  
   <group if="$(arg open_rviz)"> 
     <node pkg="rviz" type="rviz" name="rviz" required="true"
           args="-d $(find arena_bringup)/rviz/$(arg rviz_file).rviz"/>
-  </group>
+  </group>-->
 
 </launch>

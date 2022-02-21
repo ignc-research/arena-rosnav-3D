@@ -15,7 +15,7 @@ class MoveBaseAgent(ModelBase):
         self._robot_state_sub = rospy.Subscriber('cmd_vel_move_base_' + name, Twist, self._callback_cmd_vel, tcp_nodelay=True)
 
     def get_next_action(self, observation_dict: dict) -> np.ndarray:
-        return np.array([self._last_cmd_vel.linear.x, self._last_cmd_vel.angular.z])
+        return np.array([self._last_cmd_vel.linear.x, self._last_cmd_vel.linear.y, self._last_cmd_vel.angular.z])
 
     def wait_for_agent(self):
         return True

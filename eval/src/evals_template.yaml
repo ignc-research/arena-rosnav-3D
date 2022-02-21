@@ -12,6 +12,14 @@ local_planner: str
 additionalArguments:
   - value: str
     name: str
+
+docker:
+  name: str
+  # Path to the package starting at arena-rosnav-3D
+  localPath: str
+  # Path to the package inside of docker
+  dockerPath: str
+
 # Array of dictionaries, each dictionary denotes one robot and all the scenarios
 # which should be evaluated for this robot
 scenarios:

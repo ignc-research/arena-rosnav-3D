@@ -1,18 +1,18 @@
 local_planner_type: "teb_local_planner/TebLocalPlannerROS"
 local_planner_name: "teb_local_planner"
-min_tolerated_x_vel: -1 # If linear velocity is below this threshold costmap will be resetted as it assumed that the robot is stuck
+min_tolerated_x_vel: 0.1 # If linear velocity is below this threshold costmap will be resetted as it assumed that the robot is stuck
 max_time_between_resets: 1 # Max time in s between two costmap resets.
 reset_costmap_automatically: False
 reset_costmap_interval: 5  # Time between automatic costmap resets in seconds
 
 teb_local_planner:
-  max_vel_x: 2.0
+  max_vel_x: 1.4
   max_vel_x_backwards: 0.5
   max_vel_y: 0.0
   max_vel_theta: 1.57
   min_vel_theta: -1.57
-  acc_lim_x: 10.0
-  acc_lim_theta: 20.0
+  acc_lim_x: 1.2
+  acc_lim_theta: 1.5
   min_turning_radius: 0.0 # diff-drive robot (can turn on place!)
 
   footprint_model:
@@ -29,8 +29,8 @@ teb_local_planner:
   yaw_goal_tolerance: 10 # Rotation at goal is irrelevant
   enable_homotopy_class_planning: True
   free_goal_vel: True # Velocity at goal is irrelevant
-  no_inner_iterations: 3  # default 5 -> make calculation slightly faster
-  no_outer_iterations: 3  # default 4 -> make calculation slightly faster
+  no_inner_iterations: 5  # default 5 -> make calculation slightly faster
+  no_outer_iterations: 4  # default 4 -> make calculation slightly faster
   max_global_plan_lookahead_dist: 3
 
   # Costmap converter plugin
@@ -39,12 +39,14 @@ teb_local_planner:
   costmap_converter_rate: 10 # Twice the update rate of the all in one planner --> TEB should always have the new update for obstacles
 
 local_costmap:
+  global_frame: map
+  robot_base_frame: base_link
   update_frequency: 10.0
-  publish_frequency: 1 # Publishing only relevant for visualization
+  publish_frequency: 2 # Publishing only relevant for visualization
 
   rolling_window: true
-  width: 7 # 2x laser scan range
-  height: 7
+  width: 4
+  height: 4
   resolution: 0.1
   transform_tolerance: 0.3 # allowed delay for the tf data
 
@@ -58,7 +60,7 @@ local_costmap:
     map_type: costmap
 
     observation_sources: scan
-    scan: { data_type: LaserScan, marking: true, topic: scan, clearing: true }
+    scan: { data_type: LaserScan, marking: true, topic: scan, clearing: true, sensor_frame: front_laser}
 
   inflation_layer:
     inflation_radius: 0.3
