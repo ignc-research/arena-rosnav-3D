@@ -346,12 +346,18 @@ class plotter():
                         continue
 
                     # plotting part
+
+                    # grid
+                    if self.config["plot_quantitative_ygrid"]:
+                        sns.set_style("whitegrid")
+
                     for metric in metrics:
                         if metric in self.config["leave_out_metric"]:
                             continue
                         if metric in ["done_reason", "curvature"]:
                             continue
                         fig, ax = plt.subplots()
+
                         if metric == "success": # bar plots for success metric
                             planner_list = []
                             success_list = []
@@ -406,10 +412,6 @@ class plotter():
                                 plt.title("Map: {0} Obstacles: {1}".format(map, int(obstacle_number.replace("obs",""))), fontsize = self.config["plot_quantitative_title_size"])
                             else:
                                 plt.title("Map: {0} Obstacles: {1} Velocity: {1}.{2} ".format(map, int(obstacle_number.replace("obs","")), velocity.replace("vel","")[0], velocity.replace("vel","")[1]), fontsize = self.config["plot_quantitative_title_size"])
-
-                        # grid
-                        if self.config["plot_quantitative_ygrid"]:
-                            sns.set_style("whitegrid")
 
                         plt.savefig(self.plot_dir + "/quantitative_plots/{0}_{1}_{2}_{3}".format(metric,map,obstacle_number,velocity), bbox_inches='tight')
                         plt.close()
