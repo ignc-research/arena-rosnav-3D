@@ -75,7 +75,7 @@ leave_out_metric:
 leave_out_planner:
 - rlca_subsampling
 - drl_subsampling
-most_recent_file: data_22-02-20_17-20-15_jackal_complete.json
+most_recent_file: data_22-02-20_16-17-47_tb3_complete.json
 obstacle_color: black
 obstacle_radius: 0.3
 path_alpha: 0.3
@@ -84,7 +84,7 @@ path_arrow_size: 5
 path_size: 0.1
 plot_barplot_alpha: 1.0
 plot_barplot_capsize: 0.4
-plot_barplot_errorbars: true
+plot_barplot_errorbars: false
 plot_barplot_errorcolor: black
 plot_barplot_width: 0.5
 plot_collision_zones: true
@@ -93,14 +93,14 @@ plot_obs_in_one: true
 plot_obs_in_one_alpha: 1.0
 plot_obs_in_one_axes_tick_size: 16
 plot_obs_in_one_capsize: 0.05
-plot_obs_in_one_errorbars: true
+plot_obs_in_one_errorbars: false
 plot_obs_in_one_errorcolor: black
 plot_progression: false
 plot_qualitative: true
 plot_qualitative_axes: true
 plot_qualitative_axes_size: 16
 plot_qualitative_axes_ticks_size: 16
-plot_qualitative_legend: true
+plot_qualitative_legend: false
 plot_qualitative_legend_fontsize: 12
 plot_qualitative_legend_location: upper left
 plot_qualitative_title: true
@@ -126,7 +126,7 @@ plot_quantitative_labels:
   roughness: Path Roughness
   success: Success Rate
   time: Time Traveled in [s]
-plot_quantitative_legend: true
+plot_quantitative_legend: false
 plot_quantitative_legend_fontsize: 12
 plot_quantitative_legend_location: upper left
 plot_quantitative_suptitle: true
