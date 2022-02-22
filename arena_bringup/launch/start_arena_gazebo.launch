@@ -23,10 +23,10 @@
   <arg name="viz_pub_rate" default="30" />
   <!-- With ot without Gazebo Visualization, without viz, use_rviz=false, headless:=true, gui:=false-->
   <arg name="use_rviz" default="true"/>
-  <arg name="headless" default="true"/>
-  <arg name="gui" default="false"/>
-  <!-- <arg name="headless" default="false"/>
-  <arg name="gui" default="true"/> -->
+  <!-- <arg name="headless" default="true"/>
+  <arg name="gui" default="false"/> -->
+  <arg name="headless" default="false"/>
+  <arg name="gui" default="true"/>
   <arg name="map_path" default="$(find simulator_setup)/maps/$(arg world)/map.yaml" />
   <arg name="task_mode" default="scenario" doc="task_mode type [scenario, random, manual, staged]"/>
   <arg name="actors" default="0" unless="$(arg train_mode)" />
@@ -46,6 +46,10 @@
   <arg name="pedsim_update_rate" default="30.0"/>
   <arg name="scene_file" default="$(find simulator_setup)/scenarios/ped_scenarios/$(arg world).xml"/>
   <arg name="real" default="false"/>
+
+  <!-- Path visualization -->
+  <arg name="viz_path" default="true"/>
+  <arg name="path_color" default="red" doc="Colors available: red, green, blue, light blue, yellow, pink, purple"/>
 
   <param name="additional_map" value="$(arg additional_map)"/>
   <param name="local_planner" value="$(arg local_planner)"/>
@@ -70,6 +74,8 @@
   <param name="obs_vel" value="$(arg obs_vel)" />
   <param name="action_frequency" value="$(arg action_frequency)"/>
   <param name="real" value="$(arg real)"/>
+  <param name="viz_path" value="$(arg viz_path)"/>
+  <param name="path_color" value="$(arg path_color)"/>
 
 
   <!-- Adding actors to world  -->
@@ -106,6 +112,11 @@
     <param name="record_only_planner" value="$(arg record_only_planner)"/>
     <param name="scenario_file" value="$(arg scenario_file)"/>
     <param name="model" value="$(arg model)"/>
+  </group>
+
+  <group if="$(eval arg('viz_path') == true)">
+    <node pkg="eval" name="viz_path" type="viz_path.py"/>
+    <!-- <param name="local_planner" value="$(arg local_planner)"/> -->
   </group>
 
   <!-- use simulator-->

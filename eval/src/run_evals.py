@@ -15,38 +15,44 @@ __all__ = ["main", "evaluate_scenario"]
 
 class EvalDeclerationFile:
     def __init__(
-        self, 
-        local_planner: str, 
-        additional_args: Union[Any, None], # None or a List with dicts containing "value": str, "name": str
-        scenarios: Any, # Array of Dict with entries "robot": str and worlds: Array of Dict with "world": str, "scenario": str
-        docker: Union[None, str]
+        self,
+        local_planner: str,
+        additional_args: Union[
+            Any, None
+        ],  # None or a List with dicts containing "value": str, "name": str
+        scenarios: Any,  # Array of Dict with entries "robot": str and worlds: Array of Dict with "world": str, "scenario": str
+        docker: Union[None, str],
     ) -> None:
         self.local_planner = local_planner
         self.arguments = additional_args
         self.scenarios = scenarios
         self.docker = docker
-    
-    def get_startup_command_creator(self, use_recorder: bool, use_rviz: bool, verbose: bool) -> str:
-        return (lambda robot, world, scenario:
-            f"roslaunch arena_bringup start_arena_gazebo.launch use_recorder:={use_recorder} gui:=false "
+
+    def get_startup_command_creator(
+        self, use_recorder: bool, use_rviz: bool, verbose: bool
+    ) -> str:
+        return (
+            lambda robot, world, scenario: f"roslaunch arena_bringup start_arena_gazebo.launch use_recorder:={use_recorder} gui:=false "
             f"use_rviz:={use_rviz} {self.build_arguments_string()} model:={robot} "
             f"scenario_file:={scenario} world:={world} local_planner:={self.local_planner}"
-            + (f" > eval_{self.local_planner}.txt" if verbose else "") 
+            + (f" > eval_{self.local_planner}.txt" if verbose else "")
         )
 
     def build_arguments_string(self) -> str:
         if not self.arguments:
             return ""
 
-        return " ".join([f"{arg['name']}:={arg['value']}" for arg in self.arguments])
+        return " ".join(
+            [f"{arg['name']}:={arg['value']}" for arg in self.arguments]
+        )
 
     def build_docker_command(self) -> Union[str, None]:
         if not self.docker:
             return None
-        
+
         rosnav_3d_path = os.path.join(rospkg.RosPack().get_path("eval"), "..")
         return f"docker run -ti -v {rosnav_3d_path}/{self.docker['localPath']}:/{self.docker['dockerPath']} --network host {self.docker['name']}"
-        
+
     @staticmethod
     def read_eval_file(file_name: str):
         file_path = os.path.join(
@@ -69,19 +75,18 @@ class EvalDeclerationFile:
                 evals["local_planner"],
                 additional_arguments,
                 evals["scenarios"],
-                docker_name
+                docker_name,
             )
 
 
 def evaluate_scenario(
-    startup_command: str,
-    docker_command: Union[str, None]
+    startup_command: str, docker_command: Union[str, None]
 ) -> None:
     """_summary_
 
     Args:
         startup_command (str): _description_
-        docker_command (Union[str, None]): _description_ 
+        docker_command (Union[str, None]): _description_
     """
 
     process = subprocess.Popen(
@@ -104,7 +109,7 @@ def evaluate_scenario(
     time.sleep(1)
     os.system("killall roslaunch")
 
-    process.wait(10)
+    process.wait(30)
 
     if docker_command:
         os.killpg(os.getpgid(docker_process.pid), signal.SIGINT)
@@ -129,9 +134,7 @@ def main(args):
 
     docker_command = eval_decleration_file.build_docker_command()
     build_startup_command = eval_decleration_file.get_startup_command_creator(
-        use_recorder, 
-        use_rviz, 
-        verbose
+        use_recorder, use_rviz, verbose
     )
 
     for scenario in eval_decleration_file.scenarios:
@@ -142,21 +145,28 @@ def main(args):
             current_world = world["world"]
             scenario_file = world["scenario"]
 
-            startup_command = build_startup_command(robot, current_world, scenario_file)
+            startup_command = build_startup_command(
+                robot, current_world, scenario_file
+            )
 
-            print("===============================================================")
+            print(
+                "==============================================================="
+            )
             print(
                 f"[{robot}] Starting scenario {scenario_file} in world {current_world}"
             )
 
             print(startup_command)
-    
+
             evaluate_scenario(startup_command, docker_command)
 
-            print("===============================================================")
+            print(
+                "==============================================================="
+            )
             print(
                 f"[{robot}] Scenario {scenario_file} in world {current_world} finished"
             )
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -166,7 +176,7 @@ if __name__ == "__main__":
     parser.add_argument("-v", "--verbose", action="store_true")
     parser.add_argument("--use_rviz", action="store_true")
 
-    try: 
+    try:
         main(parser.parse_args())
     except:
         traceback.print_exc()
