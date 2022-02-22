@@ -510,6 +510,8 @@ class plotter():
                         else:
                             plt.title("Map: {0}".format(map), fontsize = self.config["plot_quantitative_title_size"])
 
+                    ax.get_xaxis().set_visible(False)
+
                     plt.savefig(self.plot_dir + "/obs_in_one_plots/{0}_{1}_obs_in_one_{2}".format(metric,map,velocity), bbox_inches='tight')
                     plt.close()
 ### end of block obs in one plots ###
