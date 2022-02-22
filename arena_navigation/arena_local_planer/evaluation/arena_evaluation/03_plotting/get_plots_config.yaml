@@ -74,7 +74,7 @@ leave_out_metric:
 - cusps
 leave_out_planner:
 - ''
-most_recent_file: data_22-02-21_16-42-23_tb3.json
+most_recent_file: data_22-02-21_16-28-55_jackal.json
 obstacle_color: black
 obstacle_radius: 0.3
 path_alpha: 1.0
@@ -95,6 +95,8 @@ plot_obs_in_one_capsize: 0.05
 plot_obs_in_one_errorbars: false
 plot_obs_in_one_errorcolor: black
 plot_progression: false
+plot_progression_size: 3
+plot_progression_steps: 20
 plot_qualitative: true
 plot_qualitative_axes: true
 plot_qualitative_axes_size: 16
@@ -140,8 +142,6 @@ plot_success_collision_color: tab:red
 plot_success_success_color: tab:green
 plot_success_time_out_color: tab:blue
 plot_success_width: 0.5
-progression_size: 3
-progression_steps: 20
 specified_data_filename: ''
 specify_data: false
 start_marker: ^
