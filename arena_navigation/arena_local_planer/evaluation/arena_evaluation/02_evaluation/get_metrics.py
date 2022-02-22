@@ -230,12 +230,12 @@ class get_metrics():
         success_list = []
         done_reason_list = []
         for episode in summary_df.index:
-            if summary_df.loc[episode,"collision"] > self.config["collision_treshold"]:
-                success_list.append(False)
-                done_reason_list.append("collision")
-            elif summary_df.loc[episode,"time"] >= self.config["time_out_treshold"]-3:
+            if summary_df.loc[episode,"time"] >= self.config["time_out_treshold"]-3:
                 success_list.append(False)
                 done_reason_list.append("time_out")
+            elif summary_df.loc[episode,"collision"] > self.config["collision_treshold"]:
+                success_list.append(False)
+                done_reason_list.append("collision")
             else:
                 success_list.append(True)
                 done_reason_list.append("goal_reached")
