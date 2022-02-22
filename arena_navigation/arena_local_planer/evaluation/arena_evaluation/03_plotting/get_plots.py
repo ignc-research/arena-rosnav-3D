@@ -387,6 +387,7 @@ class plotter():
                                 ax = sns.violinplot(x="planner", y=metric, data = data, inner = self.config["plot_quantitative_violin_inner"], palette = self.config["color_scheme"])
                                 ax.set_xlabel(self.config["plot_quantitative_labels"]["planner"], fontsize = self.config["plot_quantitative_axes_label_size"])
                                 ax.set_ylabel(self.config["plot_quantitative_labels"][metric], fontsize = self.config["plot_quantitative_axes_label_size"])
+                                ax.set_xticklabels([self.config["labels"][x.get_text()] for x in ax.get_xticklabels()], fontsize = self.config["plot_quantitative_axes_tick_size"])                            
                                 ax.tick_params(axis='both', which='major', labelsize=self.config["plot_quantitative_axes_tick_size"])
                             else:
                                 if not self.config["plot_barplot_errorbars"]:

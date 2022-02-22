@@ -74,7 +74,7 @@ leave_out_metric:
 - cusps
 leave_out_planner:
 - ''
-most_recent_file: data_22-02-21_22-08-52.json
+most_recent_file: data_22-02-22_15-58-00_real.json
 obstacle_color: black
 obstacle_radius: 0.3
 path_alpha: 1.0
@@ -95,36 +95,38 @@ plot_obs_in_one_capsize: 0.05
 plot_obs_in_one_errorbars: false
 plot_obs_in_one_errorcolor: black
 plot_progression: false
+plot_progression_size: 3
+plot_progression_steps: 20
 plot_qualitative: true
 plot_qualitative_axes: true
 plot_qualitative_axes_size: 16
 plot_qualitative_axes_ticks_size: 16
 plot_qualitative_legend: true
 plot_qualitative_legend_fontsize: 12
-plot_qualitative_legend_location: upper left
+plot_qualitative_legend_location: lower left
 plot_qualitative_title: true
 plot_qualitative_title_size: 18
 plot_quantitative: true
 plot_quantitative_axes_label_size: 16
 plot_quantitative_axes_tick_size: 16
 plot_quantitative_labels:
-  angle_over_length: ''
-  collision: ''
-  computation_time: ''
-  cusps: ''
-  jerk: ''
-  max_clearing_distance: ''
-  max_curvature: ''
-  mean_clearing_distance: ''
-  median_clearing_distance: ''
-  min_clearing_distance: ''
-  normalized_curvature: ''
-  obstacle_number: ''
-  path_length: ''
-  planner: ''
-  roughness: ''
-  success: ''
-  time: ''
+  angle_over_length: Angle over Length
+  collision: Collisions
+  computation_time: Computation Time in [s]
+  cusps: Cusps
+  jerk: Movement Jerk in [$\frac{m}{s^{3}}$]
+  max_clearing_distance: Max. Clearing Distance in [m]
+  max_curvature: Max. Curvature
+  mean_clearing_distance: Mean Clearing Distance in [m]
+  median_clearing_distance: Median Clearing Distance in [m]
+  min_clearing_distance: Min. Clearing Distance in [m]
+  normalized_curvature: Normalized Curvature
+  obstacle_number: Obstacle Number
+  path_length: Path Length in [m]
+  planner: Planner
+  roughness: Path Roughness
+  success: Success Rate
+  time: Time Traveled in [s]
 plot_quantitative_legend: true
 plot_quantitative_legend_fontsize: 12
 plot_quantitative_legend_location: upper left
@@ -132,7 +134,7 @@ plot_quantitative_suptitle: false
 plot_quantitative_suptitle_size: 18
 plot_quantitative_title: false
 plot_quantitative_title_size: 16
-plot_quantitative_violin: false
+plot_quantitative_violin: true
 plot_quantitative_violin_inner: point
 plot_quantitative_ygrid: true
 plot_success_alpha: 1.0
@@ -140,8 +142,6 @@ plot_success_collision_color: tab:red
 plot_success_success_color: tab:green
 plot_success_time_out_color: tab:blue
 plot_success_width: 0.5
-progression_size: 3
-progression_steps: 20
 specified_data_filename: ''
 specify_data: false
 start_marker: ^
