@@ -13,6 +13,7 @@ import scipy.ndimage as ndimage
 import seaborn as sns
 import pandas as pd
 import argparse
+from matplotlib.ticker import FormatStrFormatter
 
 def parsing():
     parser = argparse.ArgumentParser(description='Create quantitative and qualitative plots for user.') # create parser object
@@ -540,6 +541,8 @@ class plotter():
                             else:
                                 ax.legend(loc=self.config["plot_quantitative_legend_location"], fontsize=self.config["plot_quantitative_legend_fontsize"])
                                 ax.get_legend().remove()                        
+                    if metric == "collision":
+                        ax.yaxis.set_major_formatter(FormatStrFormatter('%.1f'))
 
                     # title 
                     if self.config["plot_quantitative_suptitle"]:
