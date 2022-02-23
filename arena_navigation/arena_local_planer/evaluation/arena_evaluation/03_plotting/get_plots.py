@@ -73,7 +73,7 @@ class plotter():
             print("INFO: Specified data file could not be found. Using most recent data file from data directory by default.")
             print("INFO: Dataset {} loaded.".format(self.data_file_name))
         self.config["most_recent_file"] = self.data_file_name
-        with open(self.dir_path+"/get_plots_config.yaml", 'w') as file: # update most_recent_file in config
+        with open(self.dir_path+"/"+self.args.config, 'w') as file: # update most_recent_file in config
             yaml.dump(self.config, file)
             self.keys = list(self.data.keys())
 
