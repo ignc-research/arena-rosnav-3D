@@ -73,7 +73,7 @@ class plotter():
             print("INFO: Specified data file could not be found. Using most recent data file from data directory by default.")
             print("INFO: Dataset {} loaded.".format(self.data_file_name))
         self.config["most_recent_file"] = self.data_file_name
-        with open(self.dir_path+"/get_plots_config.yaml", 'w') as file: # update most_recent_file in config
+        with open(self.dir_path+"/"+self.args.config, 'w') as file: # update most_recent_file in config
             yaml.dump(self.config, file)
             self.keys = list(self.data.keys())
 
@@ -510,8 +510,6 @@ class plotter():
                             plt.title("Map: {0} Velocity: {1}.{2}".format(map, velocity.replace("vel","")[0], velocity.replace("vel","")[1]), fontsize = self.config["plot_quantitative_title_size"])
                         else:
                             plt.title("Map: {0}".format(map), fontsize = self.config["plot_quantitative_title_size"])
-
-                    ax.get_xaxis().set_visible(False)
 
                     plt.savefig(self.plot_dir + "/obs_in_one_plots/{0}_{1}_obs_in_one_{2}".format(metric,map,velocity), bbox_inches='tight')
                     plt.close()

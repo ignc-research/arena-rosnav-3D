@@ -15,6 +15,8 @@ color_scheme:
   dwa_jackal: tab:red
   dwa_rto: tab:red
   dwa_turtlebot3_burger: tab:red
+  dwa_turtlebot3_burger_3d: tab:red
+  dwa_turtlebot3_burger_real: tab:green
   dwa_youbot: tab:red
   guldenring_jackal: tab:brown
   guldenring_turtlebot3_burger: tab:brown
@@ -29,10 +31,14 @@ color_scheme:
   rosnav_jackal: tab:blue
   rosnav_rto: tab:blue
   rosnav_turtlebot3_burger: tab:blue
+  rosnav_turtlebot3_burger_3d: tab:blue
+  rosnav_turtlebot3_burger_real: tab:purple
   rosnav_youbot: tab:blue
   teb_jackal: tab:orange
   teb_rto: tab:orange
   teb_turtlebot3_burger: tab:orange
+  teb_turtlebot3_burger_3d: tab:orange
+  teb_turtlebot3_burger_real: tab:pink
   teb_youbot: tab:orange
 goal_marker: '*'
 goal_point_color: tab:brown
@@ -50,6 +56,8 @@ labels:
   dwa_jackal: DWA
   dwa_rto: DWA
   dwa_turtlebot3_burger: DWA
+  dwa_turtlebot3_burger_3d: DWA_3D
+  dwa_turtlebot3_burger_real: DWA_R
   dwa_youbot: DWA
   guldenring_jackal: GRING
   guldenring_turtlebot3_burger: GRING
@@ -64,17 +72,21 @@ labels:
   rosnav_jackal: ROSNAV
   rosnav_rto: ROSNAV
   rosnav_turtlebot3_burger: ROSNAV
+  rosnav_turtlebot3_burger_3d: ROSNAV_3D
+  rosnav_turtlebot3_burger_real: ROSNAV_R
   rosnav_youbot: ROSNAV
   teb_jackal: TEB
   teb_rto: TEB
   teb_turtlebot3_burger: TEB
+  teb_turtlebot3_burger_3d: TEB_3D
+  teb_turtlebot3_burger_real: TEB_R
   teb_youbot: TEB
 latex: false
 leave_out_metric:
 - cusps
 leave_out_planner:
 - ''
-most_recent_file: data_22-02-22_15-58-00_real.json
+most_recent_file: data_22-02-23_00-21-07_scenario03.json
 obstacle_color: black
 obstacle_radius: 0.3
 path_alpha: 1.0
@@ -102,13 +114,13 @@ plot_qualitative_axes: true
 plot_qualitative_axes_size: 16
 plot_qualitative_axes_ticks_size: 16
 plot_qualitative_legend: true
-plot_qualitative_legend_fontsize: 12
-plot_qualitative_legend_location: lower left
+plot_qualitative_legend_fontsize: 10
+plot_qualitative_legend_location: lower right
 plot_qualitative_title: true
 plot_qualitative_title_size: 18
 plot_quantitative: true
 plot_quantitative_axes_label_size: 16
-plot_quantitative_axes_tick_size: 16
+plot_quantitative_axes_tick_size: 10
 plot_quantitative_labels:
   angle_over_length: Angle over Length
   collision: Collisions
@@ -130,11 +142,11 @@ plot_quantitative_labels:
 plot_quantitative_legend: true
 plot_quantitative_legend_fontsize: 12
 plot_quantitative_legend_location: upper left
-plot_quantitative_suptitle: false
+plot_quantitative_suptitle: true
 plot_quantitative_suptitle_size: 18
-plot_quantitative_title: false
+plot_quantitative_title: true
 plot_quantitative_title_size: 16
-plot_quantitative_violin: true
+plot_quantitative_violin: false
 plot_quantitative_violin_inner: point
 plot_quantitative_ygrid: true
 plot_success_alpha: 1.0
