@@ -19,6 +19,7 @@ color_scheme:
   dwa_turtlebot3_burger_real: tab:red
   dwa_youbot: tab:red
   guldenring_jackal: tab:brown
+  guldenring_rto: tab:brown
   guldenring_turtlebot3_burger: tab:brown
   mpc_jackal: tab:green
   mpc_rto: tab:green
@@ -60,6 +61,7 @@ labels:
   dwa_turtlebot3_burger_real: DWA_R
   dwa_youbot: DWA
   guldenring_jackal: GRING
+  guldenring_rto: GRING
   guldenring_turtlebot3_burger: GRING
   mpc_jackal: MPC
   mpc_rto: MPC
@@ -86,7 +88,7 @@ leave_out_metric:
 - cusps
 leave_out_planner:
 - ''
-most_recent_file: data_22-02-24_00-24-23_rto_redo.json
+most_recent_file: data_22-02-24_15-12-35_rto_redo3_edit.json
 obstacle_color: black
 obstacle_radius: 0.3
 path_3D_alpha: 0.6
@@ -110,7 +112,7 @@ plot_obs_in_one_errorcolor: black
 plot_progression: false
 plot_progression_size: 3
 plot_progression_steps: 20
-plot_qualitative: false
+plot_qualitative: true
 plot_qualitative_axes: true
 plot_qualitative_axes_size: 16
 plot_qualitative_axes_ticks_size: 16

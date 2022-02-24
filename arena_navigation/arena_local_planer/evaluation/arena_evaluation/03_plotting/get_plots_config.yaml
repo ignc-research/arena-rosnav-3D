@@ -20,6 +20,7 @@ color_scheme:
   dwa_youbot: tab:red
   guldenring_jackal: tab:brown
   guldenring_turtlebot3_burger: tab:brown
+  guldenring_rto: tab:brown
   mpc_jackal: tab:green
   mpc_rto: tab:green
   mpc_turtlebot3_burger: tab:green
@@ -61,6 +62,7 @@ labels:
   dwa_youbot: DWA
   guldenring_jackal: GRING
   guldenring_turtlebot3_burger: GRING
+  guldenring_rto: GRING
   mpc_jackal: MPC
   mpc_rto: MPC
   mpc_turtlebot3_burger: MPC
@@ -113,7 +115,7 @@ plot_qualitative: true
 plot_qualitative_axes: true
 plot_qualitative_axes_size: 16
 plot_qualitative_axes_ticks_size: 16
-plot_qualitative_legend: true
+plot_qualitative_legend: false
 plot_qualitative_legend_fontsize: 10
 plot_qualitative_legend_location: lower right
 plot_qualitative_title: true
@@ -139,7 +141,7 @@ plot_quantitative_labels:
   roughness: Path Roughness
   success: Success Rate
   time: Time Traveled in [s]
-plot_quantitative_legend: true
+plot_quantitative_legend: false
 plot_quantitative_legend_fontsize: 12
 plot_quantitative_legend_location: upper left
 plot_quantitative_suptitle: true

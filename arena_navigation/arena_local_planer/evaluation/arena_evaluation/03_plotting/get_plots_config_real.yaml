@@ -86,7 +86,7 @@ leave_out_metric:
 - cusps
 leave_out_planner:
 - ''
-most_recent_file: data_22-02-23_17-39-09_scenario02.json
+most_recent_file: data_22-02-23_00-21-07_scenario03.json
 obstacle_color: black
 obstacle_radius: 0.3
 path_3D_alpha: 0.6

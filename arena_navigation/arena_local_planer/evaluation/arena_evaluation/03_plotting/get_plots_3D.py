@@ -298,8 +298,8 @@ class plotter():
                         ax.set_yticks(y_locs)
                         ax.set_yticklabels([])
 
-                    # plt.xlim(right=12/map_resolution)
-                    # plt.ylim(bottom=20/map_resolution)
+                    # plt.xlim(right=(100+100)/map_resolution)
+                    # plt.ylim(bottom=(100+100)/map_resolution)
 
                     plt.savefig(self.plot_dir + "/qualitative_plots/qualitative_plot_{0}_{1}_{2}".format(map,obstacle_number,velocity), bbox_inches='tight',dpi=200)
                     fig.clear(True)

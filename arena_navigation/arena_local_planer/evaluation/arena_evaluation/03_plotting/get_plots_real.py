@@ -345,10 +345,10 @@ class plotter():
                 plt.gca().add_patch(plt.Circle(waypoint,
                     radius = self.config["obstacle_radius"]/map_resolution,
                     color=self.config["obstacle_color"],
-                    fill=False,zorder=5))
+                    fill=False,zorder=5, alpha = 0.5))
                 if i == len(path)-1:
                     continue
-                plt.gca().add_patch(patches.FancyArrowPatch(waypoint, path[i+1], arrowstyle='<->', mutation_scale = self.config["path_arrow_size"], color = self.config["path_arrow_color"],zorder=5))
+                plt.gca().add_patch(patches.FancyArrowPatch(waypoint, path[i+1], arrowstyle='<->', mutation_scale = self.config["path_arrow_size"], color = self.config["path_arrow_color"],zorder=5,alpha=0.5))
 ### end of block qualitative plots ###
 
 ### quantitative plots ###
