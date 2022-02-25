@@ -56,8 +56,6 @@
   <depend>message_generation</depend>
 
   <depend>costmap_2d</depend>
-  <depend>mpc_local_planner</depend>
-  <depend>teb_local_planner</depend>
   <depend>nav_core</depend>
 
   <depend>roscpp</depend>
