@@ -124,6 +124,21 @@ Arena-rosnav-3d supports different local planner and task-modes. Select your pla
 - [navrep]()
 - [gring]()
 
+Note, that not every robot can be used with every planner, yet. See an overview on possible cominations in the table below:
+
+| Model  | TEB | DWA  | MPC  | ROSNAV | CADRL | RLCA | Gring | Navrep | ARENA | All-in-One |
+| :--- | :---:|  :---: |:---: |:---: |:---:|   :---:| :---:| :---:| :---:|  :---: |
+| *burger*   	 | X | X | X | X | X | X | X | X | X | X |
+| *jackal*     | X | X | X | X | X | X | X | X |   | X |
+| *ridgeback*  | X | X | X | X | X | X |   |   |   |   |
+| *agv-ota*    | X | X | X | X | X |   |   |   |   |   |
+| *rto*        | X | X | X | X | X |   | X | X |   | X |
+| *youbot*     | X | X | X | X | X |   | X | X |   | X |
+| *waffle_pi*  | X | X | X |   | X | X |   |   |   |   |
+| *cob4*       | X | X | X | X | X |   |   | X |   |   |
+
+
+
 Take note of the different task modes, which define how the start and goal position of the robot, as well as the trajectories of the obstacles will be set. Here we support the task modes:
 
 - **random**: Here the start and goal position of the robot and the trajectories of the dynamic obstacles is determined randomly by arena-rosnavs _task-generator_ node.
