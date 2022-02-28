@@ -13,6 +13,7 @@ import scipy.ndimage as ndimage
 import seaborn as sns
 import pandas as pd
 import argparse
+import sys
 
 def parsing():
     parser = argparse.ArgumentParser(description='Create quantitative and qualitative plots for user.') # create parser object
@@ -168,7 +169,7 @@ class plotter():
                     # plot map image
                     img= image.imread("{0}/{1}".format(map_path,map_file))
                     img_rotated = ndimage.rotate(img, 90, reshape=True) # rotate by 90 degree to get rviz konvention
-                    plt.imshow(img_rotated, cmap="gray")
+                    ax.imshow(img_rotated, cmap="gray")
 
                     # plot each planners path and if flag given collisions and zones
                     for key in sorted(obs_keys):
@@ -179,8 +180,16 @@ class plotter():
                         paths = self.data[key]["paths_travelled"]
                         episodes = paths.keys()
                         for i,episode in enumerate(episodes):
-                            # if i != 0:
-                            #     continue
+                            if "3d" in planner:
+                                if "teb" in planner:
+                                    if i != 3:
+                                        continue
+                                else:
+                                    if i != 2:
+                                        continue
+                            else:
+                                if i != 0:
+                                    continue
                             if i == 0:
                                 if "3d" in planner:
                                     plt.plot([],[], # plot legend only with empty lines
@@ -288,7 +297,14 @@ class plotter():
                         ax.set_xticklabels([])
                         ax.set_yticks(y_locs)
                         ax.set_yticklabels([])
+
+                    ax.xaxis.tick_top()
+
+                    plt.xlim(right=12/map_resolution)
+                    plt.ylim(bottom=20/map_resolution)
+
                     plt.savefig(self.plot_dir + "/qualitative_plots/qualitative_plot_{0}_{1}_{2}".format(map,obstacle_number,velocity), bbox_inches='tight',dpi=200)
+                    fig.clear(True)
                     plt.close()
 
     def plot_scenario(self, keys, img,  map_resolution, map_origin):
@@ -329,10 +345,10 @@ class plotter():
                 plt.gca().add_patch(plt.Circle(waypoint,
                     radius = self.config["obstacle_radius"]/map_resolution,
                     color=self.config["obstacle_color"],
-                    fill=False,zorder=5))
+                    fill=False,zorder=5, alpha = 0.5))
                 if i == len(path)-1:
                     continue
-                plt.gca().add_patch(patches.FancyArrowPatch(waypoint, path[i+1], arrowstyle='<->', mutation_scale = self.config["path_arrow_size"], color = self.config["path_arrow_color"],zorder=5))
+                plt.gca().add_patch(patches.FancyArrowPatch(waypoint, path[i+1], arrowstyle='<->', mutation_scale = self.config["path_arrow_size"], color = self.config["path_arrow_color"],zorder=5,alpha=0.5))
 ### end of block qualitative plots ###
 
 ### quantitative plots ###
@@ -432,13 +448,20 @@ class plotter():
                             else:
                                 plt.title("Map: {0} Obstacles: {1} Velocity: {1}.{2} ".format(map, int(obstacle_number.replace("obs","")), velocity.replace("vel","")[0], velocity.replace("vel","")[1]), fontsize = self.config["plot_quantitative_title_size"])
                         
-                        ax.get_xaxis().set_visible(False)
+                        # ax.get_xaxis().set_visible(False)
                         for i,thisbar in enumerate(ax.patches):
                             if i % 2 == 0:
                                 thisbar.set_hatch("/")
                                 thisbar.set_alpha(0.6)
+                        for label in ax.get_yaxis().get_ticklabels()[1::2]:
+                            label.set_color('white')
+                        # for label in ax.get_yaxis().get_ticklabels()[::2]:
+                            # label.set_size(40)
+                        for label in ax.get_xaxis().get_ticklabels():
+                            label.set_size(10)
 
                         plt.savefig(self.plot_dir + "/quantitative_plots/{0}_{1}_{2}_{3}".format(metric,map,obstacle_number,velocity), bbox_inches='tight')
+                        fig.clear(True)
                         plt.close()
 ### end of block quantitative plots ###
 
@@ -535,13 +558,18 @@ class plotter():
                         else:
                             plt.title("Map: {0}".format(map), fontsize = self.config["plot_quantitative_title_size"])
 
-                    ax.get_xaxis().set_visible(False)
+                    # ax.get_xaxis().set_visible(False)
                     for i,thisbar in enumerate(ax.patches):
                         if (i % 4) in [0,1]:
                             thisbar.set_hatch("/")
                             thisbar.set_alpha(0.6)
+                    for label in ax.get_yaxis().get_ticklabels()[1::2]:
+                        label.set_color('white')
+                    # for label in ax.get_yaxis().get_ticklabels()[::2]:
+                    #     label.set_size(40)
 
                     plt.savefig(self.plot_dir + "/obs_in_one_plots/{0}_{1}_obs_in_one_{2}".format(metric,map,velocity), bbox_inches='tight')
+                    fig.clear(True)
                     plt.close()
 ### end of block obs in one plots ###
 

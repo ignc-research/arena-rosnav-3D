@@ -19,38 +19,38 @@ class ScanMapper:
 
         # Subscribers (callback functions are triggered on incoming data and written to 'data' as defined by ROS)
         self._robot_state_sub = rospy.Subscriber(
-            "/base_scan", LaserScan, self.callback_change_laserscan
+            "/scan", LaserScan, self.callback_change_laserscan
         )
 
         # Publishers
-        self._new_scan_pub = rospy.Publisher("/scan_new", LaserScan, queue_size=1)
+        self._new_scan_pub = rospy.Publisher("/scan_new2", LaserScan, queue_size=1)
 
     def callback_change_laserscan(self, data):
         #print("test")
 
-        ### TB3 Clip scan ranges to 3.5m
-        # scan_list = list(data.ranges)
-        # for i, element in enumerate(scan_list):
-        #     if element > 3.5 or element == 0 
-        #         scan_list[i] = 3.5
-        # data.ranges = tuple(scan_list)
-        #print(data.ranges)
-
-        ### RTO Clip scan ranges to 15m YOUBOT 5.6m
+        # TB3 Clip scan ranges to 3.5m
         scan_list = list(data.ranges)
         for i, element in enumerate(scan_list):
-            if math.isnan(element) == True or math.isinf(element)== True:
-                scan_list[i] = 4
+            if element > 3.5 or element == 0: 
+                scan_list[i] = 3.5
         data.ranges = tuple(scan_list)
-        #print(scan_list[1])
+        #print(data.ranges)
+
+        # ### RTO Clip scan ranges to 15m YOUBOT 5.6m
+        # scan_list = list(data.ranges)
+        # for i, element in enumerate(scan_list):
+        #     if math.isnan(element) == True or math.isinf(element)== True:
+        #         scan_list[i] = 10
+        # data.ranges = tuple(scan_list)
+        # #print(scan_list[1])
 
 
 
-        intensity_list = list(data.intensities)
-        for i, element in enumerate(intensity_list):
-            #if element == 0:
-            intensity_list[i] = 0
-        data.intensities = tuple(intensity_list)
+        # intensity_list = list(data.intensities)
+        # for i, element in enumerate(intensity_list):
+        #     #if element == 0:
+        #     intensity_list[i] = 0
+        # data.intensities = tuple(intensity_list)
 
         ### Map to other scan represenations
         #data.angle_min = rospy.get_param("angle_min")

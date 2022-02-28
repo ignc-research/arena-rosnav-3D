@@ -1,7 +1,7 @@
 <launch>
   <!-- Arguments -->
   
-  <arg name="map_file" default="$(find simulator_setup)/maps/ignc/lab-complete-new-rto.yaml"/>
+  <arg name="map_file" default="$(find simulator_setup)/maps/ignc/lab-complete-eval-tb3.yaml"/>
   <!-- <arg name="map_file" default="$(find simulator_setup)/maps/ignc-lab-rto-laser/ignc-test3.yaml"/> -->
   <arg name="open_rviz" default="true"/>
   <arg name="move_forward_only" default="false"/>
@@ -34,6 +34,11 @@
   <param name="real" value="$(arg real)"/>
   <param name="viz_path" value="$(arg viz_path)"/>
   <param name="path_color" value="$(arg path_color)"/>
+
+  <arg name="waypoint_generator" default="classic"/>
+  <arg name="use_recorder" default="false"/>
+  <arg name="record_only_planner" default="true"/>
+  <arg name="scenario_file" default="ignc_obs05.json"/>
 
   <!-- <param name="update_rate" value="$(arg update_rate)" /> -->
 
@@ -73,6 +78,18 @@
     <!-- <arg name="speed" value="$(param speed)"/> -->
   </include>
 
+
+
+  <!-- data recorder -->
+  <group if="$(eval arg('use_recorder') == true)">
+    <node pkg="arena_evaluation" name="data_recorder_node" type="data_recorder_node.py" />
+    <param name="local_planner" value="$(arg local_planner)"/>
+    <param name="waypoint_generator" value="$(arg waypoint_generator)"/>
+    <param name="record_only_planner" value="$(arg record_only_planner)"/>
+    <param name="scenario_file" value="$(arg scenario_file)"/>
+    <param name="model" value="$(arg model)"/>
+  </group>
+  
   <!-- rviz  
   <group if="$(arg open_rviz)"> 
     <node pkg="rviz" type="rviz" name="rviz" required="true"

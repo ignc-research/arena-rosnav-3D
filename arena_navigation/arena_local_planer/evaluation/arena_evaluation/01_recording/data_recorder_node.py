@@ -12,7 +12,7 @@ import yaml
 # ros packages
 import rospy
 from std_msgs.msg import Int16
-from geometry_msgs.msg import Pose2D, Pose
+from geometry_msgs.msg import Pose2D, Pose, PoseWithCovarianceStamped
 from geometry_msgs.msg import Twist
 from sensor_msgs.msg import LaserScan
 from nav_msgs.msg import Odometry
@@ -31,6 +31,7 @@ class recorder():
         self.now = time.strftime("%y-%m-%d_%H-%M-%S")
         self.dir_path = os.path.dirname(os.path.abspath(__file__)) # get path for current file, does not work if os.chdir() was used
         self.model = rospy.get_param("model","base_model")
+        #self.real-eval = rospy.get_param("real-eval")
 
         if self.record_only_planner:
             with open(self.dir_path+"/{0}_{1}--{2}--{3}.csv".format(self.local_planner,self.model,self.scenario,self.now), "w+", newline = "") as file:
@@ -66,6 +67,7 @@ class recorder():
         rospy.Subscriber("/scan", LaserScan, self.laserscan_callback)
         rospy.Subscriber("/odom", Odometry, self.odometry_callback)
         rospy.Subscriber("/cmd_vel", Twist, self.action_callback)
+        #rospy.Subscriber("/amcl_pose", PoseWithCovarianceStamped, self.amcl_callback)
 
     def clear_costmaps(self):
         bashCommand = "rosservice call /move_base/clear_costmaps"
@@ -93,9 +95,19 @@ class recorder():
         self.robot_lin_vel_x = twist.linear.x
         self.robot_lin_vel_y = twist.linear.y
         self.robot_ang_vel = twist.angular.z
+        #if rospy.get_param("/real-eval", default=True):
         self.robot_orientation = pose2d.theta
         self.robot_pos_x = pose2d.x
         self.robot_pos_y = pose2d.y
+
+    # def amcl_callback(self, msg_PoseWithCovarianceStamped: PoseWithCovarianceStamped):
+    #     pose3d = msg_PoseWithCovarianceStamped.pose.pose
+    #     pose2d = self.pose3D_to_pose2D(pose3d)
+    #     #if rospy.get_param("/real-eval", default=False):
+    #         self.robot_orientation = pose2d.theta
+    #         self.robot_pos_x = pose2d.x
+    #         self.robot_pos_y = pose2d.y
+
     def pose3D_to_pose2D(self, pose3d: Pose):
         pose2d = Pose2D()
         pose2d.x = pose3d.position.x

@@ -2,7 +2,7 @@
   <!-- Arguments -->
   <arg name="tb3_model" default="$(env TURTLEBOT3_MODEL)" doc="model type [burger, waffle, waffle_pi]"/>
   <!-- <arg name="map_file" default="$(find simulator_setup)/maps/ignc_lab_corridor/map.yaml"/> -->
-  <arg name="map_file" default="$(find simulator_setup)/maps/ignc/lab-complete-new-tb3.yaml"/>
+  <arg name="map_file" default="$(find simulator_setup)/maps/ignc/lab-complete-eval-tb3.yaml"/>
   <!-- <arg name="map_file" default="$(find simulator_setup)/maps/ignc-lab-rto-laser/ignc-test3.yaml"/> -->
   <arg name="open_rviz" default="true"/>
   <arg name="move_forward_only" default="false"/>
@@ -13,7 +13,7 @@
   <arg name="odom_frame_id" value="odom"/>
   <arg name="base_frame_id" value="base_footprint"/>
   <arg name="train_mode" default="false"/>
-  <arg name="action_frequency" default="5"/> 
+  <arg name="action_frequency" default="20"/> 
   <arg name="real" default="true"/>
 
   <!-- Path visualization -->
@@ -36,6 +36,14 @@
   <param name="viz_path" value="$(arg viz_path)"/>
   <param name="path_color" value="$(arg path_color)"/>
 
+
+
+  <arg name="waypoint_generator" default="classic"/>
+  <arg name="use_recorder" default="false"/>
+  <arg name="record_only_planner" default="true"/>
+  <arg name="real-eval" default="false"/>
+  <arg name="scenario_file" default="ignc_obs05.json"/>
+
   <!-- <param name="update_rate" value="$(arg update_rate)" /> -->
 
   <!-- Managing our Robots-->
@@ -49,11 +57,11 @@
     <!-- <param name="local_planner" value="$(arg local_planner)"/> -->
   </group>
 
-  <!-- Turtlebot3 -->
+  <!-- Turtlebot3
   <include file="$(find turtlebot3_bringup)/launch/turtlebot3_remote.launch"  if="$(eval arg('model') == 'turtlebot3_burger')" >
     <arg name="model" value="$(arg tb3_model)" />
-  </include>
-
+  </include> -->
+f
   <!-- Load Robot specific parameter -->
   <rosparam file="$(find arena_bringup)/launch/sublaunch_testing/robot_params/$(arg model)_params.yaml" />
 
@@ -76,13 +84,25 @@
     <arg name="model" value="$(arg model)"/>
     <arg name="agent_name" value="$(arg agent_name)" if="$(eval arg('local_planner') == 'rosnav')" />
     <arg name="trainings_environment" value="$(arg trainings_environment)" if="$(eval arg('local_planner') == 'rosnav')" />
-    <!-- <arg name="speed" value="$(param speed)"/> -->
-  </include>
+    <!-- <arg name="speed" value="$(param speed)"/>   -->
+  </include> 
 
-  <!-- rviz -->
+
+  <!-- data recorder -->
+  <group if="$(eval arg('use_recorder') == true)">
+    <node pkg="arena_evaluation" name="data_recorder_node" type="data_recorder_node.py" />
+    <param name="local_planner" value="$(arg local_planner)"/>
+    <param name="waypoint_generator" value="$(arg waypoint_generator)"/>
+    <param name="record_only_planner" value="$(arg record_only_planner)"/>
+    <param name="scenario_file" value="$(arg scenario_file)"/>
+    <param name="model" value="$(arg model)"/>
+    <param name="real-eval" value="$(arg real-eval)"/>
+  </group> 
+
+  <!-- rviz 
   <group if="$(arg open_rviz)"> 
     <node pkg="rviz" type="rviz" name="rviz" required="true"
           args="-d $(find arena_bringup)/rviz/$(arg rviz_file).rviz"/>
-  </group>
+  </group>-->
 
 </launch>
