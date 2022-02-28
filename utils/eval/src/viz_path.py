@@ -19,6 +19,7 @@ color_dict = {
     "yellow" : ColorRGBA(r = 1.0, g = 1.0, a = 1.0),
     "pink" : ColorRGBA(r = 1.0, b = 1.0, a = 1.0),
     "purple" : ColorRGBA(r = .3, b = .44, a = 1.0),
+    "orange" : ColorRGBA(r = 255, g = 140, b=0, a = 1.0),
 }
 
 class VizPath():
@@ -30,11 +31,11 @@ class VizPath():
         self.color = color
         self.tfBuffer = tf2_ros.Buffer()
         self.listener = tf2_ros.TransformListener(self.tfBuffer)
-        
+
 
         # subs
         self.pose = rospy.Subscriber(
-                "odom",
+                "/odom",
                 Odometry,
                 self.pose_callback,
                 tcp_nodelay=True,
@@ -72,7 +73,7 @@ class VizPath():
             self.visualize_pose(self.tf_to_point(tf), tf.transform.rotation)
         else:
             self.visualize_pose(odom.pose.pose.position, odom.pose.pose.orientation)
-    
+
     def scenario_reset_callback(self, msg_scenario_reset):
         marker = Marker()
         marker.header.frame_id = 'map'
@@ -101,7 +102,7 @@ class VizPath():
             marker.action = marker.ADD
             marker.pose.position = pos
             marker.pose.orientation = orientation
-            marker.scale = Vector3(x=0.2,y=0.2,z=0.2)
+            marker.scale = Vector3(x=0.1,y=0.1,z=0.1)
             marker.color = color_dict[self.color]
             marker.lifetime = rospy.Duration(0)
             self.pub_pose_marker.publish(marker)
