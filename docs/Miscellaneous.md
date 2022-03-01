@@ -136,11 +136,11 @@ For running multiple scenario files, (on different robots and planers), we provi
 
 1. create a _config.yaml_ in which you specify: _planer, robot, scenario, etc._ __or__ adapt the given evals_[local_planner].yaml files to your needs. You can find an example config file [here](https://github.com/ignc-research/arena-rosnav-3D/blob/main/utils/eval/src/evals_template.yaml). The script will later automatically launch every unique combination of planer, robot and scenario. You can also turn of the visualization (to increase simulation speed, by _not_ setting the `--use_rviz` flag)
 2. save the file under: `arena-rosnav-3D/utils/eval/src/{NAME-OF-YOUR-CONFIG}.yaml`
-3. [OPTIONAL:] Your might want to change further parameters since for example you want to active a different _virtual environement_ for certain planners. You can do this [here](https://github.com/ignc-research/arena-rosnav-3D/blob/main/utils/eval/src/run_evals.py)
+3. [OPTIONAL:] Your might want to change further parameters since for example you want to active a different _virtual environment_ for certain planners. You can do this [here](https://github.com/ignc-research/arena-rosnav-3D/blob/main/utils/eval/src/run_evals.py)
 4. Launch the file with following flags (uses rviz und saves the run in the directory [01_recording](https://github.com/ignc-research/arena-rosnav-3D/blob/main/arena_navigation/arena_local_planer/evaluation/arena_evaluation/01_recording)):
 ```zsh
-roscd evals/src
-python run_evals.py -f {NAME_OF_YOUR_CONFIG} --use_rviz --use_recorder
+roscd eval/src
+python run_evals.py -f {NAME_OF_YOUR_CONFIG}.yaml --use_rviz --use_recorder
 ```
 > __NOTE__:
 >- With 'python run_evals.py -h' you can see all available flags
