@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 
 
-import json, subprocess
+import json
+import subprocess
+from random import randint
 import six
 import abc
 import rospy
@@ -22,12 +24,10 @@ from filelock import FileLock
 
 STANDART_ORIENTATION = quaternion_from_euler(0.0, 0.0, 0.0)
 ROBOT_RADIUS = rospy.get_param("radius")
-N_OBS = {
-    "static": rospy.get_param("num_static_obs", 3),
-    "dynamic": rospy.get_param("actors", 3),
-}
-
-
+DATA_GEN = True
+if DATA_GEN:
+    S_POS = [14,14]
+    G_POS = [-14,-14]
 class StopReset(Exception):
     """Raised when The Task can not be reset anymore"""
 
@@ -41,7 +41,8 @@ class ABSTask(abc.ABCMeta("ABC", (object,), {"__slots__": ()})):
         self.robot_manager = robot_manager
         self.obstacle_manager = obstacle_manager
         self.pedsim_manager = pedsim_manager
-        self._service_client_get_map = rospy.ServiceProxy("/static_map", GetMap)
+        self._service_client_get_map = rospy.ServiceProxy(
+            "/static_map", GetMap)
         self._map_lock = Lock()
         rospy.Subscriber("/map", OccupancyGrid, self._update_map)
         # a mutex keep the map is not unchanged during reset task.
@@ -83,23 +84,23 @@ class RandomTask(ABSTask):
                     (
                         start_pos,
                         goal_pos,
-                    ) = self.robot_manager.set_start_pos_goal_pos()
-                    self.obstacle_manager.remove_all_obstacles()
-                    self.obstacle_manager.register_random_dynamic_obstacles(
-                        self.num_of_actors,
-                        forbidden_zones=[
-                            (
-                                start_pos.position.x,
-                                start_pos.position.y,
-                                ROBOT_RADIUS,
-                            ),
-                            (
-                                goal_pos.position.x,
-                                goal_pos.position.y,
-                                ROBOT_RADIUS,
-                            ),
-                        ],
-                    )
+                    ) = self.robot_manager.set_start_pos_goal_pos(start_pos=S_POS,goal_pos=G_POS)
+                    # self.obstacle_manager.remove_all_obstacles()
+                    # self.obstacle_manager.register_random_dynamic_obstacles(
+                    #     self.num_of_actors,
+                    #     forbidden_zones=[
+                    #         (
+                    #             start_pos.position.x,
+                    #             start_pos.position.y,
+                    #             ROBOT_RADIUS,
+                    #         ),
+                    #         (
+                    #             goal_pos.position.x,
+                    #             goal_pos.position.y,
+                    #             ROBOT_RADIUS,
+                    #         ),
+                    #     ],
+                    # )
                     print("loglog: reached goal 3")
                     break
                 except rospy.ServiceException as e:
@@ -155,7 +156,8 @@ class ManualTask(ABSTask):
                         lambda: self.is_True() is True, timeout=60
                     )
                     if not self._new_goal_received:
-                        raise Exception("TimeOut, User does't provide goal position!")
+                        raise Exception(
+                            "TimeOut, User does't provide goal position!")
                     else:
                         self._new_goal_received = False
                     try:
@@ -208,7 +210,8 @@ class StagedRandomTask(RandomTask):
         rospy.set_param("/curr_stage", self._curr_stage)
 
         # hyperparamters.json location
-        self.json_file = os.path.join(self._PATHS.get("model"), "hyperparameters.json")
+        self.json_file = os.path.join(
+            self._PATHS.get("model"), "hyperparameters.json")
         assert os.path.isfile(self.json_file), (
             "Found no 'hyperparameters.json' at %s" % self.json_file
         )
@@ -272,8 +275,10 @@ class StagedRandomTask(RandomTask):
             or n_dynamic_obstacles != self._stages[self._curr_stage - 1]["dynamic"]
         ):
             rospy.set_param("actors", n_dynamic_obstacles)
-            subprocess.call("killall -q gzclient & killall -q gzserver", shell=True)
-            subprocess.call("rosrun task_generator generate_world.py", shell=True)
+            subprocess.call(
+                "killall -q gzclient & killall -q gzserver", shell=True)
+            subprocess.call(
+                "rosrun task_generator generate_world.py", shell=True)
             world, model = rospy.get_param("world"), rospy.get_param("model")
             subprocess.Popen(
                 f"roslaunch arena_bringup gazebo_simulator.launch world:={world} model:={model}",
@@ -284,7 +289,8 @@ class StagedRandomTask(RandomTask):
             rospy.sleep(10)
 
         else:
-            self.obstacle_manager.register_random_dynamic_obstacles(n_dynamic_obstacles)
+            self.obstacle_manager.register_random_dynamic_obstacles(
+                n_dynamic_obstacles)
 
         print(
             f"({self.ns}) Stage {self._curr_stage}: Spawning {n_dynamic_obstacles} dynamic obstacles!"
@@ -369,7 +375,7 @@ class ScenarioTask(ABSTask):
                     "max_repeats_curr_scene"
                 ] = 1000  # TODO: implement max number of repeats for scenario
             return info
-            
+
         else:
             return "End"
 
@@ -385,18 +391,46 @@ def get_predefined_task(ns, mode="random", start_stage=1, PATHS=None):
     obstacle_manager = ObstaclesManager(ns="", map_=map_response.map)
     pedsim_manager = PedsimManager()
 
+
+    N_OBS = {
+        "static": randint(0, 20),
+        "dynamic": randint(0, 20),
+    }
+    if DATA_GEN:
+        occ_area = [(*S_POS, .2), (*G_POS, .2), (0, 0, .2)]
+        forbidden_zones.append(occ_area)
+        
+# Todo:
+# - Add map pluin subrocess call (for loop map name++)
+# - Add random dyn obs ability
+# - check center of random world in middle of the world
+# - Add robot start pos to forbidden zones
+# - create new map file
+
     # Tasks will be moved to other classes or functions.
     task = None
     if mode == "random":
-        rospy.set_param("/task_mode", "random")
-        forbidden_zones = obstacle_manager.register_random_static_obstacles(
-            N_OBS["static"]
-        )
-        # forbidden_zones = obstacle_manager.register_random_dynamic_obstacles(
-        #     N_OBS["dynamic"], forbidden_zones=forbidden_zones
-        # )
-        task = RandomTask(pedsim_manager, obstacle_manager, robot_manager)
-        print("random tasks requested")
+
+        if DATA_GEN:
+            rospy.set_param("/task_mode", "random")
+            forbidden_zones = obstacle_manager.register_random_static_obstacles(
+                N_OBS["static"], forbidden_zones=forbidden_zones
+            )
+            forbidden_zones = obstacle_manager.register_random_dynamic_obstacles(
+                N_OBS["dynamic"], forbidden_zones=forbidden_zones
+            )
+            task = RandomTask(pedsim_manager, obstacle_manager, robot_manager)
+            print("random tasks requested")
+        else:
+            rospy.set_param("/task_mode", "random")
+            forbidden_zones = obstacle_manager.register_random_static_obstacles(
+                N_OBS["static"]
+            )
+            forbidden_zones = obstacle_manager.register_random_dynamic_obstacles(
+                N_OBS["dynamic"], forbidden_zones=forbidden_zones
+            )
+            task = RandomTask(pedsim_manager, obstacle_manager, robot_manager)
+            print("random tasks requested")
     if mode == "staged":
         rospy.set_param("/task_mode", "staged")
         task = StagedRandomTask(

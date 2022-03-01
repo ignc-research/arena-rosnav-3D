@@ -17,15 +17,15 @@ from clear_costmap import clear_costmaps
 import pathlib
 import re
 
-
+DATA_GEN = True
 class TaskGenerator:
     def __init__(self):
 
         self.sr = rospy.Publisher("/scenario_reset", Int16, queue_size=1)
         self.nr = 0
         mode = rospy.get_param("~task_mode")
-        
         scenarios_json_path = rospy.get_param("~scenarios_json_path")
+
         paths = {"scenario": scenarios_json_path}
         self.task = get_predefined_task("", mode, PATHS=paths)
         self.rospack = rospkg.RosPack()
@@ -81,6 +81,14 @@ class TaskGenerator:
             self.robot_pos_sub_ = rospy.Subscriber(
                 robot_odom_topic_name, Odometry, self.check_robot_pos_callback
             )
+            
+            if DATA_GEN:
+                # create occupancy map
+                subprocess.Popen('mkdir -p occ_maps', shell=True)
+                rospy.sleep(1)
+                subprocess.Popen('rosservice call /gazebo_2Dmap_plugin/generate_map', shell=True)
+                rospy.sleep(8)
+                subprocess.Popen(f'rosrun map_server map_saver -f map_{self.nr} /map:=/map2d', shell=True)
 
             rospy.Timer(rospy.Duration(0.5), self.goal_reached)
 

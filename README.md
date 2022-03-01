@@ -1,3 +1,5 @@
+> ⚠ This branch differs from the main branch by having a strongly developed random-world (/task) generator. Which is being used to generate data for specific scenarios and setups
+
 # Arena-Rosnav-3D
 
 This repository is the 3D version of the navigation platform [arena-rosnav-2D](https://github.com/ignc-research/arena-rosnav). It is build on the 3D ROS simulator Gazebo and integrates with a modified Pedsim Simulator to provide realistic dynamic 3D scenarios and tasks to evaluate and and benchmark classic and learning-based ROS navigation approaches on multiple robot platforms. It is fully compatible with the planning algorithms trained and developed with [arena-rosnav-2D](https://github.com/ignc-research/arena-rosnav). This presents an essential step in deploying the navigation approaches from arena-rosnav towards real robots.

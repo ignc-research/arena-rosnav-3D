@@ -152,6 +152,7 @@ class ObstaclesManager:
         """register dynamic obstacles (humans) with random start positions
         Args:
             num_obstacles (int): number of the obstacles.
+            forbidden_zones (int): not to be occupied areas on the map (e.g robot start pos)
 
         """
         status = rospy.get_param('~world')
@@ -172,7 +173,7 @@ class ObstaclesManager:
             i_try = 0
 
             while i_try < max_try_times:
-                r = uniform(0.5, 3.)
+                r = uniform(.1, 3.)
                 pos_obs = get_random_pos_on_map(
                     self._free_space_indices, self.map, r, forbidden_zones)
                 try:
@@ -184,13 +185,7 @@ class ObstaclesManager:
                     break
                 except rospy.ServiceException:
                     i_try += 1
+                    if i_try == max_try_times:
+                        break
         self.spawn_static_obstacle(ids, pos, radius)
         return forbidden_zones
-
-    # def reset_pos_obstacles_random(self, forbidden_zones = None):
-    #         # type: (list) -> None
-    #         elements = rospy.ServiceProxy("/gazebo/get_world_properties", GetWorldPropertis)
-    #         for ped in range(elements - 3): # TODO how to get the current Agents?
-    #             start_pos = get_random_pos_on_map(self._free_space_indices, self.map, 0.2, forbidden_zones)
-    #             goal_pos = get_random_pos_on_map(self._free_space_indices, self.map, 0.2, forbidden_zones)
-    #         # IDEA: 1. find all obstacles; 2.  for every obstacle call the move ped service

@@ -2,14 +2,15 @@
 
 
 import rospy, math
-from geometry_msgs.msg import Pose, PoseWithCovarianceStamped, PoseStamped
+from geometry_msgs.msg import Pose, PoseWithCovarianceStamped, PoseStamped, Point, Quaternion
 from gazebo_msgs.srv import SetModelState, SpawnModelRequest, SpawnModel
 from gazebo_msgs.msg import ModelState
 from nav_msgs.msg import Path
+from tf.transformations import quaternion_from_euler
 from .utils import generate_freespace_indices, get_random_pos_on_map
 
 ROBOT_RADIUS = rospy.get_param("radius")
-
+DATA_GEN = True
 
 class RobotManager:
     """
@@ -138,6 +139,19 @@ class RobotManager:
         Exception:
             Exception("can not generate a path with the given start position and the goal position of the robot")
         """
+        if DATA_GEN:
+            q = quaternion_from_euler(0.0, 0.0, 1, axes='sxyz')
+            # q = quaternion_from_euler(0.0, 0.0, random.uniform(-math.pi, math.pi), axes='sxyz')
+
+            p = Pose()
+            p.position = Point(*start_pos, 0)
+            p.orientation = Quaternion(*q)
+            start_pos = p
+            _ = Pose()
+            _.position = Point(*goal_pos, 0)
+            _.orientation = Quaternion(*q)
+            start_pos = _
+
 
         def dist(x1, y1, x2, y2):
             return math.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2)
