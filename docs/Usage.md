@@ -121,8 +121,8 @@ Arena-rosnav-3d supports different local planner and task-modes. Select your pla
 - [aio](#local-planner-teb-dwa-mpc-rlca-arena-aio)
 - [cadrl](#local-planner-cadrl)
 - [drl](#local-planner-drl)
-- [navrep]()
-- [gring]()
+- [navrep](#local-planner-rosnav-navrep-guldenring)
+- [gring](#local-planner-rosnav-navrep-guldenring)
 
 Note, that not every robot can be used with every planner, yet. See an overview on possible cominations in the table below:
 
