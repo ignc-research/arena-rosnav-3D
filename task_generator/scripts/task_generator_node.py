@@ -82,13 +82,7 @@ class TaskGenerator:
                 robot_odom_topic_name, Odometry, self.check_robot_pos_callback
             )
             
-            if DATA_GEN:
-                # create occupancy map
-                subprocess.Popen('mkdir -p occ_maps', shell=True)
-                rospy.sleep(1)
-                subprocess.Popen('rosservice call /gazebo_2Dmap_plugin/generate_map', shell=True)
-                rospy.sleep(8)
-                subprocess.Popen(f'rosrun map_server map_saver -f map_{self.nr} /map:=/map2d', shell=True)
+
 
             rospy.Timer(rospy.Duration(0.5), self.goal_reached)
 

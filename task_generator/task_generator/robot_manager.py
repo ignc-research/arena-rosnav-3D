@@ -150,8 +150,7 @@ class RobotManager:
             _ = Pose()
             _.position = Point(*goal_pos, 0)
             _.orientation = Quaternion(*q)
-            start_pos = _
-
+            goal_pos = _
 
         def dist(x1, y1, x2, y2):
             return math.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2)
@@ -188,7 +187,6 @@ class RobotManager:
                 )
             else:
                 goal_pos_ = goal_pos
-
             if (
                 dist(
                     start_pos_.position.x,
