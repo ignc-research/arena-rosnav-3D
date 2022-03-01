@@ -177,7 +177,7 @@ workon cadrl
 roslaunch arena_bringup start_arena_gazebo.launch local_planner:=cadrl
 ```
 
-## Local-planner: rosnav
+## Local-planner: rosnav, navrep, guldenring
 
 When first using `rosnav` make sure to run the following commands:
 ```bash
