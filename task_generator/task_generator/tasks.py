@@ -2,10 +2,12 @@
 
 
 import json
+import signal
 import subprocess
 from random import randint
 import six
 import abc
+import time
 import rospy
 import numpy as np
 from geometry_msgs.msg import Pose, Point, Quaternion
@@ -26,8 +28,11 @@ STANDART_ORIENTATION = quaternion_from_euler(0.0, 0.0, 0.0)
 ROBOT_RADIUS = rospy.get_param("radius")
 DATA_GEN = True
 if DATA_GEN:
-    S_POS = [14.0,14.0]
-    G_POS = [-14.0,-14.0]
+    S_POS = [14.0, 14.0]
+    G_POS = [-14.0, -14.0]
+count = 0
+
+
 class StopReset(Exception):
     """Raised when The Task can not be reset anymore"""
 
@@ -73,6 +78,21 @@ class RandomTask(ABSTask):
         else:
             self.num_of_actors = rospy.get_param("~actors", N_OBS["dynamic"])
 
+    def create_occ_map(self):
+        # create occupancy map
+        global count
+        os.makedirs(
+            '/home/elias/catkin_ws/src/arena-rosnav-3D/occ_maps', exist_ok=True)
+        os.chdir('/home/elias/catkin_ws/src/arena-rosnav-3D/occ_maps')
+        print('succsess')
+        subprocess.call(
+            'rosservice call /gazebo_2Dmap_plugin/generate_map', shell=True, preexec_fn=os.setsid)
+        # time.sleep(10)
+        subprocess.call(
+            f'rosrun map_server map_saver -f map_{count} /map:=/map2d', shell=True, preexec_fn=os.setsid)
+        time.sleep(1)
+        count += 1
+
     def reset(self):
         """[summary]"""
         info = {}
@@ -80,26 +100,29 @@ class RandomTask(ABSTask):
         with self._map_lock:
             max_fail_times = 3
             fail_times = 0
-            if DATA_GEN:
-                print('TEST: Start-Process')
-                # create occupancy map
-                subprocess.Popen('mkdir -p occ_maps', shell=True)
-                rospy.sleep(1)
-                subprocess.Popen('rosservice call /gazebo_2Dmap_plugin/generate_map', shell=True)
-                rospy.sleep(10)
-                subprocess.Popen(f'rosrun map_server map_saver -f map_{self.nr} /map:=/map2d', shell=True)
-                print('TEST: End-Process')
 
             while fail_times < max_fail_times:
                 try:
                     print("loglog: reached goal 2")
+
+                    if DATA_GEN:
+                        self.obstacle_manager.remove_all_obstacles() 
+                        N_OBS = {
+                            "static": randint(0, 20),
+                            "dynamic": randint(0, 20),
+                        }
+                        forbidden_zones = self.obstacle_manager.register_random_static_obstacles(
+                            N_OBS["static"], forbidden_zones=forbidden_zones
+                        )
+                        self.create_occ_map()
+
                     (
                         start_pos,
                         goal_pos,
-                    ) = self.robot_manager.set_start_pos_goal_pos(start_pos=S_POS,goal_pos=G_POS)
-                    self.obstacle_manager.remove_all_obstacles() # removes all peds
+                    ) = self.robot_manager.set_start_pos_goal_pos(start_pos=S_POS, goal_pos=G_POS)
+                     # removes all peds
                     self.obstacle_manager.register_random_dynamic_obstacles(
-                        self.num_of_actors,
+                        N_OBS["dynamic"],
                         forbidden_zones=[
                             (
                                 start_pos.position.x,
@@ -411,7 +434,7 @@ def get_predefined_task(ns, mode="random", start_stage=1, PATHS=None):
     }
     if DATA_GEN:
         forbidden_zones = [(*S_POS, .2), (*G_POS, .2), (0, 0, .2)]
-        
+
 # Todo:
 # - Add map pluin subrocess call (for loop map name++)
 # - Add random dyn obs ability
@@ -425,9 +448,7 @@ def get_predefined_task(ns, mode="random", start_stage=1, PATHS=None):
 
         if DATA_GEN:
             rospy.set_param("/task_mode", "random")
-            forbidden_zones = obstacle_manager.register_random_static_obstacles(
-                N_OBS["static"], forbidden_zones=forbidden_zones
-            )
+
             # forbidden_zones = obstacle_manager.register_random_dynamic_obstacles(
             #     N_OBS["dynamic"], forbidden_zones=forbidden_zones
             # )

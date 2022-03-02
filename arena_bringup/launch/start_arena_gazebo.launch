@@ -29,7 +29,7 @@
   <arg name="gui" default="true"/>
   <arg name="map_path" default="$(find simulator_setup)/maps/$(arg world)/map.yaml" />
   <arg name="task_mode" default="scenario" doc="task_mode type [scenario, random, manual, staged]"/>
-  <arg name="actors" default="20" unless="$(arg train_mode)" />
+  <arg name="actors" default="10" unless="$(arg train_mode)" />
   <arg name="actor_height" default="1.1"/>
   <arg name="use_recorder" default="false"/>
   <arg name="record_only_planner" default="true"/>

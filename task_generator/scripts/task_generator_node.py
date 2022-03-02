@@ -18,6 +18,7 @@ import pathlib
 import re
 
 DATA_GEN = True
+
 class TaskGenerator:
     def __init__(self):
 

@@ -73,10 +73,21 @@ class ObstaclesManager:
         # for obstale in dyn_obs_list:
         #     self._delete_gazebo_model(obstale)
 
+        try:
+            self._delete_gazebo_model 
+
+            for model in s_obs_list:
+                resp_delete = self._delete_gazebo_model(model)
+        except:
+            pass
+
     def spawn_static_obstacle(self, number, pos, radius):
         # type: (list, list, list) -> None
         spawn_model = rospy.ServiceProxy('gazebo/spawn_sdf_model', SpawnModel)
         self.pedsim_manager = PedsimManager()
+
+        global s_obs_list
+        s_obs_list = []
 
         # loading the model and setting radius
         for o_pos_, id, r in zip(pos, number, radius):
@@ -90,6 +101,9 @@ class ObstaclesManager:
                          Quaternion(*STANDART_ORIENTATION))
             # spawn obstacle in gazebo & pedsim
             spawn_model("s_obs_%d" % id, xml_model, '', o_pos, 'world')
+            s_obs_list.append("s_obs_%d" % id)
+            
+
             # self.pedsim_manager.spawnObstacle(o_pos_, r) # TODO not yet working
 
     def register_random_dynamic_obstacles(self, num_obstacles, forbidden_zones=None, min_dist=1):
