@@ -143,6 +143,13 @@ Find in the **simulator-setup** package, the settings for your laser plaugin:\
   #with
   <plugin name="gazebo_ros_laser" filename="libgazebo_ros_gpu_laser.so">
   ```
+ 2. Turn GUI off:
+ This will likly not speed up your simulation speed significantly, it will however significantly increase your startup and shut down times and is therefore advisable when doing multible restarts.\
+ In the `start_arena_ganzebo.launch` file, set the parameters as follows:
+```xml
+  <arg name="headless" default="true"/>
+  <arg name="gui" default="false"/>
+```
 # How to automate the scenario mode (for large scale benchmarking)
 For running multiple scenario files, (on different robots and planers), we provide the `run_evals.py` file. This will automatically _roslaunch_ the scenario files and save the respective _.csv_ files. Use this as follows:
 
