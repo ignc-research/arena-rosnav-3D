@@ -120,7 +120,6 @@ To benchmark the performance of your simulation and visualize your results with 
 - [How to include further scenarios](docs/Miscellaneous.md#How-to-include-further-scenarios)
 - [How to automate the scenario mode(for large scale benchmarking)](docs/Miscellaneous.md#how-to-automate-the-scenario-mode-for-large-scale-benchmarking)
 - [How to include further robots](docs/Miscellaneous.md#how-to-include-additional-robot-models)
-- [Link to project report](https://www.overleaf.com/9421739154ccngtqpdcvjj)
 
 # Used third party repos:
 

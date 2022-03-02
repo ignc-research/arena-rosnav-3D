@@ -128,9 +128,28 @@ To include your custom world in arena-rosnav-3D, see [here](#How-to-include-furt
 If you are using models, downloaded from ignitionrobotics you need to copy their folders from `~/.gazebo/models` to `~/catkin_ws/src/arena-rosnav-3D/simulator_setup/worlds/small_warehouse/models` so they are included with the simulator.
 
 # How to speed-up gazebo simulation speed
-It is possible to run Gazebo faster than real time. The maximum simulation speed depends on the complexity of the world and the processing power, a speedup between 2 and 300 of the simulation time is possible.
-- To speed up the simulation time to the maximum capacity, go into the world file of the gazebo (for the small warehouse world this would be under `simulator_setup/worlds/small_warehouse/worlds`) and change the `real_time_update_rate` from `<real_time_update_rate>1000</real_time_update_rate>` to `<real_time_update_rate>0</real_time_update_rate>`. This will speed up your simulation and adjust all parameters. (If you want to increase the simulation by a certain factor, see [here](http://gazebosim.org/tutorials?tut=physics_params&cat=physics)). You can further increase the speed by running the simulation headless. To do this, follow the description [here](https://github.com/eliastreis/arena-rosnav-3D/blob/2ecc4640576fce3e39356f5dc806b7d1986ed493/arena_bringup/launch/sublaunch_testing/gazebo_simulator.launch#L17)).
+When having more complex worlds, the simulation speed can become relativly slow, depending on your hardware. Here are several steps that can be done:
+1. Use gpu-ray for robot:\
+(Note this increses simulatin performance, however this laser mode does not work on all computers)\
+Find in the **simulator-setup** package, the settings for your laser plaugin:\ 
+  ```xml
+  # replace
+  <sensor type="ray" name="${frame}">
+  # with
+  <sensor type="gpu_ray" name="${frame}">
 
+  # replace
+  <plugin name="gazebo_ros_laser" filename="libgazebo_ros_laser.so">
+  #with
+  <plugin name="gazebo_ros_laser" filename="libgazebo_ros_gpu_laser.so">
+  ```
+ 2. Turn GUI off:
+ This will likly not speed up your simulation speed significantly, it will however significantly increase your startup and shut down times and is therefore advisable when doing multible restarts.\
+ In the `start_arena_ganzebo.launch` file, set the parameters as follows:
+```xml
+  <arg name="headless" default="true"/>
+  <arg name="gui" default="false"/>
+```
 # How to automate the scenario mode (for large scale benchmarking)
 For running multiple scenario files, (on different robots and planers), we provide the `run_evals.py` file. This will automatically _roslaunch_ the scenario files and save the respective _.csv_ files. Use this as follows:
 
