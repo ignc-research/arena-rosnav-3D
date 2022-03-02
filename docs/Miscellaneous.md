@@ -142,8 +142,7 @@ Find in the **simulator-setup** package, the settings for your laser plaugin:\
   <plugin name="gazebo_ros_laser" filename="libgazebo_ros_laser.so">
   #with
   <plugin name="gazebo_ros_laser" filename="libgazebo_ros_gpu_laser.so">
-  ´´´
-
+  ```
 # How to automate the scenario mode (for large scale benchmarking)
 For running multiple scenario files, (on different robots and planers), we provide the `run_evals.py` file. This will automatically _roslaunch_ the scenario files and save the respective _.csv_ files. Use this as follows:
 
