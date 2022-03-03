@@ -1,4 +1,4 @@
-> ⚠ This branch differs from the main branch by having a strongly developed random-world (/task) generator. Which is being used to generate data for specific scenarios and setups
+> ⚠ This branch differs from the main branch by having a strongly developed random-world (/task) generator. Which is being used to generate data for specific scenarios and setups (Note that this branch can be used - coming from the main branch - without running `catkin_make`)
 
 ```bash
 roslaunch arena_bringup start_arena_gazebo.launch world:=outside task_mode:=random

@@ -48,7 +48,7 @@
   <arg name="real" default="false"/>
 
   <!-- Path visualization -->
-  <arg name="viz_path" default="true"/>
+  <arg name="viz_path" default="false"/>
   <arg name="path_color" default="red" doc="Colors available: red, green, blue, light blue, yellow, pink, purple"/>
 
   <param name="additional_map" value="$(arg additional_map)"/>
