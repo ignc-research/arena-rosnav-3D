@@ -22,6 +22,20 @@ Furthermore, an outside world is available using the flag "outside:=true", e.g.
 ```
 roslaunch arena_bringup start_arena_gazebo.launch outside:=true
 ```
+## Calculated world properties
+ | adjusted_mean | mean | variance | Entropy | Max-Entropy | MapSize | MinObsDis | NumObs | OccupancyRatio | obs_ratio | 
+--- | --- | --- | --- |--- |--- |--- |--- |--- |--- |--- |
+eval_floot | 0.054 | 317.647 | 5918.087 |
+factory | - | 360 | 0 | 
+hospital | 1.328 | 358.998 | 270.379 |
+ignc | 0.008 | 180 | 21406.596 |
+small_warehouse | 0.008 | 200.930 | 26624.237 |
+aws_house | 0.182 | 351.628 | 1926.969 |
+bookstore | 0.006 | 114.545 | 18997.649 |
+exp_room | 0.033 | 270 | 8106.014 |
+outside | - | 360 | 0 |
+tb3_house | - | 360 | 0 |
+tb3_world | 0.006 | 180 | 29083.099 |
 
 ## Pre-build world
 
