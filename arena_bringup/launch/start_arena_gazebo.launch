@@ -16,12 +16,10 @@
   <arg name="agent_name" default="$(arg model)"     doc = "DRL agent name to be deployed" unless="$(eval arg('local_planner') != 'rosnav')"/>
   <arg name="scenario_file" default="$(arg world).json"/>
   <arg name="num_static_obs" default="3"/>
-  <!-- Number of static obstacles in outside mode-->
   <arg name="step_size" default="0.01"/>
   <arg name="update_rate" default="250"/>
   <arg name="show_viz" default="true"/>
   <arg name="viz_pub_rate" default="30" />
-  <!-- With ot without Gazebo Visualization, without viz, use_rviz=false, headless:=true, gui:=false-->
   <arg name="use_rviz" default="true"/>
   <!-- <arg name="headless" default="true"/>
   <arg name="gui" default="false"/> -->
@@ -46,6 +44,8 @@
   <arg name="pedsim_update_rate" default="30.0"/>
   <arg name="scene_file" default="$(find simulator_setup)/scenarios/ped_scenarios/$(arg world).xml"/>
   <arg name="real" default="false"/>
+  <arg name="emergency_brake" default="false"/>
+  <arg name="timeout" default="3.0"/>
 
   <!-- Path visualization -->
   <arg name="viz_path" default="true"/>
@@ -135,7 +135,6 @@
   </include>
 
   <!-- start task_generator node -->
-  <arg name="timeout" default="3.0"/>
   <include file="$(find arena_bringup)/launch/sublaunch_testing/task_generator.launch" unless="$(eval arg('disable_scenario') or arg('train_mode'))">
     <arg name="scenarios_json_path" value="$(find simulator_setup)/scenarios/$(arg scenario_file)"/>
     <arg name="auto_reset" value="$(arg reset)"/>
@@ -150,7 +149,7 @@
   <!-- move_base plan manager: which provide basic global planner and cost map -->
   <include file="$(find arena_bringup)/launch/sublaunch_testing/move_base/move_base_$(arg local_planner).launch">
     <arg name="model" value="$(arg model)"/>
-    <!-- <arg name="cmd_vel_topic" value="/nav_vel" if="$(eval arg('model') == 'agv-ota')" /> -->
+    <arg name="cmd_vel_topic" value="/nav_vel" if="$(arg emergency_brake)" />
     <arg name="agent_name" value="$(arg model)" if="$(eval arg('local_planner') == 'rosnav')" />
     <arg name="trainings_environment" value="$(arg trainings_environment)" if="$(eval arg('local_planner') == 'rosnav')" />
     <!-- <arg name="speed" value="$(param speed)"/> -->
@@ -183,6 +182,6 @@
 
   <!-- start_rviz -->
   <node name="gazebo_rviz" pkg="rviz" type="rviz" args="-d $(find arena_bringup)/rviz/$(arg rviz_file).rviz" if="$(arg use_rviz)"/>
-<!-- 
-  <node name='mass_launch' pkg='mass_launch' type='listener_node.py'/> -->
+
+  <node name="emergency_brake" pkg="task_generator" type="emergency_brake_node.py" if="$(arg emergency_brake)"/>
 </launch>

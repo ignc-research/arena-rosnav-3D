@@ -33,8 +33,7 @@ class TaskGenerator:
         # if auto_reset is set to true, the task generator will automatically reset the task
         # this can be activated only when the mode set to 'ScenarioTask'
         auto_reset = rospy.get_param("~auto_reset")
-        self.start_time_ = time.time()
-
+        self.start_time_ = rospy.get_time() 
         self.arena_gen = rospy.get_param("~world") == "arena_generated"
 
         # arena generated mode - TODO This is currenly not supported by pedsim elias
@@ -63,10 +62,7 @@ class TaskGenerator:
         self.pub = rospy.Publisher('End_of_scenario', Bool, queue_size=10)
 
         # if the distance between the robot and goal_pos is smaller than this value, task will be reset
-        # self.timeout_= rospy.get_param("~timeout")
-        self.timeout_ = rospy.get_param("~timeout", 2.0)
-        self.timeout_ = self.timeout_ * 60  # sec
-        self.start_time_ = time.time()  # sec
+        self.timeout_ = rospy.get_param("~timeout", 2.0) * 60  # sec
         self.delta_ = rospy.get_param("~delta")
         robot_odom_topic_name = rospy.get_param("robot_odom_topic_name", "odom")
 
@@ -99,7 +95,7 @@ class TaskGenerator:
             print(self.err_g)
             print("reached goal")
             self.reset_task()
-        if time.time() - self.start_time_ > self.timeout_:
+        if rospy.get_time() - self.start_time_ > self.timeout_:
             print("timeout")
             self.reset_task()
 
