@@ -31,5 +31,4 @@
             <param name="publish_frequency" type="double" value="50.0" />
         </node>
     </group>
-
 </launch>
