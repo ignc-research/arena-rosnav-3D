@@ -23,7 +23,7 @@ Furthermore, an outside world is available using the flag "outside:=true", e.g.
 roslaunch arena_bringup start_arena_gazebo.launch outside:=true
 ```
 ## Calculated world properties
- | | _adjusted_mean_ | _mean_ | _variance_ | _Entropy_ | _Max-Entropy_ | _MapSize_ | _MinObsDis_ | _NumObs_ | _OccupancyRatio_ | _obs_ratio_ | 
+ |_Worlds_ | _adjusted_mean_ | _mean_ | _variance_ | _Entropy_ | _Max-Entropy_ | _MapSize_ | _MinObsDis_ | _NumObs_ | _OccupancyRatio_ | _obs_ratio_ | 
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 _eval_floot_ | 0.054 | 317.647 | 5918.087 | 0.366 | 2.322 | 4000 | 0.224 | 18 | 0.0498 | 0.45 |
 _factory_ | - | 360 | 0 | 0.104 | 2.322 | 36000 | 0.223 | 70 | 0.009 | 0.194 |
