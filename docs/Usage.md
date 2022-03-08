@@ -37,6 +37,9 @@ _outside_ | - | 360 | 0 | 0.112 | 2.322 | 10240 | 1000 | 1 | 0.012 | 0.009 |
 _tb3_house_ | - | 360 | 0 |0.089 | 2.322 | 12250 | 0.4 | 5 | 0.008 | 0.040 |
 _tb3_world_ | 0.006 | 180 | 29083.099 |0.068 | 2.322 | 7372.8 | 0.75 | 10 | 0.006 | 0.135 |
 
+the explanation of each metric can be found at [_hier_](https://github.com/ignc-research/arena-rosnav-3D/wiki/Calculated-world-properties)
+
+
 ## Pre-build world
 
 To select one of our pre-build worlds, specify your scenario by selecting **aws_house**, turtlebot3*house, small_warehouse *(bold is your default world)\_ in your startup file:
