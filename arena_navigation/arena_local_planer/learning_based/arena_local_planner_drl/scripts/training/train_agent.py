@@ -196,7 +196,7 @@ def main():
     # set num of timesteps to be generated
     n_timesteps = 40000000 if args.n is None else args.n
     # start training
-    start = time.time()
+    start = rospy.get_time()
     try:
         model.learn(
             total_timesteps=n_timesteps,
@@ -210,7 +210,7 @@ def main():
     # update_total_timesteps_json(n_timesteps, PATHS)
 
     model.env.close()
-    print(f"Time passed: {time.time()-start}s")
+    print(f"Time passed: {rospy.get_time()-start}s")
     print("Training script will be terminated")
     sys.exit()
 

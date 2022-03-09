@@ -36,7 +36,7 @@ env = GazeboEnv(
 )
 model = A2C("MlpPolicy", env, verbose=1)
 
-s = time.time()
+s = rospy.get_time()
 try:
     model.learn(total_timesteps=1000)
 except KeyboardInterrupt:
@@ -45,7 +45,7 @@ except KeyboardInterrupt:
     except SystemExit:
         os._exit(0)
 
-print("steps per second: {}".format(1000 / (time.time() - s)))
+print("steps per second: {}".format(1000 / (rospy.get_time() - s)))
 # obs = env.reset()
 # for i in range(1000):
 #     action, _state = model.predict(obs, deterministic=True)

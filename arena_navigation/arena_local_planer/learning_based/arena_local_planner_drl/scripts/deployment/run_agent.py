@@ -137,7 +137,7 @@ if __name__ == "__main__":
     ros_params = rospy.get_param_names()
     ns_for_nodes = "/single_env" not in ros_params
 
-    start = time.time()
+    start = rospy.get_time()
     while len(AGENTS) != 0:
         AGENT = AGENTS.pop(0)
         print(f"START RUNNING AGENT:    {AGENT}")
@@ -179,7 +179,7 @@ if __name__ == "__main__":
         except StopReset:
             pass
 
-    time = round(time.time() - start)
+    time = round(rospy.get_time() - start)
     print(f"Time passed:    {time}s")
     print("EVALUATION DONE!")
     sys.exit()
@@ -198,9 +198,9 @@ if __name__ == "__main__":
     #         first_obs = False
     #         cum_reward = 0.0
 
-    #     # timer = time.time()
+    #     # timer = rospy.get_time()
     #     action, _ = agent.predict(obs, deterministic=True)
-    #     # print(f"Action predict time: {(time.time()-timer)*2.5} (sim time)")
+    #     # print(f"Action predict time: {(rospy.get_time()-timer)*2.5} (sim time)")
 
     #     # clip action
     #     if not params['discrete_action_space']:
