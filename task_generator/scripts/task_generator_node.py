@@ -60,7 +60,9 @@ class TaskGenerator:
             self.filtered_names = [name for name in names if pat.match(name) != None]
 
         self.pub = rospy.Publisher('End_of_scenario', Bool, queue_size=10)
-
+        self.unpause = rospy.ServiceProxy('/gazebo/unpause_physics', Empty)
+        self.pause = rospy.ServiceProxy('/gazebo/pause_physics', Empty)
+        self.first_round = True
         # if the distance between the robot and goal_pos is smaller than this value, task will be reset
         self.timeout_ = rospy.get_param("~timeout", 2.0) * 60  # sec
         self.delta_ = rospy.get_param("~delta")
@@ -124,8 +126,10 @@ class TaskGenerator:
             self.pedsimMap_client_(new_map)
             clear_costmaps()
 
-        self.start_time_ = time.time()
+        self.start_time_ = rospy.get_time()
+        if not self.first_round: self.pause()
         info = self.task.reset()
+        if not  self.first_round: self.unpause()
         # set goal position
         self.sr.publish(self.nr)
         if info is not None:
