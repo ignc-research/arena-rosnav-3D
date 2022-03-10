@@ -157,7 +157,7 @@ class StageWorld():
         self.self_speed = [0.0, 0.0]
         self.step_goal = [0., 0.]
         self.step_r_cnt = 0.
-        self.start_time = time.time()
+        self.start_time = rospy.get_time()
         rospy.sleep(0.5)
 
 

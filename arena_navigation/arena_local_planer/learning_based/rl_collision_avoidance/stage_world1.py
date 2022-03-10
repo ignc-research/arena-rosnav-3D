@@ -164,7 +164,7 @@ class StageWorld():
         self.self_speed = [0.0, 0.0]
         self.step_goal = [0., 0.]
         self.step_r_cnt = 0.
-        self.start_time = time.time()
+        self.start_time = rospy.get_time()
         rospy.sleep(0.5)
 
 
@@ -216,7 +216,7 @@ class StageWorld():
         self.control_pose(random_pose)
         [x_robot, y_robot, theta] = self.get_self_stateGT()
 
-        # start_time = time.time()
+        # start_time = rospy.get_time()
         while np.abs(random_pose[0] - x_robot) > 0.2 or np.abs(random_pose[1] - y_robot) > 0.2:
             [x_robot, y_robot, theta] = self.get_self_stateGT()
             self.control_pose(random_pose)
