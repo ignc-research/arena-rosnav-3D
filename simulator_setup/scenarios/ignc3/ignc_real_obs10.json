@@ -464,7 +464,7 @@
         7.4,
         -2.9
     ],
-    "resets": 4,
+    "resets": 30,
     "map_path": "/home/elias/catkin_ws/src/arena-rosnav-3D/simulator_setup/maps/ignc_real/map.yaml",
     "format": "arena-tools"
 }

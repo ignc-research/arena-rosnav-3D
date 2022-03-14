@@ -235,7 +235,7 @@
         25.65,
         4.58
     ],
-    "resets": 4,
+    "resets": 30,
     "map_path": "/home/jacek/catkin_ws/src/arena-rosnav-3D/simulator_setup/maps/factory/map.yaml",
     "format": "arena-tools"
 }
