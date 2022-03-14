@@ -1,3 +1,0 @@
-dwa_turtlebot3_burger
-rosnav_turtlebot3_burger
-teb_turtlebot3_burger

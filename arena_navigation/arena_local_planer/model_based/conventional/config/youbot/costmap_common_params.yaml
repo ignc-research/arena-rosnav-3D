@@ -7,11 +7,8 @@ inflation_radius: 0.25
 
 observation_sources: base_scan
 
-obstacle_range: 2.5
-raytrace_range: 3.0
-footprint: [[-0.285, 0.18], [-0.285, -0.18], [0.285, -0.18], [0.285, 0.18]]
-#robot_radius: ir_of_robot
-inflation_radius: 0.55
+# footprint: [[-0.285, 0.18], [-0.285, -0.18], [0.285, -0.18], [0.285, 0.18]]
+robot_radius: 0.68
 
 #base_scan_marking: {sensor_frame: base_scan_link,
 #                    data_type: PointCloud2,

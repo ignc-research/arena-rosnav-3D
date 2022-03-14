@@ -231,7 +231,7 @@
         11.74,
         12.98
     ],
-    "resets": 4,
+    "resets": 30,
     "map_path": "/home/teham/catkin_ws/src/arena-rosnav-3D/simulator_setup/maps/outside/map.yaml",
     "format": "arena-tools"
 }

@@ -4,7 +4,8 @@
 obstacle_range: 2.5
 raytrace_range: 3.0
 #footprint: [[x0, y0], [x1, y1], ... [xn, yn]]
-robot_radius: 0.225
+# robot_radius: 0.225 # 0.725 for emergency break
+robot_radius: 0.725 # 0.725 for emergency break
 inflation_radius: 0.4
 
 observation_sources: scan distance_sensors distance_sensors_clearing

@@ -1,6 +1,7 @@
 # parameters for the calculation of the performance metrics
 robot_radius:
   turtlebot3_burger: 0.121
+  burger: 0.121
   jackal: 0.267
   ridgeback: 0.625
   agv-ota: 0.629

@@ -12,11 +12,10 @@ TebLocalPlannerROS:
   acc_lim_theta: 1.0
 
   footprint_model:
-    type: "polygon"
-    vertices: [[-0.285, 0.18], [-0.285, -0.18], [0.285, -0.18], [0.285, 0.18]]
+    type: "circular"
+    radius: 0.68
 
   # GoalTolerance
-
   xy_goal_tolerance: 0.2
   yaw_goal_tolerance: 0.1
   free_goal_vel: False

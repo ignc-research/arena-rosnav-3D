@@ -10,7 +10,8 @@ publish_voxel_map: false
 transform_tolerance: 0.5
 meter_scoring: true
 
-footprint: [[-0.21, -0.165], [-0.21, 0.165], [0.21, 0.165], [0.21, -0.165]]
+# footprint: [[-0.21, -0.165], [-0.21, 0.165], [0.21, 0.165], [0.21, -0.165]]
+robot_radius: 0.665
 footprint_padding: 0.1
 
 plugins:
