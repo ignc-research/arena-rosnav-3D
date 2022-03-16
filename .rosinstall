@@ -21,10 +21,13 @@
     local-name: ../forks/navigation/local_planner/mpc
     uri: https://github.com/rst-tu-dortmund/mpc_local_planner
     version: master
-# - git:
-#     local-name: ../forks/navigation/local_planner/teb
-#     uri: https://github.com/rst-tu-dortmund/teb_local_planner
-#     version: master
+- git:
+    local-name: ../forks/navigation/local_planner/teb
+    uri: https://github.com/eliastreis/teb
+    version: master
 - git:
     local-name: ../forks/robots
     uri: https://github.com/eliastreis/3d_support_packages
+- git:
+    local-name: ../forks/arena-evaluation
+    uri: https://github.com/ignc-research/arena-evaluation
