@@ -44,7 +44,7 @@
   <arg name="pedsim_update_rate" default="30.0"/>
   <arg name="scene_file" default="$(find simulator_setup)/scenarios/ped_scenarios/$(arg world).xml"/>
   <arg name="real" default="false"/>
-  <arg name="emergency_brake" default="false"/>
+  <arg name="emergency_brake" default="true"/>
   <arg name="timeout" default="3.0"/>
 
   <!-- Path visualization -->
