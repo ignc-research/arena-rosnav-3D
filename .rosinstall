@@ -24,7 +24,7 @@
 - git:
     local-name: ../forks/navigation/local_planner/teb
     uri: https://github.com/eliastreis/teb
-    version: master
+    version: main
 - git:
     local-name: ../forks/robots
     uri: https://github.com/eliastreis/3d_support_packages
