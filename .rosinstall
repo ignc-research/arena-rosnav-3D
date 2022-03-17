@@ -12,7 +12,7 @@
     version: master
 - git:
     local-name: ../forks/arena-tools
-    uri: https://github.com/Jacenty00/arena-tools
+    uri: https://github.com/ignc-research/arena-tools
     version: main
 - git:
     local-name: ../forks/gazebo_ros_2Dmap_plugin
@@ -28,6 +28,8 @@
 - git:
     local-name: ../forks/robots
     uri: https://github.com/eliastreis/3d_support_packages
+    version: main
 - git:
     local-name: ../forks/arena-evaluation
     uri: https://github.com/ignc-research/arena-evaluation
+    version: main
