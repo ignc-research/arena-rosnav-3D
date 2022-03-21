@@ -13,7 +13,7 @@
   <arg name="odom_frame_id" value="odom"/>
   <arg name="base_frame_id" value="base_footprint"/>
   <arg name="train_mode" default="false"/>
-  <arg name="action_frequency" default="20"/> 
+  <arg name="action_frequency" default="20"/>
   <arg name="real" default="true"/>
 
   <!-- Path visualization -->
@@ -21,11 +21,11 @@
   <arg name="path_color" default="red"/>
 
   <arg name="local_planner" default="rosnav"         doc = "local_planner type [teb, dwa, mpc, rlca, cadrl, arena, rosnav]"/>
-  <arg name="model" default="turtlebot3_burger"      doc = "model type [turtlebot3_burger, jackal, ridgeback, agv-ota, rto, tiago, turtlebot3_waffle_pi]"/>
+  <arg name="model" default="turtlebot3_burger"      doc = "model type [turtlebot3_burger, jackal, ridgeback, agv-ota, rto, turtlebot3_waffle_pi]"/>
   <arg name="network_type" default="rosnav" doc="Model type that is used. Will determine the observation and action space. Currently only rosnav is supported" />
   <arg name="trainings_environment" default="rosnav" doc="Determines the environment in which the network is trained. How to load the network mostly differs for different environments. Currently rosnav and navrep are supported" />
   <arg name="agent_name" default="turtlebot3_burger"     doc = "DRL agent name to be deployed" unless="$(eval arg('local_planner') != 'rosnav')"/>
-  
+
   <param name="model" value="$(arg model)" />
   <param name="agent_name" value="$(arg agent_name)" unless="$(eval arg('local_planner') != 'rosnav')"/>
   <param name="trainings_environment" value="$(arg trainings_environment)" />
@@ -85,7 +85,7 @@ f
     <arg name="agent_name" value="$(arg agent_name)" if="$(eval arg('local_planner') == 'rosnav')" />
     <arg name="trainings_environment" value="$(arg trainings_environment)" if="$(eval arg('local_planner') == 'rosnav')" />
     <!-- <arg name="speed" value="$(param speed)"/>   -->
-  </include> 
+  </include>
 
 
   <!-- data recorder -->
@@ -97,10 +97,10 @@ f
     <param name="scenario_file" value="$(arg scenario_file)"/>
     <param name="model" value="$(arg model)"/>
     <param name="real-eval" value="$(arg real-eval)"/>
-  </group> 
+  </group>
 
-  <!-- rviz 
-  <group if="$(arg open_rviz)"> 
+  <!-- rviz
+  <group if="$(arg open_rviz)">
     <node pkg="rviz" type="rviz" name="rviz" required="true"
           args="-d $(find arena_bringup)/rviz/$(arg rviz_file).rviz"/>
   </group>-->

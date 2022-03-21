@@ -1,6 +1,6 @@
 <launch>
   <!-- Arguments -->
-  <arg name="model" default="rto"      doc = "model type [turtlebot3_burger, jackal, ridgeback, agv-ota, rto, tiago, turtlebot3_waffle_pi]"/>
+  <arg name="model" default="rto"      doc = "model type [turtlebot3_burger, jackal, ridgeback, agv-ota, rto, turtlebot3_waffle_pi]"/>
   <arg name="map_file" default="$(find simulator_setup)/maps/ignc/ignc-robo-room-tb3.yaml"/>
   <arg name="global_frame_id" value="map"/>
   <arg name="scan_topic" default="/scan"/>

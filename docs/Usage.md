@@ -23,7 +23,7 @@ Furthermore, an outside world is available using the flag "outside:=true", e.g.
 roslaunch arena_bringup start_arena_gazebo.launch outside:=true
 ```
 ## Calculated world properties
- |_Worlds_ | _adjusted_mean_ | _mean_ | _variance_ | _Entropy_ | _Max-Entropy_ | _MapSize_ | _MinObsDis_ | _NumObs_ | _OccupancyRatio_ | _obs_ratio_ | 
+ |_Worlds_ | _adjusted_mean_ | _mean_ | _variance_ | _Entropy_ | _Max-Entropy_ | _MapSize_ | _MinObsDis_ | _NumObs_ | _OccupancyRatio_ | _obs_ratio_ |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 _eval_floot_ | 0.054 | 317.647 | 5918.087 | 0.366 | 2.322 | 4000 | 0.224 | 18 | 0.0498 | 0.45 |
 _factory_ | - | 360 | 0 | 0.104 | 2.322 | 36000 | 0.223 | 70 | 0.009 | 0.194 |
@@ -88,9 +88,9 @@ We support different robots:
 |:--: | :--:| :--:| :--:|
 | _turtlebot3_burger_ | _jackal_ | _ridgeback_ | _agv-ota_ |
 
-| <img width="250" src="/img/robots/rto.jpg"> | <img width="250" src="/img/robots/tiago.jpeg"> | <img width="250"  src="/img/robots/turtlebot3_waffle_pi.jpg"> | <img width="250" src="/img/robots/cob4.jpg"> |
+| <img width="250" src="/img/robots/rto.jpg"> | <img width="250"  src="/img/robots/turtlebot3_waffle_pi.jpg"> | <img width="250" src="/img/robots/cob4.jpg"> |
 | :-----------------------------------------: | :--------------------------------------------: | :-----------------------------------------------------------: | :------------------------------------------: |
-|               _Robotino(rto)_               |                    _tiago_                     |                    _turtlebot3_waffle_pi_                     |             _Car-O-Bot4 (cob4)_              |
+|               _Robotino(rto)_               |                    _turtlebot3_waffle_pi_                     |             _Car-O-Bot4 (cob4)_              |
 
 All robots are equipped with a laser scanner. The robots differ in size, laser-range etc. See below table for more detailed information on each robot:
 
@@ -101,7 +101,6 @@ All robots are equipped with a laser scanner. The robots differ in size, laser-r
 | _ridgeback_            |           1.1            |           0.5            |                  2.0                  |    0.625     |      True       |       10.0        |    True    |
 | _agv-ota_              |           0.5            |           0.0            |                  0.4                  |    0.629     |      True       |        5.0        |   False    |
 | _rto³_                 |           2.78           |           todo           |                 todo                  |    0.225     |      todo       |       todo        |    todo    |
-| _tiago_                |           1.5            |           todo           |                 todo                  |     0.27     |      todo       |       todo        |    todo    |
 | _turtlebot3_waffle_pi_ |           0.26           |           0.0            |                 1.82                  |    0.208     |      False      |        3.5        |   False    |
 | _Car-O-Bot4 (cob4)³_   |           1.1            |           todo           |                 todo                  |     0.36     |      True       |       todo        |    todo    |
 
