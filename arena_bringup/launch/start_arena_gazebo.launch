@@ -7,7 +7,7 @@
   <arg name="reset" default="true"/>
   <arg name="enable_pedsim" default="true"/>
   <arg name="enable_pedvis" default="true"/>
-  <arg name="outside" default="false"/>
+  <arg name="outside" default="true"/>
   <arg name="network_type" default="rosnav" doc="Model type that is used. Will determine the observation and action space. Currently only rosnav is supported" />
   <arg name="trainings_environment" default="rosnav" doc="Determines the environment in which the network is trained. How to load the network mostly differs for different environments. Currently rosnav and navrep are supported" />
   <arg name="world" default="small_warehouse" doc ="world type [turtlebot3_house, small_warehouse, aws_house, outside, ignc_lab]" unless="$(arg outside)"/>
@@ -36,7 +36,7 @@
   <arg name="add_map_path" default=""/>
   <arg name="additional_map" default="false"/>
   <arg name="waypoint_generator" default="classic"/>
-  <arg name="obs_vel" default="0.3" />
+  <arg name="obs_vel" default="0.3" /> <!-- This param is not needed as speed is determined randomly in task gen  -->
   <arg name="action_frequency" default="10"/>
   <arg name="global_frame_id" value="map"/>
   <arg name="odom_frame_id" value="odom"/>

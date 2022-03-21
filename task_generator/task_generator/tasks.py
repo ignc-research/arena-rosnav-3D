@@ -143,7 +143,7 @@ class RandomTask(ABSTask):
                         self.obstacle_manager.remove_all_obstacles() 
                         OBS = {
                             "static": randint(0, 20),
-                            "dynamic": randint(0, 20),
+                            "dynamic": randint(0, rospy.get_param('actors', 10)),
                             'speed_dyn': float(randrange(5,50,5)/100)
                         }
                         # self.setup_world_params()
