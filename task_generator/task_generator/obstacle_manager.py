@@ -106,8 +106,8 @@ class ObstaclesManager:
 
             # self.pedsim_manager.spawnObstacle(o_pos_, r) # TODO not yet working
 
-    def register_random_dynamic_obstacles(self, num_obstacles, forbidden_zones=None, min_dist=1):
-        # type: (int, list, int) -> None
+    def register_random_dynamic_obstacles(self, num_obstacles, forbidden_zones=None, speed=.3, min_dist=1):
+        # type: (int, list, float, int) -> None
         
         """register random start and goal position of dynamic obstacles (humans)
         Args:
@@ -149,9 +149,8 @@ class ObstaclesManager:
                 raise rospy.ServiceException(
                     "can not generate a path with the given start position and the goal position of the robot")
         # load the peds in pedsim format
-        print(s_pos, g_pos)
         self.scenario = ArenaScenario()
-        self.scenario.createSimplePed(ids, s_pos, g_pos)
+        self.scenario.createSimplePed(ids, s_pos, g_pos, speed)
         # setup pedsim agents
         self.pedsim_manager = None
 

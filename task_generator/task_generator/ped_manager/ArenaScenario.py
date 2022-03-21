@@ -102,8 +102,8 @@ class ArenaScenario:
         else:
             raise Exception("file ", path_in, " does not exist")
 
-    def createSimplePed(self, ids, s_pos, w_pos):
-        # type: (list, list, list) -> None
+    def createSimplePed(self, ids, s_pos, w_pos, speed=.3):
+        # type: (list, list, list, float) -> None
 
         # creates pedsim-agents
         peds = []
@@ -114,9 +114,9 @@ class ArenaScenario:
                     "id": id,
                     "pos": [*spos],
                     "type": "adult",
-                    "yaml_file": "/home/daniel/catkin_ws/src/arena-rosnav-3D/simulator_setup/dynamic_obstacles/person_two_legged.model.yaml",
+                    "yaml_file": "arena-rosnav-3D/simulator_setup/dynamic_obstacles/person_two_legged.model.yaml",
                     "number_of_peds": 1,
-                    "vmax": 0.3,
+                    "vmax": speed,
                     "start_up_mode": "default",
                     "wait_time": 0.0,
                     "trigger_zone_radius": 0.0,
