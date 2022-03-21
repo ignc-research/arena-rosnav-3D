@@ -19,8 +19,9 @@ from .robot_manager import RobotManager
 from .obstacle_manager import ObstaclesManager
 from .pedsim_manager import PedsimManager
 from .ped_manager.ArenaScenario import *
+from std_srvs.srv import Empty
 from std_msgs.msg import Bool
-from geometry_msgs.msg import *
+from geometry_msgs.msg import * 
 from threading import Condition, Lock
 from filelock import FileLock
 
@@ -73,10 +74,12 @@ class RandomTask(ABSTask):
         super(RandomTask, self).__init__(
             pedsim_manager, obstacle_manager, robot_manager
         )
+        self.unpause = rospy.ServiceProxy('/gazebo/unpause_physics', Empty)
         if DATA_GEN:
             self.num_of_actors = N_OBS["dynamic"]
         else:
             self.num_of_actors = rospy.get_param("~actors", N_OBS["dynamic"])
+        self.unpause()
 
     def create_occ_map(self):
         """ This function creates an occupancy map of the world this is used for the performance-prediction dataset. (Note the pgm is not added to the navigation stack, the global plan will use the original empty map.pgm)
@@ -121,7 +124,7 @@ class RandomTask(ABSTask):
         with open(dir_path+"/{0}_{1}--{2}--{3}.csv"), "a+", newline = "") as file:
             writer = csv.writer(file, delimiter = ',') # writer has to be defined again for the code to work
             writer.writerows(data.reshape(1,-1)) # reshape into line vector
-            file.close()
+            file.close()        
 
 
     def reset(self):

@@ -111,7 +111,7 @@ roscd arena_local_planner_drl
 python scripts/training/train_agent.py --agent MLP_ARENA2D
 ```
 ### Evaluation
-To benchmark the performance of your simulation and visualize your results with qualitative and quantitative plots like in the example below, see the documentation [here](arena_navigation/arena_local_planer/evaluation/arena_evaluation/readme.md)
+To benchmark the performance of your simulation and visualize your results with qualitative and quantitative plots like in the example below, see the documentation [here](arena_navigation/arena_local_planer/evaluation/arena-evaluation/readme.md)
 
 |<img width="600" height=350 src="img/qualitative_plot.png">|<img width="650" height=350 src="img/quantitativ_plots.png">|
 |:--:       |              :--:|
