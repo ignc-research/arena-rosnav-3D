@@ -6,7 +6,8 @@ import signal
 import subprocess
 from random import randint, randrange
 import six
-import abc, csv
+import abc
+import csv
 import time
 import rospy
 import numpy as np
@@ -21,7 +22,7 @@ from .pedsim_manager import PedsimManager
 from .ped_manager.ArenaScenario import *
 from std_srvs.srv import Empty
 from std_msgs.msg import Bool
-from geometry_msgs.msg import * 
+from geometry_msgs.msg import *
 from threading import Condition, Lock
 from filelock import FileLock
 
@@ -97,7 +98,7 @@ class RandomTask(ABSTask):
             f'rosrun map_server map_saver -f map_{count} /map:=/map2d', shell=True, preexec_fn=os.setsid)
         time.sleep(1)
         count += 1
-    
+
     def setup_world_params():
         """This method can be used to alter world elements like the robot urdf, this can be helpfull for changing for example the laser range.
         This method can be used to alter the navigation stack. It will require you to shut down the node and restart is afterwards"""
@@ -107,25 +108,29 @@ class RandomTask(ABSTask):
         # (4. Add the params to the dataset)
         raise NotImplemented
 
-    def add_data_to_dataset(count, OBS, start_pos, goal_pos):
+    def add_data_to_dataset(self, count, OBS, start_pos, goal_pos):
         """Add random parameters to dataset:
         Args:
             simulation_params
         """
         dir_path = os.path.dirname(os.path.abspath(__file__))
-        if count == 0:
-            with open(dir_path+"/datagen.csv", "w+", newline = "") as file:
-                writer = csv.writer(file, delimiter = ',')
-                header = [["episode","n_st_obs","n_dyn_obs","obs_speed", 'start_pos', 'goal_pos']]
+        if count == 1:
+            with open(dir_path+"/datagen.csv", "w+", newline="") as file:
+                writer = csv.writer(file, delimiter=',')
+                header = [["episode", "n_st_obs", "n_dyn_obs",
+                           "obs_speed", 'start_pos', 'goal_pos']]
                 writer.writerows(header)
                 file.close()
 
-        data = np.array(count, OBS['static'], OBS['dynamic'], OBS['speed_dyn'], start_pos, goal_pos)
-        with open(dir_path+"/{0}_{1}--{2}--{3}.csv"), "a+", newline = "") as file:
-            writer = csv.writer(file, delimiter = ',') # writer has to be defined again for the code to work
-            writer.writerows(data.reshape(1,-1)) # reshape into line vector
-            file.close()        
-
+        data = np.array([count, OBS['static'], OBS['dynamic'], OBS['speed_dyn'], [
+                        start_pos.position.x, start_pos.position.y], [goal_pos.position.x, goal_pos.position.y]])
+        print(data)
+        print(data.reshape(1, -1))
+        with open(dir_path+"/datagen.csv", "a+", newline="") as file:
+            # writer has to be defined again for the code to work
+            writer = csv.writer(file, delimiter=',')
+            writer.writerows(data.reshape(1, -1))  # reshape into line vector
+            file.close()
 
     def reset(self):
         """[summary]"""
@@ -140,38 +145,36 @@ class RandomTask(ABSTask):
                     print("loglog: reached goal 2")
 
                     if DATA_GEN:
-                        self.obstacle_manager.remove_all_obstacles() 
+                        self.obstacle_manager.remove_all_obstacles()
                         OBS = {
                             "static": randint(0, 20),
                             "dynamic": randint(0, rospy.get_param('actors', 10)),
-                            'speed_dyn': float(randrange(5,50,5)/100)
+                            'speed_dyn': float(randrange(5, 50, 5)/100)
                         }
                         # self.setup_world_params()
                         forbidden_zones = self.obstacle_manager.register_random_static_obstacles(
                             OBS["static"], forbidden_zones=forbidden_zones
                         )
                         self.create_occ_map()
+                        (start_pos, goal_pos) = self.robot_manager.set_start_pos_goal_pos(
+                            start_pos=S_POS, goal_pos=G_POS)
                         self.obstacle_manager.register_random_dynamic_obstacles(
-                        OBS["dynamic"],
-                        forbidden_zones=[
-                            (
-                                start_pos.position.x,
-                                start_pos.position.y,
-                                ROBOT_RADIUS,
-                            ),
-                            (
-                                goal_pos.position.x,
-                                goal_pos.position.y,
-                                ROBOT_RADIUS,
-                            ),
-                        ], speed = OBS["speed_dyn"],
-                    )
-
-                    (
-                        start_pos,
-                        goal_pos,
-                    ) = self.robot_manager.set_start_pos_goal_pos(start_pos=S_POS, goal_pos=G_POS)
+                            OBS["dynamic"],
+                            forbidden_zones=[
+                                (
+                                    start_pos.position.x,
+                                    start_pos.position.y,
+                                    ROBOT_RADIUS,
+                                ),
+                                (
+                                    goal_pos.position.x,
+                                    goal_pos.position.y,
+                                    ROBOT_RADIUS,
+                                ),
+                            ], speed=OBS["speed_dyn"],
+                        )
                      # removes all peds
+
                     self.add_data_to_dataset(count, OBS, start_pos, goal_pos)
                     print("loglog: reached goal 3")
                     break
