@@ -149,7 +149,7 @@ Note, that not every robot can be used with every planner, yet. See an overview 
 | *ridgeback*  | X | X | X | X | X | X |   |   |   |   |
 | *agv-ota*    | X | X | X | X | X |   |   |   |   |   |
 | *rto*        | X | X | X | X | X |   | X | X |   | X |
-| *youbot*     | X | X | X | X | X |   | X | X |   | X |
+| *youbot*     | X | X | X |(X)| X |   | X | X |   | X |
 | *waffle_pi*  | X | X | X |   | X | X |   |   |   |   |
 | *cob4*       | X | X | X | X | X |   |   | X |   |   |
 
