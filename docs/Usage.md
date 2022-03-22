@@ -89,7 +89,7 @@ We support different robots:
 | _turtlebot3_burger_ | _jackal_ | _ridgeback_ | _agv-ota_ |
 
 | <img width="250" src="/img/robots/rto.jpg"> | <img width="250"  src="/img/robots/turtlebot3_waffle_pi.jpg"> | <img width="250" src="/img/robots/cob4.jpg"> |
-| :-----------------------------------------: | :--------------------------------------------: | :-----------------------------------------------------------: | :------------------------------------------: |
+| :-----------------------------------------: | :--------------------------------------------: | :-----------------------------------------------------------: |
 |               _Robotino(rto)_               |                    _turtlebot3_waffle_pi_                     |             _Car-O-Bot4 (cob4)_              |
 
 All robots are equipped with a laser scanner. The robots differ in size, laser-range etc. See below table for more detailed information on each robot:
