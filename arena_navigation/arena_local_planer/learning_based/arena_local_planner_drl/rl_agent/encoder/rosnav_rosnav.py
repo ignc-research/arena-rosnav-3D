@@ -122,10 +122,10 @@ class TurtleBot3BurgerEncoder(RosnavEncoder):
 
     pass
 
-@EncoderFactory.register("rosnav", "rosnav", "turtlebot3_burger_pi")
+@EncoderFactory.register("rosnav", "rosnav", "turtlebot3_waffle_pi")
 class TurtleBot3WafflePiEncoder(RosnavEncoder):
     """
-    Turtlebot3
+    turtlebot3_waffle_pi
     N: 360
     offset: 0
     action: [x_vel, ang_vel]
