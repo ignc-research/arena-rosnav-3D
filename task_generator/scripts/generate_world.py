@@ -21,7 +21,7 @@ sim_setup_path = rospack.get_path("simulator_setup")
 
 # setting paths
 if not debug:
-    mode = rospy.get_param("~task_mode", "staged")
+    mode = 'random'
     world_name = rospy.get_param("world")
     world_file = (
         sim_setup_path + "/worlds/" + world_name + "/worlds/" + world_name + ".world"

@@ -1,0 +1,2 @@
+episode,n_st_obs,n_dyn_obs,obs_speed,start_pos,goal_pos
+1,6,4,0.45,"[14.0, 14.0]","[-14.0, -14.0]"

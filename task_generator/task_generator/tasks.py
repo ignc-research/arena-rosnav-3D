@@ -132,6 +132,46 @@ class RandomTask(ABSTask):
             writer.writerows(data.reshape(1, -1))  # reshape into line vector
             file.close()
 
+    def _close_gazebo(self):
+
+        # Kill gzclient, gzserver and roscore
+        tmp = os.popen("ps -Af").read()
+        gzclient_count = tmp.count("gzclient")
+        gzserver_count = tmp.count("gzserver")
+        # roscore_count = tmp.count("roscore")
+        # rosmaster_count = tmp.count("rosmaster")
+
+        if gzclient_count > 0:
+            os.system("killall -9 gzclient")
+        if gzserver_count > 0:
+            os.system("killall -9 gzserver")
+        # if rosmaster_count > 0:
+        #     os.system("killall -9 rosmaster")
+        # if roscore_count > 0:
+        #     os.system("killall -9 roscore")
+
+        if gzclient_count or gzserver_count  > 0:
+            os.wait()
+
+    def restart_simulation(self, n_dynamic_obstacles: int = 0):
+        """restarts the simulation with the needed number of dynamic obstacles written into the world file"""
+
+        rospy.set_param("actors", n_dynamic_obstacles)
+        print('One \t 1')
+        # process = subprocess.call("killall -q gzclient & killall -q gzserver", shell=True, preexec_fn=os.setsid)
+        rospy.sleep(2)
+        print(f'One \t 2{n_dynamic_obstacles}')
+        self._close_gazebo()
+        print('One \t 3')
+        rospy.sleep(10)
+        world, model = rospy.get_param("world"), rospy.get_param("model")
+        rospy.sleep(2)
+        # subprocess.Popen(f"roslaunch arena_bringup gazebo_simulator.launch world:={world} model:={model}", shell=True)
+        print('One \t 4')
+        rospy.wait_for_service("/gazebo/spawn_urdf_model")
+        rospy.sleep(1)
+
+
     def reset(self):
         """[summary]"""
         info = {}
@@ -145,12 +185,13 @@ class RandomTask(ABSTask):
                     print("loglog: reached goal 2")
 
                     if DATA_GEN:
-                        self.obstacle_manager.remove_all_obstacles()
+                        # self.obstacle_manager.remove_all_obstacles()
                         OBS = {
                             "static": randint(0, 20),
                             "dynamic": randint(0, rospy.get_param('actors', 10)),
                             'speed_dyn': float(randrange(5, 50, 5)/100)
                         }
+                        self.restart_simulation(N_OBS["dynamic"])
                         # self.setup_world_params()
                         forbidden_zones = self.obstacle_manager.register_random_static_obstacles(
                             OBS["static"], forbidden_zones=forbidden_zones
@@ -250,211 +291,6 @@ class ManualTask(ABSTask):
             self._manual_goal_con.notify()
 
 
-# class StagedRandomTask(RandomTask):
-#     def __init__(
-#         self,
-#         ns,
-#         pedsim_manager,
-#         obstacle_manager,
-#         robot_manager,
-#         start_stage=1,
-#         PATHS=None,
-#     ):
-#         # type: (str, PedsimManager, ObstaclesManager, RobotManager, int, dict) -> None
-#         super(StagedRandomTask, self).__init__(
-#             pedsim_manager, obstacle_manager, robot_manager
-#         )
-#         self.ns = ns
-#         self.ns_prefix = "" if ns == "" else "/" + ns + "/"
-
-#         self._curr_stage = start_stage
-#         self._stages = {}
-#         self._PATHS = PATHS
-#         self._read_stages_from_yaml()
-
-#         rospy.set_param("/task_mode", "staged")
-
-#         # check start stage format
-#         if not isinstance(start_stage, int):
-#             raise ValueError("Given start_stage not an Integer!")
-#         if self._curr_stage < 1 or self._curr_stage > len(self._stages):
-#             raise IndexError(
-#                 "Start stage given for training curriculum out of bounds! Has to be between {1 to %d}!"
-#                 % len(self._stages)
-#             )
-#         rospy.set_param("/curr_stage", self._curr_stage)
-
-#         # hyperparamters.json location
-#         self.json_file = os.path.join(
-#             self._PATHS.get("model"), "hyperparameters.json")
-#         assert os.path.isfile(self.json_file), (
-#             "Found no 'hyperparameters.json' at %s" % self.json_file
-#         )
-#         self._lock_json = FileLock(self.json_file + ".lock")
-
-#         # subs for triggers
-#         self._sub_next = rospy.Subscriber(
-#             f"{self.ns_prefix}next_stage", Bool, self.next_stage
-#         )
-#         self._sub_previous = rospy.Subscriber(
-#             f"{self.ns_prefix}previous_stage", Bool, self.previous_stage
-#         )
-
-#         self._initiate_stage()
-
-#     def next_stage(self, msg):
-#         # type (Bool) -> Any
-#         if self._curr_stage < len(self._stages):
-#             self._curr_stage = self._curr_stage + 1
-#             self._initiate_stage()
-
-#             if self.ns == "eval_sim":
-#                 rospy.set_param("/curr_stage", self._curr_stage)
-#                 with self._lock_json:
-#                     self._update_curr_stage_json()
-
-#                 if self._curr_stage == len(self._stages):
-#                     rospy.set_param("/last_stage_reached", True)
-#         else:
-#             print(
-#                 f"({self.ns}) INFO: Tried to trigger next stage but already reached last one"
-#             )
-
-#     def previous_stage(self, msg):
-#         # type (Bool) -> Any
-#         if self._curr_stage > 1:
-#             rospy.set_param("/last_stage_reached", False)
-
-#             self._curr_stage = self._curr_stage - 1
-#             self._initiate_stage()
-
-#             if self.ns == "eval_sim":
-#                 rospy.set_param("/curr_stage", self._curr_stage)
-#                 with self._lock_json:
-#                     self._update_curr_stage_json()
-#         else:
-#             print(
-#                 f"({self.ns}) INFO: Tried to trigger previous stage but already reached first one"
-#             )
-
-#     def _initiate_stage(self):
-#         self.obstacle_manager.remove_all_obstacles()
-#         n_dynamic_obstacles = self._stages[self._curr_stage]["dynamic"]
-
-#         print(f"num_dynamic obs {n_dynamic_obstacles}")
-#         print(f'num_static obs {self._stages[self._curr_stage]["static"]}')
-
-#         # When additional actors need to be loaded into the simulation, a new world file is created & gazebo restarted
-#         if (
-#             self._curr_stage == 1
-#             or n_dynamic_obstacles != self._stages[self._curr_stage - 1]["dynamic"]
-#         ):
-#             rospy.set_param("actors", n_dynamic_obstacles)
-#             subprocess.call(
-#                 "killall -q gzclient & killall -q gzserver", shell=True)
-#             subprocess.call(
-#                 "rosrun task_generator generate_world.py", shell=True)
-#             world, model = rospy.get_param("world"), rospy.get_param("model")
-#             subprocess.Popen(
-#                 f"roslaunch arena_bringup gazebo_simulator.launch world:={world} model:={model}",
-#                 shell=True,
-#             )
-#             rospy.wait_for_service("/gazebo/spawn_urdf_model")
-#             self.robot_manager.spawn_robot()
-#             rospy.sleep(10)
-
-#         else:
-#             self.obstacle_manager.register_random_dynamic_obstacles(
-#                 n_dynamic_obstacles)
-
-#         print(
-#             f"({self.ns}) Stage {self._curr_stage}: Spawning {n_dynamic_obstacles} dynamic obstacles!"
-#         )
-
-#     def _read_stages_from_yaml(self):
-#         file_location = self._PATHS.get("curriculum")
-#         if os.path.isfile(file_location):
-#             with open(file_location, "r") as file:
-#                 self._stages = yaml.load(file, Loader=yaml.FullLoader)
-#             assert isinstance(
-#                 self._stages, dict
-#             ), "'training_curriculum.yaml' has wrong fromat! Has to encode dictionary!"
-#         else:
-#             raise FileNotFoundError(
-#                 "Couldn't find 'training_curriculum.yaml' in %s "
-#                 % self._PATHS.get("curriculum")
-#             )
-
-#     def _update_curr_stage_json(self):
-#         with open(self.json_file, "r") as file:
-#             hyperparams = json.load(file)
-#         try:
-#             hyperparams["curr_stage"] = self._curr_stage
-#         except Exception as e:
-#             raise Warning(
-#                 f" {e} \n Parameter 'curr_stage' not found in 'hyperparameters.json'!"
-#             )
-#         else:
-#             with open(self.json_file, "w", encoding="utf-8") as target:
-#                 json.dump(hyperparams, target, ensure_ascii=False, indent=4)
-
-
-# class ScenarioTask(ABSTask):
-#     def __init__(self, pedsim_manager, obstacle_manager, robot_manager, scenario_path):
-#         # type: (PedsimManager, ObstaclesManager, RobotManager, str) -> None
-#         super(ScenarioTask, self).__init__(
-#             pedsim_manager, obstacle_manager, robot_manager
-#         )
-
-#         # load scenario from file
-#         self.scenario = ArenaScenario()
-#         self.scenario.loadFromFile(scenario_path)
-
-#         # setup pedsim agents
-#         self.pedsim_manager = None
-#         # if len(self.scenario.pedsimAgents) > 0:
-#         #     self.pedsim_manager = pedsim_manager
-#         #     peds = [agent.getPedMsg() for agent in self.scenario.pedsimAgents]
-#         #     self.pedsim_manager.spawnPeds(peds)
-#         # self.reset_count = 0
-
-    # def reset(self):
-    #     if self.scenario.resets >= self.reset_count:
-    #         self.reset_count += 1
-    #         info = {}
-    #         with self._map_lock:
-    #             # reset pedsim agents
-    #             # if self.pedsim_manager != None:
-    #             #     self.pedsim_manager.resetAllPeds()
-
-    #             # reset robot
-    #             self.robot_manager.set_start_pos_goal_pos(
-    #                 Pose(
-    #                     Point(*np.append(self.scenario.robotPosition, 0)),
-    #                     Quaternion(*STANDART_ORIENTATION),
-    #                 ),
-    #                 Pose(
-    #                     Point(*np.append(self.scenario.robotGoal, 0)),
-    #                     Quaternion(*STANDART_ORIENTATION),
-    #                 ),
-    #             )
-
-    #             # fill info dict
-    #             if self.reset_count == 1:
-    #                 info["new_scenerio_loaded"] = True
-    #             else:
-    #                 info["new_scenerio_loaded"] = False
-    #             info["robot_goal_pos"] = self.scenario.robotGoal
-    #             info["num_repeats_curr_scene"] = self.reset_count
-    #             info[
-    #                 "max_repeats_curr_scene"
-    #             ] = 1000  # TODO: implement max number of repeats for scenario
-    #         return info
-
-    #     else:
-    #         return "End"
-
-
 def get_predefined_task(ns, mode="random", start_stage=1, PATHS=None):
     # type: (str, str, int, dict) -> None
 
@@ -474,13 +310,6 @@ def get_predefined_task(ns, mode="random", start_stage=1, PATHS=None):
     }
     if DATA_GEN:
         forbidden_zones = [(*S_POS, .2), (*G_POS, .2), (0, 0, .2)]
-
-# Todo:
-# - Add map pluin subrocess call (for loop map name++)
-# - Add random dyn obs ability
-# - check center of random world in middle of the world
-# - Add robot start pos to forbidden zones
-# - create new map file
 
     # Tasks will be moved to other classes or functions.
     task = None
@@ -504,25 +333,6 @@ def get_predefined_task(ns, mode="random", start_stage=1, PATHS=None):
             )
             task = RandomTask(pedsim_manager, obstacle_manager, robot_manager)
             print("random tasks requested")
-    # if mode == "staged":
-    #     rospy.set_param("/task_mode", "staged")
-    #     task = StagedRandomTask(
-    #         ns, pedsim_manager, obstacle_manager, robot_manager, start_stage, PATHS
-    #     )
-
-    # if mode == "scenario":
-    #     rospy.set_param("/task_mode", "scenario")
-    #     # forbidden_zones = obstacle_manager.register_random_static_obstacles(
-    #     #     N_OBS["static"]
-    #     # )
-    #     task = ScenarioTask(
-    #         pedsim_manager, obstacle_manager, robot_manager, PATHS["scenario"]
-    #     )
-    # if mode == "scenario_staged":
-    #     rospy.set_param("/task_mode", "scenario_staged")
-    #     task = ScenarioTask(
-    #         pedsim_manager, obstacle_manager, robot_manager, PATHS["scenario"]
-    #     )
 
     if mode == "manual":
         rospy.set_param("/task_mode", "manual")
