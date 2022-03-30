@@ -285,3 +285,8 @@ You can further customize the simulation altering the following parameters:
 <arg name="base_frame_id"     value="base_footprint"/>
 <arg name="odom_ground_truth" default="/odometry/ground_truth"/>
 ```
+## How to add new navigation approaches in Gazebo and Flatland
+There are a few things to consider when including additional navigation apparatus:
+- The laser scan msg is published under the `/scan` topic. Note if the laser did not register any obstacles, the gazebo simulator fills the scan msg with `inf` values, wereas the Flatland simulator fills it with `nan` values
+- The robot position is published under the `/odom` topic, the velocity under the `/cmd_vel`
+- In a simple 2D environment like Flatland, many costmap-plugins will not be usable. Make sure to check, whether a local and global costmap is being published
