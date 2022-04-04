@@ -153,6 +153,7 @@ Note, that not every robot can be used with every planner, yet. See an overview 
 | *youbot*     | X | X | X |(X)| X |   | X | X |   | X |
 | *waffle_pi*  | X | X | X |   | X | X |   |   |   |   |
 | *cob4*       | X | X | X | X | X |   |   | X |   |   |
+| *dingo*      | X | X | X | X |   |   |   |   |   |   |
 
 
 
