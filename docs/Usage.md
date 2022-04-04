@@ -88,9 +88,9 @@ We support different robots:
 |:--: | :--:| :--:| :--:|
 | _turtlebot3_burger_ | _jackal_ | _ridgeback_ | _agv-ota_ |
 
-| <img width="250" src="/img/robots/rto.jpg"> | <img width="250"  src="/img/robots/turtlebot3_waffle_pi.jpg"> | <img width="250" src="/img/robots/cob4.jpg"> |
-| :-----------------------------------------: | :--------------------------------------------: | :-----------------------------------------------------------: |
-|               _Robotino(rto)_               |                    _turtlebot3_waffle_pi_                     |             _Car-O-Bot4 (cob4)_              |
+| <img width="250" src="/img/robots/rto.jpg"> | <img width="250"  src="/img/robots/turtlebot3_waffle_pi.jpg"> | <img width="250" src="/img/robots/cob4.jpg"> | <img width="250" src="/img/robots/dingo.jpg"> |
+| :-----------------------------------------: | :--------------------------------------------: | :-----------------------------------------------------------: | :------------------------------------------: |
+|               _Robotino(rto)_               |                    _turtlebot3_waffle_pi_                     |             _Car-O-Bot4 (cob4)_              |             _dingo_              |
 
 All robots are equipped with a laser scanner. The robots differ in size, laser-range etc. See below table for more detailed information on each robot:
 
@@ -103,6 +103,7 @@ All robots are equipped with a laser scanner. The robots differ in size, laser-r
 | _rto³_                 |           2.78           |           todo           |                 todo                  |    0.225     |      todo       |       todo        |    todo    |
 | _turtlebot3_waffle_pi_ |           0.26           |           0.0            |                 1.82                  |    0.208     |      False      |        3.5        |   False    |
 | _Car-O-Bot4 (cob4)³_   |           1.1            |           todo           |                 todo                  |     0.36     |      True       |       todo        |    todo    |
+| _dingo_                |           1.3            |           0.0            |                 (4.0)                  |     0.378    |      todo       |       30.0        |    False   |
 
 For additional / more detailed information about each robot:
 
