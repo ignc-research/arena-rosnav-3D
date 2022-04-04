@@ -1,0 +1,117 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <!--
+    As you add to this URDF, please be aware that both the robot and
+    simulation include it. You must retain compatibility with all of
+    the following launch files:
+
+    dingo_viz/launch/view_model.launch
+    dingo_gazebo/launch/dingo_world.launch
+    dingo_base/launch/base.launch
+  -->
+
+  <xacro:include filename="$(find simulator_setup)/robot/dingo/urdf/accessories/sick_lms1xx_mount.urdf.xacro" />
+  <xacro:include filename="$(find simulator_setup)/robot/dingo/urdf/accessories/hokuyo_ust10.urdf.xacro" />
+  <xacro:include filename="$(find simulator_setup)/robot/dingo/urdf/accessories/vlp16_mount.urdf.xacro" />
+
+  <!--
+    Add a lidar sensor.  By default this is a SICK LMS1xx but can be changed with the
+    DINGO_LASER_MODEL environment variable. Valid model designations are:
+    - lms1xx (default) :: SICK LMS1xx
+    - ust10            :: Hokuyo UST10
+  -->
+  <xacro:if value="$(optenv DINGO_LASER 1)">
+    <xacro:property name="lidar_model" value="$(optenv DINGO_LASER_MODEL lms1xx)" />
+
+    <!-- <xacro:if value="${lidar_model == 'lms1xx'}">
+      <xacro:sick_lms1xx_mount prefix="$(optenv DINGO_LASER_MOUNT front)"
+                         topic="$(optenv DINGO_LASER_TOPIC scan)"/> -->
+    <xacro:if value="${lidar_model == 'lms1xx'}">
+    <xacro:sick_lms1xx_mount prefix="front"
+                        topic="scan"/>
+
+      <joint name="$(optenv DINGO_LASER_MOUNT front)_laser_mount_joint" type="fixed">
+        <origin xyz="$(optenv DINGO_LASER_OFFSET 0 0 0)"
+                rpy="$(optenv DINGO_LASER_RPY 0 0 0)" />
+        <parent link="$(optenv DINGO_LASER_MOUNT front)_mount" />
+        <child link="$(optenv DINGO_LASER_MOUNT front)_laser_mount" />
+      </joint>
+    </xacro:if>
+
+    <xacro:if value="${lidar_model == 'ust10'}">
+      <xacro:hokuyo_ust10_mount prefix="$(optenv DINGO_LASER_MOUNT front)"
+                          topic="$(optenv DINGO_LASER_TOPIC scan)" />
+
+      <joint name="$(optenv DINGO_LASER_MOUNT front)_laser_mount_joint" type="fixed">
+        <origin xyz="$(optenv DINGO_LASER_OFFSET 0 0 0)"
+                rpy="$(optenv DINGO_LASER_RPY 0 0 0)" />
+        <parent link="$(optenv DINGO_LASER_MOUNT front)_mount" />
+        <child link="$(optenv DINGO_LASER_MOUNT front)_laser_mount" />
+      </joint>
+    </xacro:if>
+  </xacro:if>
+
+  <!-- Add the secondary lidar, same format as the first, but on the rear -->
+  <xacro:if value="$(optenv DINGO_LASER_SECONDARY 0)">
+    <xacro:property name="lidar2_model" value="$(optenv DINGO_LASER_SECONDARY_MODEL lms1xx)" />
+
+    <xacro:if value="${lidar2_model == 'lms1xx'}">
+      <xacro:sick_lms1xx_mount prefix="$(optenv DINGO_LASER_SECONDARY_MOUNT rear)"
+                         topic="$(optenv DINGO_LASER_SECONDARY_TOPIC rear/scan)"/>
+
+      <joint name="$(optenv DINGO_LASER_SECONDARY_MOUNT rear)_laser_mount_joint" type="fixed">
+        <origin xyz="$(optenv DINGO_LASER_SECONDARY_OFFSET 0 0 0)"
+                rpy="$(optenv DINGO_LASER_SECONDARY_RPY 0 0 ${M_PI})" />
+        <parent link="$(optenv DINGO_LASER_SECONDARY_MOUNT rear)_mount" />
+        <child link="$(optenv DINGO_LASER_SECONDARY_MOUNT rear)_laser_mount" />
+      </joint>
+    </xacro:if>
+
+    <xacro:if value="${lidar2_model == 'ust10'}">
+      <xacro:hokuyo_ust10_mount prefix="$(optenv DINGO_LASER_SECONDARY_MOUNT rear)"
+                          topic="$(optenv DINGO_LASER_SECONDARY_TOPIC rear/scan)" />
+
+      <joint name="$(optenv DINGO_LASER_SECONDARY_MOUNT rear)_laser_mount_joint" type="fixed">
+        <origin xyz="$(optenv DINGO_LASER_SECONDARY_OFFSET 0 0 0)"
+                rpy="$(optenv DINGO_LASER_SECONDARY_RPY 0 0 ${M_PI})" />
+        <parent link="$(optenv DINGO_LASER_SECONDARY_MOUNT rear)_mount" />
+        <child link="$(optenv DINGO_LASER_SECONDARY_MOUNT rear)_laser_mount" />
+      </joint>
+    </xacro:if>
+  </xacro:if>
+
+  <!--
+    Add a 3D lidar sensor.  By default this is a VLP16 but can be changed with the
+    DINGO_LASER_3D_MODEL environment variable. Valid model designations are:
+    - vlp16 (default) :: Velodyne VLP16=
+  -->
+  <xacro:if value="$(optenv DINGO_LASER_3D 0)">
+    <xacro:property name="lidar_3d_model" value="$(optenv DINGO_LASER_3D_MODEL vlp16)" />
+
+    <xacro:if value="${lidar_3d_model == 'vlp16'}">
+      <xacro:vlp16_mount
+          prefix="$(optenv DINGO_LASER_3D_MOUNT front)"
+          parent_link="$(optenv DINGO_LASER_3D_MOUNT front)_mount"
+          topic="$(optenv DINGO_LASER_3D_TOPIC front/points)">
+        <origin xyz="$(optenv DINGO_LASER_3D_OFFSET 0 0 0)" rpy="$(optenv DINGO_LASER_3D_RPY 0 0 0)" />
+      </xacro:vlp16_mount>
+    </xacro:if>
+  </xacro:if>
+
+  <!--
+    Add an Intel RealSense family camera.  By default this is a D435, but can be changed with the
+    DINGO_REALSENSE_MODEL environment variable. Valid model designations are:
+    - d435 (default)
+    - d435i
+    - d415
+    - d455
+    - l515
+  -->
+  <xacro:if value="$(optenv DINGO_REALSENSE 0)">
+    <xacro:include filename="$(find simulator_setup)/robot/dingo/urdf/accessories/intel_realsense.urdf.xacro" />
+    <xacro:realsense_sensor rs_model="$(optenv DINGO_REALSENSE_MODEL d435)"
+                            prefix="$(optenv DINGO_REALSENSE_MOUNT front)"
+                            topic="$(optenv DINGO_REALSENSE_TOPIC realsense)" />
+  </xacro:if>
+
+</robot>
