@@ -9,7 +9,6 @@
 
 
     <!-- Launching additional nodes needed for some robots -->
-    <include file="$(find arena_bringup)/launch/sublaunch_testing/robot_launch/tiago_robot.launch" if="$(eval arg('model') == 'tiago')"/>
     <include file="$(find arena_bringup)/launch/sublaunch_testing/robot_launch/cob4_robot.launch" if="$(eval arg('model') == 'cob4')"/>
     <include file="$(find arena_bringup)/launch/sublaunch_testing/robot_launch/youbot_robot.launch" if="$(eval arg('model') == 'youbot')"/>
     <include file="$(find simulator_setup)/robot/jackal/launch/control.launch" if="$(eval arg('model') == 'jackal')"/>
@@ -31,5 +30,4 @@
             <param name="publish_frequency" type="double" value="50.0" />
         </node>
     </group>
-
 </launch>

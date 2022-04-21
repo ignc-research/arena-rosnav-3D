@@ -448,7 +448,7 @@
         0.68,
         13.71
     ],
-    "resets": 4,
+    "resets": 30,
     "map_path": "/home/teham/catkin_ws/src/arena-rosnav-3D/simulator_setup/maps/hospital/map.yaml",
     "format": "arena-tools"
 }

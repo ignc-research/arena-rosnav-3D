@@ -8,7 +8,9 @@ Panels:
         - /Status1
         - /TF1
         - /TF1/Frames1
+        - /LaserScan1
         - /LaserScan2
+        - /Marker1
       Splitter Ratio: 0.5
     Tree Height: 839
   - Class: rviz/Selection
@@ -60,41 +62,23 @@ Visualization Manager:
       Frame Timeout: 15
       Frames:
         All Enabled: false
-        arm_link_0:
-          Value: true
-        arm_link_5:
-          Value: true
         base_footprint:
-          Value: false
-        base_laser_front_link:
           Value: true
         base_link:
           Value: false
-        caster_link_bl:
+        base_scan:
           Value: true
-        caster_link_br:
+        caster_back_link:
           Value: true
-        caster_link_fl:
-          Value: true
-        caster_link_fr:
-          Value: true
-        gripper_palm_link:
-          Value: true
-        laser:
+        imu_link:
           Value: true
         map:
           Value: true
         odom:
           Value: true
-        plate_link:
+        wheel_left_link:
           Value: true
-        wheel_link_bl:
-          Value: true
-        wheel_link_br:
-          Value: true
-        wheel_link_fl:
-          Value: true
-        wheel_link_fr:
+        wheel_right_link:
           Value: true
       Marker Alpha: 1
       Marker Scale: 1
@@ -107,24 +91,15 @@ Visualization Manager:
           odom:
             base_footprint:
               base_link:
-                arm_link_0:
+                base_scan:
                   {}
-                base_laser_front_link:
-                  laser:
-                    {}
-                caster_link_bl:
-                  wheel_link_bl:
-                    {}
-                caster_link_br:
-                  wheel_link_br:
-                    {}
-                caster_link_fl:
-                  wheel_link_fl:
-                    {}
-                caster_link_fr:
-                  wheel_link_fr:
-                    {}
-                plate_link:
+                caster_back_link:
+                  {}
+                imu_link:
+                  {}
+                wheel_left_link:
+                  {}
+                wheel_right_link:
                   {}
       Update Interval: 0
       Value: true
@@ -150,7 +125,7 @@ Visualization Manager:
       Color: 255; 255; 255
       Color Transformer: Intensity
       Decay Time: 0
-      Enabled: false
+      Enabled: true
       Invert Rainbow: false
       Max Color: 204; 0; 0
       Min Color: 164; 0; 0
@@ -161,11 +136,11 @@ Visualization Manager:
       Size (Pixels): 3
       Size (m): 0.10000000149011612
       Style: Flat Squares
-      Topic: /scan
+      Topic: /scan_new2
       Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
-      Value: false
+      Value: true
     - Alpha: 1
       Arrow Length: 0.30000001192092896
       Axes Length: 0.30000001192092896
@@ -385,103 +360,35 @@ Visualization Manager:
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
-        arm_link_0:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        arm_link_1:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        arm_link_2:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        arm_link_3:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        arm_link_4:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        arm_link_5:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
         base_footprint:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-          Value: true
-        base_laser_front_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
         base_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        caster_link_bl:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        caster_link_br:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        caster_link_fl:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        caster_link_fr:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        gripper_finger_link_l:
+        base_scan:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        gripper_finger_link_r:
+        caster_back_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        gripper_palm_link:
+        imu_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        wheel_left_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        plate_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        wheel_link_bl:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        wheel_link_br:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        wheel_link_fl:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        wheel_link_fr:
+        wheel_right_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -520,9 +427,17 @@ Visualization Manager:
       Use Fixed Frame: true
       Use rainbow: true
       Value: true
+    - Class: rviz/Marker
+      Enabled: true
+      Marker Topic: /viz_agent_pose
+      Name: Marker
+      Namespaces:
+        agent: true
+      Queue Size: 100
+      Value: true
   Enabled: true
   Global Options:
-    Background Color: 48; 48; 48
+    Background Color: 255; 255; 255
     Default Light: true
     Fixed Frame: map
     Frame Rate: 30
@@ -548,7 +463,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 12.658616065979004
+      Distance: 22.434072494506836
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -556,17 +471,17 @@ Visualization Manager:
         Value: false
       Field of View: 0.7853981852531433
       Focal Point:
-        X: -1.8615072965621948
-        Y: -5.202637672424316
-        Z: 1.0945212841033936
+        X: 5.5033464431762695
+        Y: -10.204127311706543
+        Z: 1.6270029544830322
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 1.4597963094711304
+      Pitch: 1.5697963237762451
       Target Frame: <Fixed Frame>
-      Yaw: 3.32039475440979
+      Yaw: 3.155395269393921
     Saved: ~
 Window Geometry:
   Displays:

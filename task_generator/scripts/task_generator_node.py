@@ -33,8 +33,7 @@ class TaskGenerator:
         # if auto_reset is set to true, the task generator will automatically reset the task
         # this can be activated only when the mode set to 'ScenarioTask'
         auto_reset = rospy.get_param("~auto_reset")
-        self.start_time_ = time.time()
-
+        self.start_time_ = rospy.get_time() 
         self.arena_gen = rospy.get_param("~world") == "arena_generated"
 
         # arena generated mode - TODO This is currenly not supported by pedsim elias
@@ -61,12 +60,11 @@ class TaskGenerator:
             self.filtered_names = [name for name in names if pat.match(name) != None]
 
         self.pub = rospy.Publisher('End_of_scenario', Bool, queue_size=10)
-
+        self.unpause = rospy.ServiceProxy('/gazebo/unpause_physics', Empty)
+        self.pause = rospy.ServiceProxy('/gazebo/pause_physics', Empty)
+        self.first_round = True
         # if the distance between the robot and goal_pos is smaller than this value, task will be reset
-        # self.timeout_= rospy.get_param("~timeout")
-        self.timeout_ = rospy.get_param("~timeout", 2.0)
-        self.timeout_ = self.timeout_ * 60  # sec
-        self.start_time_ = time.time()  # sec
+        self.timeout_ = rospy.get_param("~timeout", 2.0) * 60  # sec
         self.delta_ = rospy.get_param("~delta")
         robot_odom_topic_name = rospy.get_param("robot_odom_topic_name", "odom")
 
@@ -99,7 +97,7 @@ class TaskGenerator:
             print(self.err_g)
             print("reached goal")
             self.reset_task()
-        if time.time() - self.start_time_ > self.timeout_:
+        if rospy.get_time() - self.start_time_ > self.timeout_:
             print("timeout")
             self.reset_task()
 
@@ -128,8 +126,10 @@ class TaskGenerator:
             self.pedsimMap_client_(new_map)
             clear_costmaps()
 
-        self.start_time_ = time.time()
+        self.start_time_ = rospy.get_time()
+        if not self.first_round: self.pause()
         info = self.task.reset()
+        if not  self.first_round: self.unpause()
         # set goal position
         self.sr.publish(self.nr)
         if info is not None:

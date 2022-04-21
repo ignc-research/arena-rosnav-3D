@@ -263,7 +263,7 @@ class ObservationCollector:
         #             break
         #         if i == timeout - 1:
         #             raise TimeoutError(
-        #                 f"Timeout while trying to call '{self.ns_prefix}step_world'"
+        #                 f"Timeout while trying to call '{self.ns_prefix}step_world<'"
         #             )
         #         time.sleep(0.33)
 

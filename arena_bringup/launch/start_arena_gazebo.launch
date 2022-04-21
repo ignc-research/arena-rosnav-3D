@@ -12,27 +12,29 @@
   <arg name="trainings_environment" default="rosnav" doc="Determines the environment in which the network is trained. How to load the network mostly differs for different environments. Currently rosnav and navrep are supported" />
   <arg name="world" default="small_warehouse" doc ="world type [turtlebot3_house, small_warehouse, aws_house, outside, ignc_lab]" unless="$(arg outside)"/>
   <arg name="world" default="outside" if = "$(arg outside)"/>
-  <arg name="model" default="jackal"      doc = "model type [turtlebot3_burger, jackal, ridgeback, agv-ota, rto, tiago, turtlebot3_waffle_pi]"/>
+  <arg name="model" default="jackal"      doc = "model type [turtlebot3_burger, jackal, ridgeback, agv-ota, rto, turtlebot3_waffle_pi]"/>
   <arg name="agent_name" default="$(arg model)"     doc = "DRL agent name to be deployed" unless="$(eval arg('local_planner') != 'rosnav')"/>
   <arg name="scenario_file" default="$(arg world).json"/>
   <arg name="num_static_obs" default="3"/>
-  <!-- Number of static obstacles in outside mode-->
   <arg name="step_size" default="0.01"/>
   <arg name="update_rate" default="250"/>
   <arg name="show_viz" default="true"/>
   <arg name="viz_pub_rate" default="30" />
-  <!-- With ot without Gazebo Visualization, without viz, use_rviz=false, headless:=true, gui:=false-->
   <arg name="use_rviz" default="true"/>
-  <arg name="headless" default="true"/>
-  <arg name="gui" default="false"/>
-  <!-- <arg name="headless" default="false"/>
-  <arg name="gui" default="true"/> -->
+  <!-- <arg name="headless" default="true"/>
+  <arg name="gui" default="false"/> -->
+  <arg name="headless" default="false"/>
+  <arg name="gui" default="true"/>
   <arg name="map_path" default="$(find simulator_setup)/maps/$(arg world)/map.yaml" />
   <arg name="task_mode" default="scenario" doc="task_mode type [scenario, random, manual, staged]"/>
   <arg name="actors" default="0" unless="$(arg train_mode)" />
   <arg name="actor_height" default="1.1"/>
-  <arg name="use_recorder" default="false"/>
+
+  <arg name="record_data" default="false"/>
   <arg name="record_only_planner" default="true"/>
+  <arg name="record_gazebo" default="false" />
+  <arg name="camera_setup" default="default" />
+
   <arg name="add_map_path" default=""/>
   <arg name="additional_map" default="false"/>
   <arg name="waypoint_generator" default="classic"/>
@@ -46,6 +48,8 @@
   <arg name="pedsim_update_rate" default="30.0"/>
   <arg name="scene_file" default="$(find simulator_setup)/scenarios/ped_scenarios/$(arg world).xml"/>
   <arg name="real" default="false"/>
+  <arg name="emergency_brake" default="false"/>
+  <arg name="timeout" default="3.0"/>
 
   <!-- Path visualization -->
   <arg name="viz_path" default="true"/>
@@ -104,15 +108,25 @@
     <param name="additional_map/frame_id" value="$(arg global_frame_id)"/>
   </node>
 
+  <!-- START RECORDER NODES -->
   <!-- data recorder -->
-  <group if="$(eval arg('use_recorder') == true)">
-    <node pkg="arena_evaluation" name="data_recorder_node" type="data_recorder_node.py" />
+  <group if="$(eval arg('record_data') == true)">
+    <node pkg="arena-evaluation" name="data_recorder_node" type="data_recorder_node.py" />
+
     <param name="local_planner" value="$(arg local_planner)"/>
     <param name="waypoint_generator" value="$(arg waypoint_generator)"/>
     <param name="record_only_planner" value="$(arg record_only_planner)"/>
     <param name="scenario_file" value="$(arg scenario_file)"/>
     <param name="model" value="$(arg model)"/>
   </group>
+
+  <!-- gazebo recorder -->
+  <group if="$(eval arg('record_gazebo') == true)">
+    <node pkg="record_gazebo" name="record_gazebo_node" type="record_gazebo_node.py" output="screen" />
+
+    <param name="camera_setup" value="$(arg camera_setup)" />
+  </group>
+
 
   <group if="$(eval arg('viz_path') == true)">
     <node pkg="eval" name="viz_path" type="viz_path.py"/>
@@ -135,7 +149,6 @@
   </include>
 
   <!-- start task_generator node -->
-  <arg name="timeout" default="3.0"/>
   <include file="$(find arena_bringup)/launch/sublaunch_testing/task_generator.launch" unless="$(eval arg('disable_scenario') or arg('train_mode'))">
     <arg name="scenarios_json_path" value="$(find simulator_setup)/scenarios/$(arg scenario_file)"/>
     <arg name="auto_reset" value="$(arg reset)"/>
@@ -150,8 +163,8 @@
   <!-- move_base plan manager: which provide basic global planner and cost map -->
   <include file="$(find arena_bringup)/launch/sublaunch_testing/move_base/move_base_$(arg local_planner).launch">
     <arg name="model" value="$(arg model)"/>
-    <!-- <arg name="cmd_vel_topic" value="/nav_vel" if="$(eval arg('model') == 'agv-ota')" /> -->
-    <arg name="agent_name" value="$(arg model)" if="$(eval arg('local_planner') == 'rosnav')" />
+    <arg name="cmd_vel_topic" value="/nav_vel" if="$(arg emergency_brake)" />
+    <arg name="agent_name" value="$(arg agent_name)" if="$(eval arg('local_planner') == 'rosnav')" />
     <arg name="trainings_environment" value="$(arg trainings_environment)" if="$(eval arg('local_planner') == 'rosnav')" />
     <!-- <arg name="speed" value="$(param speed)"/> -->
   </include>
@@ -183,6 +196,6 @@
 
   <!-- start_rviz -->
   <node name="gazebo_rviz" pkg="rviz" type="rviz" args="-d $(find arena_bringup)/rviz/$(arg rviz_file).rviz" if="$(arg use_rviz)"/>
-<!-- 
-  <node name='mass_launch' pkg='mass_launch' type='listener_node.py'/> -->
+
+  <node name="emergency_brake" pkg="task_generator" type="emergency_brake_node.py" if="$(arg emergency_brake)"/>
 </launch>

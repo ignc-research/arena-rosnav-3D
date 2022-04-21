@@ -106,7 +106,7 @@ roscd arena_local_planner_drl
 python scripts/training/train_agent.py --agent MLP_ARENA2D
 ```
 ### Evaluation
-To benchmark the performance of your simulation and visualize your results with qualitative and quantitative plots like in the example below, see the documentation [here](arena_navigation/arena_local_planer/evaluation/arena_evaluation/readme.md)
+To benchmark the performance of your simulation and visualize your results with qualitative and quantitative plots like in the example below, see the documentation [here](https://github.com/ignc-research/arena-evaluation#arena-evaluation)
 
 |<img width="600" height=350 src="img/qualitative_plot.png">|<img width="650" height=350 src="img/quantitativ_plots.png">|
 |:--:       |              :--:|
@@ -120,7 +120,6 @@ To benchmark the performance of your simulation and visualize your results with 
 - [How to include further scenarios](docs/Miscellaneous.md#How-to-include-further-scenarios)
 - [How to automate the scenario mode(for large scale benchmarking)](docs/Miscellaneous.md#how-to-automate-the-scenario-mode-for-large-scale-benchmarking)
 - [How to include further robots](docs/Miscellaneous.md#how-to-include-additional-robot-models)
-- [Link to project report](https://www.overleaf.com/9421739154ccngtqpdcvjj)
 
 # Used third party repos:
 
@@ -129,5 +128,4 @@ To benchmark the performance of your simulation and visualize your results with 
 - Small-warehouse world: https://github.com/aws-robotics/aws-robomaker-small-warehouse-world
 - Small-house world: https://github.com/aws-robotics/aws-robomaker-small-warehouse-world
 - Turtlebot3-robot & house-world: https://github.com/ROBOTIS-GIT/turtlebot3_simulations
-- LIRS_World_Construction_Tool https://gitlab.com/LIRS_Projects/LIRS-WCT
 - ros_maps_to_pedsim https://github.com/fverdoja/ros_maps_to_pedsim

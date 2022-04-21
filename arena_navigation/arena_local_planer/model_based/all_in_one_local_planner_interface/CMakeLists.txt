@@ -10,8 +10,6 @@ project(all_in_one_local_planner_interface)
 find_package(catkin REQUIRED COMPONENTS
   costmap_2d
   message_generation
-  mpc_local_planner
-  teb_local_planner
   nav_core
   roscpp
   rospy
@@ -117,8 +115,6 @@ catkin_package(
    CATKIN_DEPENDS
     costmap_2d
     message_generation
-    mpc_local_planner
-    teb_local_planner
     nav_core
     roscpp
     rospy

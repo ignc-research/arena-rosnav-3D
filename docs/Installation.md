@@ -159,7 +159,7 @@ export PYTHONPATH=/home/usr/catkin_ws/src/arena-rosnav-3D:/home/usr/catkin_ws/de
 - To install the plugin that allows collision with our dynamic _actor_ model run the follwoing lines:
 
 ```bash
-cd $HOME &&  git clone https://github.com/eliastreis/ActorCollisionsPlugin.git
+cd $HOME &&  git clone https://github.com/ignc-research/ActorCollisionsPlugin
 cd ActorCollisionsPlugin && mkdir build && cd build && cmake ..
 make && echo "export GAZEBO_PLUGIN_PATH=$HOME/ActorCollisionsPlugin/build " >> ~/.bashrc
 
@@ -228,8 +228,8 @@ export PYTHONPATH=$HOME/arena_ws/src/arena-rosnav:${PYTHONPATH}" >> ~/.bashrc
   <summary markdown="span">in your `.bashrc` this should look like this: </summary>
 
 ```bash
-source /home/elias/arena_ws/devel/setup.bash
-export PYTHONPATH=/home/elias/arena_ws/src/arena-rosnav:/home/elias/arena_ws/devel/lib/python3/dist-packages:/opt/ros/noetic/lib/python3/dist-packages
+source /home/usr/arena_ws/devel/setup.bash
+export PYTHONPATH=/home/usr/arena_ws/src/arena-rosnav:/home/usr/arena_ws/devel/lib/python3/dist-packages:/opt/ros/noetic/lib/python3/dist-packages
 
 ```
 </details>

@@ -22,6 +22,23 @@ Furthermore, an outside world is available using the flag "outside:=true", e.g.
 ```
 roslaunch arena_bringup start_arena_gazebo.launch outside:=true
 ```
+## Calculated world properties
+ |_Worlds_ | _adjusted_mean_ | _mean_ | _variance_ | _Entropy_ | _Max-Entropy_ | _MapSize_ | _MinObsDis_ | _NumObs_ | _OccupancyRatio_ | _obs_ratio_ |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+_eval_floot_ | 0.054 | 317.647 | 5918.087 | 0.366 | 2.322 | 4000 | 0.224 | 18 | 0.0498 | 0.45 |
+_factory_ | - | 360 | 0 | 0.104 | 2.322 | 36000 | 0.223 | 70 | 0.009 | 0.194 |
+_hospital_ | 1.328 | 358.998 | 270.379 | 0.175 | 2.322 | 64000 | 0.224 | 82 | 0.019 | 0.128  |
+_ignc_ | 0.008 | 180 | 21406.596 | 0.146 | 2.322 | 4840 | 1000 | 1 | 0.017 | 0.020 |
+_small_warehouse_ | 0.008 | 200.930 | 26624.237 | 0.265 | 2.322 | 6250 | 0.224 | 30 | 0.032 | 0.48  |
+_aws_house_ | 0.182 | 351.628 | 1926.969 | 0.308 | 2.322 | 4000 | 0.224 | 41 | 0.037 | 1.025  |
+_bookstore_ | 0.006 | 114.545 | 18997.649 | 0.193 | 2.322 | 9000 | 0.224 | 59 | 0.019 | 0.655 |
+_exp_room_ | 0.033 | 270 | 8106.014 | 0.095 | 2.322 | 9000 | 1000 | 1 | 0.009 | 0.011 |
+_outside_ | - | 360 | 0 | 0.112 | 2.322 | 10240 | 1000 | 1 | 0.012 | 0.009 |
+_tb3_house_ | - | 360 | 0 |0.089 | 2.322 | 12250 | 0.4 | 5 | 0.008 | 0.040 |
+_tb3_world_ | 0.006 | 180 | 29083.099 |0.068 | 2.322 | 7372.8 | 0.75 | 10 | 0.006 | 0.135 |
+
+the explanation of each metric can be found at [_hier_](https://github.com/ignc-research/arena-rosnav-3D/wiki/Calculated-world-properties)
+
 
 ## Pre-build world
 
@@ -71,9 +88,9 @@ We support different robots:
 |:--: | :--:| :--:| :--:|
 | _turtlebot3_burger_ | _jackal_ | _ridgeback_ | _agv-ota_ |
 
-| <img width="250" src="/img/robots/rto.jpg"> | <img width="250" src="/img/robots/tiago.jpeg"> | <img width="250"  src="/img/robots/turtlebot3_waffle_pi.jpg"> | <img width="250" src="/img/robots/cob4.jpg"> |
-| :-----------------------------------------: | :--------------------------------------------: | :-----------------------------------------------------------: | :------------------------------------------: |
-|               _Robotino(rto)_               |                    _tiago_                     |                    _turtlebot3_waffle_pi_                     |             _Car-O-Bot4 (cob4)_              |
+| <img width="250" src="/img/robots/rto.jpg"> | <img width="250"  src="/img/robots/turtlebot3_waffle_pi.jpg"> | <img width="250" src="/img/robots/cob4.jpg"> |
+| :-----------------------------------------: | :--------------------------------------------: | :-----------------------------------------------------------: |
+|               _Robotino(rto)_               |                    _turtlebot3_waffle_pi_                     |             _Car-O-Bot4 (cob4)_              |
 
 All robots are equipped with a laser scanner. The robots differ in size, laser-range etc. See below table for more detailed information on each robot:
 
@@ -84,7 +101,6 @@ All robots are equipped with a laser scanner. The robots differ in size, laser-r
 | _ridgeback_            |           1.1            |           0.5            |                  2.0                  |    0.625     |      True       |       10.0        |    True    |
 | _agv-ota_              |           0.5            |           0.0            |                  0.4                  |    0.629     |      True       |        5.0        |   False    |
 | _rto³_                 |           2.78           |           todo           |                 todo                  |    0.225     |      todo       |       todo        |    todo    |
-| _tiago_                |           1.5            |           todo           |                 todo                  |     0.27     |      todo       |       todo        |    todo    |
 | _turtlebot3_waffle_pi_ |           0.26           |           0.0            |                 1.82                  |    0.208     |      False      |        3.5        |   False    |
 | _Car-O-Bot4 (cob4)³_   |           1.1            |           todo           |                 todo                  |     0.36     |      True       |       todo        |    todo    |
 
@@ -121,8 +137,23 @@ Arena-rosnav-3d supports different local planner and task-modes. Select your pla
 - [aio](#local-planner-teb-dwa-mpc-rlca-arena-aio)
 - [cadrl](#local-planner-cadrl)
 - [drl](#local-planner-drl)
-- [navrep]()
-- [gring]()
+- [navrep](#local-planner-rosnav-navrep-guldenring)
+- [gring](#local-planner-rosnav-navrep-guldenring)
+
+Note, that not every robot can be used with every planner, yet. See an overview on possible cominations in the table below:
+
+| Model  | TEB | DWA  | MPC  | ROSNAV | CADRL | RLCA | Gring | Navrep | ARENA | All-in-One |
+| :--- | :---:|  :---: |:---: |:---: |:---:|   :---:| :---:| :---:| :---:|  :---: |
+| *burger*   	 | X | X | X | X | X | X | X | X | X | X |
+| *jackal*     | X | X | X | X | X | X | X | X |   | X |
+| *ridgeback*  | X | X | X | X | X | X |   |   |   |   |
+| *agv-ota*    | X | X | X | X | X |   |   |   |   |   |
+| *rto*        | X | X | X | X | X |   | X | X |   | X |
+| *youbot*     | X | X | X |(X)| X |   | X | X |   | X |
+| *waffle_pi*  | X | X | X |   | X | X |   |   |   |   |
+| *cob4*       | X | X | X | X | X |   |   | X |   |   |
+
+
 
 Take note of the different task modes, which define how the start and goal position of the robot, as well as the trajectories of the obstacles will be set. Here we support the task modes:
 
@@ -162,7 +193,7 @@ workon cadrl
 roslaunch arena_bringup start_arena_gazebo.launch local_planner:=cadrl
 ```
 
-## Local-planner: rosnav
+## Local-planner: rosnav, navrep, guldenring
 
 When first using `rosnav` make sure to run the following commands:
 ```bash
@@ -254,3 +285,8 @@ You can further customize the simulation altering the following parameters:
 <arg name="base_frame_id"     value="base_footprint"/>
 <arg name="odom_ground_truth" default="/odometry/ground_truth"/>
 ```
+## How to add new navigation approaches in Gazebo and Flatland
+There are a few things to consider when including additional navigation apparatus:
+- The laser scan msg is published under the `/scan` topic. Note if the laser did not register any obstacles, the gazebo simulator fills the scan msg with `inf` values, wereas the Flatland simulator fills it with `nan` values
+- The robot position is published under the `/odom` topic, the velocity under the `/cmd_vel`
+- In a simple 2D environment like Flatland, many costmap-plugins will not be usable. Make sure to check, whether a local and global costmap is being published

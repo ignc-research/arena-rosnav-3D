@@ -12,7 +12,7 @@ from rl_agent.encoder.factory import EncoderFactory
 
 """
     The input of every rosnav agent is structured as following:
-    [...observation, rho, theta] 
+    [...observation, rho, theta]
     Observation:
         Array of laser scan values of size N, N differs for every
         robot and matches the properties of the hardware. The
@@ -122,10 +122,10 @@ class TurtleBot3BurgerEncoder(RosnavEncoder):
 
     pass
 
-@EncoderFactory.register("rosnav", "rosnav", "turtlebot3_burger_pi")
+@EncoderFactory.register("rosnav", "rosnav", "turtlebot3_waffle_pi")
 class TurtleBot3WafflePiEncoder(RosnavEncoder):
     """
-    Turtlebot3
+    turtlebot3_waffle_pi
     N: 360
     offset: 0
     action: [x_vel, ang_vel]
@@ -145,17 +145,6 @@ class AgvEncoder(RosnavEncoder):
 
     pass
 
-
-@EncoderFactory.register("rosnav", "rosnav", "tiago")
-class TiagoEncoder(RosnavEncoder):
-    """
-    Tiago
-    N: 720
-    offset: -pi
-    action: [x_vel, ang_vel]
-    """
-
-    pass
 
 """
     HOLONOMIC ROBOTS

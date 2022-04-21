@@ -1,7 +1,7 @@
 <launch>
   <!-- Arguments -->
-  
-  <arg name="map_file" default="$(find simulator_setup)/maps/ignc/lab-complete-new-rto.yaml"/>
+
+  <arg name="map_file" default="$(find simulator_setup)/maps/ignc/lab-complete-eval-tb3.yaml"/>
   <!-- <arg name="map_file" default="$(find simulator_setup)/maps/ignc-lab-rto-laser/ignc-test3.yaml"/> -->
   <arg name="open_rviz" default="true"/>
   <arg name="move_forward_only" default="false"/>
@@ -12,7 +12,7 @@
   <arg name="odom_frame_id" value="odom"/>
   <arg name="base_frame_id" value="base_link"/>
   <arg name="train_mode" default="false"/>
-  <arg name="action_frequency" default="10"/> 
+  <arg name="action_frequency" default="10"/>
   <arg name="real" default="true"/>
 
   <!-- Path visualization -->
@@ -20,11 +20,11 @@
   <arg name="path_color" default="red"/>
 
   <arg name="local_planner" default="rosnav"         doc = "local_planner type [teb, dwa, mpc, rlca, cadrl, arena, rosnav]"/>
-  <arg name="model" default="rto"      doc = "model type [turtlebot3_burger, jackal, ridgeback, agv-ota, rto, tiago, turtlebot3_waffle_pi]"/>
+  <arg name="model" default="rto"      doc = "model type [turtlebot3_burger, jackal, ridgeback, agv-ota, rto, turtlebot3_waffle_pi]"/>
   <arg name="network_type" default="rosnav" doc="Model type that is used. Will determine the observation and action space. Currently only rosnav is supported" />
   <arg name="trainings_environment" default="rosnav" doc="Determines the environment in which the network is trained. How to load the network mostly differs for different environments. Currently rosnav and navrep are supported" />
   <arg name="agent_name" default="rto"     doc = "DRL agent name to be deployed" unless="$(eval arg('local_planner') != 'rosnav')"/>
-  
+
   <param name="model" value="$(arg model)" />
   <param name="agent_name" value="$(arg agent_name)" unless="$(eval arg('local_planner') != 'rosnav')"/>
   <param name="trainings_environment" value="$(arg trainings_environment)" />
@@ -34,6 +34,11 @@
   <param name="real" value="$(arg real)"/>
   <param name="viz_path" value="$(arg viz_path)"/>
   <param name="path_color" value="$(arg path_color)"/>
+
+  <arg name="waypoint_generator" default="classic"/>
+  <arg name="use_recorder" default="false"/>
+  <arg name="record_only_planner" default="true"/>
+  <arg name="scenario_file" default="ignc_obs05.json"/>
 
   <!-- <param name="update_rate" value="$(arg update_rate)" /> -->
 
@@ -73,8 +78,20 @@
     <!-- <arg name="speed" value="$(param speed)"/> -->
   </include>
 
-  <!-- rviz  
-  <group if="$(arg open_rviz)"> 
+
+
+  <!-- data recorder -->
+  <group if="$(eval arg('use_recorder') == true)">
+    <node pkg="arena-evaluation" name="data_recorder_node" type="data_recorder_node.py" />
+    <param name="local_planner" value="$(arg local_planner)"/>
+    <param name="waypoint_generator" value="$(arg waypoint_generator)"/>
+    <param name="record_only_planner" value="$(arg record_only_planner)"/>
+    <param name="scenario_file" value="$(arg scenario_file)"/>
+    <param name="model" value="$(arg model)"/>
+  </group>
+
+  <!-- rviz
+  <group if="$(arg open_rviz)">
     <node pkg="rviz" type="rviz" name="rviz" required="true"
           args="-d $(find arena_bringup)/rviz/$(arg rviz_file).rviz"/>
   </group>-->

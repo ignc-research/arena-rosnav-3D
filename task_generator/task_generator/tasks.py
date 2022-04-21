@@ -19,6 +19,7 @@ from std_msgs.msg import Bool
 from geometry_msgs.msg import *
 from threading import Condition, Lock
 from filelock import FileLock
+from std_srvs.srv import Empty
 
 STANDART_ORIENTATION = quaternion_from_euler(0.0, 0.0, 0.0)
 ROBOT_RADIUS = rospy.get_param("radius")
@@ -324,7 +325,7 @@ class ScenarioTask(ABSTask):
         super(ScenarioTask, self).__init__(
             pedsim_manager, obstacle_manager, robot_manager
         )
-
+        self.unpause = rospy.ServiceProxy('/gazebo/unpause_physics', Empty)
         # load scenario from file
         self.scenario = ArenaScenario()
         self.scenario.loadFromFile(scenario_path)
@@ -336,6 +337,7 @@ class ScenarioTask(ABSTask):
         #     peds = [agent.getPedMsg() for agent in self.scenario.pedsimAgents]
         #     self.pedsim_manager.spawnPeds(peds)
         self.reset_count = 0
+        self.unpause()
 
     def reset(self):
         if self.scenario.resets >= self.reset_count:
@@ -357,7 +359,7 @@ class ScenarioTask(ABSTask):
                         Quaternion(*STANDART_ORIENTATION),
                     ),
                 )
-
+                #
                 # fill info dict
                 if self.reset_count == 1:
                     info["new_scenerio_loaded"] = True

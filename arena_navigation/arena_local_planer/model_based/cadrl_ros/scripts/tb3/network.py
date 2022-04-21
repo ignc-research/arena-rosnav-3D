@@ -173,7 +173,7 @@ if __name__ == '__main__':
     obs = np.expand_dims(obs, axis=0)
 
     num_queries = 10000
-    t_start = time.time()
+    t_start = rospy.get_time()
     for i in range(num_queries):
         obs[0,0] = 10 # num other agents
         obs[0,1] = np.random.uniform(0.5, 10.0) # dist to goal
@@ -181,7 +181,7 @@ if __name__ == '__main__':
         obs[0,3] = np.random.uniform(0.2, 2.0) # pref speed
         obs[0,4] = np.random.uniform(0.2, 1.5) # radius
         predictions = nn.predict_p(obs, None)[0]
-    t_end = time.time()
+    t_end = rospy.get_time()
     print "avg query time:", (t_end - t_start)/num_queries
     print "total time:", t_end - t_start
     # action = actions[np.argmax(predictions)]

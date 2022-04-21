@@ -1,0 +1,48 @@
+{
+  "default": {
+    "setup": ["camera_top", "camera_positive_x", "camera_negative_x"],
+    "camera_top": {
+      "pose": {
+        "x": 0,
+        "y": 0,
+        "z": 25,
+        "pitch": 1.57079632679,
+        "roll": 0,
+        "yaw": 0
+      }
+    },
+    "camera_positive_x": {
+      "pose": {
+        "x": 50,
+        "y": 0,
+        "z": 50,
+        "pitch": 0.5,
+        "roll": 0,
+        "yaw": 3.141592654
+      }
+    },
+    "camera_negative_x": {
+      "pose": {
+        "x": -50,
+        "y": 0,
+        "z": 50,
+        "pitch": 0.5,
+        "roll": 0,
+        "yaw": 0
+      }
+    }
+  },
+  "ignc_lab": {
+    "setup": ["camera_top"],
+    "camera_top": {
+      "pose": {
+        "x": 0,
+        "y": 0,
+        "z": 40,
+        "pitch": 1.57079632679,
+        "roll": 0,
+        "yaw": 0
+      }
+    }
+  }
+}

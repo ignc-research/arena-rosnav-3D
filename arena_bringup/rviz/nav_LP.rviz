@@ -13,7 +13,7 @@ Panels:
         - /AIO1/Dynamic Scan1
         - /Agent path taken1
       Splitter Ratio: 0.4374079406261444
-    Tree Height: 469
+    Tree Height: 357
   - Class: rviz/Selection
     Name: Selection
   - Class: rviz/Tool Properties
@@ -55,23 +55,39 @@ Visualization Manager:
           Frame Timeout: 15
           Frames:
             All Enabled: false
-            base_footprint:
-              Value: true
             base_link:
               Value: true
-            base_scan:
+            chassis_link:
               Value: true
-            caster_back_link:
+            front_fender_link:
+              Value: true
+            front_laser:
+              Value: true
+            front_laser_mount:
+              Value: true
+            front_left_wheel_link:
+              Value: true
+            front_mount:
+              Value: true
+            front_right_wheel_link:
               Value: true
             imu_link:
               Value: true
             map:
               Value: true
+            mid_mount:
+              Value: true
+            navsat_link:
+              Value: true
             odom:
               Value: true
-            wheel_left_link:
+            rear_fender_link:
               Value: true
-            wheel_right_link:
+            rear_left_wheel_link:
+              Value: true
+            rear_mount:
+              Value: true
+            rear_right_wheel_link:
               Value: true
           Marker Alpha: 1
           Marker Scale: 1
@@ -82,17 +98,30 @@ Visualization Manager:
           Tree:
             map:
               odom:
-                base_footprint:
-                  base_link:
-                    base_scan:
+                base_link:
+                  chassis_link:
+                    front_fender_link:
                       {}
-                    caster_back_link:
+                    front_left_wheel_link:
+                      {}
+                    front_right_wheel_link:
                       {}
                     imu_link:
                       {}
-                    wheel_left_link:
+                    mid_mount:
+                      front_mount:
+                        front_laser_mount:
+                          front_laser:
+                            {}
+                      rear_mount:
+                        {}
+                    navsat_link:
                       {}
-                    wheel_right_link:
+                    rear_fender_link:
+                      {}
+                    rear_left_wheel_link:
+                      {}
+                    rear_right_wheel_link:
                       {}
           Update Interval: 0
           Value: true
@@ -106,21 +135,39 @@ Visualization Manager:
             Expand Link Details: false
             Expand Tree: false
             Link Tree Style: Links in Alphabetic Order
-            base_footprint:
-              Alpha: 1
-              Show Axes: false
-              Show Trail: false
             base_link:
               Alpha: 1
               Show Axes: false
               Show Trail: false
-              Value: true
-            base_scan:
+            chassis_link:
               Alpha: 1
               Show Axes: false
               Show Trail: false
               Value: true
-            caster_back_link:
+            front_fender_link:
+              Alpha: 1
+              Show Axes: false
+              Show Trail: false
+              Value: true
+            front_laser:
+              Alpha: 1
+              Show Axes: false
+              Show Trail: false
+            front_laser_mount:
+              Alpha: 1
+              Show Axes: false
+              Show Trail: false
+              Value: true
+            front_left_wheel_link:
+              Alpha: 1
+              Show Axes: false
+              Show Trail: false
+              Value: true
+            front_mount:
+              Alpha: 1
+              Show Axes: false
+              Show Trail: false
+            front_right_wheel_link:
               Alpha: 1
               Show Axes: false
               Show Trail: false
@@ -129,12 +176,30 @@ Visualization Manager:
               Alpha: 1
               Show Axes: false
               Show Trail: false
-            wheel_left_link:
+            mid_mount:
+              Alpha: 1
+              Show Axes: false
+              Show Trail: false
+            navsat_link:
               Alpha: 1
               Show Axes: false
               Show Trail: false
               Value: true
-            wheel_right_link:
+            rear_fender_link:
+              Alpha: 1
+              Show Axes: false
+              Show Trail: false
+              Value: true
+            rear_left_wheel_link:
+              Alpha: 1
+              Show Axes: false
+              Show Trail: false
+              Value: true
+            rear_mount:
+              Alpha: 1
+              Show Axes: false
+              Show Trail: false
+            rear_right_wheel_link:
               Alpha: 1
               Show Axes: false
               Show Trail: false
@@ -939,7 +1004,7 @@ Visualization Manager:
   Value: true
   Views:
     Current:
-      Angle: -7.874952793121338
+      Angle: -7.859952449798584
       Class: rviz/TopDownOrtho
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
@@ -949,18 +1014,18 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Scale: 23.100688934326172
+      Scale: 40.95969772338867
       Target Frame: <Fixed Frame>
-      X: -2.0102946758270264
-      Y: -4.066023826599121
+      X: 0.17317672073841095
+      Y: -2.2967824935913086
     Saved: ~
 Window Geometry:
   Displays:
     collapsed: true
-  Height: 704
+  Height: 1367
   Hide Left Dock: true
   Hide Right Dock: false
-  QMainWindow State: 000000ff00000000fd00000004000000000000016a00000266fc0200000005fb0000001200530065006c0065006300740069006f006e00000001e10000009b0000005c00fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000003be0000025d00000198000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073000000003d00000266000000c900ffffff000000010000010f00000270fc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a00560069006500770073000000002800000270000000a400fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e10000019700000003000004a00000003efc0100000002fb0000000800540069006d00650000000000000004a0000004f300fffffffb0000000800540069006d00650100000000000004500000000000000000000002870000026600000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd00000004000000000000016a00000266fc0200000005fb0000001200530065006c0065006300740069006f006e00000001e10000009b0000005c00fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000003be0000025d00000198000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073000000003d00000266000000c900ffffff000000010000010f00000270fc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a00560069006500770073000000002800000270000000a400fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e10000019700000003000004a00000003efc0100000002fb0000000800540069006d00650000000000000004a0000004f300fffffffb0000000800540069006d00650100000000000004500000000000000000000009b8000004fd00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Selection:
     collapsed: false
   Time:
@@ -969,6 +1034,6 @@ Window Geometry:
     collapsed: false
   Views:
     collapsed: false
-  Width: 647
+  Width: 2488
   X: 72
   Y: 27
