@@ -118,8 +118,7 @@ mkvirtualenv --python=python3.8 rosnav
 ```
 pip3 install --extra-index-url https://rospypi.github.io/simple/ rospy rosbag tf tf2_ros --ignore-installed
 pip3 install pyyaml catkin_pkg gym netifaces pathlib filelock pyqt5 mpi4py torch lxml scipy defusedxml
-
-
+pip3 install torchdiffeq torchvision tensorboard diffcp cvxpy cvxpylayers seaborn GPUtil tensorboardX
 ```
 
 ## 1.3 Install arena-rosnav-3D and pedsim repo
