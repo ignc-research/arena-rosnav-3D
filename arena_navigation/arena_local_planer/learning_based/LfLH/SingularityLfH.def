@@ -1,0 +1,33 @@
+Bootstrap: docker
+From: ros:melodic
+
+%setup
+    mkdir -p ${SINGULARITY_ROOTFS}/jackal_ws/src
+
+%files
+    . /jackal_ws/src/nav-competition-icra2022
+
+%post -c /bin/bash
+    apt -y update; apt-get -y install python3-venv
+    python3 -m venv /venv
+    export PATH="/venv/bin:$PATH"
+    pip3 install --upgrade pip
+    pip3 install defusedxml rospkg netifaces numpy pyyaml scipy torch==1.7 torchvision==0.8 tensorboard
+    
+    cd /jackal_ws/src
+    git clone https://github.com/jackal/jackal.git
+    git clone https://github.com/jackal/jackal_simulator.git
+    git clone https://github.com/jackal/jackal_desktop.git
+    git clone https://github.com/utexas-bwi/eband_local_planner.git
+    git clone https://github.com/LearningUAV/hallucination.git
+    chmod +x hallucination/LfD_2D/run_policy.py
+
+    source /opt/ros/melodic/setup.bash
+    cd ..
+    rosdep init; rosdep update
+    rosdep install -y --from-paths . --ignore-src --rosdistro=melodic
+    source devel/setup.bash
+    catkin_make
+
+%environment
+    export PATH="/venv/bin:$PATH"

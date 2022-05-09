@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+  <!-- Arguments -->
+  <arg name="model" default="turtlebot3_burger" doc="model type [turtlebot3_burger, waffle, waffle_pi]"/>
+  <arg name="cmd_vel_topic" default="/cmd_vel" />
+  <arg name="odom_topic" default="odom" />
+
+  <node pkg="LfH" name="hallucination" type="run_policy.py" output="screen" required="true"> 
+  </node>
+
+  <!-- move_base -->
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+
+    <param name="base_global_planner" type="string" value="navfn/NavfnROS" />
+    <param name="base_local_planner" value="base_local_planner/TrajectoryPlannerROS"/>
+    <rosparam file="$(find conventional)/config/$(arg model)/costmap_common_params.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find conventional)/config/$(arg model)/costmap_common_params.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find conventional)/config/$(arg model)/local_costmap_params.yaml" command="load" />
+    <rosparam file="$(find conventional)/config/$(arg model)/global_costmap_params.yaml" command="load" />
+
+    <!-- planner params -->
+    <rosparam file="$(find conventional)/config/$(arg model)/base_local_planner_params.yaml" command="load" />
+   
+
+    <remap from="cmd_vel" to="foo"/>
+    <remap from="odom" to="$(arg odom_topic)"/>
+    <param name="controller_frequency" value="20.0" /> <!-- Diese 3 einziger unterschied zu tb3-->
+    <param name="controller_patience" value="15.0" /> 
+    <param name="planner_frequency" value="1.0" /> <!-- default is 0.0 (plan only when needed)-->
+
+  </node>
+</launch>

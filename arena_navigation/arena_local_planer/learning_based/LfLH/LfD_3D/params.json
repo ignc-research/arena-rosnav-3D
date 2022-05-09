@@ -1,0 +1,30 @@
+{
+	"info": null,
+	"use_AE": true,
+	"demo_dirs": ["2021-07-12-12-02-34_model_2000"],
+	"training_params": {
+		"AE_load_dir": null,
+		"AE_model_fname": null,
+		"load_model": "",
+		"epochs": 1000,
+		"AE_frozen_epoch": 300,
+		"batch_size": 32,
+		"batch_per_epoch": 100,
+		"lr": 3e-4,
+		"saving_freq": 10
+	},
+	"model_params": {
+		"image_Dh": 256,
+		"odom_Dh": 8,
+		"knot_start": -3,
+		"knot_end": 18,
+		"knot_dt": 0.25,
+		"label_t_steps": 701,
+		"image_size": 128,
+		"noise_scale": 0.1,
+		"max_depth": 10,
+		"train_prop": 0.9,
+		"lambda_smoothness": 100,
+		"lambda_initial_smoothness": 100
+	}
+}

@@ -1,0 +1,19 @@
+{
+	"info": null,
+	"demo_dir": "2021-02-21-18-10-09_model_670",
+	"training_params": {
+		"load_model": "",
+		"epochs": 1000,
+		"batch_size": 32,
+		"batch_per_epoch": 100,
+		"lr": 3e-4,
+		"saving_freq": 10
+	},
+	"model_params": {
+		"obs_size": 722,
+		"laser_max_range": 2.0,
+		"layer_sizes": [256, 256],
+		"noise_scale": 0.03,
+		"train_prop": 0.9
+	}
+}

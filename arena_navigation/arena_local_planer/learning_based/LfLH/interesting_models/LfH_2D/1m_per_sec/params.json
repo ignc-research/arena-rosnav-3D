@@ -1,0 +1,47 @@
+{
+	"info": "0.5 clearance no mutual repulsion",
+	"Dy": 2,
+	"odom_freq": 50,
+	"training_params": {
+		"load_model": "",
+		"epochs": 50000,
+		"batch_size": 32,
+		"batch_per_epoch": 10,
+		"lr": 3e-4,
+		"saving_freq": 10
+	},
+	"model_params": {
+		"encoder_channels": [16, 32, 64],
+		"kernel_sizes": [5, 5, 3],
+		"strides": [2, 2, 2],
+		"num_obs": 10,
+		"auto_regressive": true,
+		"obs_loc_prior_var_coef": 2.0,
+		"min_obs_loc_prior_var": 1.0,
+		"obs_size_prior_mu": 0.3,
+		"obs_size_prior_var": 0.0025,
+		"lambda_loc_reg": 0.3,
+		"lambda_size_kl": 0.3,
+		"lambda_mutual_repulsion": 0.0,
+		"lambda_reference_repulsion": 2.0,
+		"reg_final_prop": 0.3,
+		"reg_annealing_steps": 1000,
+		"repulsion_annealing_steps": 200,
+		"knot_start": -3,
+		"knot_end": 18,
+		"knot_dt": 0.15
+	},
+	"optimization_params": {
+		"decoder": "CVX",
+		"clearance": 0.5,
+		"demarcation": 0.3,
+		"max_vel": 2,
+		"max_acc": 10,
+		"lambda_smoothness": 1.0,
+		"lambda_collision": 0.1,
+		"lambda_feasibility": 1.0,
+		"optimization_lr": 0.1,
+		"ode_t_end": 100,
+		"ode_num_timestamps": 5
+	}
+}
