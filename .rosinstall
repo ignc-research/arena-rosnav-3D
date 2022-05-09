@@ -33,3 +33,7 @@
     local-name: ../forks/arena-evaluation
     uri: https://github.com/ignc-research/arena-evaluation
     version: main
+- git:
+    local-name: ../forks/navigation/local_planner/eband
+    uri: https://github.com/utexas-bwi/eband_local_planner
+    version: master
