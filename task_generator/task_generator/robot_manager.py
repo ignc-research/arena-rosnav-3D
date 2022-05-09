@@ -106,7 +106,7 @@ class RobotManager:
             rospy.wait_for_service("/move_base/make_plan")
 
         # these planer need the nav-goal pulished to the /move_base_simple/goal topic
-        if self.planer in ["teb", "dwa", "mpc", "e2e"]:
+        if self.planer in ["teb", "dwa", "mpc", "applr", "lflh", "eband"]:
             self.pub_mvb_goal.publish(goal)
         else:
             self._goal_pub.publish(goal)
