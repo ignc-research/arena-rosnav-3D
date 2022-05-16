@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<robot name="dingo" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:include filename="$(find simulator_setup)/robot/dingo/urdf/dingo-d.urdf.xacro" />
+</robot>

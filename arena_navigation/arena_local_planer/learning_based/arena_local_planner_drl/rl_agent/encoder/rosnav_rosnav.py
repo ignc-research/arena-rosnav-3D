@@ -111,6 +111,18 @@ class JackalEncoder(RosnavEncoder):
     pass
 
 
+@EncoderFactory.register("rosnav", "rosnav", "dingo")
+class DingoEncoder(RosnavEncoder):
+    """
+    Dingo
+    N: 720
+    offset: -3/4 * pi
+    action: [x_vel, ang_vel]
+    """
+
+    pass
+
+
 @EncoderFactory.register("rosnav", "rosnav", "turtlebot3_burger")
 class TurtleBot3BurgerEncoder(RosnavEncoder):
     """

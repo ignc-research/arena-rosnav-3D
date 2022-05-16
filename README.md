@@ -10,7 +10,7 @@ The repo currently contains:
 - Local planners for dynamic obstacle avoidance: `teb`, `dwa`, `mpc`, `cadrl (DRL)`, `rlca(DRL)`, `arena (DRL)`, `rosnav (DRL)`
 - Task generator with modes: `random`, `scenario`, `manual`, `staged`
 - Multiple detailed scenario-worlds
-- Robot models: `turtlebot3_burger`, `ridgeback`, `jackal`, `agv-ota`
+- Robot models: `turtlebot3_burger`, `ridgeback`, `jackal`, `agv-ota`, `Robotino(rto)`, `youbot`, `turtlebot3_waffle_pi`, `Car-O-Bot4 (cob4)`, `dingo`
 - [Automated] Creation of random 3D-words with static and dynamic obstacles
 - Realistic behavior patterns and semantic states of dynamic obstacles (by including pedsim's extended social force model, extended with industrial classes)
 - Implementation of intermediate planner classes to combine local DRL planner with global map-based planners: `Spatial Horizon`, `Space-Time`, `Subsampling`
@@ -61,9 +61,9 @@ We support different robots:
 |:--:       |              :--:|             :--:|          :--:|
 | *turtlebot3_burger* | *jackal* | *ridgeback* | *agv-ota* |
 
-|<img width="250" src="/img/robots/rto.jpg">|<img width="250" src="/img/robots/youbot.jpg">|<img width="250"  src="/img/robots/turtlebot3_waffle_pi.jpg">|<img width="250" src="/img/robots/cob4.jpg">|
-|:--:       |              :--:|             :--:|          :--:|
-| *Robotino(rto)* | *youbot* | *turtlebot3_waffle_pi* | *Car-O-Bot4 (cob4)* |
+|<img width="250" src="/img/robots/rto.jpg">|<img width="250" src="/img/robots/youbot.jpg">|<img width="250"  src="/img/robots/turtlebot3_waffle_pi.jpg">|<img width="250" src="/img/robots/cob4.jpg">|<img width="250" src="/img/robots/dingo.jpg">|
+|:--:       |              :--:|             :--:|          :--:|          :--:|
+| *Robotino(rto)* | *youbot* | *turtlebot3_waffle_pi* | *Car-O-Bot4 (cob4)* | *dingo* |
 
 All robots are equipped with a laser scanner. The robots differ in size, laser-range etc. See below table for more detailed information on each robot:
 
@@ -78,6 +78,7 @@ All robots are equipped with a laser scanner. The robots differ in size, laser-r
 | *youbot*              |  0.8 |  0.8 |  1.2 | 0.347 | False | 5.6  | True |
 | *turtlebot3_waffle_pi*| 0.26  | 0.0  | 1.82  | 0.208 | False | 3.5  | False |
 | *Car-O-Bot4 (cob4)*   |  1.1 |  0.2 | 0.8 | 0.36 | True |  29.5 | True |
+| _dingo_               | 1.3  | 0.0  | (4.0) | 0.378 | todo | 30.0 | False |
 
 For additional / more detailed information about each robot:
 

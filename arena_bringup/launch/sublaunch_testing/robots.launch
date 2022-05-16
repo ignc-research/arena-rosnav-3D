@@ -13,6 +13,7 @@
     <include file="$(find arena_bringup)/launch/sublaunch_testing/robot_launch/youbot_robot.launch" if="$(eval arg('model') == 'youbot')"/>
     <include file="$(find simulator_setup)/robot/jackal/launch/control.launch" if="$(eval arg('model') == 'jackal')"/>
     <include file="$(find simulator_setup)/robot/ridgeback/control/launch/control.launch" if="$(eval arg('model') == 'ridgeback')"/>
+    <include file="$(find simulator_setup)/robot/dingo/launch/control.launch" if="$(eval arg('model') == 'dingo')"/>
 
     <group if="$(eval arg('model') == 'agv-ota')">
         <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
