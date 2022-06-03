@@ -1,0 +1,45 @@
+<launch>
+  <arg name="use_sim_time" default="true" />
+  <arg name="gui" default="false" />
+  <arg name="headless" default="false" />
+  <arg name="world_number" default="280" />
+
+  <!-- Short-term hack to support the original front_laser:=true argument for spawning
+       the simulator. This will be removed in favour of using the config:=x arg instead. -->
+  <arg name="front_laser" default="true" />
+  <arg name="default_config" value="front_laser" if="$(arg front_laser)" />
+  <arg name="default_config" value="base" unless="$(arg front_laser)" />
+  <!-- end of hack -->
+
+  <!-- Configuration of Jackal which you would like to simulate.
+       See jackal_description for details. -->
+  <arg name="config" default="$(arg default_config)" />
+
+  <!-- Optionally enableteleop for the simulation -->
+  <arg name="joystick" default="false" />
+
+  <!-- Launch Gazebo with the specified world -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="debug" value="0" />
+    <arg name="gui" value="$(arg gui)" />
+    <arg name="use_sim_time" value="$(arg use_sim_time)" />
+    <arg name="headless" value="$(arg headless)" />
+    <arg name="world_name" value="$(find jackal_helper)/worlds/BARN/world_264.world" />
+  </include>
+
+  <!-- Spawn Jackal -->
+  <include file="$(find jackal_gazebo)/launch/spawn_jackal.launch">
+    <arg name="x" value="-2" />
+    <arg name="y" value="3" />
+    <arg name="z" value="1.0" />
+    <arg name="yaw" value="1.570796" />
+    <arg name="config" value="$(arg config)" />
+    <arg name="joystick" value="$(arg joystick)" />
+  </include>
+  
+<!--   <node pkg="barn_challenge" type="barn_challenge_rviz_mid_lmb.py" name="barn_challenge_rviz_mid_lmb" output="screen" /> -->
+
+</launch>
+
+<!-- World 222, 269 good for testing, has obstacle in middle which causes oscillation -->
+<!-- World 200 is good, crashes the program -->

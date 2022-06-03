@@ -1,0 +1,27 @@
+<launch>
+  <arg name="goal_x" default="0" />
+  <arg name="goal_y" default="10" /> 
+  <arg name="scan_topic" default="/front/scan" />
+
+
+  <!-- <node pkg="barn_challenge" type="barn_challenge_rviz_mid_lmb.py" name="barn_challenge_rviz_mid_lmb" output="screen" /> -->
+  
+  <node pkg="barn_challenge" type="gap_navigation" name="gap_navigation" output="screen">
+    <param name="goal_x" value="$(arg goal_x)" />
+    <param name="goal_y" value="$(arg goal_y)" />
+    <param name="left" value="-100" />
+    <param name="top" value="-100" />
+    <param name="bwidth" value="200" />
+    <param name="bheight" value="200" />
+    <param name="gapThresh" value=".65" />
+    <param name="dist" value="10" />
+    <remap from="/front/scan" to="/truncate/scan" />
+  </node>
+
+  <node pkg="barn_challenge" type="reduce_lidar" name="reduce_lidar" output="screen">
+    <param name="cap" value="10" />
+  </node>
+
+  <node pkg="barn_challenge" type="cone_bench.py" name="cone_bench" output="screen" />
+
+</launch>
