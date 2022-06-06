@@ -1,0 +1,8 @@
+<launch>
+  <!-- Subgoal Publisher -->
+  <node name="pure_pursuit" pkg="drl_vo_barn_nav" type="pure_pursuit.py" output="screen" required="true" />
+
+  <!-- BARN Data  Publisher -->
+  <node name="barn_data_pub" pkg="drl_vo_barn_nav" type="barn_data_pub.py"/>
+
+</launch>

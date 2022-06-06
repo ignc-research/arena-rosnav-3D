@@ -1,0 +1,15 @@
+<launch>
+  <arg name="model_file"   default="$(find drl_vo_barn_nav)/src/model/drl_vo.zip"/>
+  <arg name="start" default="true" />
+  <arg name="goal_x" default="0" />
+  <arg name="goal_y" default="10" />
+
+  <!-- DRL-VO publisher -->
+  <node name="drl_vo_cmd" pkg="drl_vo_barn_nav" type="drl_vo_inference.py" output="screen">
+    <param name="model_file" value="$(arg model_file)" type="string"/>
+    <param name="start" value="$(arg start)" type="bool" />
+    <param name="goal_x" value="$(arg goal_x)" />
+    <param name="goal_y" value="$(arg goal_y)" />
+  </node>
+
+</launch>

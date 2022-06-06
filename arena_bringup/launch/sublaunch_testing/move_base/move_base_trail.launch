@@ -1,0 +1,36 @@
+<launch>
+  <arg name="model_file"   default="$(find drl_vo_barn_nav)/src/model/drl_vo.zip"/>
+  <arg name="model" default="turtlebot3_burger" doc="model type [turtlebot3_burger, waffle, waffle_pi]"/>
+
+  <arg name="start" default="true" />
+  <arg name="goal_x" default="0" />
+  <arg name="goal_y" default="10" />
+
+  <!-- Start the navigation stack -->
+  <!-- The configuration files are loaded from jackal_helper -->
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+
+    <rosparam file="$(find conventional)/config/$(arg model)/costmap_common_params.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find conventional)/config/$(arg model)/costmap_common_params.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find conventional)/config/$(arg model)/local_costmap_params.yaml" command="load" />
+    <rosparam file="$(find conventional)/config/$(arg model)/global_costmap_params.yaml" command="load" />
+
+    <param name="base_global_planner" type="string" value="navfn/NavfnROS" />
+    <param name="base_local_planner" value="base_local_planner/TrajectoryPlannerROS"/>
+
+    <remap from="odom" to="odom" />
+    <remap from="cmd_vel" to="dwa/cmd_vel" />
+  </node>
+
+  <!-- Barn Data -->
+  <include file="$(find drl_vo_barn_nav)/launch/barn_data.launch"/>
+
+  <!-- DRL-VO Control Policy -->
+  <include file="$(find drl_vo_barn_nav)/launch/drl_vo_inference.launch">
+    <arg name="model_file" value="$(arg model_file)"/>
+    <arg name="start" value="$(arg start)" />
+    <arg name="goal_x" value="$(arg goal_x)" />
+    <arg name="goal_y" value="$(arg goal_y)" />
+  </include>
+
+</launch>
