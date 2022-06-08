@@ -1,0 +1,9 @@
+torch
+torchdiffeq
+torchvision
+scipy
+tensorboard
+diffcp
+cvxpy
+cvxpylayers
+seaborn
