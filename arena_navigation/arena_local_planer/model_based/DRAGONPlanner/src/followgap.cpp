@@ -74,6 +74,8 @@ void goalcb(const geometry_msgs::PoseStamped::ConstPtr &msg)
     finalGoal->p = goal;
     finalGoal->ps = goalS;
     finalGoal->pe = goalP;
+    finalGoal->box.left = goal.x() - JACKAL_WIDTH / 2;
+    finalGoal->box.top = goal.y() - JACKAL_LENGTH / 2;
 }
 
 void odomcb(const nav_msgs::Odometry::ConstPtr &msg, Eigen::Vector3f *pose)
@@ -741,7 +743,7 @@ void treeGoalcb(const Eigen::Vector3f &pose)
     quadtree::Node *champ_node = nullptr;
     quadtree::Node *global_node = nullptr;
 
-    Eigen::Vector2f goal(0, 10);
+    Eigen::Vector2f goal(finalGoal->p.x(), finalGoal->p.y());
     Eigen::Vector2f p(pose.x(), pose.y());
     Eigen::Vector4f segment(p.x(), p.y(), goal.x(), goal.y());
 
@@ -915,13 +917,16 @@ int main(int argc, char **argv)
 
     ros::Subscriber laserSub = nh.subscribe<sensor_msgs::LaserScan>("/scan", 1, boost::bind(&lasercb, _1, &pose));
     ros::Subscriber odomSub = nh.subscribe<nav_msgs::Odometry>("/odom", 1, boost::bind(&odomcb, _1, &pose));
-    ros::Subscriber goalSub = nh.subscribe<geometry_msgs::PoseStamped>("/move_base_simple/goal", 1, boost::bind(&goalcb, _1));
-
+    ros::Subscriber goalSub = nh.subscribe<geometry_msgs::PoseStamped>("/goal", 1, boost::bind(&goalcb, _1));
+    geometry_msgs::PoseStamped::ConstPtr msg;
+    msg = ros::topic::waitForMessage<geometry_msgs::PoseStamped>("/goal", nh);
+    goal_x = msg->pose.position.x;
+    goal_y = msg->pose.position.y;
     Eigen::Vector2f goal(goal_x, goal_y);
     Eigen::Vector2f goalS(.2 + goal_x, goal_y);
     Eigen::Vector2f goalP(-.2 + goal_x, goal_y);
 
-    // std::cout << goal << std::endl;
+    std::cout << goal << std::endl;
     // exit(0);
 
     finalGoal->p = goal;

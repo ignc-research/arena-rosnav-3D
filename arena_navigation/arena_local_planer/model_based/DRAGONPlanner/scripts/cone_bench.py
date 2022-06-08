@@ -109,7 +109,7 @@ def ray_check(goal):
             check_obs = []
             check_dist = []
             ab_dist = min(r_dist, comp_dist)  # goal_dist
-            val = (ab_dist ** 2 + ab_dist ** 2 - message.footpr ** 2) / (
+            val = (ab_dist**2 + ab_dist**2 - message.footpr**2) / (
                 2 * ab_dist * goal_dist
             )
             val = min(max(val, -1), 1)
@@ -246,9 +246,7 @@ def main():
     gaps = rospy.Subscriber("/gapGoal", Float32MultiArray, gapGoalCallback)
     odom_sub = rospy.Subscriber("/odom", Odometry, odomCallback)
     scan_sub = rospy.Subscriber("/scan", LaserScan, scanCallback)
-    vel_Pub = rospy.Publisher(
-        "/jackal_velocity_controller/cmd_vel", Twist, queue_size=10
-    )
+    vel_Pub = rospy.Publisher("/cmd_vel", Twist, queue_size=10)
 
     rospy.init_node("old_mcdonalds_local", anonymous=True)
     rate = rospy.Rate(100)  # 10hz
