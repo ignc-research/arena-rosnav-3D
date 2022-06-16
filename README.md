@@ -1,5 +1,4 @@
 # Arena-Rosnav-3D
-
 This repository is the 3D version of the navigation platform [arena-rosnav-2D](https://github.com/ignc-research/arena-rosnav). It is build on the 3D ROS simulator Gazebo and integrates with a modified Pedsim Simulator to provide realistic dynamic 3D scenarios and tasks to evaluate and and benchmark classic and learning-based ROS navigation approaches on multiple robot platforms. It is fully compatible with the planning algorithms trained and developed with [arena-rosnav-2D](https://github.com/ignc-research/arena-rosnav). This presents an essential step in deploying the navigation approaches from arena-rosnav towards real robots.
 
 |<img width="600" src="img/demo-gifs/random-mode-warehouse.gif">|<img width="600"  src="img/demo-gifs/arena-tools-world.gif">|
@@ -16,6 +15,30 @@ The repo currently contains:
 - Implementation of intermediate planner classes to combine local DRL planner with global map-based planners: `Spatial Horizon`, `Space-Time`, `Subsampling`
 - Integration with [arena-tools](https://github.com/ignc-research/arena-tools) map generator and [LIRS-World_Construction_Tool](https://gitlab.com/LIRS_Projects/LIRS-WCT). Providing seamless conversion from randomly generated ROS maps to actual Gazebo worlds.
 - "Random world" task mode, where with each Task reset, a new Gazebo world is loaded
+
+If you find our repository helpful, please cite one of our papers
+
+```
+@inproceedings{kastner2021arena,
+  title={Arena-Rosnav: Towards Deployment of Deep-Reinforcement-Learning-Based Obstacle Avoidance into Conventional Autonomous Navigation Systems},
+  author={K{\"a}stner, Linh and Buiyan, Teham and Jiao, Lei and Le, Tuan Anh and Zhao, Xinlin and Shen, Zhengcheng and Lambrecht, Jens},
+  booktitle={2021 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)},
+  pages={6456--6463},
+  organization={IEEE}
+}
+```
+
+```
+@misc{arena-bench,
+  doi = {10.48550/ARXIV.2206.05728},
+  url = {https://arxiv.org/abs/2206.05728},
+  author = {Kästner, Linh and Bhuiyan, Teham and Le, Tuan Anh and Treis, Elias and Cox, Johannes and Meinardus, Boris and Kmiecik, Jacek and Carstens, Reyk and Pichel, Duc and Fatloun, Bassel and Khorsandi, Niloufar and Lambrecht, Jens},
+  title = {Arena-Bench: A Benchmarking Suite for Obstacle Avoidance Approaches in Highly Dynamic Environments},
+  publisher = {arXiv},
+  year = {2022}
+}
+
+```
 
 ## 1. Installation
 
