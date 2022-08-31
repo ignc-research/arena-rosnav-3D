@@ -58,7 +58,7 @@ class HolonomicEncoder(Encoder):
 
 """
     Jackal
-    N: 720 
+    N: 720
     offset: -3/4 * pi
     action: [x_vel, ang_vel]
 """
@@ -67,6 +67,16 @@ class HolonomicEncoder(Encoder):
 class JackalEncoder(Encoder):
     pass
 
+"""
+    Dingo
+    N: 720
+    offset: -3/4 * pi
+    action: [x_vel, ang_vel]
+"""
+
+@EncoderFactory.register("navrep", "rosnav", "dingo")
+class DingoEncoder(Encoder):
+    pass
 
 """
     Turtlebot3

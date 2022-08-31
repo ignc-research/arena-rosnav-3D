@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+  <rosparam command="load" file="$(find simulator_setup)/robot/dingo/control.yaml" />
+  <node name="controller_spawner" pkg="controller_manager" type="spawner" args="dingo_joint_publisher dingo_velocity_controller">
+  </node>
+  <node name="odom_pub" pkg="task_generator" type="odom.py"/>
+  <node name="velocity_redirect" pkg="task_generator" type="trans.py">
+    <param name="cmd_vel_topic" value="/dingo_velocity_controller/cmd_vel" />
+  </node>
+
+  <!-- <node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization">
+    <rosparam command="load" file="$(find simulator_setup)/robot/dingo/robot_localization.yaml" />
+  </node>
+
+  <node pkg="twist_mux" type="twist_mux" name="twist_mux">
+    <rosparam command="load" file="$(find simulator_setup)/robot/dingo/twist_mux.yaml" />
+    <remap from="cmd_vel_out" to="dingo_velocity_controller/cmd_vel"/>
+  </node> -->
+</launch>

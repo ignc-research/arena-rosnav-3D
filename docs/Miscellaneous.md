@@ -131,7 +131,7 @@ If you are using models, downloaded from ignitionrobotics you need to copy their
 When having more complex worlds, the simulation speed can become relativly slow, depending on your hardware. Here are several steps that can be done:
 1. Use gpu-ray for robot:\
 (Note this increses simulatin performance, however this laser mode does not work on all computers)\
-Find in the **simulator-setup** package, the settings for your laser plaugin:\ 
+Find in the **simulator-setup** package, the settings for your laser plaugin:\
   ```xml
   # replace
   <sensor type="ray" name="${frame}">
@@ -185,6 +185,7 @@ __Note:__ To check weather your robot is implemented correctly, make sure a lase
     rostopic echo scan
     ```
     If this is the case, check also weather *tf* is setup correctly, (by opening **rviz** > **Add** > **LaserScan** and writing into 'topic': `/scan`. (If your scan topic is published under some other name, change this to *scan* since, this is required by other arena-rosnav modules)
+    If this is not the case, you may have to change the urdf file which calls the sensor urdf files (sometimes called `accessories.urdf.xacro`). The neccessary sensor must be enabled with 1 and should publish to the topic `scan`.
 
 3. If you want to use _classical_ planers (like _teb_, _dwa_ or _mpc_), you need to add their respective parameters, under:\
 `arena_navigation/arena_local_planer/model_based/conventional/config/{YOUR_ROBOT_NAME}`\
@@ -196,7 +197,7 @@ You can also check the launch files of the respective planers like for example [
     - The *speed* parameter can often be found on the website of the manufacturer, or in some additional config files.
     - The laser increment can be calculated by *(laser_max-laser_min)/laser_beams*
 5. If you want to use this robot for drl training you must also add the definition of the actionspace of the robot under:\
-`arena_navigation/arena_local_planer/learning_based/arena_local_planner_drl/configs`
+`arena_navigation/arena_local_planer/learning_based/arena_local_planner_drl/configs` and add a new encoder class for example for rosnav for your robot under:`arena_navigation/arena_local_planer/learning_based/arena_local_planner_drl/rl_agent/encoder/rosnav_rosnav.py`
 6. If you want to make your implementation publicly available, make sure to update the documentation [here](Usage.md#robots) and [here](https://github.com/ignc-research/arena-rosnav-3D#robots)
 
 ## How to include additional robot models into flatland

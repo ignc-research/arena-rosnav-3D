@@ -74,7 +74,7 @@ class HolonomicRobotEncoder(GuldenringEncoder):
 
 """
     Jackal
-    N: 720 
+    N: 720
     offset: -3/4 * pi
     action: [x_vel, ang_vel]
 """
@@ -83,7 +83,23 @@ class HolonomicRobotEncoder(GuldenringEncoder):
 class JackalGuldenringEncoder(GuldenringEncoder):
     def get_action(self, action):
         assert len(action) == 2, f"Expected an action of size 2 but received {len(action)}: {action}"
-        
+
+        x_vel, ang_vel = action
+        return [x_vel, 0, 0.3*ang_vel]
+
+
+"""
+    Dingo
+    N: 720
+    offset: -3/4 * pi
+    action: [x_vel, ang_vel]
+"""
+
+@EncoderFactory.register("guldenring", "guldenring", "dingo")
+class DingoGuldenringEncoder(GuldenringEncoder):
+    def get_action(self, action):
+        assert len(action) == 2, f"Expected an action of size 2 but received {len(action)}: {action}"
+
         x_vel, ang_vel = action
         return [x_vel, 0, 0.3*ang_vel]
 
