@@ -1,3 +1,6 @@
+# **Important Updates (01/03/2023)!:**
+We have restructured, improved, and extended the whole codebase substantially. Therefore, we created a new organization at [Aren-Rosnav](https://github.com/Arena-Rosnav). Please have a look at our new organization, which contains an improved version the arena-rosnav platform with multiple simulators along with a variety of other modules. As of 01/03/2023, this repository is not actively maintained anymore. 
+
 # Arena-Rosnav-3D
 This repository is the 3D version of the navigation platform [arena-rosnav-2D](https://github.com/ignc-research/arena-rosnav). It is build on the 3D ROS simulator Gazebo and integrates with a modified Pedsim Simulator to provide realistic dynamic 3D scenarios and tasks to evaluate and and benchmark classic and learning-based ROS navigation approaches on multiple robot platforms. It is fully compatible with the planning algorithms trained and developed with [arena-rosnav-2D](https://github.com/ignc-research/arena-rosnav). This presents an essential step in deploying the navigation approaches from arena-rosnav towards real robots.
 
